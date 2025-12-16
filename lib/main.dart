@@ -1,20 +1,20 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:rightflair/core/constants/app.dart';
+import 'package:rightflair/core/constants/locale.dart';
 
-void main() {
-  runApp(const MainApp());
-}
+import 'app.dart';
 
-class MainApp extends StatelessWidget {
-  const MainApp({super.key});
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await EasyLocalization.ensureInitialized();
 
-  @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: Scaffold(
-        body: Center(
-          child: Text('Hello World!'),
-        ),
-      ),
-    );
-  }
+  runApp(
+    EasyLocalization(
+      supportedLocales: LocaleEnum.values.map((e) => e.locale).toList(),
+      path: AppConstants.pathLocalization,
+      fallbackLocale: LocaleEnum.en.locale,
+      child: const RightFlair(),
+    ),
+  );
 }
