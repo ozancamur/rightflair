@@ -2,3 +2,5 @@ include: package:flutter_lints/flutter.yaml
 analyzer:
   errors:
     constant_identifier_names: ignore
+    deprecated_member_use: ignore
+    non_constant_identifier_names: ignore ignore ignore ignore ignore ignore ignore
