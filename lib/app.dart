@@ -1,4 +1,6 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:rightflair/core/constants/font_family.dart';
 import 'package:rightflair/core/utils/router.dart';
 
 class RightFlair extends StatelessWidget {
@@ -9,11 +11,15 @@ class RightFlair extends StatelessWidget {
     return MaterialApp.router(
       title: 'RightFlair',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
-        useMaterial3: true,
-      ),
+      themeMode: ThemeMode.dark,
       routerConfig: router,
+      localizationsDelegates: context.localizationDelegates,
+      supportedLocales: context.supportedLocales,
+      theme: ThemeData(
+        fontFamily: FontFamilyConstants.POPPINS,
+        useMaterial3: false,
+      ),
+      locale: context.locale,
     );
   }
 }

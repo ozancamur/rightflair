@@ -3,6 +3,7 @@ class RouteConstants {
 
   // Route paths
   static const String SPLASH = '/';
+  static const String WELCOME = '/welcome';
   static const String LOGIN = '/login';
   static const String HOME = '/home';
   static const String PROFILE = '/profile';

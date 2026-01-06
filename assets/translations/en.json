@@ -1,1 +1,14 @@
-{}
+{
+    "authentication": {
+        "welcome": {
+            "title": "Your *Moment Start* Here!",
+            "withMail": "Continue with Mail",
+            "or": "OR CONTINUE WITH",
+            "withGoogle": "Continue with Google",
+            "withApple": "Continue with Apple",
+            "haveAccount": "Already have an account?",
+            "login": "Log In"
+        }
+
+    }
+}
