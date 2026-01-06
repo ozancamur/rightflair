@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-import '../../../core/components/button_text_with_icon.dart';
-import '../../../core/components/elevated_button.dart';
-import '../../../core/constants/dark_color.dart';
-import '../../../core/constants/icons.dart';
-import '../../../core/constants/string.dart';
-import '../../../core/extensions/context.dart';
+import '../../../../../core/components/button_text_with_icon.dart';
+import '../../../../../core/components/elevated_button.dart';
+import '../../../../../core/constants/dark_color.dart';
+import '../../../../../core/constants/icons.dart';
+import '../../../../../core/constants/string.dart';
+import '../../../../../core/extensions/context.dart';
 import 'welcome_or.dart';
 
 class WelcomeButtonsWidget extends StatelessWidget {
@@ -23,8 +23,8 @@ class WelcomeButtonsWidget extends StatelessWidget {
             color: Colors.white,
             onPressed: () {},
             child: ButtonTextWithIconComponent(
-              icon: AppIcons.mailFilled,
-              text: AppStrings.withMail,
+              icon: AppIcons.MAIL_FILLED,
+              text: AppStrings.WITH_MAIL,
               foregroundColor: AppDarkColors.SECONDARY,
             ),
           ),
@@ -34,8 +34,8 @@ class WelcomeButtonsWidget extends StatelessWidget {
             color: AppDarkColors.DARK_BUTTON,
             onPressed: () {},
             child: ButtonTextWithIconComponent(
-              icon: AppIcons.google,
-              text: AppStrings.withGoogle,
+              icon: AppIcons.GOOGLE,
+              text: AppStrings.WITH_GOOGLE,
               foregroundColor: Colors.white,
             ),
           ),
@@ -44,8 +44,8 @@ class WelcomeButtonsWidget extends StatelessWidget {
             color: AppDarkColors.DARK_BUTTON,
             onPressed: () {},
             child: ButtonTextWithIconComponent(
-              icon: AppIcons.apple,
-              text: AppStrings.withApple,
+              icon: AppIcons.APPLE,
+              text: AppStrings.WITH_APPLE,
               foregroundColor: Colors.white,
             ),
           ),

@@ -6,8 +6,8 @@ import 'package:rightflair/core/constants/light_color.dart';
 import 'package:rightflair/core/constants/route.dart';
 import 'package:rightflair/core/constants/string.dart';
 
-class WelcomeHaveAccountWidget extends StatelessWidget {
-  const WelcomeHaveAccountWidget({super.key});
+class AuthenticationHaveAccountWidget extends StatelessWidget {
+  const AuthenticationHaveAccountWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +15,7 @@ class WelcomeHaveAccountWidget extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         TextComponent(
-          text: AppStrings.haveAccount,
+          text: AppStrings.HAVE_ACCOUNT,
           color: AppLightColors.WHITE75,
           size: FontSizeConstants.SMALL,
           weight: FontWeight.w500,
@@ -23,7 +23,7 @@ class WelcomeHaveAccountWidget extends StatelessWidget {
         TextButton(
           onPressed: () => context.push(RouteConstants.LOGIN),
           child: TextComponent(
-            text: AppStrings.login,
+            text: AppStrings.LOGIN,
             color: Colors.white,
             size: FontSizeConstants.SMALL,
             weight: FontWeight.w600,

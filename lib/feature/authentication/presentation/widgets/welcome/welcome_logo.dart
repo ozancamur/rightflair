@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../../core/constants/image.dart';
-import '../../../core/extensions/context.dart';
+import '../../../../../core/constants/image.dart';
+import '../../../../../core/extensions/context.dart';
 
 class WelcomeLogoWidget extends StatelessWidget {
   const WelcomeLogoWidget({super.key});

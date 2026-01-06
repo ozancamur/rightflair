@@ -14,7 +14,7 @@ void main() async {
   runApp(
     EasyLocalization(
       supportedLocales: LocaleEnum.values.map((e) => e.locale).toList(),
-      path: AppConstants.pathLocalization,
+      path: AppConstants.PATH_LOCALIZATION,
       fallbackLocale: LocaleEnum.en.locale,
       child: const RightFlair(),
     ),

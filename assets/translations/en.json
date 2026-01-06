@@ -1,14 +1,45 @@
 {
     "authentication": {
-        "welcome": {
+        "login": "Log In",
+        "email": "Email",
+        "password": "Password",
+        "confirmPassword": "Confirm Password",
+        "forgotPassword": "Forgot Password?",
+        "haveAccount": "Already have an account?",
+        "continueButton": "Continue",
+        "pageWelcome": {
             "title": "Your *Moment Start* Here!",
             "withMail": "Continue with Mail",
             "or": "OR CONTINUE WITH",
             "withGoogle": "Continue with Google",
-            "withApple": "Continue with Apple",
-            "haveAccount": "Already have an account?",
-            "login": "Log In"
+            "withApple": "Continue with Apple"
+        },
+        "pageRegister": {
+            "appbar": "Sign Up",
+            "title": "Rightflair",
+            "subtitle": "Create your account",
+            "password": "Password must be at least 6 characters",
+            "createAccount": "Create Account"
+        },
+        "pageChooseUsername": {
+            "appbar": "Choose Username",
+            "title": "Pick your username",
+            "subtitle": "This is how others will find you on Rightflair",
+            "username": "Username",
+            "unique": "Unique",
+            "caseInsensitive": "Case-insensitive",
+            "isAvailable": "@{} is available",
+            "isNotAvailable": "@{} is not available"
+        },
+        "pageLogin": {
+            "title": "Rightflair",
+            "subtitle": "Welcome back"
+        },
+        "pageForgotPassword": {
+            "appbar": "Reset Password",
+            "title": "Forgot password?",
+            "subtitle": "We'll send you a reset link",
+            "sendResetEmail": "Send Reset Email"
         }
-
     }
 }

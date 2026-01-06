@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:rightflair/core/extensions/context.dart';
 
-import '../../../core/constants/dark_color.dart';
-import '../widgets/welcome_buttons.dart';
-import '../widgets/welcome_have_account.dart';
-import '../widgets/welcome_logo.dart';
-import '../widgets/welcome_title.dart';
+import '../../../../core/constants/dark_color.dart';
+import '../widgets/welcome/welcome_buttons.dart';
+import '../widgets/authentication_have_account.dart';
+import '../widgets/welcome/welcome_logo.dart';
+import '../widgets/welcome/welcome_title.dart';
 
 class WelcomePage extends StatelessWidget {
   const WelcomePage({super.key});
@@ -34,7 +34,7 @@ class WelcomePage extends StatelessWidget {
         const WelcomeTitleWidget(),
         WelcomeButtonsWidget(),
         Spacer(),
-        WelcomeHaveAccountWidget(),
+        AuthenticationHaveAccountWidget(),
       ],
     );
   }
