@@ -9,10 +9,9 @@ class FeedTabViews extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
       child: TabBarView(
+        physics: NeverScrollableScrollPhysics(),
         children: [
-          Center(
-            child: FeedPostItem()
-          ),
+          Center(child: FeedPostItem()),
           Center(
             child: Text(
               'Content for Tab 2',
