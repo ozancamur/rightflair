@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:rightflair/feature/comments/widgets/comments_dialog.dart';
+import 'package:rightflair/feature/comments/page/comments_dialog.dart';
+
+import '../model/comment.dart';
 
 /// Example usage of CommentsDialog
 ///
@@ -9,8 +11,8 @@ class CommentsDialogExample {
   /// Show the comments dialog
   static void showCommentsDialog(BuildContext context) {
     // Sample comments data
-    final List<Comment> sampleComments = [
-      Comment(
+    final List<CommentModel> sampleComments = [
+      CommentModel(
         userName: 'sarah',
         text:
             'This outfit is absolutely stunning! Where did you get those pants?',
@@ -19,7 +21,7 @@ class CommentsDialogExample {
         isLiked: false,
         replyCount: 8,
       ),
-      Comment(
+      CommentModel(
         userName: 'sarah',
         text:
             'This outfit is absolutely stunning! Where did you get those pants?',
@@ -28,7 +30,7 @@ class CommentsDialogExample {
         isLiked: false,
         replyCount: 0,
       ),
-      Comment(
+      CommentModel(
         userName: 'sarah',
         text:
             'This outfit is absolutely stunning! Where did you get those pants?',
@@ -44,15 +46,10 @@ class CommentsDialogExample {
       backgroundColor: Colors.transparent,
       isScrollControlled: true,
       builder: (context) => CommentsDialog(
-        commentCount: 122,
         comments: sampleComments,
         onAddComment: (commentText) {
           // Handle adding new comment
           print('New comment: $commentText');
-          // Here you would typically:
-          // 1. Send the comment to your backend
-          // 2. Update the comments list
-          // 3. Refresh the UI
         },
       ),
     );
