@@ -117,6 +117,15 @@ class AppStrings {
   static const String NAVIGATION_ANALYTICS = 'navigation.analytics';
   static const String NAVIGATION_INBOX = 'navigation.inbox';
   static const String NAVIGATION_PROFILE = 'navigation.profile';
+  // ANALYTICS
+  static const String ANALYTICS_TITLE = 'analytics.title';
+  static const String ANALYTICS_SHARE = 'analytics.share';
+  static const String ANALYTICS_LIKES = 'analytics.likes';
+  static const String ANALYTICS_FOLLOWERS = 'analytics.followers';
+  static const String ANALYTICS_SAVES = 'analytics.saves';
+  static const String ANALYTICS_ENGAGEMENT_OVERVIEW =
+      'analytics.engagementOverview';
+  static const String ANALYTICS_LAST_7_DAYS = 'analytics.last7Days';
   // FEED
   static const String FEED_DISCOVER = 'feed.discover';
   static const String FEED_FOLLOWING = 'feed.following';

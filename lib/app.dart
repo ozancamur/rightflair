@@ -8,6 +8,8 @@ import 'package:rightflair/feature/choose_username/bloc/choose_username_bloc.dar
 import 'package:rightflair/feature/navigation/page/feed/bloc/feed_bloc.dart';
 
 import 'feature/navigation/cubit/navigation_cubit.dart';
+import 'feature/navigation/page/analytics/cubit/analytics_cubit.dart';
+import 'feature/navigation/page/analytics/repository/analytics_repository.dart';
 
 class RightFlair extends StatelessWidget {
   const RightFlair({super.key});
@@ -21,6 +23,7 @@ class RightFlair extends StatelessWidget {
 
         BlocProvider(create: (_) => NavigationCubit()),
         BlocProvider(create: (_) => FeedBloc()),
+        BlocProvider(create: (_) => AnalyticsCubit(AnalyticsRepository())),
 
       ],
       child: MaterialApp.router(

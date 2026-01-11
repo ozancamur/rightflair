@@ -84,6 +84,15 @@
         "inbox": "Inbox",
         "profile": "Profile"
     },
+    "analytics": {
+        "title": "Analytics",
+        "share": "Share",
+        "likes": "Likes",
+        "followers": "Followers",
+        "saves": "Saves",
+        "engagementOverview": "Engagement Overview",
+        "last7Days": "Last 7 days"
+    },
     "feed": {
         "discover": "Discover",
         "following": "Following",
