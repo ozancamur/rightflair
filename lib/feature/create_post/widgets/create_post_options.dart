@@ -9,7 +9,7 @@ import '../../../core/extensions/context.dart';
 import '../cubit/create_post_cubit.dart';
 import 'create_post_option_tile.dart';
 
-import '../../location/page/location_selection_page.dart';
+import '../../location/page/location_page.dart';
 
 class CreatePostOptionsWidget extends StatelessWidget {
   final bool isAnonymous;
@@ -47,9 +47,7 @@ class CreatePostOptionsWidget extends StatelessWidget {
       onTap: () async {
         final result = await Navigator.push<String>(
           context,
-          MaterialPageRoute(
-            builder: (context) => const LocationSelectionPage(),
-          ),
+          MaterialPageRoute(builder: (context) => LocationPage()),
         );
         if (result != null && context.mounted) {
           context.read<CreatePostCubit>().updateLocation(result);

@@ -1,4 +1,6 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:rightflair/core/constants/string.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rightflair/core/components/appbar.dart';
@@ -14,26 +16,14 @@ import '../widgets/location_empty.dart';
 import '../widgets/location_error.dart';
 import '../widgets/location_input.dart';
 
-class LocationSelectionPage extends StatelessWidget {
-  const LocationSelectionPage({super.key});
+class LocationPage extends StatefulWidget {
+  const LocationPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => LocationCubit(),
-      child: const _LocationSelectionView(),
-    );
-  }
+  State<LocationPage> createState() => _LocationPageState();
 }
 
-class _LocationSelectionView extends StatefulWidget {
-  const _LocationSelectionView();
-
-  @override
-  State<_LocationSelectionView> createState() => _LocationSelectionViewState();
-}
-
-class _LocationSelectionViewState extends State<_LocationSelectionView> {
+class _LocationPageState extends State<LocationPage> {
   final TextEditingController _searchController = TextEditingController();
 
   @override
@@ -62,7 +52,7 @@ class _LocationSelectionViewState extends State<_LocationSelectionView> {
   AppBarComponent _appbar(BuildContext context) {
     return AppBarComponent(
       leading: BackButtonComponent(onBack: () => context.pop()),
-      title: "Location Selection",
+      title: AppStrings.CREATE_POST_SELECT_LOCATION,
     );
   }
 

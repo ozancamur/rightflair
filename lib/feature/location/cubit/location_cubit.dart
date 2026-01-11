@@ -1,15 +1,13 @@
 import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../repository/location_repository.dart';
+import '../repository/location_repository_impl.dart';
 import 'location_state.dart';
 
 class LocationCubit extends Cubit<LocationState> {
-  final LocationRepository _repository;
   Timer? _debounce;
 
-  LocationCubit({LocationRepository? repository})
-    : _repository = repository ?? LocationRepository(),
-      super(LocationInitial());
+  final LocationRepositoryImpl _repo;
+  LocationCubit(this._repo) : super(LocationInitial());
 
   void searchLocation(String query) {
     if (_debounce?.isActive ?? false) _debounce!.cancel();
@@ -22,7 +20,7 @@ class LocationCubit extends Cubit<LocationState> {
     _debounce = Timer(const Duration(milliseconds: 500), () async {
       emit(LocationLoading());
       try {
-        final locations = await _repository.searchCities(query);
+        final locations = await _repo.searchCities(query);
         emit(LocationLoaded(locations));
       } catch (e) {
         emit(LocationError("Failed to fetch locations"));

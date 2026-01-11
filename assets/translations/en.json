@@ -111,6 +111,8 @@
         "postAnonymouslySubtitle": "Your face will be blurred",
         "allowComments": "Allow Comments",
         "draft": "Draft",
-        "post": "Post Outfit"
+        "post": "Post Outfit",
+        "selectLocation": "Location Selection",
+        "searchLocation": "Search location..."
     }
 }
