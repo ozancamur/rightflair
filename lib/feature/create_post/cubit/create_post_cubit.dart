@@ -16,6 +16,10 @@ class CreatePostCubit extends Cubit<CreatePostState> {
     emit(state.copyWith(allowComments: value));
   }
 
+  void updateLocation(String? location) {
+    emit(state.copyWith(selectedLocation: location));
+  }
+
   Future<void> createPost() async {
     await _repo.createPost();
   }

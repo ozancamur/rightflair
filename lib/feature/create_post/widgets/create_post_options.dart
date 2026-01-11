@@ -9,13 +9,18 @@ import '../../../core/extensions/context.dart';
 import '../cubit/create_post_cubit.dart';
 import 'create_post_option_tile.dart';
 
+import '../../location/page/location_selection_page.dart';
+
 class CreatePostOptionsWidget extends StatelessWidget {
   final bool isAnonymous;
   final bool allowComments;
+  final String? selectedLocation;
+
   const CreatePostOptionsWidget({
     super.key,
     required this.isAnonymous,
     required this.allowComments,
+    this.selectedLocation,
   });
 
   @override
@@ -32,14 +37,23 @@ class CreatePostOptionsWidget extends StatelessWidget {
   Widget _buildLocationTile(BuildContext context) {
     return CreatePostOptionTile(
       title: AppStrings.CREATE_POST_LOCATION,
+      subtitle: selectedLocation,
       iconPath: AppIcons.LOCATION,
       trailing: SvgPicture.asset(
         AppIcons.ARROW_RIGHT,
         colorFilter: ColorFilter.mode(AppDarkColors.WHITE60, BlendMode.srcIn),
         height: context.height * 0.015,
       ),
-      onTap: () {
-        // Navigate or pick location
+      onTap: () async {
+        final result = await Navigator.push<String>(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const LocationSelectionPage(),
+          ),
+        );
+        if (result != null && context.mounted) {
+          context.read<CreatePostCubit>().updateLocation(result);
+        }
       },
     );
   }

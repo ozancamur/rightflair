@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:rightflair/core/extensions/context.dart';
 import 'package:rightflair/core/constants/dark_color.dart';
 
-class CreatePostImagePicker extends StatelessWidget {
-  const CreatePostImagePicker({super.key});
+class CreatePostImagePickerWidget extends StatelessWidget {
+  const CreatePostImagePickerWidget({super.key});
 
   @override
   Widget build(BuildContext context) {

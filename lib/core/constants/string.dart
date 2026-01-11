@@ -147,4 +147,6 @@ class AppStrings {
   static const String CREATE_POST_ALLOW_COMMENTS = 'createPost.allowComments';
   static const String CREATE_POST_DRAFT = 'createPost.draft';
   static const String CREATE_POST_POST = 'createPost.post';
+  static const String CREATE_POST_SELECT_LOCATION = 'createPost.selectLocation';
+  static const String CREATE_POST_SEARCH_LOCATION = 'createPost.searchLocation';
 }

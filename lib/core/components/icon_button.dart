@@ -26,12 +26,12 @@ class IconButtonComponent extends StatelessWidget {
     return value == null ? _icon(_size, context) : _value(context, _size);
   }
 
-  Column _value(BuildContext context, double _size) {
+  Column _value(BuildContext context, double size) {
     return Column(
       mainAxisSize: MainAxisSize.min,
       spacing: context.height * .005,
       children: [
-        _icon(_size, context),
+        _icon(size, context),
         TextComponent(
           text: value.toString(),
           size: FontSizeConstants.XXX_SMALL,
