@@ -96,7 +96,11 @@
     "feed": {
         "discover": "Discover",
         "following": "Following",
-        "friends": "Friends"
+        "friends": "Friends",
+        "error": {
+            "loadingPosts": "An error occurred while loading posts",
+            "loadingMore": "An error occurred while loading more posts"
+        }
     },
     "search": {
         "placeholder": "Search, styles, brands, users...",
@@ -119,7 +123,9 @@
         "title": "InBox",
         "messages": "Messages",
         "notifications": "Notifications",
-        "sentAPhoto": "Sent a photo"
+        "sentAPhoto": "Sent a photo",
+        "todaysActivity": "Today's Activity",    
+        "keepPosting": "Keep posting outfits to get more reactions"
     },
     "error": {
         "occurred": "An error occurred",
@@ -146,15 +152,6 @@
         "friday": "Fri",
         "saturday": "Sat",
         "sunday": "Sun"
-    },
-    "feed": {
-        "discover": "Discover",
-        "following": "Following",
-        "friends": "Friends",
-        "error": {
-            "loadingPosts": "An error occurred while loading posts",
-            "loadingMore": "An error occurred while loading more posts"
-        }
     },
     "firebase": {
         "error": {

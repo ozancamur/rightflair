@@ -19,7 +19,7 @@ class InboxNotificationsList extends StatelessWidget {
       itemCount: notifications.length + 2,
       itemBuilder: (context, index) {
         if (index == 0) return _zero(context);
-        if (index == notifications.length + 1) return _item(context);
+        if (index == notifications.length + 1) return _keep(context);
         return InboxNotificationItem(notification: notifications[index - 1]);
       },
     );
@@ -40,7 +40,7 @@ class InboxNotificationsList extends StatelessWidget {
     );
   }
 
-  Container _item(BuildContext context) {
+  Container _keep(BuildContext context) {
     return Container(
       margin: EdgeInsets.symmetric(vertical: context.height * 0.02),
       padding: EdgeInsets.symmetric(vertical: context.height * 0.02),

@@ -3,7 +3,6 @@ class AppIcons {
 
   static const String _path = 'assets/icons/';
 
-
   static const String ACCOUNT_UPDATE = '${_path}account_update.svg';
   static const String ADD = '${_path}add.svg';
   static const String ADD_FRIEND = '${_path}add_friend.svg';
@@ -54,8 +53,7 @@ class AppIcons {
   static const String SHARE_FILLED = '${_path}share_filled.svg';
   static const String SHARED = '${_path}shared.svg';
   static const String SUPPORT = '${_path}support.svg';
-  static const String SYSTEM_NOTIFICATIONS =
-      '${_path}system_notifications.svg';
+  static const String SYSTEM = '${_path}system.svg';
   static const String TAG = '${_path}tag.svg';
   static const String TERMS = '${_path}terms.svg';
   static const String THEME = '${_path}theme.svg';

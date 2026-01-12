@@ -37,13 +37,13 @@ class NotificationConfig {
         );
       case NotificationType.save:
         return NotificationConfig(
-          icon: AppIcons.SAVE_FILLED,
+          icon: AppIcons.SAVED,
           iconColor: AppDarkColors.BLUE,
           bgColor: AppDarkColors.TRANSPARENT_BLUE,
         );
       case NotificationType.share:
         return NotificationConfig(
-          icon: AppIcons.SHARE_FILLED,
+          icon: AppIcons.SHARED,
           iconColor: AppDarkColors.YELLOW,
           bgColor: AppDarkColors.TRANSPARENT_YELLOW,
         );
@@ -55,7 +55,7 @@ class NotificationConfig {
         );
       case NotificationType.system:
         return NotificationConfig(
-          icon: AppIcons.SYSTEM_NOTIFICATIONS,
+          icon: AppIcons.SYSTEM,
           iconColor: Colors.black,
           bgColor: Colors.white,
         );
