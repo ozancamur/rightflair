@@ -12,7 +12,7 @@ class BackButtonComponent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(left: context.width * .04),
+      padding: EdgeInsets.only(left: context.width * .035),
       child: IconButtonComponent(
         icon: AppIcons.BACK,
         onTap: onBack ?? () => context.pop(),

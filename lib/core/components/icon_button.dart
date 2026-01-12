@@ -54,7 +54,7 @@ class IconButtonComponent extends StatelessWidget {
           color: AppDarkColors.WHITE16,
           border: Border.all(color: AppDarkColors.WHITE32, width: 1),
         ),
-        child: SvgPicture.asset(icon),
+        child: SvgPicture.asset(icon, color: Colors.white),
       ),
     );
   }

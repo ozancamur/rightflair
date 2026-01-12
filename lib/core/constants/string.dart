@@ -201,4 +201,16 @@ class AppStrings {
   // GENERAL
   static const String GENERAL_PAGE_NOT_FOUND = 'general.pageNotFound';
   static const String GENERAL_USER_NOT_FOUND = 'general.userNotFound';
+
+  // PROFILE
+  static const String PROFILE_FOLLOWER = 'profile.follower';
+  static const String PROFILE_FOLLOWING = 'profile.following';
+  static const String PROFILE_FOLLOW = 'profile.follow';
+  static const String PROFILE_MESSAGE = 'profile.message';
+  static const String PROFILE_OVERSIZED = 'profile.oversized';
+  static const String PROFILE_STREETWEAR = 'profile.streetwear';
+  static const String PROFILE_MODELING = 'profile.modeling';
+  static const String PROFILE_PHOTOS = 'profile.photos';
+  static const String PROFILE_SAVES = 'profile.saves';
+  static const String PROFILE_DRAFTS = 'profile.drafts';
 }

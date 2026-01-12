@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rightflair/feature/navigation/page/feed/page/feed_page.dart';
 import 'package:rightflair/feature/navigation/page/analytics/page/analytics_page.dart';
 
+import '../../profile/page/profile_page.dart';
 import '../page/inbox/page/inbox_page.dart';
 
 part 'navigation_state.dart';

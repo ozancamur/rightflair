@@ -7,7 +7,7 @@ class NavigationState extends Equatable {
 
   NavigationState.initial()
     : currentIndex = 0,
-      pages = [FeedPage(), AnalyticsPage(), InboxPage(), SizedBox()];
+      pages = [FeedPage(), AnalyticsPage(), InboxPage(), ProfilePage()];
 
   NavigationState copyWith({int? currentIndex, List<Widget>? pages}) {
     return NavigationState(

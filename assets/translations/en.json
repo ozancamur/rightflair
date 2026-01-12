@@ -168,5 +168,17 @@
     "general": {
         "pageNotFound": "Page not found",
         "userNotFound": "User not found"
+    },
+    "profile": {
+        "follower": "follower",
+        "following": "following",
+        "follow": "Follow",
+        "message": "Message",
+        "oversized": "Oversized",
+        "streetwear": "Streetwear",
+        "modeling": "Modeling",
+        "photos": "Photos",
+        "saves": "Saves",
+        "drafts": "Drafts"
     }
 }
