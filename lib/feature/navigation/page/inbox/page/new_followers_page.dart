@@ -47,10 +47,8 @@ class _NewFollowersPageState extends State<NewFollowersPage> {
     );
   }
 
-  SizedBox _body(BuildContext context) {
-    return SizedBox(
-      height: context.height,
-      width: context.width,
+  Widget _body(BuildContext context) {
+    return SingleChildScrollView(
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: context.width * .05),
         child: Column(children: [_request(context), _suggested(context)]),
@@ -58,71 +56,67 @@ class _NewFollowersPageState extends State<NewFollowersPage> {
     );
   }
 
-  AnimatedContainer _request(BuildContext context) {
-    return AnimatedContainer(
-      height: isViewMore ? context.height * .75 : context.height * .25,
-      width: context.width,
-      duration: Duration(milliseconds: 500),
-      child: Column(
-        children: [
-          Expanded(
-            child: ListView.separated(
-              padding: EdgeInsets.symmetric(vertical: context.height * .015),
-              itemCount: isViewMore ? 10 : 2,
-              separatorBuilder: (context, index) =>
-                  SizedBox(height: context.height * .015),
-              itemBuilder: (context, index) {
-                return FollowerItemWidget(
-                  username: 'angi',
-                  subtitle: 'started following you.',
-                  timeAgo: '4h',
-                  profileImage: 'https://i.pravatar.cc/150?img=2',
-                );
-              },
+  Widget _request(BuildContext context) {
+    final itemCount = isViewMore ? 10 : 2;
+    return Column(
+      children: [
+        ListView.separated(
+          shrinkWrap: true,
+          physics: NeverScrollableScrollPhysics(),
+          padding: EdgeInsets.symmetric(vertical: context.height * .015),
+          itemCount: itemCount,
+          separatorBuilder: (context, index) =>
+              SizedBox(height: context.height * .015),
+          itemBuilder: (context, index) {
+            return FollowerItemWidget(
+              username: 'angi',
+              subtitle: 'started following you.',
+              timeAgo: '4h',
+              profileImage: 'https://i.pravatar.cc/150?img=2',
+            );
+          },
+        ),
+        Center(
+          child: TextButton(
+            onPressed: () => setState(() => isViewMore = !isViewMore),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              spacing: context.width * .02,
+              children: [
+                TextComponent(
+                  text: isViewMore ? 'hide' : 'view more',
+                  size: FontSizeConstants.SMALL,
+                  color: Colors.white,
+                  tr: false,
+                ),
+                SvgPicture.asset(
+                  isViewMore ? AppIcons.ARROW_UP : AppIcons.ARROW_DOWN,
+                  color: Colors.white,
+                  height: context.height * .02,
+                ),
+              ],
             ),
           ),
-          Center(
-            child: TextButton(
-              onPressed: () => setState(() => isViewMore = !isViewMore),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                spacing: context.width * .02,
-                children: [
-                  TextComponent(
-                    text: isViewMore ? 'hide' : 'view more',
-                    size: FontSizeConstants.SMALL,
-                    color: Colors.white,
-                    tr: false,
-                  ),
-                  SvgPicture.asset(
-                    isViewMore ? AppIcons.ARROW_UP : AppIcons.ARROW_DOWN,
-                    color: Colors.white,
-                    height: context.height * .02,
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
-  Expanded _suggested(BuildContext context) {
-    return Expanded(
-      child: ListView.separated(
-        padding: EdgeInsets.symmetric(vertical: context.height * .015),
-        itemCount: 10,
-        separatorBuilder: (context, index) =>
-            SizedBox(height: context.height * .015),
-        itemBuilder: (context, index) {
-          return SuggestedAccountItemWidget(
-            username: 'USER',
-            handle: '@user32489',
-            profileImage: 'https://i.pravatar.cc/150?img=5',
-          );
-        },
-      ),
+  Widget _suggested(BuildContext context) {
+    return ListView.separated(
+      shrinkWrap: true,
+      physics: NeverScrollableScrollPhysics(),
+      padding: EdgeInsets.symmetric(vertical: context.height * .015),
+      itemCount: 10,
+      separatorBuilder: (context, index) =>
+          SizedBox(height: context.height * .015),
+      itemBuilder: (context, index) {
+        return SuggestedAccountItemWidget(
+          username: 'USER',
+          handle: '@user32489',
+          profileImage: 'https://i.pravatar.cc/150?img=5',
+        );
+      },
     );
   }
 }
