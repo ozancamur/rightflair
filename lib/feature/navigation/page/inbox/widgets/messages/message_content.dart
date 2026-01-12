@@ -28,17 +28,12 @@ class MessageContentWidget extends StatelessWidget {
           ),
         ),
         if (!isRead)
-          Padding(
-            padding: EdgeInsets.only(
-              left: MediaQuery.of(context).size.width * 0.02,
-            ),
-            child: Container(
-              width: context.width * .005,
-              height: context.width * .005,
-              decoration: BoxDecoration(
-                color: AppDarkColors.ORANGE,
-                shape: BoxShape.circle,
-              ),
+          Container(
+            width: context.width * .02,
+            height: context.width * .02,
+            decoration: BoxDecoration(
+              color: AppDarkColors.ORANGE,
+              shape: BoxShape.circle,
             ),
           ),
       ],
