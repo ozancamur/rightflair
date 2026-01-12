@@ -1,4 +1,11 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+
+import '../../../core/components/text.dart';
+import '../../../core/constants/dark_color.dart';
+import '../../../core/constants/font_size.dart';
+import '../../../core/constants/string.dart';
+import '../../../core/extensions/context.dart';
 
 class CommentsHeaderWidget extends StatelessWidget {
   final int commentCount;
@@ -7,23 +14,26 @@ class CommentsHeaderWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(16.0),
+      padding: EdgeInsets.all(context.width * 0.04),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(
-            '$commentCount comments',
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 18,
-              fontWeight: FontWeight.w600,
-            ),
+          TextComponent(
+            text: '$commentCount ${AppStrings.COMMENTS_TITLE.tr()}',
+            size: FontSizeConstants.XX_LARGE,
+            color: AppDarkColors.PRIMARY,
+            weight: FontWeight.w600,
+            tr: false,
           ),
           GestureDetector(
             onTap: () => Navigator.of(context).pop(),
             child: Container(
-              padding: const EdgeInsets.all(4),
-              child: const Icon(Icons.close, color: Colors.white, size: 24),
+              padding: EdgeInsets.all(context.width * 0.01),
+              child: Icon(
+                Icons.close,
+                color: AppDarkColors.PRIMARY,
+                size: context.width * 0.06,
+              ),
             ),
           ),
         ],

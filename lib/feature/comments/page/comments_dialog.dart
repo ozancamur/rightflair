@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:rightflair/feature/comments/widgets/add_comment.dart';
 
-import '../model/comment.dart';
 import '../../../core/components/drag_handle.dart';
+import '../../../core/constants/dark_color.dart';
+import '../../../core/extensions/context.dart';
+import '../model/comment.dart';
+import '../widgets/add_comment.dart';
 import '../widgets/comments_header.dart';
 import '../widgets/comments_list.dart';
 
@@ -19,12 +21,12 @@ class CommentsDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height * 0.85,
-      decoration: const BoxDecoration(
-        color: Color(0xFF1C1C1E),
+      height: context.height * 0.85,
+      decoration: BoxDecoration(
+        color: AppDarkColors.INACTIVE,
         borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(20),
-          topRight: Radius.circular(20),
+          topLeft: Radius.circular(context.width * 0.05),
+          topRight: Radius.circular(context.width * 0.05),
         ),
       ),
       child: Column(
@@ -36,7 +38,10 @@ class CommentsDialog extends StatelessWidget {
           CommentsHeaderWidget(commentCount: comments.length),
 
           // Divider
-          Container(height: 1, color: Colors.white.withOpacity(0.1)),
+          Container(
+            height: context.height * 0.001,
+            color: AppDarkColors.WHITE16,
+          ),
 
           // Comments List
           CommentsListWidget(list: comments),

@@ -1,4 +1,10 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+
+import '../../../core/constants/dark_color.dart';
+import '../../../core/constants/font_size.dart';
+import '../../../core/constants/string.dart';
+import '../../../core/extensions/context.dart';
 
 class AddCommentWidget extends StatelessWidget {
   final Function(String) onAddComment;
@@ -8,32 +14,47 @@ class AddCommentWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.all(context.width * 0.04),
       decoration: BoxDecoration(
-        color: const Color(0xFF1C1C1E),
+        color: AppDarkColors.INACTIVE,
         border: Border(
-          top: BorderSide(color: Colors.white.withOpacity(0.1), width: 1),
+          top: BorderSide(
+            color: AppDarkColors.WHITE16,
+            width: context.height * 0.001,
+          ),
         ),
       ),
       child: Row(
         children: [
-          CircleAvatar(radius: 18, backgroundColor: Colors.grey[800]),
-          const SizedBox(width: 12),
+          CircleAvatar(
+            radius: context.width * 0.045,
+            backgroundColor: AppDarkColors.DARK_BUTTON,
+          ),
+          SizedBox(width: context.width * 0.03),
 
           // Text Input
           Expanded(
             child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+              padding: EdgeInsets.symmetric(
+                horizontal: context.width * 0.04,
+                vertical: context.height * 0.012,
+              ),
               decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.1),
-                borderRadius: BorderRadius.circular(20),
+                color: AppDarkColors.WHITE16,
+                borderRadius: BorderRadius.circular(context.width * 0.05),
               ),
               child: TextField(
                 controller: _commentController,
-                style: const TextStyle(color: Colors.white, fontSize: 14),
-                decoration: const InputDecoration(
-                  hintText: 'Add comment..',
-                  hintStyle: TextStyle(color: Colors.white54, fontSize: 14),
+                style: TextStyle(
+                  color: AppDarkColors.PRIMARY,
+                  fontSize: FontSizeConstants.SMALL[1],
+                ),
+                decoration: InputDecoration(
+                  hintText: AppStrings.COMMENTS_ADD_PLACEHOLDER.tr(),
+                  hintStyle: TextStyle(
+                    color: AppDarkColors.WHITE50,
+                    fontSize: FontSizeConstants.SMALL[1],
+                  ),
                   border: InputBorder.none,
                   isDense: true,
                   contentPadding: EdgeInsets.zero,
@@ -42,7 +63,7 @@ class AddCommentWidget extends StatelessWidget {
               ),
             ),
           ),
-          const SizedBox(width: 12),
+          SizedBox(width: context.width * 0.03),
 
           // Send Button
           GestureDetector(
@@ -53,13 +74,17 @@ class AddCommentWidget extends StatelessWidget {
               }
             },
             child: Container(
-              width: 40,
-              height: 40,
-              decoration: const BoxDecoration(
-                color: Color(0xFFFF8C00),
+              width: context.width * 0.1,
+              height: context.width * 0.1,
+              decoration: BoxDecoration(
+                color: AppDarkColors.ORANGE,
                 shape: BoxShape.circle,
               ),
-              child: const Icon(Icons.send, color: Colors.white, size: 20),
+              child: Icon(
+                Icons.send,
+                color: AppDarkColors.PRIMARY,
+                size: context.width * 0.05,
+              ),
             ),
           ),
         ],

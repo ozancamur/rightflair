@@ -19,10 +19,10 @@ class AnalyticsPage extends StatelessWidget {
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: context.width * 0.05),
           child: Column(
+            spacing: context.height * .05,
             children: [
               // Header
               const AnalyticsTitleWidget(),
-              SizedBox(height: context.height * .05),
               // Content
               const AnalyticsContentWidget(),
             ],

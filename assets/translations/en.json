@@ -120,5 +120,56 @@
         "messages": "Messages",
         "notifications": "Notifications",
         "sentAPhoto": "Sent a photo"
+    },
+    "error": {
+        "occurred": "An error occurred",
+        "tryAgain": "Try Again",
+        "noPosts": "No posts to show yet",
+        "refresh": "Refresh"
+    },
+    "comments": {
+        "title": "Comments",
+        "reply": "Reply",
+        "addPlaceholder": "Add comment..",
+        "viewReplies": "View replies",
+        "likes": "likes"
+    },
+    "post": {
+        "liked": "LIKED",
+        "disliked": "DISLIKED"
+    },
+    "days": {
+        "monday": "Mon",
+        "tuesday": "Tue",
+        "wednesday": "Wed",
+        "thursday": "Thu",
+        "friday": "Fri",
+        "saturday": "Sat",
+        "sunday": "Sun"
+    },
+    "feed": {
+        "discover": "Discover",
+        "following": "Following",
+        "friends": "Friends",
+        "error": {
+            "loadingPosts": "An error occurred while loading posts",
+            "loadingMore": "An error occurred while loading more posts"
+        }
+    },
+    "firebase": {
+        "error": {
+            "createDocument": "Error creating document",
+            "readDocument": "Error reading document",
+            "readDocuments": "Error reading documents",
+            "query": "Error performing query",
+            "updateDocument": "Error updating document",
+            "setDocument": "Error setting document",
+            "deleteDocument": "Error deleting document",
+            "checkUser": "Error checking user"
+        }
+    },
+    "general": {
+        "pageNotFound": "Page not found",
+        "userNotFound": "User not found"
     }
 }

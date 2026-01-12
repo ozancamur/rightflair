@@ -157,4 +157,48 @@ class AppStrings {
   static const String INBOX_SENT_A_PHOTO = 'inbox.sentAPhoto';
   static const String INBOX_TODAYS_ACTIVITY = 'inbox.todaysActivity';
   static const String INBOX_KEEP_POSTING = 'inbox.keepPosting';
+
+  // ERROR STATES
+  static const String ERROR_OCCURRED = 'error.occurred';
+  static const String ERROR_TRY_AGAIN = 'error.tryAgain';
+  static const String ERROR_NO_POSTS = 'error.noPosts';
+  static const String ERROR_REFRESH = 'error.refresh';
+
+  // COMMENTS
+  static const String COMMENTS_TITLE = 'comments.title';
+  static const String COMMENTS_REPLY = 'comments.reply';
+  static const String COMMENTS_ADD_PLACEHOLDER = 'comments.addPlaceholder';
+  static const String COMMENTS_VIEW_REPLIES = 'comments.viewReplies';
+  static const String COMMENTS_LIKES = 'comments.likes';
+
+  // POST ACTIONS
+  static const String POST_LIKED = 'post.liked';
+  static const String POST_DISLIKED = 'post.disliked';
+
+  // DAYS
+  static const String DAY_MONDAY = 'days.monday';
+  static const String DAY_TUESDAY = 'days.tuesday';
+  static const String DAY_WEDNESDAY = 'days.wednesday';
+  static const String DAY_THURSDAY = 'days.thursday';
+  static const String DAY_FRIDAY = 'days.friday';
+  static const String DAY_SATURDAY = 'days.saturday';
+  static const String DAY_SUNDAY = 'days.sunday';
+
+  // FEED ERRORS (Backend)
+  static const String FEED_ERROR_LOADING_POSTS = 'feed.error.loadingPosts';
+  static const String FEED_ERROR_LOADING_MORE = 'feed.error.loadingMore';
+
+  // FIREBASE ERRORS (Backend)
+  static const String FIREBASE_ERROR_CREATE_DOCUMENT = 'firebase.error.createDocument';
+  static const String FIREBASE_ERROR_READ_DOCUMENT = 'firebase.error.readDocument';
+  static const String FIREBASE_ERROR_READ_DOCUMENTS = 'firebase.error.readDocuments';
+  static const String FIREBASE_ERROR_QUERY = 'firebase.error.query';
+  static const String FIREBASE_ERROR_UPDATE_DOCUMENT = 'firebase.error.updateDocument';
+  static const String FIREBASE_ERROR_SET_DOCUMENT = 'firebase.error.setDocument';
+  static const String FIREBASE_ERROR_DELETE_DOCUMENT = 'firebase.error.deleteDocument';
+  static const String FIREBASE_ERROR_CHECK_USER = 'firebase.error.checkUser';
+
+  // GENERAL
+  static const String GENERAL_PAGE_NOT_FOUND = 'general.pageNotFound';
+  static const String GENERAL_USER_NOT_FOUND = 'general.userNotFound';
 }

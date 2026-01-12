@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:rightflair/core/extensions/context.dart';
 
+import '../../../../../core/components/text.dart';
+import '../../../../../core/constants/dark_color.dart';
+import '../../../../../core/constants/font_size.dart';
+import '../../../../../core/constants/string.dart';
+import '../../../../../core/extensions/context.dart';
 import '../models/feed_post_model.dart';
 import 'post/post_actions.dart';
 import 'post/post_shadow.dart';
@@ -86,8 +90,6 @@ class _FeedPostItemState extends State<FeedPostItem>
         );
 
     _animationController.forward().then((_) {
-      // Beğenme işlemi burada yapılır
-      print('Beğenildi! ❤️');
       widget.onSwipeComplete?.call(widget.post.id, SwipeDirection.right);
       _resetCard();
     });
@@ -107,8 +109,6 @@ class _FeedPostItemState extends State<FeedPostItem>
         );
 
     _animationController.forward().then((_) {
-      // Beğenmeme işlemi burada yapılır
-      print('Beğenilmedi! 👎');
       widget.onSwipeComplete?.call(widget.post.id, SwipeDirection.left);
       _resetCard();
     });
@@ -132,13 +132,13 @@ class _FeedPostItemState extends State<FeedPostItem>
     });
   }
 
-  double _getRotation(Offset offset) {
-    const rotationStrength = 0.0003;
-    return offset.dx * rotationStrength;
+  double _getRotation(Offset offset, BuildContext context) {
+    final rotationStrength = context.width * 0.00075;
+    return offset.dx / rotationStrength;
   }
 
-  double _getOpacity(Offset offset) {
-    const opacityThreshold = 100.0;
+  double _getOpacity(Offset offset, BuildContext context) {
+    final opacityThreshold = context.width * 0.25;
     final opacity = 1 - (offset.dx.abs() / opacityThreshold).clamp(0.0, 0.5);
     return opacity;
   }
@@ -161,55 +161,57 @@ class _FeedPostItemState extends State<FeedPostItem>
               child: Stack(
                 children: [
                   // Beğen göstergesi (sağ taraf)
-                  if (_dragOffset.dx > 50)
+                  if (_dragOffset.dx > context.width * 0.125)
                     Positioned(
                       top: context.height * 0.15,
                       right: context.width * 0.1,
                       child: Transform.rotate(
                         angle: -0.3,
                         child: Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 20,
-                            vertical: 10,
+                          padding: EdgeInsets.symmetric(
+                            horizontal: context.width * 0.05,
+                            vertical: context.height * 0.012,
                           ),
                           decoration: BoxDecoration(
-                            border: Border.all(color: Colors.green, width: 4),
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          child: const Text(
-                            'BEĞENDİM',
-                            style: TextStyle(
-                              color: Colors.green,
-                              fontSize: 32,
-                              fontWeight: FontWeight.bold,
+                            border: Border.all(
+                              color: AppDarkColors.GREEN,
+                              width: context.width * 0.01,
                             ),
+                            borderRadius: BorderRadius.circular(context.width * 0.02),
+                          ),
+                          child: TextComponent(
+                            text: AppStrings.POST_LIKED,
+                            size: FontSizeConstants.XXX_HUGE,
+                            color: AppDarkColors.GREEN,
+                            weight: FontWeight.bold,
                           ),
                         ),
                       ),
                     ),
                   // Beğenmeme göstergesi (sol taraf)
-                  if (_dragOffset.dx < -50)
+                  if (_dragOffset.dx < -context.width * 0.125)
                     Positioned(
                       top: context.height * 0.15,
                       left: context.width * 0.1,
                       child: Transform.rotate(
                         angle: 0.3,
                         child: Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 20,
-                            vertical: 10,
+                          padding: EdgeInsets.symmetric(
+                            horizontal: context.width * 0.05,
+                            vertical: context.height * 0.012,
                           ),
                           decoration: BoxDecoration(
-                            border: Border.all(color: Colors.red, width: 4),
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          child: const Text(
-                            'BEĞENMEDİM',
-                            style: TextStyle(
-                              color: Colors.red,
-                              fontSize: 32,
-                              fontWeight: FontWeight.bold,
+                            border: Border.all(
+                              color: AppDarkColors.RED,
+                              width: context.width * 0.01,
                             ),
+                            borderRadius: BorderRadius.circular(context.width * 0.02),
+                          ),
+                          child: TextComponent(
+                            text: AppStrings.POST_DISLIKED,
+                            size: FontSizeConstants.XXX_HUGE,
+                            color: AppDarkColors.RED,
+                            weight: FontWeight.bold,
                           ),
                         ),
                       ),
@@ -221,15 +223,15 @@ class _FeedPostItemState extends State<FeedPostItem>
           Transform.translate(
             offset: currentOffset,
             child: Transform.rotate(
-              angle: _getRotation(currentOffset),
+              angle: _getRotation(currentOffset, context),
               child: Opacity(
-                opacity: _getOpacity(currentOffset),
+                opacity: _getOpacity(currentOffset, context),
                 child: Container(
                   height: context.height,
                   width: context.width,
                   decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(24),
+                    color: AppDarkColors.PRIMARY,
+                    borderRadius: BorderRadius.circular(context.width * 0.06),
                     image: DecorationImage(
                       image: NetworkImage(widget.post.imageUrl),
                       fit: BoxFit.cover,

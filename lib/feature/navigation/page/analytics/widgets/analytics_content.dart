@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rightflair/core/components/loading.dart';
 
 import '../../../../../core/components/text.dart';
 import '../../../../../core/extensions/context.dart';
@@ -16,7 +17,7 @@ class AnalyticsContentWidget extends StatelessWidget {
       child: BlocBuilder<AnalyticsCubit, AnalyticsState>(
         builder: (context, state) {
           if (state is AnalyticsLoading) {
-            return const Center(child: CircularProgressIndicator());
+            return const LoadingComponent();
           } else if (state is AnalyticsError) {
             return Center(child: TextComponent(text: state.message, tr: false));
           } else if (state is AnalyticsLoaded) {

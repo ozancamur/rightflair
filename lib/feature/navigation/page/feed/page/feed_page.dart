@@ -11,8 +11,6 @@ class FeedPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-
     return BlocProvider(
       create: (context) => FeedBloc()..add(const LoadFeedEvent(0)),
       child: DefaultTabController(
