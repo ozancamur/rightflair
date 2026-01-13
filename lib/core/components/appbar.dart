@@ -3,6 +3,8 @@ import 'package:rightflair/core/components/text.dart';
 import 'package:rightflair/core/constants/dark_color.dart';
 import 'package:rightflair/core/constants/font_size.dart';
 
+import '../extensions/context.dart';
+
 class AppBarComponent extends StatelessWidget implements PreferredSizeWidget {
   final Widget? leading;
   final double? leadingWidth;
@@ -22,7 +24,10 @@ class AppBarComponent extends StatelessWidget implements PreferredSizeWidget {
       backgroundColor: AppDarkColors.SECONDARY,
       foregroundColor: AppDarkColors.PRIMARY,
       elevation: 0,
-      leading: leading,
+      leading: Padding(
+        padding: EdgeInsets.only(left: context.width * .035),
+        child: leading,
+      ),
       leadingWidth: leadingWidth,
       actions: actions,
       title: TextComponent(

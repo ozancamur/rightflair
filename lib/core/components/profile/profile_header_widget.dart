@@ -18,6 +18,7 @@ class ProfileHeaderWidget extends StatelessWidget {
   final List<String> tags;
   final VoidCallback? onFollowTap;
   final VoidCallback? onMessageTap;
+  final bool isCanEdit;
 
   const ProfileHeaderWidget({
     super.key,
@@ -30,6 +31,7 @@ class ProfileHeaderWidget extends StatelessWidget {
     required this.tags,
     this.onFollowTap,
     this.onMessageTap,
+    this.isCanEdit = false,
   });
 
   @override
@@ -37,7 +39,7 @@ class ProfileHeaderWidget extends StatelessWidget {
     return Column(
       spacing: context.height * 0.015,
       children: [
-        ProfileHeaderImageWidget(url: profileImage),
+        ProfileHeaderImageWidget(url: profileImage, isCanEdit: isCanEdit),
         ProfileHeaderUsernameWidget(name: name, username: username),
         ProfileHeaderStatsWidget(
           followerCount: followerCount,

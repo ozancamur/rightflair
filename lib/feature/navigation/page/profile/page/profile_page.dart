@@ -5,7 +5,7 @@ import 'package:rightflair/core/constants/string.dart';
 import 'package:rightflair/core/extensions/context.dart';
 import 'package:rightflair/core/components/profile/profile_header_widget.dart';
 
-import '../../../../../core/components/profile/profile_appbar.dart';
+import '../widgets/profile_appbar.dart';
 import '../cubit/profile_cubit.dart';
 import '../widgets/profile_tab_bars.dart';
 import '../widgets/profile_tab_views.dart';
@@ -35,6 +35,7 @@ class ProfilePage extends StatelessWidget {
                     spacing: context.height * 0.025,
                     children: [
                       ProfileHeaderWidget(
+                        isCanEdit: true,
                         profileImage: url,
                         name: 'Lorem Ipsum',
                         username: '@loremipsum',
