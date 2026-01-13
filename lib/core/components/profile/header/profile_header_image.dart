@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:rightflair/core/components/text.dart';
 import 'package:rightflair/core/constants/dark_color.dart';
 import 'package:rightflair/core/constants/font_size.dart';
 import 'package:rightflair/core/constants/icons.dart';
+import 'package:rightflair/core/constants/route.dart';
 
 import '../../../../../../core/extensions/context.dart';
 
@@ -58,19 +60,23 @@ class ProfileHeaderImageWidget extends StatelessWidget {
     return Positioned(
       bottom: 0,
       right: context.width * .175,
-      child: Container(
-        height: context.height * .03,
-        width: context.width * .15,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(100),
-          color: AppDarkColors.WHITE8,
-          border: Border.all(width: .5, color: AppDarkColors.WHITE16),
-        ),
-        child: Center(
-          child: TextComponent(
-            text: "Edit",
-            size: FontSizeConstants.X_SMALL,
-            color: AppDarkColors.PRIMARY,
+      child: InkWell(
+        onTap: () => context.push(RouteConstants.EDIT_PROFILE),
+        borderRadius: BorderRadius.circular(100),
+        child: Container(
+          height: context.height * .03,
+          width: context.width * .15,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(100),
+            color: AppDarkColors.WHITE08,
+            border: Border.all(width: .5, color: AppDarkColors.WHITE16),
+          ),
+          child: Center(
+            child: TextComponent(
+              text: "Edit",
+              size: FontSizeConstants.X_SMALL,
+              color: AppDarkColors.PRIMARY,
+            ),
           ),
         ),
       ),

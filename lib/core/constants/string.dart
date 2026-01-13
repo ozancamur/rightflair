@@ -226,4 +226,14 @@ class AppStrings {
   static const String POST_DETAIL_COMMENTS = 'postDetail.comments';
   static const String POST_DETAIL_BOOKMARKED = 'postDetail.bookmarked';
   static const String POST_DETAIL_SHARES = 'postDetail.shares';
+
+  // PROFILE EDIT
+  static const String PROFILE_EDIT_APPBAR = 'profileEdit.appbar';
+  static const String PROFILE_EDIT_DONE = 'profileEdit.done';
+  static const String PROFILE_EDIT_CHANGE_PHOTO = 'profileEdit.changePhoto';
+  static const String PROFILE_EDIT_NAME = 'profileEdit.name';
+  static const String PROFILE_EDIT_USERNAME = 'profileEdit.username';
+  static const String PROFILE_EDIT_BIO = 'profileEdit.bio';
+  static const String PROFILE_EDIT_MY_STYLES = 'profileEdit.myStyles';
+  static const String PROFILE_EDIT_ADD_NEW = 'profileEdit.addNew';
 }

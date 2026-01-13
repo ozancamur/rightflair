@@ -13,6 +13,7 @@ import 'package:rightflair/feature/navigation/page/inbox/page/new_followers_page
 
 import '../../feature/authentication/pages/register_page.dart';
 import '../../feature/post_detail/page/post_detail_page.dart';
+import '../../feature/profile_edit/page/profile_edit_page.dart';
 
 final GoRouter router = GoRouter(
   initialLocation: RouteConstants.NAVIGATION,
@@ -65,6 +66,12 @@ final GoRouter router = GoRouter(
       name: RouteConstants.POST_DETAIL,
       builder: (context, state) => const PostDetailPage(),
     ),
+    GoRoute(
+      path: RouteConstants.EDIT_PROFILE,
+      name: RouteConstants.EDIT_PROFILE,
+      builder: (context, state) => const ProfileEditPage(),
+    ),
+    
     GoRoute(
       path: RouteConstants.SYSTEM_NOTIFICATIONS,
       name: RouteConstants.SYSTEM_NOTIFICATIONS,

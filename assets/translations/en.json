@@ -187,5 +187,15 @@
         "comments": "Comments",
         "bookmarked": "Bookmarked",
         "shares": "Shares"
+    },
+    "profileEdit": {
+        "appbar": "Profile",
+        "done": "DONE",
+        "changePhoto": "Change Photo",
+        "name": "Name",
+        "username": "Username",
+        "bio": "Bio",
+        "myStyles": "My Styles",
+        "addNew": "+ Add New"
     }
 }
