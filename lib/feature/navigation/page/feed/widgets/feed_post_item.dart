@@ -6,11 +6,10 @@ import '../../../../../core/constants/font_size.dart';
 import '../../../../../core/constants/string.dart';
 import '../../../../../core/extensions/context.dart';
 import '../models/feed_post_model.dart';
+import '../models/swipe_direction.dart';
 import 'post/post_actions.dart';
 import 'post/post_shadow.dart';
 import 'post/post_user_info.dart';
-
-enum SwipeDirection { left, right, none }
 
 class FeedPostItem extends StatefulWidget {
   final FeedPostModel post;
@@ -133,8 +132,11 @@ class _FeedPostItemState extends State<FeedPostItem>
   }
 
   double _getRotation(Offset offset, BuildContext context) {
-    final rotationStrength = context.width * 0.00075;
-    return offset.dx / rotationStrength;
+    // Tinder/Bumble gibi yumuşak rotasyon (max 15 derece)
+    const maxRotation = 0.26; // ~15 derece (radyan cinsinden)
+    final screenWidth = context.width;
+    final rotation = (offset.dx / screenWidth) * maxRotation;
+    return rotation.clamp(-maxRotation, maxRotation);
   }
 
   double _getOpacity(Offset offset, BuildContext context) {
@@ -177,7 +179,9 @@ class _FeedPostItemState extends State<FeedPostItem>
                               color: AppDarkColors.GREEN,
                               width: context.width * 0.01,
                             ),
-                            borderRadius: BorderRadius.circular(context.width * 0.02),
+                            borderRadius: BorderRadius.circular(
+                              context.width * 0.02,
+                            ),
                           ),
                           child: TextComponent(
                             text: AppStrings.POST_LIKED,
@@ -205,7 +209,9 @@ class _FeedPostItemState extends State<FeedPostItem>
                               color: AppDarkColors.RED,
                               width: context.width * 0.01,
                             ),
-                            borderRadius: BorderRadius.circular(context.width * 0.02),
+                            borderRadius: BorderRadius.circular(
+                              context.width * 0.02,
+                            ),
                           ),
                           child: TextComponent(
                             text: AppStrings.POST_DISLIKED,

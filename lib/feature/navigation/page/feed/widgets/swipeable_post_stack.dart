@@ -9,6 +9,7 @@ import '../../../../../core/constants/string.dart';
 import '../../../../../core/extensions/context.dart';
 import '../bloc/feed_bloc.dart';
 import '../models/feed_post_model.dart';
+import '../models/swipe_direction.dart';
 import 'feed_post_item.dart';
 
 class SwipeablePostStack extends StatefulWidget {
