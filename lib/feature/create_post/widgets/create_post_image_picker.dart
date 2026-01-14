@@ -1,29 +1,42 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rightflair/core/extensions/context.dart';
 import 'package:rightflair/core/constants/dark_color.dart';
+import '../cubit/create_post_cubit.dart';
 
-class CreatePostImagePickerWidget extends StatelessWidget {
-  const CreatePostImagePickerWidget({super.key});
+class CreatePostImageWidget extends StatelessWidget {
+  const CreatePostImageWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Container(
-        width: context.width * 0.35,
-        height: context.width * 0.35,
-        margin: EdgeInsets.symmetric(vertical: context.height * 0.02),
-        decoration: BoxDecoration(
-          color: AppDarkColors.INACTIVE,
-          borderRadius: BorderRadius.circular(context.width * 0.08),
-          image: const DecorationImage(
-            // Placeholder image or logic to show selected image
-            image: NetworkImage(
-              'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=1000&auto=format&fit=crop',
+    return BlocBuilder<CreatePostCubit, CreatePostState>(
+      builder: (context, state) {
+        return Center(
+          child: Container(
+            width: context.width * 0.35,
+            height: context.width * 0.35,
+            margin: EdgeInsets.symmetric(vertical: context.height * 0.02),
+            decoration: BoxDecoration(
+              color: AppDarkColors.INACTIVE,
+              borderRadius: BorderRadius.circular(context.width * 0.08),
+              image: state.imagePath != null
+                  ? DecorationImage(
+                      image: FileImage(File(state.imagePath!)),
+                      fit: BoxFit.cover,
+                    )
+                  : null,
             ),
-            fit: BoxFit.cover,
+            child: state.imagePath == null
+                ? Icon(
+                    Icons.add_photo_alternate,
+                    size: context.width * 0.1,
+                    color: AppDarkColors.GREY,
+                  )
+                : null,
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 }

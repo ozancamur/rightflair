@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rightflair/core/components/loading.dart';
 
 import '../../../../../core/components/text.dart';
 import '../../../../../core/constants/dark_color.dart';
@@ -43,7 +44,7 @@ class _SwipeablePostStackState extends State<SwipeablePostStack> {
       builder: (context, state) {
         if (state.status == FeedStatus.loading &&
             !state.hasPostsForTab(widget.tabIndex)) {
-          return const Center(child: CircularProgressIndicator());
+          return const LoadingComponent();
         }
 
         if (state.status == FeedStatus.failure) {

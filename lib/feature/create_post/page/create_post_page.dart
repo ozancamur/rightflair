@@ -57,7 +57,7 @@ class _CreatePostPageState extends State<CreatePostPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            CreatePostImagePickerWidget(),
+            CreatePostImageWidget(),
             SizedBox(height: context.height * 0.03),
 
             // About your outfit section

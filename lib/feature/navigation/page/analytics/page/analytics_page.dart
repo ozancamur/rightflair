@@ -12,21 +12,20 @@ class AnalyticsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) =>
-          AnalyticsCubit(AnalyticsRepository())..fetchAnalytics(),
-      child: SafeArea(
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: context.width * 0.05),
-          child: Column(
-            spacing: context.height * .05,
-            children: [
-              // Header
-              const AnalyticsTitleWidget(),
-              // Content
-              const AnalyticsContentWidget(),
-            ],
-          ),
+    // Global cubit'e ilk girişte fetchAnalytics çağır
+    context.read<AnalyticsCubit>().fetchAnalytics();
+
+    return SafeArea(
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: context.width * 0.05),
+        child: Column(
+          spacing: context.height * .05,
+          children: [
+            // Header
+            const AnalyticsTitleWidget(),
+            // Content
+            const AnalyticsContentWidget(),
+          ],
         ),
       ),
     );

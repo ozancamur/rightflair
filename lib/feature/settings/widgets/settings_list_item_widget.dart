@@ -53,7 +53,7 @@ class SettingsListItemWidget extends StatelessWidget {
             text: title,
             size: FontSizeConstants.LARGE,
             color: Colors.white,
-            weight: FontWeight.w600,
+            weight: FontWeight.w500,
           ),
           if (subtitle != null) ...[
             SizedBox(height: context.height * 0.002),

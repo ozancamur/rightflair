@@ -43,5 +43,11 @@
 		<string>UIInterfaceOrientationPortrait</string>
 		<string>UIInterfaceOrientationPortraitUpsideDown</string>
 	</array>
+	<key>NSCameraUsageDescription</key>
+	<string>Gönderi için fotoğraf çekmek istiyoruz</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Gönderi için fotoğraf seçmek istiyoruz</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>Fotoğraf kaydetmek istiyoruz</string>
 </dict>
 </plist>

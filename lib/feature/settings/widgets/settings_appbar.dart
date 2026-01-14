@@ -12,7 +12,7 @@ class SettingsAppbarWidget extends StatelessWidget
   Widget build(BuildContext context) {
     return AppBarComponent(
       leading: BackButtonComponent(),
-      title: AppStrings.SETTINGS_APP,
+      title: AppStrings.SETTINGS_TITLE,
     );
   }
 
