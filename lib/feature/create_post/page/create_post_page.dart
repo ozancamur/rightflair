@@ -4,8 +4,8 @@ import 'package:rightflair/core/components/text.dart';
 import 'package:rightflair/core/constants/font_size.dart';
 import 'package:rightflair/core/constants/string.dart';
 import 'package:rightflair/core/extensions/context.dart';
-import 'package:rightflair/core/constants/dark_color.dart';
 
+import '../../../core/base/base_scaffold.dart';
 import '../../../core/components/appbar.dart';
 import '../../../core/components/back_button.dart';
 import '../cubit/create_post_cubit.dart';
@@ -34,8 +34,7 @@ class _CreatePostPageState extends State<CreatePostPage> {
   Widget build(BuildContext context) {
     return BlocBuilder<CreatePostCubit, CreatePostState>(
       builder: (context, state) {
-        return Scaffold(
-          backgroundColor: AppDarkColors.SECONDARY,
+        return BaseScaffold(
           appBar: _appbar(),
           body: _body(context, state),
         );

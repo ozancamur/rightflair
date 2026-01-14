@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:rightflair/core/constants/dark_color.dart';
 import 'package:rightflair/core/constants/string.dart';
 import 'package:rightflair/core/extensions/context.dart';
 import 'package:rightflair/core/components/profile/profile_header_widget.dart';
 import 'package:rightflair/core/components/profile/profile_photo_grid_widget.dart';
 
+import '../../../core/base/base_scaffold.dart';
 import '../../../core/components/profile/profile_tab_item.dart';
 import '../cubit/user_cubit.dart';
 import '../widgets/user_appbar.dart';
@@ -20,9 +20,8 @@ class UserPage extends StatelessWidget {
 
     return BlocBuilder<UserCubit, UserState>(
       builder: (context, state) {
-        return Scaffold(
+        return BaseScaffold(
           appBar: const UserAppbarWidget(),
-          backgroundColor: AppDarkColors.SECONDARY,
           body: SafeArea(
             child: SingleChildScrollView(
               child: Padding(

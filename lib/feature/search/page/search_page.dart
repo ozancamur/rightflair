@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rightflair/core/components/back_button.dart';
 import 'package:rightflair/core/constants/dark_color.dart';
 import 'package:rightflair/core/constants/string.dart';
 import 'package:rightflair/core/extensions/context.dart';
 import 'package:rightflair/feature/search/cubit/search_cubit.dart';
 import 'package:rightflair/feature/search/widgets/recent_search_chip.dart';
 import 'package:rightflair/feature/search/widgets/search_text_field.dart';
+
+import '../../../core/base/base_scaffold.dart';
 
 class SearchPage extends StatelessWidget {
   const SearchPage({super.key});
@@ -24,8 +27,7 @@ class _SearchPageView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppDarkColors.SECONDARY,
+    return BaseScaffold(
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.symmetric(
@@ -47,13 +49,22 @@ class _SearchPageView extends StatelessWidget {
   }
 
   Widget _searchField(BuildContext context) {
-    return SearchTextField(
-      controller: context.read<SearchCubit>().searchController,
-      focusNode: context.read<SearchCubit>().searchFocusNode,
-      hintText: AppStrings.SEARCH_PLACEHOLDER,
-      onSubmitted: (query) {
-        context.read<SearchCubit>().search(query);
-      },
+    return Row(
+      spacing: context.width * 0.03,
+      children: [
+        BackButtonComponent(),
+
+        Expanded(
+          child: SearchTextField(
+            controller: context.read<SearchCubit>().searchController,
+            focusNode: context.read<SearchCubit>().searchFocusNode,
+            hintText: AppStrings.SEARCH_PLACEHOLDER,
+            onSubmitted: (query) {
+              context.read<SearchCubit>().search(query);
+            },
+          ),
+        ),
+      ],
     );
   }
 

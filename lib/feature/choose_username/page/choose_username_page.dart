@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rightflair/core/components/appbar.dart';
 import 'package:rightflair/core/constants/string.dart';
 
-import '../../../core/constants/dark_color.dart';
+import '../../../core/base/base_scaffold.dart';
 import '../../../core/extensions/context.dart';
 import '../bloc/choose_username_bloc.dart';
 import '../../authentication/widgets/authentication_text.dart';
@@ -41,8 +41,7 @@ class _ChooseUsernamePageState extends State<ChooseUsernamePage> {
   Widget build(BuildContext context) {
     return BlocBuilder<ChooseUsernameBloc, ChooseUsernameState>(
       builder: (context, state) {
-        return Scaffold(
-          backgroundColor: AppDarkColors.SECONDARY,
+        return BaseScaffold(
           appBar: AppBarComponent(title: AppStrings.CHOOSE_USERNAME_APPBAR),
           body: SizedBox(
             height: context.height,

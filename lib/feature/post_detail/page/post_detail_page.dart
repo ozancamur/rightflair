@@ -3,11 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rightflair/core/components/appbar.dart';
 import 'package:rightflair/core/components/back_button.dart';
 import 'package:rightflair/core/components/icon_button.dart';
-import 'package:rightflair/core/constants/dark_color.dart';
 import 'package:rightflair/core/constants/icons.dart';
 import 'package:rightflair/core/extensions/context.dart';
 import 'package:rightflair/feature/post_detail/cubit/post_detail_cubit.dart';
 
+import '../../../core/base/base_scaffold.dart';
 import '../../navigation/page/feed/widgets/feed_post_item.dart';
 
 class PostDetailPage extends StatelessWidget {
@@ -17,8 +17,7 @@ class PostDetailPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<PostDetailCubit, PostDetailState>(
       builder: (context, state) {
-        return Scaffold(
-          backgroundColor: AppDarkColors.SECONDARY,
+        return BaseScaffold(
           appBar: AppBarComponent(
             leading: BackButtonComponent(),
             actions: [

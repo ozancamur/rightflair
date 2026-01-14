@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:rightflair/core/constants/dark_color.dart';
 import 'package:rightflair/core/constants/string.dart';
 import 'package:rightflair/core/extensions/context.dart';
 import 'package:rightflair/core/components/profile/profile_header_widget.dart';
 
+import '../../../../../core/base/base_scaffold.dart';
 import '../widgets/profile_appbar.dart';
 import '../cubit/profile_cubit.dart';
 import '../widgets/profile_tab_bars.dart';
@@ -22,9 +22,8 @@ class ProfilePage extends StatelessWidget {
       builder: (context, state) {
         return DefaultTabController(
           length: 3,
-          child: Scaffold(
+          child: BaseScaffold(
             appBar: const ProfileAppbarWidget(),
-            backgroundColor: AppDarkColors.SECONDARY,
             body: SafeArea(
               child: SingleChildScrollView(
                 child: Padding(

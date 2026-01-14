@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:rightflair/core/components/appbar.dart';
 import 'package:rightflair/core/components/back_button.dart';
-import 'package:rightflair/core/constants/dark_color.dart';
 import 'package:rightflair/core/extensions/context.dart';
+import '../../../../../core/base/base_scaffold.dart';
 import '../../../../../core/components/settings_button.dart';
 import '../widgets/system_notifications_list.dart';
 
@@ -11,8 +11,7 @@ class SystemNotificationsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppDarkColors.SECONDARY,
+    return BaseScaffold(
       appBar: AppBarComponent(
         leading: BackButtonComponent(),
         title: "System Notifications",

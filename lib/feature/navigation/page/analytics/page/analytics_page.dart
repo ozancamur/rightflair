@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rightflair/core/extensions/context.dart';
 
 import '../cubit/analytics_cubit.dart';
-import '../repository/analytics_repository.dart';
 import '../widgets/analytics_content.dart';
 import '../widgets/analytics_title.dart';
 

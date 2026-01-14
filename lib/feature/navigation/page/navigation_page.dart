@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:rightflair/core/constants/dark_color.dart';
 import 'package:rightflair/core/extensions/context.dart';
 
+import '../../../core/base/base_scaffold.dart';
 import '../cubit/navigation_cubit.dart';
 import '../widgets/navigation_bottom_bar.dart';
 
@@ -13,10 +13,9 @@ class NavigationPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<NavigationCubit, NavigationState>(
       builder: (context, state) {
-        return Scaffold(
-          backgroundColor: AppDarkColors.SECONDARY,
+        return BaseScaffold(
           body: _body(context, state),
-          bottomNavigationBar: NavigationBottomBar(currentIndex: state.currentIndex),
+          navigation: NavigationBottomBar(currentIndex: state.currentIndex),
         );
       },
     );

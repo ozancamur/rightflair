@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:rightflair/core/constants/dark_color.dart';
 
+import '../../../../../core/base/base_scaffold.dart';
 import '../../../../../core/components/error_message.dart';
 import '../../../../../core/components/loading.dart';
 import '../cubit/inbox_cubit.dart';
@@ -41,8 +41,7 @@ class _InboxPageState extends State<InboxPage>
       create: (context) => InboxCubit(InboxRepositoryImpl())..loadMessages(),
       child: BlocBuilder<InboxCubit, InboxState>(
         builder: (context, state) {
-          return Scaffold(
-            backgroundColor: AppDarkColors.SECONDARY,
+          return BaseScaffold(
             appBar: const InboxAppBarWidget(),
             body: Column(
               children: [

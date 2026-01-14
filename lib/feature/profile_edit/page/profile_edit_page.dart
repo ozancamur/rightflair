@@ -8,6 +8,7 @@ import 'package:rightflair/core/constants/string.dart';
 import 'package:rightflair/core/extensions/context.dart';
 import 'package:rightflair/feature/navigation/widgets/navigation_bottom_bar.dart';
 
+import '../../../core/base/base_scaffold.dart';
 import '../cubit/profile_edit_cubit.dart';
 import '../widgets/profile_edit_image_widget.dart';
 import '../widgets/profile_edit_text_field_widget.dart';
@@ -56,11 +57,10 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
   Widget build(BuildContext context) {
     return BlocBuilder<ProfileEditCubit, ProfileEditState>(
       builder: (context, state) {
-        return Scaffold(
-          backgroundColor: AppDarkColors.SECONDARY,
+        return BaseScaffold(
           appBar: _appBar(context),
           body: _body(context, state),
-          bottomNavigationBar: const NavigationBottomBar(currentIndex: 3),
+          navigation: const NavigationBottomBar(currentIndex: 3),
         );
       },
     );

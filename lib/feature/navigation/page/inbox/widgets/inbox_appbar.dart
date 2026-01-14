@@ -5,7 +5,6 @@ import 'package:rightflair/core/extensions/context.dart';
 import '../../../../../core/components/appbar.dart';
 import '../../../../../core/components/icon_button.dart';
 import '../../../../../core/constants/icons.dart';
-import '../../../../../core/constants/string.dart';
 
 class InboxAppBarWidget extends StatelessWidget implements PreferredSizeWidget {
   const InboxAppBarWidget({super.key});
@@ -13,7 +12,6 @@ class InboxAppBarWidget extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBarComponent(
-      title: AppStrings.INBOX_TITLE.tr(),
       actions: [
         Padding(
           padding: EdgeInsets.only(

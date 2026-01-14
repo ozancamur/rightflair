@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:rightflair/core/constants/route.dart';
 
 import '../../../../../../../core/components/appbar.dart';
 import '../../../../../../../core/components/icon_button.dart';
@@ -13,7 +15,10 @@ class ProfileAppbarWidget extends StatelessWidget
   @override
   Widget build(BuildContext context) {
     return AppBarComponent(
-      leading: IconButtonComponent(onTap: () {}, icon: AppIcons.ADD_FRIEND),
+      leading: IconButtonComponent(
+        onTap: () => context.push(RouteConstants.SEARCH),
+        icon: AppIcons.ADD_FRIEND,
+      ),
       actions: [
         IconButtonComponent(onTap: () {}, icon: AppIcons.SHARE),
         SizedBox(width: context.width * 0.03),

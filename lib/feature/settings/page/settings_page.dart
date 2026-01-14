@@ -5,6 +5,7 @@ import 'package:rightflair/core/constants/app.dart';
 import 'package:rightflair/core/constants/dark_color.dart';
 import 'package:rightflair/core/constants/font_size.dart';
 import 'package:rightflair/feature/settings/widgets/settings_appbar.dart';
+import '../../../core/base/base_scaffold.dart';
 import '../../../core/components/loading.dart';
 import '../../../core/components/text.dart';
 import '../../../core/constants/string.dart';
@@ -27,8 +28,7 @@ class SettingsPage extends StatelessWidget {
       create: (context) => SettingsCubit()..loadSettings(),
       child: BlocBuilder<SettingsCubit, SettingsState>(
         builder: (context, state) {
-          return Scaffold(
-            backgroundColor: AppDarkColors.SECONDARY,
+          return BaseScaffold(
             appBar: SettingsAppbarWidget(),
             body: (state is SettingsLoading)
                 ? const LoadingComponent()

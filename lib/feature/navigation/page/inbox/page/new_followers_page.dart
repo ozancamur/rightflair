@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:rightflair/core/components/text.dart';
-import 'package:rightflair/core/constants/dark_color.dart';
 import 'package:rightflair/core/constants/font_size.dart';
 import 'package:rightflair/core/extensions/context.dart';
 
+import '../../../../../core/base/base_scaffold.dart';
 import '../../../../../core/components/appbar.dart';
 import '../../../../../core/components/back_button.dart';
 import '../../../../../core/components/settings_button.dart';
@@ -23,8 +23,7 @@ class _NewFollowersPageState extends State<NewFollowersPage> {
   bool isViewMore = false;
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppDarkColors.SECONDARY,
+    return BaseScaffold(
       appBar: _appbar(context),
       body: _body(context),
     );
