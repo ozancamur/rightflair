@@ -33,7 +33,7 @@ class CreatePostDescription extends StatelessWidget {
         controller: controller,
         maxLines: null,
         expands: true,
-        style: const TextStyle(color: Colors.white),
+        style:  TextStyle(color: AppDarkColors.PRIMARY),
         decoration: InputDecoration(
           hintText: AppStrings.CREATE_POST_DESCRIPTION_PLACEHOLDER.tr(),
           hintStyle: TextStyle(color: AppDarkColors.WHITE60),

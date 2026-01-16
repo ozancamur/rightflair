@@ -31,7 +31,7 @@ class RecentSearchChip extends StatelessWidget {
         child: Text(
           label,
           style: TextStyle(
-            color: Colors.white,
+            color: AppDarkColors.PRIMARY,
             fontSize: 15,
             fontWeight: FontWeight.w400,
           ),

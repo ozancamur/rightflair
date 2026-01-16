@@ -52,7 +52,7 @@ class SettingsListItemWidget extends StatelessWidget {
           TextComponent(
             text: title,
             size: FontSizeConstants.LARGE,
-            color: Colors.white,
+            color: AppDarkColors.PRIMARY,
             weight: FontWeight.w500,
           ),
           if (subtitle != null) ...[

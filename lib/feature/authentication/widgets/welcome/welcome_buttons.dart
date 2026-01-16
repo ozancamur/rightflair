@@ -24,7 +24,7 @@ class WelcomeButtonsWidget extends StatelessWidget {
         children: [
           ElevatedButtonComponent(
             width: context.width * .8,
-            color: Colors.white,
+            color: AppDarkColors.PRIMARY,
             onPressed: () => context.push(RouteConstants.REGISTER),
             child: ButtonTextWithIconComponent(
               icon: AppIcons.MAIL_FILLED,
@@ -36,21 +36,25 @@ class WelcomeButtonsWidget extends StatelessWidget {
           ElevatedButtonComponent(
             width: context.width * .8,
             color: AppDarkColors.DARK_BUTTON,
-            onPressed: () => context.read<AuthenticationBloc>().add(AuthtenticationGoogleEvent()),
+            onPressed: () => context.read<AuthenticationBloc>().add(
+              AuthtenticationGoogleEvent(),
+            ),
             child: ButtonTextWithIconComponent(
               icon: AppIcons.GOOGLE,
               text: AppStrings.WITH_GOOGLE,
-              foregroundColor: Colors.white,
+              foregroundColor: AppDarkColors.PRIMARY,
             ),
           ),
           ElevatedButtonComponent(
             width: context.width * .8,
             color: AppDarkColors.DARK_BUTTON,
-            onPressed: () => context.read<AuthenticationBloc>().add(AuthtenticationAppleEvent()),
+            onPressed: () => context.read<AuthenticationBloc>().add(
+              AuthtenticationAppleEvent(),
+            ),
             child: ButtonTextWithIconComponent(
               icon: AppIcons.APPLE,
               text: AppStrings.WITH_APPLE,
-              foregroundColor: Colors.white,
+              foregroundColor: AppDarkColors.PRIMARY,
             ),
           ),
         ],

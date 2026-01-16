@@ -31,7 +31,7 @@ class SettingsAboutWidget extends StatelessWidget {
                 title: AppStrings.SETTINGS_TERMS_OF_SERVICE,
                 trailing: Icon(
                   Icons.chevron_right,
-                  color: Colors.white,
+                  color: AppDarkColors.PRIMARY,
                   size: context.width * 0.06,
                 ),
                 onTap: () {},
@@ -42,7 +42,7 @@ class SettingsAboutWidget extends StatelessWidget {
                 title: AppStrings.SETTINGS_PRIVACY_POLICY,
                 trailing: Icon(
                   Icons.chevron_right,
-                  color: Colors.white,
+                  color: AppDarkColors.PRIMARY,
                   size: context.width * 0.06,
                 ),
                 onTap: () {},

@@ -8,6 +8,7 @@ import '../../../../../core/base/base_scaffold.dart';
 import '../../../../../core/components/appbar.dart';
 import '../../../../../core/components/back_button.dart';
 import '../../../../../core/components/settings_button.dart';
+import '../../../../../core/constants/dark_color.dart';
 import '../../../../../core/constants/icons.dart';
 import '../widgets/follower/follower_item.dart';
 import '../widgets/suggested_account/suggested_account_item.dart';
@@ -23,10 +24,7 @@ class _NewFollowersPageState extends State<NewFollowersPage> {
   bool isViewMore = false;
   @override
   Widget build(BuildContext context) {
-    return BaseScaffold(
-      appBar: _appbar(context),
-      body: _body(context),
-    );
+    return BaseScaffold(appBar: _appbar(context), body: _body(context));
   }
 
   AppBarComponent _appbar(BuildContext context) {
@@ -81,12 +79,12 @@ class _NewFollowersPageState extends State<NewFollowersPage> {
                 TextComponent(
                   text: isViewMore ? 'hide' : 'view more',
                   size: FontSizeConstants.SMALL,
-                  color: Colors.white,
+                  color: AppDarkColors.PRIMARY,
                   tr: false,
                 ),
                 SvgPicture.asset(
                   isViewMore ? AppIcons.ARROW_UP : AppIcons.ARROW_DOWN,
-                  color: Colors.white,
+                  color: AppDarkColors.PRIMARY,
                   height: context.height * .02,
                 ),
               ],

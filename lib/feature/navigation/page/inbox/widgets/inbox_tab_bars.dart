@@ -16,9 +16,9 @@ class InboxTabBarsWidget extends StatelessWidget {
       ),
       child: TabBar(
         controller: controller,
-        indicatorColor: Colors.white,
+        indicatorColor: AppDarkColors.PRIMARY,
         indicatorWeight: 2.0,
-        labelColor: Colors.white,
+        labelColor: AppDarkColors.PRIMARY,
         unselectedLabelColor: AppDarkColors.GREY,
         labelStyle: const TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
         unselectedLabelStyle: const TextStyle(

@@ -60,7 +60,7 @@ class SystemNotificationItem extends StatelessWidget {
               IconButton(
                 icon: Icon(
                   Icons.more_horiz,
-                  color: Colors.white,
+                  color: AppDarkColors.PRIMARY,
                   size: context.width * 0.06,
                 ),
                 padding: EdgeInsets.zero,

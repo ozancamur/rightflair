@@ -69,7 +69,7 @@ class InboxNotificationItem extends StatelessWidget {
                   vertical: context.width * 0.01,
                 ),
                 decoration: BoxDecoration(
-                  color: Colors.black,
+                  color: AppDarkColors.SECONDARY,
                   borderRadius: BorderRadius.circular(context.width * 0.02),
                 ),
                 child: TextComponent(

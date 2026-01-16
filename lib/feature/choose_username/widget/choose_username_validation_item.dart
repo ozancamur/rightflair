@@ -39,7 +39,7 @@ class ChooseUsernameValidationItem extends StatelessWidget {
         ),
         TextComponent(
           text: label,
-          color: Colors.white,
+          color: AppDarkColors.PRIMARY,
           weight: FontWeight.w400,
           size: FontSizeConstants.X_SMALL,
         ),

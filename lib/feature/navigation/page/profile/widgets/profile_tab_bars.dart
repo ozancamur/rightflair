@@ -15,7 +15,7 @@ class ProfileTabBarsWidget extends StatelessWidget {
       alignment: Alignment.centerLeft,
       child: TabBar(
         isScrollable: true,
-        indicatorColor: Colors.white,
+        indicatorColor: AppDarkColors.PRIMARY,
         indicatorSize: TabBarIndicatorSize.label,
         indicatorWeight: 1.5,
         indicatorPadding: EdgeInsets.only(

@@ -3,15 +3,15 @@ import 'package:flutter/material.dart';
 class AppDarkColors {
   AppDarkColors._();
 
-  static Color get PRIMARY => Colors.white;
+  static Color get PRIMARY => AppDarkColors.PRIMARY;
   static Color get SECONDARY => Color(0xFF0E0E0E);
 
-  static Color get WHITE75 => Colors.white.withOpacity(.75);
-  static Color get WHITE60 => Colors.white.withOpacity(.60);
-  static Color get WHITE50 => Colors.white.withOpacity(.50);
-  static Color get WHITE32 => Colors.white.withOpacity(.32);
-  static Color get WHITE16 => Colors.white.withOpacity(.16);
-  static Color get WHITE08 => Colors.white.withOpacity(.08);
+  static Color get WHITE75 => AppDarkColors.PRIMARY.withOpacity(.75);
+  static Color get WHITE60 => AppDarkColors.PRIMARY.withOpacity(.60);
+  static Color get WHITE50 => AppDarkColors.PRIMARY.withOpacity(.50);
+  static Color get WHITE32 => AppDarkColors.PRIMARY.withOpacity(.32);
+  static Color get WHITE16 => AppDarkColors.PRIMARY.withOpacity(.16);
+  static Color get WHITE08 => AppDarkColors.PRIMARY.withOpacity(.08);
 
   static Color get GREY12 => Color(0xFFD9D9D9).withOpacity(.12);
   static Color get GREY24 => Color(0xFFD9D9D9).withOpacity(.24);

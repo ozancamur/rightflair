@@ -50,14 +50,14 @@ class NotificationConfig {
       case NotificationType.newFollower:
         return NotificationConfig(
           icon: AppIcons.NEW_FOLLOWERS,
-          iconColor: Colors.white,
+          iconColor: AppDarkColors.PRIMARY,
           bgColor: AppDarkColors.BLUE,
         );
       case NotificationType.system:
         return NotificationConfig(
           icon: AppIcons.SYSTEM,
-          iconColor: Colors.black,
-          bgColor: Colors.white,
+          iconColor: AppDarkColors.SECONDARY,
+          bgColor: AppDarkColors.PRIMARY,
         );
     }
   }

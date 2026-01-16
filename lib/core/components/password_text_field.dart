@@ -50,7 +50,7 @@ class _PasswordTextFieldComponentState
       maxLength: widget.maxLength,
       style: _textStyle(),
       keyboardType: widget.keyboardType,
-      cursorColor: Colors.white,
+      cursorColor: AppDarkColors.PRIMARY,
       onFieldSubmitted: widget.onFieldSubmitted,
       textCapitalization: widget.textCapitalization ?? TextCapitalization.none,
       decoration: InputDecoration(
@@ -108,7 +108,7 @@ class _PasswordTextFieldComponentState
 
   TextStyle _textStyle() {
     return TextStyle(
-      color: Colors.white,
+      color: AppDarkColors.PRIMARY,
       fontSize: 17,
       fontWeight: FontWeight.w500,
     );

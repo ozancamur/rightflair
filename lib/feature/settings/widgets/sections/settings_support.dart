@@ -28,7 +28,7 @@ class SettingsSupportWidget extends StatelessWidget {
             title: AppStrings.SETTINGS_CONTACT_SUPPORT,
             trailing: Icon(
               Icons.chevron_right,
-              color: Colors.white,
+              color: AppDarkColors.PRIMARY,
               size: context.width * 0.06,
             ),
             onTap: () {},

@@ -59,7 +59,7 @@ class _FeedTabBarsState extends State<FeedTabBars>
             child: TabBar(
               controller: _tabController,
               isScrollable: true,
-              indicatorColor: Colors.white,
+              indicatorColor: AppDarkColors.PRIMARY,
               indicatorSize: TabBarIndicatorSize.label,
               indicatorWeight: 1,
               indicatorPadding: EdgeInsets.only(
@@ -70,8 +70,8 @@ class _FeedTabBarsState extends State<FeedTabBars>
               labelPadding: EdgeInsets.symmetric(
                 horizontal: context.width * .025,
               ),
-              labelStyle: const TextStyle(
-                color: Colors.white,
+              labelStyle:  TextStyle(
+                color: AppDarkColors.PRIMARY,
                 fontSize: 16,
                 fontWeight: FontWeight.w500,
                 fontFamily: FontFamilyConstants.POPPINS,
@@ -94,7 +94,7 @@ class _FeedTabBarsState extends State<FeedTabBars>
               onTap: () => context.push(RouteConstants.SEARCH),
               child: SvgPicture.asset(
                 AppIcons.SEARCH_FILLED,
-                color: Colors.white,
+                color: AppDarkColors.PRIMARY,
                 height: context.height * .0225,
               ),
             ),

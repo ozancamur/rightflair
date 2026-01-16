@@ -42,7 +42,7 @@ class TextFieldComponent extends StatelessWidget {
       maxLines: maxLines,
       style: _textStyle(),
       keyboardType: keyboardType,
-      cursorColor: Colors.white,
+      cursorColor: AppDarkColors.PRIMARY,
       onFieldSubmitted: onFieldSubmitted,
       textCapitalization: textCapitalization ?? TextCapitalization.none,
       decoration: InputDecoration(
@@ -77,7 +77,7 @@ class TextFieldComponent extends StatelessWidget {
 
   TextStyle _textStyle() {
     return TextStyle(
-      color: Colors.white,
+      color: AppDarkColors.PRIMARY,
       fontSize: 17,
       fontWeight: FontWeight.w500,
     );

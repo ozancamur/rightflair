@@ -75,7 +75,7 @@ class _ProfileHeaderBioWidgetState extends State<ProfileHeaderBioWidget> {
           return TextComponent(
             text: widget.text,
             tr: false,
-            color: Colors.white,
+            color: AppDarkColors.PRIMARY,
           );
         }
 

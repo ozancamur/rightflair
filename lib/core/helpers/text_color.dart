@@ -13,7 +13,7 @@ List<InlineSpan> helperTextStyle(BuildContext context, String text) {
           text: text.substring(start, match.start),
           style: TextStyle(
             fontSize: 32,
-            color: Colors.white,
+            color: AppDarkColors.PRIMARY,
             fontWeight: FontWeight.w600,
             height: 1.25,
           ),
@@ -40,7 +40,7 @@ List<InlineSpan> helperTextStyle(BuildContext context, String text) {
         text: text.substring(start),
         style: TextStyle(
           fontSize: 32,
-          color: Colors.white,
+          color: AppDarkColors.PRIMARY,
           fontWeight: FontWeight.w600,
           height: 1.25,
         ),

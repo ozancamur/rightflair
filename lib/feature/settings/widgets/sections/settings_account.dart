@@ -51,7 +51,7 @@ class SettingsAccountWidget extends StatelessWidget {
       subtitle: username,
       trailing: Icon(
         Icons.chevron_right,
-        color: Colors.white,
+        color: AppDarkColors.PRIMARY,
         size: context.width * 0.06,
       ),
       onTap: () {},
@@ -65,7 +65,7 @@ class SettingsAccountWidget extends StatelessWidget {
       subtitle: email,
       trailing: Icon(
         Icons.chevron_right,
-        color: Colors.white,
+        color: AppDarkColors.PRIMARY,
         size: context.width * 0.06,
       ),
       onTap: () {},
@@ -78,7 +78,7 @@ class SettingsAccountWidget extends StatelessWidget {
       title: AppStrings.SETTINGS_CHANGE_PASSWORD,
       trailing: Icon(
         Icons.chevron_right,
-        color: Colors.white,
+        color: AppDarkColors.PRIMARY,
         size: context.width * 0.06,
       ),
       onTap: () {},

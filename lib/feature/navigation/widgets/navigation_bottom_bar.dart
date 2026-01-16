@@ -67,7 +67,7 @@ class NavigationBottomBar extends StatelessWidget {
           gradient: LinearGradient(colors: AppDarkColors.BUTTON),
           borderRadius: BorderRadius.circular(100),
         ),
-        child: SvgPicture.asset(AppIcons.ADD, color: Colors.white),
+        child: SvgPicture.asset(AppIcons.ADD, color: AppDarkColors.PRIMARY),
       ),
     );
   }

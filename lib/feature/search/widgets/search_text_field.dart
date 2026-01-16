@@ -31,7 +31,7 @@ class SearchTextField extends StatelessWidget {
         controller: controller,
         focusNode: focusNode,
         style: _textStyle(),
-        cursorColor: Colors.white,
+        cursorColor: AppDarkColors.PRIMARY,
         onSubmitted: onSubmitted,
         decoration: InputDecoration(
           hintText: hintText.tr(),
@@ -65,8 +65,8 @@ class SearchTextField extends StatelessWidget {
   }
 
   TextStyle _textStyle() {
-    return const TextStyle(
-      color: Colors.white,
+    return  TextStyle(
+      color: AppDarkColors.PRIMARY,
       fontSize: 15,
       fontWeight: FontWeight.w400,
     );

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../../core/constants/dark_color.dart';
+
 class CommentAvatarWidget extends StatelessWidget {
   final String? avatar;
   final String username;
@@ -18,8 +20,8 @@ class CommentAvatarWidget extends StatelessWidget {
       child: avatar == null
           ? Text(
               username[0].toUpperCase(),
-              style: const TextStyle(
-                color: Colors.white,
+              style:  TextStyle(
+                color: AppDarkColors.PRIMARY,
                 fontWeight: FontWeight.w600,
               ),
             )

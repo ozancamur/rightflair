@@ -56,7 +56,7 @@ class ProfileEditImageWidget extends StatelessWidget {
             width: context.height * 0.13,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              color: Colors.black.withOpacity(0.3),
+              color: AppDarkColors.SECONDARY.withOpacity(0.3),
             ),
             child: Center(
               child: SvgPicture.asset(

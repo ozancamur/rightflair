@@ -47,7 +47,7 @@ class GradientButtonComponent extends StatelessWidget {
         boxShadow: elevation > 0
             ? [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.2),
+                  color: AppDarkColors.SECONDARY.withOpacity(0.2),
                   spreadRadius: 1,
                   blurRadius: elevation,
                   offset: Offset(0, elevation / 2),

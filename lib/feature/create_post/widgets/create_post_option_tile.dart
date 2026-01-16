@@ -37,8 +37,8 @@ class CreatePostOptionTile extends StatelessWidget {
             SvgPicture.asset(
               iconPath,
               width: context.width * 0.06,
-              colorFilter: const ColorFilter.mode(
-                Colors.white,
+              colorFilter:  ColorFilter.mode(
+                AppDarkColors.PRIMARY,
                 BlendMode.srcIn,
               ),
             ),

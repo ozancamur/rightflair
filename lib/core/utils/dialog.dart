@@ -27,7 +27,7 @@ class DialogUtils {
                   width: double.maxFinite,
                   child: TextComponent(
                     text: title,
-                    color: Colors.white,
+                    color: AppDarkColors.PRIMARY,
                     size: FontSizeConstants.X_LARGE,
                     weight: FontWeight.w600,
                   ),
@@ -78,7 +78,7 @@ class DialogUtils {
                   width: double.maxFinite,
                   child: TextComponent(
                     text: title,
-                    color: Colors.white,
+                    color: AppDarkColors.PRIMARY,
                     size: FontSizeConstants.X_LARGE,
                     weight: FontWeight.w600,
                   ),
@@ -131,7 +131,7 @@ class DialogUtils {
                   width: double.maxFinite,
                   child: TextComponent(
                     text: title,
-                    color: Colors.white,
+                    color: AppDarkColors.PRIMARY,
                     size: FontSizeConstants.X_LARGE,
                     weight: FontWeight.w600,
                   ),

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../../../core/constants/dark_color.dart';
+
 class CommentTimeAndReplyWidget extends StatelessWidget {
   final String timeAgo;
   const CommentTimeAndReplyWidget({super.key, required this.timeAgo});
@@ -10,7 +12,10 @@ class CommentTimeAndReplyWidget extends StatelessWidget {
       children: [
         Text(
           timeAgo,
-          style: TextStyle(color: Colors.white.withOpacity(0.5), fontSize: 13),
+          style: TextStyle(
+            color: AppDarkColors.PRIMARY.withOpacity(0.5),
+            fontSize: 13,
+          ),
         ),
         const SizedBox(width: 16),
         GestureDetector(
@@ -20,7 +25,7 @@ class CommentTimeAndReplyWidget extends StatelessWidget {
           child: Text(
             'Reply',
             style: TextStyle(
-              color: Colors.white.withOpacity(0.5),
+              color: AppDarkColors.PRIMARY.withOpacity(0.5),
               fontSize: 13,
               fontWeight: FontWeight.w600,
             ),

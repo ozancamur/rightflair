@@ -23,7 +23,7 @@ class FollowBackButtonWidget extends StatelessWidget {
         text: 'Follow back',
         size: FontSizeConstants.XX_SMALL,
         weight: FontWeight.w600,
-        color: Colors.white,
+        color: AppDarkColors.PRIMARY,
         tr: false,
       ),
     );

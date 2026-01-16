@@ -73,7 +73,7 @@ class SettingsAppWidget extends StatelessWidget {
       subtitle: language,
       trailing: Icon(
         Icons.chevron_right,
-        color: Colors.white,
+        color: AppDarkColors.PRIMARY,
         size: context.width * 0.06,
       ),
       onTap: () {},

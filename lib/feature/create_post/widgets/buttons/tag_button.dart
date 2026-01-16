@@ -26,8 +26,8 @@ class CreateTagButtonWidget extends StatelessWidget {
         alignment: Alignment.center,
         child: Text(
           label,
-          style: const TextStyle(
-            color: Colors.white,
+          style:  TextStyle(
+            color: AppDarkColors.PRIMARY,
             fontWeight: FontWeight.bold,
           ),
         ),

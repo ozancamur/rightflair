@@ -6,6 +6,8 @@ import 'package:rightflair/core/constants/light_color.dart';
 import 'package:rightflair/core/constants/route.dart';
 import 'package:rightflair/core/constants/string.dart';
 
+import '../../../core/constants/dark_color.dart';
+
 class AuthenticationHaveAccountWidget extends StatelessWidget {
   const AuthenticationHaveAccountWidget({super.key});
 
@@ -24,7 +26,7 @@ class AuthenticationHaveAccountWidget extends StatelessWidget {
           onPressed: () => context.push(RouteConstants.LOGIN),
           child: TextComponent(
             text: AppStrings.LOGIN,
-            color: Colors.white,
+            color: AppDarkColors.PRIMARY,
             size: FontSizeConstants.SMALL,
             weight: FontWeight.w600,
           ),

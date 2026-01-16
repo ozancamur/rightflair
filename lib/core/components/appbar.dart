@@ -33,7 +33,7 @@ class AppBarComponent extends StatelessWidget implements PreferredSizeWidget {
       title: TextComponent(
         text: title ?? "",
         size: FontSizeConstants.X_LARGE,
-        color: Colors.white,
+        color: AppDarkColors.PRIMARY,
         weight: FontWeight.w600,
       ),
     );

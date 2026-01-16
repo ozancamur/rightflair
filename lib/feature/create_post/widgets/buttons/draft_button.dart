@@ -28,7 +28,10 @@ class CreateDraftButtonWidget extends StatelessWidget {
         children: [
           SvgPicture.asset(
             AppIcons.DRAFT,
-            colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn),
+            colorFilter:  ColorFilter.mode(
+              AppDarkColors.PRIMARY,
+              BlendMode.srcIn,
+            ),
             width: context.width * .05,
           ),
           TextComponent(

@@ -38,7 +38,7 @@ class ProfilePhotoGridItemWidget extends StatelessWidget {
 
   Container _shadow() {
     return Container(
-      decoration: BoxDecoration(color: Colors.black.withOpacity(.4)),
+      decoration: BoxDecoration(color: AppDarkColors.SECONDARY.withOpacity(.4)),
     );
   }
 
