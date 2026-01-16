@@ -21,6 +21,7 @@ final GoRouter router = GoRouter(
   initialLocation: RouteConstants.SPLASH,
   debugLogDiagnostics: true,
   routes: [
+    // WELCOME
     GoRoute(
       path: RouteConstants.SPLASH,
       name: RouteConstants.SPLASH,
@@ -31,6 +32,7 @@ final GoRouter router = GoRouter(
       name: RouteConstants.WELCOME,
       builder: (context, state) => WelcomePage(),
     ),
+    // AUTHENTICATION
     GoRoute(
       path: RouteConstants.REGISTER,
       name: RouteConstants.REGISTER,
@@ -51,13 +53,13 @@ final GoRouter router = GoRouter(
       name: RouteConstants.FORGOT_PASSWORD,
       builder: (context, state) => ForgotPasswordPage(),
     ),
-
+    // NAVIGATION
     GoRoute(
       path: RouteConstants.NAVIGATION,
       name: RouteConstants.NAVIGATION,
       builder: (context, state) => const NavigationPage(),
     ),
-
+    // APPLICATION DETAIL
     GoRoute(
       path: RouteConstants.SEARCH,
       name: RouteConstants.SEARCH,
@@ -78,7 +80,6 @@ final GoRouter router = GoRouter(
       name: RouteConstants.EDIT_PROFILE,
       builder: (context, state) => const ProfileEditPage(),
     ),
-
     GoRoute(
       path: RouteConstants.SYSTEM_NOTIFICATIONS,
       name: RouteConstants.SYSTEM_NOTIFICATIONS,
