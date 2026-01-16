@@ -7,11 +7,9 @@ import '../../../../../../core/constants/dark_color.dart';
 
 class MessageContentWidget extends StatelessWidget {
   final String lastMessage;
-  final bool isRead;
   const MessageContentWidget({
     super.key,
     required this.lastMessage,
-    required this.isRead,
   });
 
   @override
@@ -27,7 +25,6 @@ class MessageContentWidget extends StatelessWidget {
             overflow: TextOverflow.ellipsis,
           ),
         ),
-        if (!isRead)
           Container(
             width: context.width * .02,
             height: context.width * .02,

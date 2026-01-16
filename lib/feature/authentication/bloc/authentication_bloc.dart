@@ -1,10 +1,10 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rightflair/core/constants/collection.dart';
-import 'package:rightflair/core/firebase/firestore.dart';
 import 'package:rightflair/core/firebase/messaging.dart';
 
 import '../../../core/firebase/authentication.dart';
+import '../../../core/firebase/firestore/firestore_authentication.dart';
 import '../model/user.dart';
 
 part 'authentication_event.dart';
@@ -14,7 +14,8 @@ class AuthenticationBloc
     extends Bloc<AuthenticationEvent, AuthenticationState> {
   final FirebaseAuthenticationManager _authentication =
       FirebaseAuthenticationManager();
-  final FirebaseFirestoreManager _firestore = FirebaseFirestoreManager();
+  final FirestoreAuthenticationManager _firestoreAuthentication =
+      FirestoreAuthenticationManager();
   final FirebaseMessagingManager _messaging = FirebaseMessagingManager();
 
   AuthenticationBloc() : super(AuthenticationInitial()) {
@@ -45,9 +46,9 @@ class AuthenticationBloc
       emit(AuthenticationError(""));
       return;
     }
-    final isUserExists = await _firestore.isUserExists(uid);
+    final isUserExists = await _firestoreAuthentication.isUserExists(uid);
     if (isUserExists) {
-      final check = await _firestore.isUsernameNull(uid);
+      final check = await _firestoreAuthentication.isUsernameNull(uid);
       if (check) {
         emit(AuthenticationSetUsername(isUnique: false));
       } else {
@@ -55,13 +56,13 @@ class AuthenticationBloc
       }
     } else {
       final String? token = await _messaging.getToken();
-      final UserModel user = UserModel(
+      final ProfileModel user = ProfileModel(
         uid: uid,
         email: event.email,
         fullName: response.user?.displayName,
         token: token,
       );
-      await _firestore.createWithId(
+      await _firestoreAuthentication.createWithId(
         collection: CollectionEnum.USERS,
         id: uid,
         data: user,
@@ -88,9 +89,9 @@ class AuthenticationBloc
       emit(AuthenticationError(""));
       return;
     }
-    final isUserExists = await _firestore.isUserExists(uid);
+    final isUserExists = await _firestoreAuthentication.isUserExists(uid);
     if (isUserExists) {
-      final check = await _firestore.isUsernameNull(uid);
+      final check = await _firestoreAuthentication.isUsernameNull(uid);
       if (check) {
         emit(AuthenticationSetUsername(isUnique: false));
       } else {
@@ -98,13 +99,13 @@ class AuthenticationBloc
       }
     } else {
       final String? token = await _messaging.getToken();
-      final UserModel user = UserModel(
+      final ProfileModel user = ProfileModel(
         uid: uid,
         fullName: response.user?.displayName,
         email: event.email,
         token: token,
       );
-      await _firestore.createWithId(
+      await _firestoreAuthentication.createWithId(
         collection: CollectionEnum.USERS,
         id: uid,
         data: user,
@@ -124,9 +125,9 @@ class AuthenticationBloc
     }
     final String? uid = response.user?.uid;
     if (uid == null) return;
-    final isUserExists = await _firestore.isUserExists(uid);
+    final isUserExists = await _firestoreAuthentication.isUserExists(uid);
     if (isUserExists) {
-      final check = await _firestore.isUsernameNull(uid);
+      final check = await _firestoreAuthentication.isUsernameNull(uid);
       if (check) {
         emit(AuthenticationSetUsername(isUnique: false));
       } else {
@@ -134,13 +135,13 @@ class AuthenticationBloc
       }
     } else {
       final String? token = await _messaging.getToken();
-      final UserModel user = UserModel(
+      final ProfileModel user = ProfileModel(
         uid: uid,
         fullName: response.user?.displayName,
         email: response.user?.email,
         token: token,
       );
-      await _firestore.createWithId(
+      await _firestoreAuthentication.createWithId(
         collection: CollectionEnum.USERS,
         id: uid,
         data: user,
@@ -160,9 +161,9 @@ class AuthenticationBloc
     }
     final String? uid = response.user?.uid;
     if (uid == null) return;
-    final isUserExists = await _firestore.isUserExists(uid);
+    final isUserExists = await _firestoreAuthentication.isUserExists(uid);
     if (isUserExists) {
-      final check = await _firestore.isUsernameNull(uid);
+      final check = await _firestoreAuthentication.isUsernameNull(uid);
       if (check) {
         emit(AuthenticationSetUsername(isUnique: false));
       } else {
@@ -170,13 +171,13 @@ class AuthenticationBloc
       }
     } else {
       final String? token = await _messaging.getToken();
-      final UserModel user = UserModel(
+      final ProfileModel user = ProfileModel(
         uid: uid,
         fullName: response.user?.displayName,
         email: response.user?.email,
         token: token,
       );
-      await _firestore.createWithId(
+      await _firestoreAuthentication.createWithId(
         collection: CollectionEnum.USERS,
         id: uid,
         data: user,
@@ -196,7 +197,9 @@ class AuthenticationBloc
     AuthenticationSetUsernameEvent event,
     Emitter<AuthenticationState> emit,
   ) async {
-    final isUnique = await _firestore.isUsernameUnique(event.username);
+    final isUnique = await _firestoreAuthentication.isUsernameUnique(
+      event.username,
+    );
     emit(AuthenticationSetUsername(isUnique: isUnique));
   }
 
@@ -211,7 +214,10 @@ class AuthenticationBloc
         emit(AuthenticationError("Kullanıcı bulunamadı"));
         return;
       }
-      await _firestore.saveUsername(uid: uid, username: event.username);
+      await _firestoreAuthentication.saveUsername(
+        uid: uid,
+        username: event.username,
+      );
       emit(AuthenticationSuccess());
     } catch (e) {
       emit(AuthenticationError("Username kaydedilemedi"));

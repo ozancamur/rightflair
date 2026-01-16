@@ -4,14 +4,16 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rightflair/core/firebase/authentication.dart';
-import 'package:rightflair/core/firebase/firestore.dart';
+
+import '../../../core/firebase/firestore/firestore_authentication.dart';
 
 part 'choose_username_event.dart';
 part 'choose_username_state.dart';
 
 class ChooseUsernameBloc
     extends Bloc<ChooseUsernameEvent, ChooseUsernameState> {
-  final FirebaseFirestoreManager _firestore = FirebaseFirestoreManager();
+  final FirestoreAuthenticationManager _firestoreAuthentication =
+      FirestoreAuthenticationManager();
   final FirebaseAuthenticationManager _authentication =
       FirebaseAuthenticationManager();
 
@@ -25,7 +27,9 @@ class ChooseUsernameBloc
     Emitter<ChooseUsernameState> emit,
   ) async {
     if (event.username.trim().isEmpty) return;
-    final isUnique = await _firestore.isUsernameUnique(event.username);
+    final isUnique = await _firestoreAuthentication.isUsernameUnique(
+      event.username,
+    );
     emit(state.copyWith(isUnique: isUnique));
   }
 
@@ -38,7 +42,10 @@ class ChooseUsernameBloc
       if (uid == null) {
         return;
       }
-      await _firestore.saveUsername(uid: uid, username: event.username);
+      await _firestoreAuthentication.saveUsername(
+        uid: uid,
+        username: event.username,
+      );
     } catch (e) {
       debugPrint('Username kaydedilemedi: $e');
     }

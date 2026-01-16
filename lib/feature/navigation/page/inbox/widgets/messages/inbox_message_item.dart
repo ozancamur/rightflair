@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:rightflair/feature/navigation/page/inbox/model/message_model.dart';
 
 import '../../../../../../core/extensions/context.dart';
+import '../../model/message.dart';
 import 'message_avatar.dart';
 import 'message_content.dart';
 import 'message_header.dart';
@@ -23,7 +23,7 @@ class InboxMessageItem extends StatelessWidget {
         child: Row(
           spacing: context.width * 0.03,
           children: [
-            MessageAvatarWidget(url: message.senderAvatarUrl),
+            MessageAvatarWidget(url: message.image ?? ""),
             _detail(context),
           ],
         ),
@@ -37,14 +37,11 @@ class InboxMessageItem extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           MessageHeaderWidget(
-            senderName: message.senderName,
-            timestamp: message.timestamp,
+            senderName: message.ownerId ?? "",
+            timestamp: message.createdAt ?? DateTime.now(),
           ),
           SizedBox(height: MediaQuery.of(context).size.height * 0.005),
-          MessageContentWidget(
-            lastMessage: message.lastMessage,
-            isRead: message.isRead,
-          ),
+          MessageContentWidget(lastMessage: message.message ?? ""),
         ],
       ),
     );

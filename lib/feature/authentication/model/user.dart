@@ -1,17 +1,35 @@
 import 'package:rightflair/core/base/base_modeld.dart';
 
-class UserModel extends BaseModel<UserModel> {
+class ProfileModel extends BaseModel<ProfileModel> {
   String? uid;
   String? token;
   String? email;
   String? fullName;
   String? username;
 
-  UserModel({this.uid, this.token, this.email, this.fullName, this.username});
+  String? bio;
+  String? image;
+  List<String>? tags;
+  List<String>? followers;
+  List<String>? followings;
+  DateTime? createdAt;
+  DateTime? lastActiveAt;
+  List<String>? posts;
+  List<String>? saves;
+  List<String>? drafts;
+
+
+  ProfileModel({
+    this.uid,
+    this.token,
+    this.email,
+    this.fullName,
+    this.username,
+  });
 
   @override
-  UserModel fromJson(Map<String, dynamic> json) {
-    return UserModel(
+  ProfileModel fromJson(Map<String, dynamic> json) {
+    return ProfileModel(
       uid: json['uid'] as String?,
       token: json['token'] as String?,
       email: json['email'] as String?,
@@ -32,14 +50,14 @@ class UserModel extends BaseModel<UserModel> {
   }
 
   @override
-  UserModel copyWith({
+  ProfileModel copyWith({
     String? uid,
     String? token,
     String? email,
     String? fullName,
     String? username,
   }) {
-    return UserModel(
+    return ProfileModel(
       uid: uid ?? this.uid,
       token: token ?? this.token,
       email: email ?? this.email,

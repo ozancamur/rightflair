@@ -1,8 +1,8 @@
-import 'package:rightflair/feature/navigation/page/inbox/model/message_model.dart';
 import 'package:rightflair/feature/navigation/page/inbox/model/notification_model.dart';
 
 import 'package:rightflair/core/constants/string.dart';
 
+import '../model/message.dart';
 import '../model/notification_type.dart';
 import 'inbox_repository.dart';
 
@@ -13,29 +13,25 @@ class InboxRepositoryImpl implements InboxRepository {
     return [
       MessageModel(
         id: '1',
-        senderName: 'Elena Miles',
-        senderAvatarUrl: 'https://i.pravatar.cc/150?u=1',
-        lastMessage: 'Omg I love that jacket! Where did you...',
-        timestamp: DateTime.now().subtract(const Duration(minutes: 2)),
-        isRead: false,
+        ownerId: 'Elena Miles',
+        image: 'https://i.pravatar.cc/150?u=1',
+        message: 'Omg I love that jacket! Where did you...',
+        createdAt: DateTime.now().subtract(const Duration(minutes: 2)),
       ),
       MessageModel(
         id: '2',
-        senderName: 'Sophie Turner',
-        senderAvatarUrl: 'https://i.pravatar.cc/150?u=2',
-        lastMessage: 'Can we collab on the next shoot?',
-        timestamp: DateTime.now().subtract(const Duration(hours: 19)),
-        isRead: false,
+        ownerId: 'Sophie Turner',
+        image: 'https://i.pravatar.cc/150?u=2',
+        message: 'Can we collab on the next shoot?',
+        createdAt: DateTime.now().subtract(const Duration(hours: 19)),
       ),
       MessageModel(
         id: '3',
-        senderName: 'Alex Johnson',
-        senderAvatarUrl: 'https://i.pravatar.cc/150?u=3',
-        lastMessage: AppStrings
+        ownerId: 'Alex Johnson',
+        image: 'https://i.pravatar.cc/150?u=3',
+        message: AppStrings
             .INBOX_SENT_A_PHOTO, // Use key to simulate "Sent a photo" logic if needed, or just plain text if localized in UI
-        timestamp: DateTime.now().subtract(const Duration(days: 5)),
-        isRead: true,
-        isPhoto: true,
+        createdAt: DateTime.now().subtract(const Duration(days: 5)),
       ),
     ];
   }

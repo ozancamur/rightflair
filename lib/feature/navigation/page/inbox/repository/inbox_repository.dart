@@ -1,4 +1,4 @@
-import '../model/message_model.dart';
+import '../model/message.dart';
 import '../model/notification_model.dart';
 
 abstract class InboxRepository {
