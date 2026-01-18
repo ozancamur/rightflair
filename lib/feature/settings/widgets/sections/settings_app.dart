@@ -61,7 +61,7 @@ class SettingsAppWidget extends StatelessWidget {
             child: SettingsToggleItemWidget(
               title: AppStrings.SETTINGS_DARK_MODE,
               value: darkmode,
-              onChanged: cubit.toggleDarkMode,
+              onChanged: (value) => cubit.toggleDarkMode(context, value),
             ),
           ),
         ],

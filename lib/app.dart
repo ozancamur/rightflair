@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:provider/provider.dart';
 import 'package:rightflair/core/utils/router.dart';
 import 'package:rightflair/feature/authentication/bloc/authentication_bloc.dart';
 import 'package:rightflair/feature/choose_username/bloc/choose_username_cubit.dart';
@@ -13,6 +14,7 @@ import 'package:rightflair/feature/post_detail/cubit/post_detail_cubit.dart';
 import 'package:rightflair/feature/profile_edit/cubit/profile_edit_cubit.dart';
 import 'package:rightflair/feature/settings/cubit/settings_cubit.dart';
 import 'package:rightflair/feature/user/cubit/user_cubit.dart';
+import 'package:rightflair/main.dart';
 
 import 'core/constants/theme.dart';
 import 'feature/create_post/cubit/create_post_cubit.dart';
@@ -27,6 +29,7 @@ class RightFlair extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final themeNotifier = Provider.of<ThemeNotifier>(context);
     return MultiBlocProvider(
       providers: [
         // AUTHENTICATION
@@ -54,10 +57,11 @@ class RightFlair extends StatelessWidget {
       child: MaterialApp.router(
         title: 'RightFlair',
         debugShowCheckedModeBanner: false,
-        themeMode: ThemeMode.dark,
+        themeMode: themeNotifier.themeMode,
         localizationsDelegates: context.localizationDelegates,
         supportedLocales: context.supportedLocales,
         theme: AppTheme.light,
+        darkTheme: AppTheme.dark,
         locale: context.locale,
         routerConfig: router,
       ),

@@ -9,6 +9,7 @@ import '../../../core/components/loading.dart';
 import '../../../core/components/text.dart';
 import '../../../core/constants/string.dart';
 import '../../../core/extensions/context.dart';
+import 'package:rightflair/main.dart';
 import '../cubit/settings_cubit.dart';
 import '../cubit/settings_state.dart';
 import '../widgets/sections/settings_about.dart';
@@ -24,7 +25,11 @@ class SettingsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => SettingsCubit()..loadSettings(),
+      create: (context) {
+        final isDarkMode =
+            context.read<ThemeNotifier>().themeMode == ThemeMode.dark;
+        return SettingsCubit()..loadSettings(isDarkMode: isDarkMode);
+      },
       child: BlocBuilder<SettingsCubit, SettingsState>(
         builder: (context, state) {
           return BaseScaffold(

@@ -1,11 +1,14 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:provider/provider.dart';
+import '../../../main.dart';
 import '../model/settings_model.dart';
 import 'settings_state.dart';
 
 class SettingsCubit extends Cubit<SettingsState> {
   SettingsCubit() : super(SettingsInitial());
 
-  void loadSettings() {
+  void loadSettings({bool isDarkMode = false}) {
     emit(SettingsLoading());
 
     // Mock data - replace with actual data source
@@ -17,7 +20,7 @@ class SettingsCubit extends Cubit<SettingsState> {
       milestonesEnabled: true,
       trendingEnabled: true,
       followEnabled: true,
-      darkModeEnabled: true,
+      darkModeEnabled: isDarkMode,
       language: 'english',
     );
 
@@ -67,9 +70,10 @@ class SettingsCubit extends Cubit<SettingsState> {
     }
   }
 
-  void toggleDarkMode(bool value) {
+  void toggleDarkMode(BuildContext context, bool value) {
     final currentState = state;
     if (currentState is SettingsLoaded) {
+      Provider.of<ThemeNotifier>(context, listen: false).setTheme(value);
       emit(
         SettingsLoaded(currentState.settings.copyWith(darkModeEnabled: value)),
       );
