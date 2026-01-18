@@ -15,7 +15,10 @@ class NotificationConfig {
     required this.bgColor,
   });
 
-  static NotificationConfig getConfig(BuildContext context,NotificationType type) {
+  static NotificationConfig getConfig(
+    BuildContext context,
+    NotificationType type,
+  ) {
     switch (type) {
       case NotificationType.trending:
         return NotificationConfig(
@@ -50,7 +53,7 @@ class NotificationConfig {
       case NotificationType.newFollower:
         return NotificationConfig(
           icon: AppIcons.NEW_FOLLOWERS,
-          iconColor: context.colors.primary,
+          iconColor: Colors.white,
           bgColor: context.colors.surfaceVariant,
         );
       case NotificationType.system:

@@ -20,12 +20,12 @@ class RecentSearchChip extends StatelessWidget {
       child: Container(
         padding: EdgeInsets.symmetric(
           horizontal: context.width * 0.04,
-          vertical: context.height * 0.012,
+          vertical: context.height * 0.005,
         ),
         decoration: BoxDecoration(
-          color: Colors.transparent,
-          border: Border.all(color: context.colors.onPrimaryFixed, width: 1),
-          borderRadius: BorderRadius.circular(context.width * 0.06),
+          color: context.colors.onBackground,
+          border: Border.all(color: context.colors.onPrimaryFixed, width: .5),
+          borderRadius: BorderRadius.circular(8),
         ),
         child: Text(
           label,

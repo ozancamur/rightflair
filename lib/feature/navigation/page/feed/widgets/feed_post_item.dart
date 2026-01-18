@@ -158,107 +158,115 @@ class _FeedPostItemState extends State<FeedPostItem>
         children: [
           // Beğen/Beğenme göstergeleri
           if (_isDragging)
-            Positioned.fill(
-              child: Stack(
-                children: [
-                  // Beğen göstergesi (sağ taraf)
-                  if (_dragOffset.dx > context.width * 0.125)
-                    Positioned(
-                      top: context.height * 0.15,
-                      right: context.width * 0.1,
-                      child: Transform.rotate(
-                        angle: -0.3,
-                        child: Container(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: context.width * 0.05,
-                            vertical: context.height * 0.012,
-                          ),
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                              color: context.colors.inverseSurface,
-                              width: context.width * 0.01,
-                            ),
-                            borderRadius: BorderRadius.circular(
-                              context.width * 0.02,
-                            ),
-                          ),
-                          child: TextComponent(
-                            text: AppStrings.POST_LIKED,
-                            size: FontSizeConstants.XXX_HUGE,
+            _swipe(context),
+          // Ana kart
+          _post(currentOffset, context),
+        ],
+      ),
+    );
+  }
+
+  Positioned _swipe(BuildContext context) {
+    return Positioned.fill(
+            child: Stack(
+              children: [
+                // Beğen göstergesi (sağ taraf)
+                if (_dragOffset.dx > context.width * 0.125)
+                  Positioned(
+                    top: context.height * 0.15,
+                    right: context.width * 0.1,
+                    child: Transform.rotate(
+                      angle: -0.3,
+                      child: Container(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: context.width * 0.05,
+                          vertical: context.height * 0.012,
+                        ),
+                        decoration: BoxDecoration(
+                          border: Border.all(
                             color: context.colors.inverseSurface,
-                            weight: FontWeight.bold,
+                            width: context.width * 0.01,
                           ),
+                          borderRadius: BorderRadius.circular(
+                            context.width * 0.02,
+                          ),
+                        ),
+                        child: TextComponent(
+                          text: AppStrings.POST_LIKED,
+                          size: FontSizeConstants.XXX_HUGE,
+                          color: context.colors.inverseSurface,
+                          weight: FontWeight.bold,
                         ),
                       ),
                     ),
-                  // Beğenmeme göstergesi (sol taraf)
-                  if (_dragOffset.dx < -context.width * 0.125)
-                    Positioned(
-                      top: context.height * 0.15,
-                      left: context.width * 0.1,
-                      child: Transform.rotate(
-                        angle: 0.3,
-                        child: Container(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: context.width * 0.05,
-                            vertical: context.height * 0.012,
-                          ),
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                              color: context.colors.error,
-                              width: context.width * 0.01,
-                            ),
-                            borderRadius: BorderRadius.circular(
-                              context.width * 0.02,
-                            ),
-                          ),
-                          child: TextComponent(
-                            text: AppStrings.POST_DISLIKED,
-                            size: FontSizeConstants.XXX_HUGE,
+                  ),
+                // Beğenmeme göstergesi (sol taraf)
+                if (_dragOffset.dx < -context.width * 0.125)
+                  Positioned(
+                    top: context.height * 0.15,
+                    left: context.width * 0.1,
+                    child: Transform.rotate(
+                      angle: 0.3,
+                      child: Container(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: context.width * 0.05,
+                          vertical: context.height * 0.012,
+                        ),
+                        decoration: BoxDecoration(
+                          border: Border.all(
                             color: context.colors.error,
-                            weight: FontWeight.bold,
+                            width: context.width * 0.01,
                           ),
+                          borderRadius: BorderRadius.circular(
+                            context.width * 0.02,
+                          ),
+                        ),
+                        child: TextComponent(
+                          text: AppStrings.POST_DISLIKED,
+                          size: FontSizeConstants.XXX_HUGE,
+                          color: context.colors.error,
+                          weight: FontWeight.bold,
                         ),
                       ),
                     ),
-                ],
+                  ),
+              ],
+            ),
+          );
+  }
+
+  Transform _post(Offset currentOffset, BuildContext context) {
+    return Transform.translate(
+      offset: currentOffset,
+      child: Transform.rotate(
+        angle: _getRotation(currentOffset, context),
+        child: Opacity(
+          opacity: _getOpacity(currentOffset, context),
+          child: Container(
+            height: context.height,
+            width: context.width,
+            decoration: BoxDecoration(
+              color: context.colors.primary,
+              borderRadius: BorderRadius.circular(context.width * 0.06),
+              image: DecorationImage(
+                image: NetworkImage(widget.post.imageUrl),
+                fit: BoxFit.cover,
               ),
             ),
-          // Ana kart
-          Transform.translate(
-            offset: currentOffset,
-            child: Transform.rotate(
-              angle: _getRotation(currentOffset, context),
-              child: Opacity(
-                opacity: _getOpacity(currentOffset, context),
-                child: Container(
-                  height: context.height,
-                  width: context.width,
-                  decoration: BoxDecoration(
-                    color: context.colors.primary,
-                    borderRadius: BorderRadius.circular(context.width * 0.06),
-                    image: DecorationImage(
-                      image: NetworkImage(widget.post.imageUrl),
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                  child: Stack(
-                    alignment: Alignment.bottomCenter,
-                    children: [
-                      const PostShadowWidget(),
-                      const PostUserInfoWidget(),
-                      PostActionsWidget(
-                        comment: widget.post.commentCount,
-                        like: widget.post.likeCount,
-                        share: widget.post.shareCount,
-                      ),
-                    ],
-                  ),
+            child: Stack(
+              alignment: Alignment.bottomCenter,
+              children: [
+                const PostShadowWidget(),
+                const PostUserInfoWidget(),
+                PostActionsWidget(
+                  comment: widget.post.commentCount,
+                  like: widget.post.likeCount,
+                  share: widget.post.shareCount,
                 ),
-              ),
+              ],
             ),
           ),
-        ],
+        ),
       ),
     );
   }

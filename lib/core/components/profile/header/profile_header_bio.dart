@@ -2,9 +2,9 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:rightflair/core/components/text.dart';
+import 'package:rightflair/core/constants/font/font_size.dart';
 import 'package:rightflair/core/constants/string.dart';
 import 'package:rightflair/core/extensions/context.dart';
-
 
 class ProfileHeaderBioWidget extends StatefulWidget {
   final String text;
@@ -19,11 +19,24 @@ class _ProfileHeaderBioWidgetState extends State<ProfileHeaderBioWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedSize(
-      duration: const Duration(milliseconds: 300),
-      alignment: Alignment.topLeft,
-      curve: Curves.easeInOut,
-      child: _buildContent(context),
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      spacing: context.height * 0.005,
+      children: [
+        TextComponent(
+          text: "Bio",
+          color: context.colors.primary,
+          weight: FontWeight.w600,
+          size: FontSizeConstants.NORMAL,
+        ),
+        AnimatedSize(
+          duration: const Duration(milliseconds: 300),
+          alignment: Alignment.topLeft,
+          curve: Curves.easeInOut,
+          child: _buildContent(context),
+        ),
+      ],
     );
   }
 
@@ -31,12 +44,12 @@ class _ProfileHeaderBioWidgetState extends State<ProfileHeaderBioWidget> {
     final textStyle = TextStyle(
       color: context.colors.primaryContainer,
       fontWeight: FontWeight.w500,
-      fontSize: 14,
+      fontSize: 13,
     );
     final actionStyle = TextStyle(
       color: context.colors.primary,
       fontWeight: FontWeight.w500,
-      fontSize: 15,
+      fontSize: 13,
     );
 
     if (isExpanded) {

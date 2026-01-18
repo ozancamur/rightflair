@@ -28,7 +28,7 @@ class ProfilePhotoGridItemWidget extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(context.width * 0.03),
-        color: Colors.red,
+        color: Colors.transparent,
         image: DecorationImage(
           image: NetworkImage(photo.url ?? ''),
           fit: BoxFit.cover,
@@ -40,7 +40,8 @@ class ProfilePhotoGridItemWidget extends StatelessWidget {
   Container _shadow(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: context.colors.secondary.withOpacity(.4),
+        borderRadius: BorderRadius.circular(context.width * 0.03),
+        color: Colors.black.withOpacity(.3),
       ),
     );
   }
@@ -56,7 +57,7 @@ class ProfilePhotoGridItemWidget extends StatelessWidget {
         ),
         decoration: BoxDecoration(
           color: Colors.transparent,
-          borderRadius: BorderRadius.circular(context.width * 0.02),
+          borderRadius: BorderRadius.circular(context.width * 0.03),
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
@@ -64,14 +65,14 @@ class ProfilePhotoGridItemWidget extends StatelessWidget {
           children: [
             SvgPicture.asset(
               AppIcons.POST_VIEWED,
-              color: context.colors.primary,
+              color: Colors.white,
               height: context.width * 0.05,
             ),
             TextComponent(
               text: '${photo.viewed}',
               size: FontSizeConstants.XX_SMALL,
               weight: FontWeight.w600,
-              color: context.colors.primary,
+              color: Colors.white,
               tr: false,
             ),
           ],

@@ -24,7 +24,7 @@ class FollowerItemWidget extends StatelessWidget {
     return Container(
       padding: EdgeInsets.all(context.width * 0.03),
       decoration: BoxDecoration(
-        color: const Color(0xFF161616),
+        color: context.colors.onSecondary,
         borderRadius: BorderRadius.circular(context.width * 0.03),
       ),
       child: Row(

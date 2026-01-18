@@ -18,6 +18,7 @@ class SettingsButtonsWidget extends StatelessWidget {
     return SettingsButtonWidget(
       icon: Icons.logout,
       title: AppStrings.SETTINGS_LOG_OUT,
+      textColor: context.colors.primary,
       onTap: () => context.read<SettingsCubit>().logOut(),
     );
   }
@@ -25,7 +26,7 @@ class SettingsButtonsWidget extends StatelessWidget {
   SettingsButtonWidget _deactive(BuildContext context) {
     return SettingsButtonWidget(
       title: AppStrings.SETTINGS_DEACTIVE_ACCOUNT,
-      textColor: context.colors.primaryContainer,
+      textColor: context.colors.tertiary,
       onTap: () => context.read<SettingsCubit>().deactivateAccount(),
     );
   }

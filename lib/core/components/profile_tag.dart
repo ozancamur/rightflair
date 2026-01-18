@@ -15,7 +15,7 @@ class ProfileTagComponent extends StatelessWidget {
         vertical: context.height * 0.006,
       ),
       decoration: BoxDecoration(
-        color: context.colors.tertiaryFixedDim,
+        color: context.colors.onSecondary,
         borderRadius: BorderRadius.circular(context.width * 0.05),
       ),
       child: TextComponent(

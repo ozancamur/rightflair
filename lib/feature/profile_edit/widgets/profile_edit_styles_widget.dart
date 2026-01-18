@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:rightflair/core/components/text.dart';
 import 'package:rightflair/core/constants/font/font_size.dart';
 import 'package:rightflair/core/constants/string.dart';
 import 'package:rightflair/core/extensions/context.dart';
@@ -35,21 +36,18 @@ class ProfileEditStylesWidget extends StatelessWidget {
         Row(
           spacing: context.width * 0.02,
           children: [
-            Text(
-              AppStrings.PROFILE_EDIT_MY_STYLES.tr(),
-              style: TextStyle(
-                color: context.colors.primary,
-                fontSize: FontSizeConstants.NORMAL.first,
-                fontWeight: FontWeight.w600,
-              ),
+            TextComponent(
+              text: AppStrings.PROFILE_EDIT_MY_STYLES,
+              color: context.colors.primary,
+              size: FontSizeConstants.NORMAL,
+              weight: FontWeight.w600,
             ),
-            Text(
-              '${selectedStyles.length}/3',
-              style: TextStyle(
-                color: context.colors.onPrimary,
-                fontSize: FontSizeConstants.NORMAL.first,
-                fontWeight: FontWeight.w500,
-              ),
+            TextComponent(
+              text: '${selectedStyles.length}/3',
+              tr: false,
+              color: context.colors.onPrimary,
+              size: FontSizeConstants.SMALL,
+              weight: FontWeight.w500,
             ),
           ],
         ),

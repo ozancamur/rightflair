@@ -48,6 +48,8 @@ class AppTheme {
       shadow: LightColors.INACTIVE,
 
       onBackground: Colors.white,
+      onSecondary: LightColors.NOTIFICATION
+
     ),
   );
 
@@ -92,6 +94,7 @@ class AppTheme {
       shadow: DarkColors.INACTIVE,
 
       onBackground: DarkColors.INACTIVE,
+      onSecondary: DarkColors.SECONDARY
     ),
   );
 }

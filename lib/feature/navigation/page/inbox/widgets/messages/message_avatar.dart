@@ -10,8 +10,8 @@ class MessageAvatarWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: MediaQuery.of(context).size.width * 0.13,
-      height: MediaQuery.of(context).size.width * 0.13,
+      width: context.width * 0.13,
+      height: context.width * 0.13,
       decoration: const BoxDecoration(shape: BoxShape.circle),
       clipBehavior: Clip.antiAlias,
       child: CachedNetworkImage(

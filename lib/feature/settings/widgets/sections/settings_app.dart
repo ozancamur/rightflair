@@ -52,7 +52,11 @@ class SettingsAppWidget extends StatelessWidget {
       padding: EdgeInsets.only(left: context.width * 0.055),
       child: Row(
         children: [
-          SvgPicture.asset(AppIcons.DARK_MODE, height: context.height * .025),
+          SvgPicture.asset(
+            AppIcons.DARK_MODE,
+            height: context.height * .025,
+            color: context.colors.primary,
+          ),
           Expanded(
             child: SettingsToggleItemWidget(
               title: AppStrings.SETTINGS_DARK_MODE,

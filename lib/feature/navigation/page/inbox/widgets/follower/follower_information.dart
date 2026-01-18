@@ -26,6 +26,7 @@ class FollowerInformationWidget extends StatelessWidget {
             text: username,
             size: FontSizeConstants.SMALL,
             weight: FontWeight.w600,
+            color: context.colors.primary,
             tr: false,
           ),
           Row(
@@ -34,14 +35,14 @@ class FollowerInformationWidget extends StatelessWidget {
                 child: TextComponent(
                   text: subtitle,
                   size: FontSizeConstants.XX_SMALL,
-                  color: context.colors.tertiary,
+                  color: context.colors.primary.withOpacity(.65),
                   tr: false,
                 ),
               ),
               TextComponent(
                 text: ' • $timeAgo',
                 size: FontSizeConstants.XX_SMALL,
-                color: context.colors.tertiary,
+                color: context.colors.primary.withOpacity(.65),
                 tr: false,
               ),
             ],

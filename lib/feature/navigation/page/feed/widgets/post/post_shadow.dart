@@ -12,6 +12,7 @@ class PostShadowWidget extends StatelessWidget {
       height: context.height * .4,
       width: context.width,
       decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(context.width * 0.06),
         gradient: LinearGradient(
           colors: AppColors.SHADOWS,
           begin: Alignment.bottomCenter,

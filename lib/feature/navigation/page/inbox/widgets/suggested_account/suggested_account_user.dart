@@ -25,6 +25,7 @@ class SuggestedAccountUserWidget extends StatelessWidget {
             size: FontSizeConstants.SMALL,
             weight: FontWeight.w600,
             tr: false,
+            color: context.colors.primary,
           ),
           TextComponent(
             text: handle,

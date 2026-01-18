@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rightflair/core/components/text.dart';
 import 'package:rightflair/core/constants/font/font_size.dart';
 import 'package:rightflair/core/constants/string.dart';
 
+import '../../feature/profile_edit/cubit/profile_edit_cubit.dart';
 import '../extensions/context.dart';
 
 class DialogUtils {
@@ -169,6 +171,66 @@ class DialogUtils {
           ],
         );
       },
+    );
+  }
+
+  static void showSelectMyStyles(BuildContext context) {
+    final styles = [
+      'Oversized',
+      'Streetwear',
+      'Modeling',
+      'Casual',
+      'Formal',
+      'Vintage',
+      'Sporty',
+      'Bohemian',
+      'Y2K',
+      'Goth',
+      'Minimalist',
+      'Techwear',
+      'Skater',
+      'Retro',
+      'Clean',
+      'Girl',
+    ];
+
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: context.colors.secondary,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(context.width * 0.05),
+        ),
+      ),
+      builder: (context) => Container(
+        padding: EdgeInsets.all(context.width * 0.05),
+        child: SizedBox(
+          height: context.height * .5,
+          width: context.width,
+          child: ListView.separated(
+            separatorBuilder: (context, index) => Divider(
+              color: context.colors.tertiary,
+              thickness: .25,
+              height: .25,
+            ),
+            itemCount: styles.length,
+            itemBuilder: (context, index) {
+              return ListTile(
+                title: TextComponent(
+                  text: styles[index],
+                  color: context.colors.primary,
+                  weight: FontWeight.w500,
+                  size: FontSizeConstants.LARGE,
+                ),
+                onTap: () {
+                  context.read<ProfileEditCubit>().addStyle(styles[index]);
+                  Navigator.pop(context);
+                },
+              );
+            },
+          ),
+        ),
+      ),
     );
   }
 }

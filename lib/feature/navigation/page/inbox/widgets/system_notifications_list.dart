@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../../core/extensions/context.dart';
-import 'notifications/system_notification_item.dart';
+import 'system_notification_item/system_notification_item.dart';
 
 class SystemNotificationsListWidget extends StatelessWidget {
   const SystemNotificationsListWidget({super.key});

@@ -15,12 +15,22 @@ class InboxMessageItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {},
-      child: Padding(
+      child: Container(
         padding: EdgeInsets.symmetric(
           vertical: MediaQuery.of(context).size.height * 0.015,
           horizontal: MediaQuery.of(context).size.width * 0.05,
         ),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(24),
+          border: Border(
+            bottom: BorderSide(
+              color: context.colors.primary.withOpacity(.25),
+              width: .5,
+            ),
+          ),
+        ),
         child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           spacing: context.width * 0.03,
           children: [
             MessageAvatarWidget(url: message.image ?? ""),

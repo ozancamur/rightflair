@@ -35,6 +35,7 @@ class InboxNotificationsList extends StatelessWidget {
         size: FontSizeConstants.LARGE,
         weight: FontWeight.w600,
         align: TextAlign.start,
+        color: context.colors.primary,
       ),
     );
   }
@@ -45,13 +46,14 @@ class InboxNotificationsList extends StatelessWidget {
       padding: EdgeInsets.symmetric(vertical: context.height * 0.02),
       width: double.infinity,
       decoration: BoxDecoration(
+        color: context.colors.onSecondary,
         border: Border.all(color: context.colors.onTertiary.withOpacity(0.5)),
-        borderRadius: BorderRadius.circular(context.width * 0.08),
+        borderRadius: BorderRadius.circular(24),
       ),
       child: Center(
         child: TextComponent(
           text: AppStrings.INBOX_KEEP_POSTING,
-          color: context.colors.tertiary,
+          color: context.colors.primary,
           size: FontSizeConstants.SMALL,
         ),
       ),

@@ -60,7 +60,7 @@ class ProfileEditTextFieldWidget extends StatelessWidget {
           fontWeight: FontWeight.w400,
         ),
         filled: true,
-        fillColor: context.colors.shadow,
+        fillColor: context.colors.secondary,
         counterText: maxLines > 1 ? null : "",
         counterStyle: TextStyle(
           color: context.colors.onPrimary,

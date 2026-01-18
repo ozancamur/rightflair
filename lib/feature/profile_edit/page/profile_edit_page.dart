@@ -1,4 +1,3 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rightflair/core/components/appbar.dart';
@@ -8,7 +7,9 @@ import 'package:rightflair/core/extensions/context.dart';
 import 'package:rightflair/feature/navigation/widgets/navigation_bottom_bar.dart';
 
 import '../../../core/base/base_scaffold.dart';
+import '../../../core/utils/dialog.dart';
 import '../cubit/profile_edit_cubit.dart';
+import '../widgets/profile_edit_done_button.dart';
 import '../widgets/profile_edit_image_widget.dart';
 import '../widgets/profile_edit_text_field_widget.dart';
 import '../widgets/profile_edit_styles_widget.dart';
@@ -69,37 +70,9 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
     return AppBarComponent(
       leading: const BackButtonComponent(),
       actions: [
-        _doneButton(context),
+        const ProfileEditDoneButtonWidget(),
         SizedBox(width: context.width * 0.04),
       ],
-    );
-  }
-
-  GestureDetector _doneButton(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        context.read<ProfileEditCubit>().saveProfile();
-        Navigator.pop(context);
-      },
-      child: Container(
-        margin: EdgeInsets.symmetric(vertical: context.height * 0.0125),
-        padding: EdgeInsets.symmetric(horizontal: context.width * 0.04),
-        decoration: BoxDecoration(
-          color: context.colors.onPrimaryContainer,
-          border: Border.all(width: .5, color: context.colors.primaryFixedDim),
-          borderRadius: BorderRadius.circular(12),
-        ),
-        child: Center(
-          child: Text(
-            AppStrings.PROFILE_EDIT_DONE.tr(),
-            style: TextStyle(
-              color: context.colors.primary,
-              fontSize: 14,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-        ),
-      ),
     );
   }
 
@@ -167,58 +140,9 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
   Widget _styles(ProfileEditState state) {
     return ProfileEditStylesWidget(
       selectedStyles: state.selectedStyles,
-      onRemoveStyle: (style) {
-        context.read<ProfileEditCubit>().removeStyle(style);
-      },
-      onAddNew: () {
-        // TODO: Implement style selector dialog
-        _showStyleSelector(context);
-      },
+      onRemoveStyle: (style) => context.read<ProfileEditCubit>().removeStyle(style),
+      onAddNew: () => DialogUtils.showSelectMyStyles(context),
       canAddMore: context.read<ProfileEditCubit>().canAddMoreStyles,
-    );
-  }
-
-  void _showStyleSelector(BuildContext context) {
-    // Simple example - in production, you'd have a proper style selector
-    final availableStyles = [
-      'Oversized',
-      'Streetwear',
-      'Modeling',
-      'Casual',
-      'Formal',
-      'Vintage',
-      'Sporty',
-      'Bohemian',
-    ];
-
-    showModalBottomSheet(
-      context: context,
-      backgroundColor: context.colors.shadow,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(
-          top: Radius.circular(context.width * 0.05),
-        ),
-      ),
-      builder: (context) => Container(
-        padding: EdgeInsets.all(context.width * 0.05),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: availableStyles
-              .map(
-                (style) => ListTile(
-                  title: Text(
-                    style,
-                    style: TextStyle(color: context.colors.primary),
-                  ),
-                  onTap: () {
-                    this.context.read<ProfileEditCubit>().addStyle(style);
-                    Navigator.pop(context);
-                  },
-                ),
-              )
-              .toList(),
-        ),
-      ),
     );
   }
 }

@@ -23,8 +23,8 @@ class FollowBackButtonWidget extends StatelessWidget {
       child: TextComponent(
         text: 'Follow back',
         size: FontSizeConstants.XX_SMALL,
-        weight: FontWeight.w600,
-        color: context.colors.primary,
+        weight: FontWeight.w500,
+        color: Colors.white,
         tr: false,
       ),
     );

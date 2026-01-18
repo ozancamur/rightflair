@@ -24,7 +24,6 @@ class _SwipeablePostStackState extends State<SwipeablePostStack> {
   @override
   void initState() {
     super.initState();
-    // Tab açıldığında postları yükle
     context.read<FeedBloc>().add(LoadFeedEvent(widget.tabIndex));
   }
 

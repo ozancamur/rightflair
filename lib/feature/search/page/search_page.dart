@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rightflair/core/components/back_button.dart';
+import 'package:rightflair/core/components/text.dart';
+import 'package:rightflair/core/constants/font/font_size.dart';
 import 'package:rightflair/core/constants/string.dart';
 import 'package:rightflair/core/extensions/context.dart';
 import 'package:rightflair/feature/search/cubit/search_cubit.dart';
@@ -52,15 +54,12 @@ class _SearchPageView extends StatelessWidget {
       spacing: context.width * 0.03,
       children: [
         BackButtonComponent(),
-
         Expanded(
           child: SearchTextField(
             controller: context.read<SearchCubit>().searchController,
             focusNode: context.read<SearchCubit>().searchFocusNode,
             hintText: AppStrings.SEARCH_PLACEHOLDER,
-            onSubmitted: (query) {
-              context.read<SearchCubit>().search(query);
-            },
+            onSubmitted: (query) => context.read<SearchCubit>().search(query),
           ),
         ),
       ],
@@ -76,9 +75,9 @@ class _SearchPageView extends StatelessWidget {
 
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
+          spacing: context.height * 0.015,
           children: [
             _recentSearchesLabel(context),
-            SizedBox(height: context.height * 0.015),
             _recentSearchesList(context, state.recentSearches),
           ],
         );
@@ -89,14 +88,12 @@ class _SearchPageView extends StatelessWidget {
   Widget _recentSearchesLabel(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: context.width * 0.01),
-      child: Text(
-        AppStrings.SEARCH_RECENT_SEARCHES,
-        style: TextStyle(
-          color: context.colors.primaryContainer,
-          fontSize: 13,
-          fontWeight: FontWeight.w600,
-          letterSpacing: 0.5,
-        ),
+      child: TextComponent(
+        text: AppStrings.SEARCH_RECENT_SEARCHES,
+        color: context.colors.primaryContainer,
+        size: FontSizeConstants.SMALL,
+        weight: FontWeight.w600,
+        spacing: 0.5,
       ),
     );
   }

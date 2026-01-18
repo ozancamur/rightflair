@@ -9,6 +9,7 @@ class SearchTextField extends StatelessWidget {
   final FocusNode focusNode;
   final String hintText;
   final Function(String)? onSubmitted;
+  final double borderRadius;
 
   const SearchTextField({
     super.key,
@@ -16,15 +17,21 @@ class SearchTextField extends StatelessWidget {
     required this.focusNode,
     required this.hintText,
     this.onSubmitted,
+    this.borderRadius = 12,
   });
 
   @override
   Widget build(BuildContext context) {
+    final border = OutlineInputBorder(
+      borderRadius: BorderRadius.circular(borderRadius),
+      borderSide: BorderSide.none,
+    );
+
     return Container(
       height: context.height * 0.06,
       decoration: BoxDecoration(
         color: context.colors.shadow,
-        borderRadius: BorderRadius.circular(context.width * 0.03),
+        borderRadius: BorderRadius.circular(borderRadius),
       ),
       child: TextField(
         controller: controller,
@@ -33,12 +40,14 @@ class SearchTextField extends StatelessWidget {
         cursorColor: context.colors.primary,
         onSubmitted: onSubmitted,
         decoration: InputDecoration(
+          fillColor: context.colors.onSecondary,
+          filled: true,
           hintText: hintText.tr(),
           hintStyle: _hintStyle(context),
           prefixIcon: _searchIcon(context),
-          border: InputBorder.none,
-          enabledBorder: InputBorder.none,
-          focusedBorder: InputBorder.none,
+          border: border,
+          enabledBorder: border,
+          focusedBorder: border,
           contentPadding: EdgeInsets.symmetric(
             horizontal: context.width * 0.04,
             vertical: context.height * 0.018,

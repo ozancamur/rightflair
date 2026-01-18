@@ -31,7 +31,11 @@ class SettingsListItemWidget extends StatelessWidget {
           child: Row(
             spacing: context.width * 0.04,
             children: [
-              SvgPicture.asset(icon, height: context.height * .025),
+              SvgPicture.asset(
+                icon,
+                height: context.height * .025,
+                color: context.colors.primary,
+              ),
               _buildContent(context),
               if (trailing != null) trailing!,
             ],

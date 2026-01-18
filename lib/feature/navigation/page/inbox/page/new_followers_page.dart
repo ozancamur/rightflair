@@ -55,7 +55,7 @@ class _NewFollowersPageState extends State<NewFollowersPage> {
         ListView.separated(
           shrinkWrap: true,
           physics: NeverScrollableScrollPhysics(),
-          padding: EdgeInsets.symmetric(vertical: context.height * .015),
+          padding: EdgeInsets.only(top: context.height * .015),
           itemCount: itemCount,
           separatorBuilder: (context, index) =>
               SizedBox(height: context.height * .015),
@@ -77,14 +77,14 @@ class _NewFollowersPageState extends State<NewFollowersPage> {
               children: [
                 TextComponent(
                   text: isViewMore ? 'hide' : 'view more',
-                  size: FontSizeConstants.SMALL,
+                  size: FontSizeConstants.X_SMALL,
                   color: context.colors.primary,
                   tr: false,
                 ),
                 SvgPicture.asset(
                   isViewMore ? AppIcons.ARROW_UP : AppIcons.ARROW_DOWN,
                   color: context.colors.primary,
-                  height: context.height * .02,
+                  height: context.height * .0125,
                 ),
               ],
             ),
@@ -95,20 +95,34 @@ class _NewFollowersPageState extends State<NewFollowersPage> {
   }
 
   Widget _suggested(BuildContext context) {
-    return ListView.separated(
-      shrinkWrap: true,
-      physics: NeverScrollableScrollPhysics(),
-      padding: EdgeInsets.symmetric(vertical: context.height * .015),
-      itemCount: 10,
-      separatorBuilder: (context, index) =>
-          SizedBox(height: context.height * .015),
-      itemBuilder: (context, index) {
-        return SuggestedAccountItemWidget(
-          username: 'USER',
-          handle: '@user32489',
-          profileImage: 'https://i.pravatar.cc/150?img=5',
-        );
-      },
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        TextComponent(
+          text: "Suggested Accounts",
+          size: FontSizeConstants.LARGE,
+          weight: FontWeight.w600,
+          color: context.colors.primary,
+        ),
+        ListView.separated(
+          shrinkWrap: true,
+          physics: NeverScrollableScrollPhysics(),
+          padding: EdgeInsets.only(
+            bottom: context.height * .025,
+            top: context.height * .01,
+          ),
+          itemCount: 10,
+          separatorBuilder: (context, index) =>
+              SizedBox(height: context.height * .015),
+          itemBuilder: (context, index) {
+            return SuggestedAccountItemWidget(
+              username: 'USER',
+              handle: '@user32489',
+              profileImage: 'https://i.pravatar.cc/150?img=5',
+            );
+          },
+        ),
+      ],
     );
   }
 }

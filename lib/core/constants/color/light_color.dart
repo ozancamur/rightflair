@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class LightColors {
   LightColors._();
 
- static Color get PRIMARY => Color(0xFF000000);
+  static Color get PRIMARY => Color(0xFF0E0E0E);
   static Color get SECONDARY => Color(0xFFFFFDF8);
 
   static Color get WHITE75 => LightColors.PRIMARY.withOpacity(.75);
@@ -26,17 +26,13 @@ class LightColors {
   static Color get BLUE => Color(0xFF3B82F6);
   static Color get PURPLE => Color(0xFFA855F7);
 
-  static Color get TRANSPARENT_GREEN => Color(0xFF0C1F13);
-  static Color get TRANSPARENT_RED => Color(0xFF251010);
-  static Color get TRANSPARENT_PURPLE => Color(0xFF1C1226);
-  static Color get TRANSPARENT_BLUE => Color(0xFF101726);
-  static Color get TRANSPARENT_YELLOW => Color(0xFF2C2C1E);
+  static Color get TRANSPARENT_GREEN => Color(0xFFECFFF3);
+  static Color get TRANSPARENT_RED => Color(0xFFFFE4E4);
+  static Color get TRANSPARENT_PURPLE => Color(0xFFF4E9FF);
+  static Color get TRANSPARENT_BLUE => Color(0xFFEBF2FF);
+  static Color get TRANSPARENT_YELLOW => Color(0xFFFBFCE6);
 
-  static List<Color> get BUTTON => [YELLOW, ORANGE];
-  static List<Color> get SHADOW => [
-    SECONDARY.withOpacity(.8),
-    SECONDARY.withOpacity(.0),
-  ];
   static Color get DARK_BUTTON => Color(0xFF2E2E30);
   static Color get INACTIVE => Color(0xFF1C1B1B);
+  static Color get NOTIFICATION => Color(0xFFEEEEEE);
 }
