@@ -126,6 +126,8 @@ class AppStrings {
   static const String ANALYTICS_ENGAGEMENT_OVERVIEW =
       'analytics.engagementOverview';
   static const String ANALYTICS_LAST_7_DAYS = 'analytics.last7Days';
+  static const String ANALYTICS_LAST_30_DAYS = 'analytics.last30Days';
+  static const String ANALYTICS_LAST_6_MONTHS = 'analytics.last6Months';
   // FEED
   static const String FEED_DISCOVER = 'feed.discover';
   static const String FEED_FOLLOWING = 'feed.following';

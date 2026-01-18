@@ -27,6 +27,7 @@ class AppTheme {
       tertiaryContainer: LightColors.GREY36,
       tertiaryFixed: LightColors.GREY24,
       tertiaryFixedDim: LightColors.GREY12,
+      
       scrim: LightColors.ORANGE,
 
       surface: LightColors.YELLOW,

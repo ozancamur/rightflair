@@ -1,0 +1,228 @@
+{
+    "validation": {
+        "emailRequired": "Email gerekli",
+        "emailInvalid": "Lütfen geçerli bir email adresi girin",
+        "passwordRequired": "Şifre gerekli",
+        "passwordInvalid": "Şifre en az 6 karakter olmalı",
+        "confirmPasswordRequired": "Lütfen şifrenizi doğrulayın",
+        "confirmPasswordMismatch": "Şifreler eşleşmiyor"
+    },
+    "dialog": {
+        "ok": "TAMAM",
+        "cancel": "İptal",
+        "confirm": "Onayla"
+    },
+    "authentication": {
+        "login": "Giriş Yap",
+        "email": "Email",
+        "password": "Şifre",
+        "confirmPassword": "Şifreyi Doğrula",
+        "forgotPassword": "Şifremi Unuttum?",
+        "haveAccount": "Zaten hesabınız var mı?",
+        "continueButton": "Devam Et",
+        "pageWelcome": {
+            "title": "Senin *Moment Start* Burada!",
+            "withMail": "Mail ile Devam Et",
+            "or": "VEYA ŞUNUNLA DEVAM ET",
+            "withGoogle": "Google ile Devam Et",
+            "withApple": "Apple ile Devam Et"
+        },
+        "pageRegister": {
+            "appbar": "Kayıt Ol",
+            "title": "Rightflair",
+            "subtitle": "Hesabını oluştur",
+            "createAccount": "Hesap Oluştur"
+        },
+        "pageChooseUsername": {
+            "appbar": "Kullanıcı Adı Seç",
+            "title": "Kullanıcı adını seç",
+            "subtitle": "Diğerleri seni Rightflair'da böyle bulacak",
+            "username": "Kullanıcı Adı",
+            "unique": "Eşsiz",
+            "caseInsensitive": "Büyük/küçük harf duyarsız",
+            "isAvailable": "@{} kullanılabilir",
+            "isNotAvailable": "@{} kullanılamaz"
+        },
+        "pageLogin": {
+            "title": "Rightflair",
+            "subtitle": "Tekrar hoşgeldiniz"
+        },
+        "pageForgotPassword": {
+            "appbar": "Şifre Sıfırlama",
+            "title": "Şifrenizi mi unuttunuz?",
+            "subtitle": "Size bir sıfırlama linki göndereceğiz",
+            "sendResetEmail": "Sıfırlama E-postası Gönder"
+        },
+        "errors": {
+            "weakPassword": "Şifre çok zayıf",
+            "emailAlreadyInUse": "Bu email adresi zaten kullanımda",
+            "invalidEmail": "Geçersiz email adresi",
+            "userNotFound": "Kullanıcı bulunamadı",
+            "wrongPassword": "Yanlış şifre",
+            "userDisabled": "Bu kullanıcı hesabı devre dışı bırakıldı",
+            "tooManyRequests": "Çok fazla deneme. Lütfen daha sonra tekrar deneyin",
+            "operationNotAllowed": "Bu işleme izin verilmiyor",
+            "requiresRecentLogin": "Bu işlemi yapmak için tekrar giriş yapmalısınız",
+            "invalidCredential": "Geçersiz kimlik bilgileri",
+            "accountExistsWithDifferentCredential": "Bu email farklı bir giriş yöntemiyle kayıtlı",
+            "default": "Bir hata oluştu: {}",
+            "genericSignup": "Kayıt sırasında bir hata oluştu: {}",
+            "genericSignin": "Giriş sırasında bir hata oluştu: {}",
+            "genericGoogle": "Google girişi sırasında bir hata oluştu: {}",
+            "genericApple": "Apple girişi sırasında bir hata oluştu: {}",
+            "genericPasswordReset": "Şifre sıfırlama e-postası gönderilemedi: {}",
+            "genericSignout": "Çıkış sırasında bir hata oluştu: {}",
+            "genericDeleteAccount": "Hesap silinirken bir hata oluştu: {}",
+            "genericEmailVerification": "Email doğrulama gönderilirken hata oluştu: {}",
+            "genericUpdateProfile": "Profil güncellenirken hata oluştu: {}",
+            "genericUpdatePassword": "Şifre güncellenirken hata oluştu: {}"
+        }
+    },
+    "navigation": {
+        "home": "Ana Sayfa",
+        "analytics": "Analiz",
+        "inbox": "Gelen Kutusu",
+        "profile": "Profil"
+    },
+    "analytics": {
+        "title": "Analiz",
+        "share": "Paylaş",
+        "likes": "Beğeniler",
+        "followers": "Takipçiler",
+        "saves": "Kaydedilenler",
+        "engagementOverview": "Etkileşim Özeti",
+        "last7Days": "Son 7 gün",
+        "last30Days": "Son 30 gün",
+        "last6Months": "Son 6 ay"
+    },
+    "feed": {
+        "discover": "Keşfet",
+        "following": "Takip Edilenler",
+        "friends": "Arkadaşlar",
+        "error": {
+            "loadingPosts": "Gönderiler yüklenirken bir hata oluştu",
+            "loadingMore": "Daha fazla gönderi yüklenirken hata oluştu"
+        }
+    },
+    "search": {
+        "placeholder": "Ara, stiller, markalar, kullanıcılar...",
+        "recentSearches": "SON ARAMALAR"
+    },
+    "createPost": {
+        "appbar": "Kombin Paylaş",
+        "aboutOutfit": "Kombinin hakkında",
+        "descriptionPlaceholder": "Kombinini anlat...",
+        "location": "Konum",
+        "postAnonymously": "Anonim Paylaş",
+        "postAnonymouslySubtitle": "Yüzün bulanıklaştırılacak",
+        "allowComments": "Yorumlara İzin Ver",
+        "draft": "Taslak",
+        "post": "Kombini Paylaş",
+        "selectLocation": "Konum Seçimi",
+        "searchLocation": "Konum ara..."
+    },
+    "inbox": {
+        "title": "Gelen Kutusu",
+        "messages": "Mesajlar",
+        "notifications": "Bildirimler",
+        "sentAPhoto": "Bir fotoğraf gönderdi",
+        "todaysActivity": "Bugünün Aktivitesi",
+        "keepPosting": "Daha fazla etkileşim için kombin paylaşmaya devam et"
+    },
+    "error": {
+        "occurred": "Bir hata oluştu",
+        "tryAgain": "Tekrar Dene",
+        "noPosts": "Henüz gösterilecek gönderi yok",
+        "refresh": "Yenile"
+    },
+    "comments": {
+        "title": "Yorumlar",
+        "reply": "Yanıtla",
+        "addPlaceholder": "Yorum ekle..",
+        "viewReplies": "Yanıtları gör",
+        "likes": "beğeni"
+    },
+    "post": {
+        "liked": "BEĞENİLDİ",
+        "disliked": "BEĞENİLMEDİ"
+    },
+    "days": {
+        "monday": "Pzt",
+        "tuesday": "Sal",
+        "wednesday": "Çar",
+        "thursday": "Per",
+        "friday": "Cum",
+        "saturday": "Cmt",
+        "sunday": "Paz"
+    },
+    "firebase": {
+        "error": {
+            "createDocument": "Belge oluşturma hatası",
+            "readDocument": "Belge okuma hatası",
+            "readDocuments": "Belgeleri okuma hatası",
+            "query": "Sorgu hatası",
+            "updateDocument": "Belge güncelleme hatası",
+            "setDocument": "Belge ayarlama hatası",
+            "deleteDocument": "Belge silme hatası",
+            "checkUser": "Kullanıcı kontrol hatası"
+        }
+    },
+    "general": {
+        "pageNotFound": "Sayfa bulunamadı",
+        "userNotFound": "Kullanıcı bulunamadı"
+    },
+    "profile": {
+        "follower": "takipçi",
+        "following": "takip edilen",
+        "follow": "Takip Et",
+        "message": "Mesaj",
+        "oversized": "Oversized",
+        "streetwear": "Streetwear",
+        "modeling": "Modeling",
+        "photos": "Fotoğraflar",
+        "saves": "Kaydedilenler",
+        "drafts": "Taslaklar",
+        "readMore": "daha fazla",
+        "hide": "   gizle"
+    },
+    "postDetail": {
+        "comments": "Yorumlar",
+        "bookmarked": "Kaydedildi",
+        "shares": "Paylaşımlar"
+    },
+    "profileEdit": {
+        "appbar": "Profil",
+        "done": "BİTTİ",
+        "changePhoto": "Fotoğrafı Değiştir",
+        "name": "İsim",
+        "username": "Kullanıcı Adı",
+        "bio": "Hakkında",
+        "myStyles": "Stillerim",
+        "addNew": "+ Yeni Ekle"
+    },
+    "settings": {
+        "title": "Ayarlar",
+        "account": "HESAP",
+        "username": "Kullanıcı Adı",
+        "email": "Email",
+        "changePassword": "Şifre Değiştir",
+        "support": "DESTEK",
+        "contactSupport": "Destekle İletişime Geç",
+        "notifications": "BİLDİRİMLER",
+        "likes": "Beğeniler",
+        "saves": "Kaydedilenler",
+        "milestones": "Dönüm Noktaları",
+        "trending": "Trendler",
+        "follow": "Takip",
+        "app": "UYGULAMA",
+        "darkMode": "Karanlık Mod",
+        "language": "Dil",
+        "languageValue": "türkçe",
+        "about": "HAKKINDA",
+        "termsOfService": "Hizmet Şartları",
+        "privacyPolicy": "Gizlilik Politikası",
+        "logOut": "Çıkış Yap",
+        "deactiveAccount": "Hesabı Dondur",
+        "version": "versiyon {}"
+    }
+}
