@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../../../../core/components/text.dart';
-import '../../../../../core/constants/font/font_size.dart';
-import '../../../../../core/constants/string.dart';
 import '../../../../../core/extensions/context.dart';
 import '../models/feed_post_model.dart';
 import '../models/swipe_direction.dart';
@@ -25,7 +22,6 @@ class _FeedPostItemState extends State<FeedPostItem>
   late AnimationController _animationController;
   late Animation<Offset> _animation;
   Offset _dragOffset = Offset.zero;
-  bool _isDragging = false;
 
   @override
   void initState() {
@@ -42,12 +38,6 @@ class _FeedPostItemState extends State<FeedPostItem>
     super.dispose();
   }
 
-  void _onPanStart(DragStartDetails details) {
-    setState(() {
-      _isDragging = true;
-    });
-  }
-
   void _onPanUpdate(DragUpdateDetails details) {
     setState(() {
       _dragOffset += details.delta;
@@ -55,10 +45,6 @@ class _FeedPostItemState extends State<FeedPostItem>
   }
 
   void _onPanEnd(DragEndDetails details) {
-    setState(() {
-      _isDragging = false;
-    });
-
     final screenWidth = MediaQuery.of(context).size.width;
     final threshold = screenWidth * 0.3;
 
@@ -151,88 +137,10 @@ class _FeedPostItemState extends State<FeedPostItem>
         : _dragOffset;
 
     return GestureDetector(
-      onPanStart: _onPanStart,
       onPanUpdate: _onPanUpdate,
       onPanEnd: _onPanEnd,
-      child: Stack(
-        children: [
-          // Beğen/Beğenme göstergeleri
-          if (_isDragging)
-            _swipe(context),
-          // Ana kart
-          _post(currentOffset, context),
-        ],
-      ),
+      child: _post(currentOffset, context),
     );
-  }
-
-  Positioned _swipe(BuildContext context) {
-    return Positioned.fill(
-            child: Stack(
-              children: [
-                // Beğen göstergesi (sağ taraf)
-                if (_dragOffset.dx > context.width * 0.125)
-                  Positioned(
-                    top: context.height * 0.15,
-                    right: context.width * 0.1,
-                    child: Transform.rotate(
-                      angle: -0.3,
-                      child: Container(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: context.width * 0.05,
-                          vertical: context.height * 0.012,
-                        ),
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                            color: context.colors.inverseSurface,
-                            width: context.width * 0.01,
-                          ),
-                          borderRadius: BorderRadius.circular(
-                            context.width * 0.02,
-                          ),
-                        ),
-                        child: TextComponent(
-                          text: AppStrings.POST_LIKED,
-                          size: FontSizeConstants.XXX_HUGE,
-                          color: context.colors.inverseSurface,
-                          weight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  ),
-                // Beğenmeme göstergesi (sol taraf)
-                if (_dragOffset.dx < -context.width * 0.125)
-                  Positioned(
-                    top: context.height * 0.15,
-                    left: context.width * 0.1,
-                    child: Transform.rotate(
-                      angle: 0.3,
-                      child: Container(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: context.width * 0.05,
-                          vertical: context.height * 0.012,
-                        ),
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                            color: context.colors.error,
-                            width: context.width * 0.01,
-                          ),
-                          borderRadius: BorderRadius.circular(
-                            context.width * 0.02,
-                          ),
-                        ),
-                        child: TextComponent(
-                          text: AppStrings.POST_DISLIKED,
-                          size: FontSizeConstants.XXX_HUGE,
-                          color: context.colors.error,
-                          weight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  ),
-              ],
-            ),
-          );
   }
 
   Transform _post(Offset currentOffset, BuildContext context) {
@@ -256,6 +164,42 @@ class _FeedPostItemState extends State<FeedPostItem>
             child: Stack(
               alignment: Alignment.bottomCenter,
               children: [
+                if (currentOffset.dx > 0)
+                  Positioned.fill(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.bottomCenter,
+                          end: Alignment.topCenter,
+                          colors: [
+                            context.colors.scrim.withOpacity(.35),
+                            context.colors.scrim.withOpacity(0),
+                          ],
+                        ),
+                        borderRadius: BorderRadius.circular(
+                          context.width * 0.06,
+                        ),
+                      ),
+                    ),
+                  ),
+                if (currentOffset.dx < 0)
+                  Positioned.fill(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.bottomCenter,
+                          end: Alignment.topCenter,
+                          colors: [
+                            context.colors.error.withOpacity(.35),
+                            context.colors.error.withOpacity(0),
+                          ],
+                        ),
+                        borderRadius: BorderRadius.circular(
+                          context.width * 0.06,
+                        ),
+                      ),
+                    ),
+                  ),
                 const PostShadowWidget(),
                 const PostUserInfoWidget(),
                 PostActionsWidget(
