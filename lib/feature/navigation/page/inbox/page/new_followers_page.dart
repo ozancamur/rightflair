@@ -9,6 +9,7 @@ import '../../../../../core/components/appbar.dart';
 import '../../../../../core/components/back_button.dart';
 import '../../../../../core/components/settings_button.dart';
 import '../../../../../core/constants/icons.dart';
+import '../../../../../core/constants/string.dart';
 import '../widgets/follower/follower_item.dart';
 import '../widgets/suggested_account/suggested_account_item.dart';
 
@@ -29,7 +30,7 @@ class _NewFollowersPageState extends State<NewFollowersPage> {
   AppBarComponent _appbar(BuildContext context) {
     return AppBarComponent(
       leading: BackButtonComponent(),
-      title: "New Followers",
+      title: AppStrings.INBOX_NEW_FOLLOWERS_TITLE,
       actions: [
         Padding(
           padding: EdgeInsets.only(right: context.width * .04),
@@ -76,10 +77,11 @@ class _NewFollowersPageState extends State<NewFollowersPage> {
               spacing: context.width * .02,
               children: [
                 TextComponent(
-                  text: isViewMore ? 'hide' : 'view more',
+                  text: isViewMore
+                      ? AppStrings.INBOX_NEW_FOLLOWERS_HIDE
+                      : AppStrings.INBOX_NEW_FOLLOWERS_VIEW_MORE,
                   size: FontSizeConstants.X_SMALL,
                   color: context.colors.primary,
-                  tr: false,
                 ),
                 SvgPicture.asset(
                   isViewMore ? AppIcons.ARROW_UP : AppIcons.ARROW_DOWN,
@@ -98,7 +100,7 @@ class _NewFollowersPageState extends State<NewFollowersPage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        TextComponent(
+        TextCompAppStrings.INBOX_NEW_FOLLOWERS_SUGGESTED_ACCOUNTS
           text: "Suggested Accounts",
           size: FontSizeConstants.LARGE,
           weight: FontWeight.w600,

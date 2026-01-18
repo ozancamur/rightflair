@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -31,7 +32,10 @@ class RegisterPage extends StatelessWidget {
           context.push(RouteConstants.CHOOSE_USERNAME);
         }
         if (state is AuthenticationError) {
-          DialogUtils.showErrorDialog(context, message: "REGISTER ERROR");
+          DialogUtils.showErrorDialog(
+            context,
+            message: AppStrings.AUTHENTICATION_REGISTER_ERROR.tr(),
+          );
         }
       },
       builder: (BuildContext context, AuthenticationState state) {

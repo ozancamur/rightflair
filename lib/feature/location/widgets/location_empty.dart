@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rightflair/core/constants/string.dart';
 import 'package:rightflair/core/extensions/context.dart';
 
 import '../../../core/components/text.dart';
@@ -10,7 +11,7 @@ class LocationEmptyWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: TextComponent(
-        text: "No results found", // Should be in String constants ideally
+        text: AppStrings.LOCATION_NO_RESULTS,
         color: context.colors.onPrimary,
       ),
     );

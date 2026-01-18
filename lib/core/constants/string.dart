@@ -263,4 +263,29 @@ class AppStrings {
   static const String SETTINGS_LOG_OUT = 'settings.logOut';
   static const String SETTINGS_DEACTIVE_ACCOUNT = 'settings.deactiveAccount';
   static const String SETTINGS_VERSION = 'settings.version';
+
+  // INBOX
+  static const String INBOX_SYSTEM_NOTIFICATIONS_TITLE =
+      'inbox.systemNotifications.title';
+  static const String INBOX_SYSTEM_NOTIFICATIONS_ACCOUNT_UPDATES =
+      'inbox.systemNotifications.accountUpdates';
+  static const String INBOX_NEW_FOLLOWERS_TITLE = 'inbox.newFollowers.title';
+  static const String INBOX_NEW_FOLLOWERS_SUGGESTED_ACCOUNTS =
+      'inbox.newFollowers.suggestedAccounts';
+  static const String INBOX_NEW_FOLLOWERS_HIDE = 'inbox.newFollowers.hide';
+  static const String INBOX_NEW_FOLLOWERS_VIEW_MORE =
+      'inbox.newFollowers.viewMore';
+  static const String INBOX_FOLLOW_BACK = 'inbox.followBack';
+  static const String INBOX_REMOVE = 'inbox.remove';
+  static const String INBOX_FOLLOW = 'inbox.follow';
+
+  // FEED NEW
+  static const String FEED_TREND = 'feed.trend';
+
+  // LOCATION
+  static const String LOCATION_NO_RESULTS = 'location.noResults';
+
+  // AUTH EXTENSION
+  static const String AUTHENTICATION_REGISTER_ERROR =
+      'authentication.registerError';
 }

@@ -13,6 +13,7 @@
         "confirm": "Confirm"
     },
     "authentication": {
+        "registerError": "Registration Error",
         "login": "Log In",
         "email": "Email",
         "password": "Password",
@@ -96,6 +97,7 @@
         "last6Months": "Last 6 months"
     },
     "feed": {
+        "trend": "Trend",
         "discover": "Discover",
         "following": "Following",
         "friends": "Friends",
@@ -127,7 +129,23 @@
         "notifications": "Notifications",
         "sentAPhoto": "Sent a photo",
         "todaysActivity": "Today's Activity",
-        "keepPosting": "Keep posting outfits to get more reactions"
+        "keepPosting": "Keep posting outfits to get more reactions",
+        "systemNotifications": {
+            "title": "System Notifications",
+            "accountUpdates": "Account Updates"
+        },
+        "newFollowers": {
+            "title": "New Followers",
+            "suggestedAccounts": "Suggested Accounts",
+            "hide": "hide",
+            "viewMore": "view more"
+        },
+        "followBack": "Follow back",
+        "remove": "Remove",
+        "follow": "Follow"
+    },
+    "location": {
+        "noResults": "No results found"
     },
     "error": {
         "occurred": "An error occurred",

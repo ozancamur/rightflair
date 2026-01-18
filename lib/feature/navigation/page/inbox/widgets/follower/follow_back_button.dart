@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rightflair/core/constants/string.dart';
 
 import '../../../../../../core/components/text.dart';
 import '../../../../../../core/constants/font/font_size.dart';
@@ -21,11 +22,10 @@ class FollowBackButtonWidget extends StatelessWidget {
         borderRadius: BorderRadius.circular(100),
       ),
       child: TextComponent(
-        text: 'Follow back',
+        text: AppStrings.INBOX_FOLLOW_BACK,
         size: FontSizeConstants.XX_SMALL,
         weight: FontWeight.w500,
         color: Colors.white,
-        tr: false,
       ),
     );
   }

@@ -13,6 +13,7 @@
         "confirm": "Onayla"
     },
     "authentication": {
+        "registerError": "Kayıt Hatası",
         "login": "Giriş Yap",
         "email": "Email",
         "password": "Şifre",
@@ -96,6 +97,7 @@
         "last6Months": "Son 6 ay"
     },
     "feed": {
+        "trend": "Trend",
         "discover": "Keşfet",
         "following": "Takip Edilenler",
         "friends": "Arkadaşlar",
@@ -127,7 +129,23 @@
         "notifications": "Bildirimler",
         "sentAPhoto": "Bir fotoğraf gönderdi",
         "todaysActivity": "Bugünün Aktivitesi",
-        "keepPosting": "Daha fazla etkileşim için kombin paylaşmaya devam et"
+        "keepPosting": "Daha fazla etkileşim için kombin paylaşmaya devam et",
+        "systemNotifications": {
+            "title": "Sistem Bildirimleri",
+            "accountUpdates": "Hesap Güncellemeleri"
+        },
+        "newFollowers": {
+            "title": "Yeni Takipçiler",
+            "suggestedAccounts": "Önerilen Hesaplar",
+            "hide": "gizle",
+            "viewMore": "daha fazla"
+        },
+        "followBack": "Geri takip et",
+        "remove": "Kaldır",
+        "follow": "Takip Et"
+    },
+    "location": {
+        "noResults": "Sonuç bulunamadı"
     },
     "error": {
         "occurred": "Bir hata oluştu",

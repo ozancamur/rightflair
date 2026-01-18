@@ -1,4 +1,6 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:rightflair/core/constants/string.dart';
 
 import '../../../../core/extensions/context.dart';
 
@@ -23,7 +25,7 @@ class CommentTimeAndReplyWidget extends StatelessWidget {
             // Handle reply
           },
           child: Text(
-            'Reply',
+            AppStrings.COMMENTS_REPLY.tr(),
             style: TextStyle(
               color: context.colors.primary.withOpacity(0.5),
               fontSize: 13,

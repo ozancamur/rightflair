@@ -4,6 +4,8 @@ import 'package:rightflair/core/components/gradient_button.dart';
 import 'package:rightflair/core/components/text.dart';
 import 'package:rightflair/core/constants/font/font_size.dart';
 
+import 'package:rightflair/core/constants/string.dart';
+
 import '../../../../../../core/extensions/context.dart';
 import 'suggested_account_image.dart';
 import 'suggested_account_user.dart';
@@ -61,7 +63,7 @@ class SuggestedAccountItemWidget extends StatelessWidget {
             child: ElevatedButtonComponent(
               color: context.colors.primary,
               child: TextComponent(
-                text: "Remove",
+                text: AppStrings.INBOX_REMOVE,
                 color: context.colors.secondary,
                 size: FontSizeConstants.SMALL,
                 weight: FontWeight.w500,
@@ -72,7 +74,7 @@ class SuggestedAccountItemWidget extends StatelessWidget {
           Expanded(
             child: GradientButtonComponent(
               child: TextComponent(
-                text: "Follow",
+                text: AppStrings.INBOX_FOLLOW,
                 color: context.colors.secondary,
                 size: FontSizeConstants.SMALL,
                 weight: FontWeight.w500,

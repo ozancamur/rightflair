@@ -4,6 +4,7 @@ import 'package:rightflair/core/components/back_button.dart';
 import 'package:rightflair/core/extensions/context.dart';
 import '../../../../../core/base/base_scaffold.dart';
 import '../../../../../core/components/settings_button.dart';
+import '../../../../../core/constants/string.dart';
 import '../widgets/system_notifications_list.dart';
 
 class SystemNotificationsPage extends StatelessWidget {
@@ -14,11 +15,11 @@ class SystemNotificationsPage extends StatelessWidget {
     return BaseScaffold(
       appBar: AppBarComponent(
         leading: BackButtonComponent(),
-        title: "System Notifications",
+        title: AppStrings.INBOX_SYSTEM_NOTIFICATIONS_TITLE,
         actions: [
           Padding(
             padding: EdgeInsets.only(right: context.width * .04),
-            child: SettingsButtonComponent()
+            child: SettingsButtonComponent(),
           ),
         ],
       ),
