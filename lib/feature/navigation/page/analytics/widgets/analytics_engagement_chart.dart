@@ -70,16 +70,24 @@ class AnalyticsEngagementChartWidget extends StatelessWidget {
   Row _days(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
-          .map(
-            (day) => TextComponent(
-              text: day,
-              size: [context.width * 0.025],
-              color: context.colors.tertiary,
-              tr: false,
-            ),
-          )
-          .toList(),
+      children:
+          [
+                AppStrings.DAY_MONDAY,
+                AppStrings.DAY_TUESDAY,
+                AppStrings.DAY_WEDNESDAY,
+                AppStrings.DAY_THURSDAY,
+                AppStrings.DAY_FRIDAY,
+                AppStrings.DAY_SATURDAY,
+                AppStrings.DAY_SUNDAY,
+              ]
+              .map(
+                (day) => TextComponent(
+                  text: day,
+                  size: [context.width * 0.025],
+                  color: context.colors.tertiary,
+                ),
+              )
+              .toList(),
     );
   }
 }
