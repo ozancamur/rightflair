@@ -100,8 +100,8 @@ class _NewFollowersPageState extends State<NewFollowersPage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        TextCompAppStrings.INBOX_NEW_FOLLOWERS_SUGGESTED_ACCOUNTS
-          text: "Suggested Accounts",
+        TextComponent(
+          text: AppStrings.INBOX_NEW_FOLLOWERS_SUGGESTED_ACCOUNTS,
           size: FontSizeConstants.LARGE,
           weight: FontWeight.w600,
           color: context.colors.primary,
