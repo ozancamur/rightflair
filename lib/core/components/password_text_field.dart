@@ -63,10 +63,10 @@ class _PasswordTextFieldComponentState
         fillColor: context.colors.shadow,
         hintText: widget.hintText.tr(),
         hintStyle: _hintStyle(),
-        enabledBorder: _buildBorderField(),
-        focusedBorder: _buildBorderField(),
+        enabledBorder: _buildBorderField(color: context.colors.secondaryFixed),
+        focusedBorder: _buildBorderField(color: context.colors.onSecondaryFixed),
         errorBorder: _buildBorderField(color: Colors.red),
-        focusedErrorBorder: _buildBorderField(),
+        focusedErrorBorder: _buildBorderField(color: context.colors.error),
         counterText: "",
 
         suffixIcon: GestureDetector(
@@ -129,7 +129,10 @@ class _PasswordTextFieldComponentState
     );
   }
 
-  OutlineInputBorder _buildBorderField({Color color = Colors.grey}) {
-    return OutlineInputBorder(borderRadius: BorderRadius.circular(18));
+  OutlineInputBorder _buildBorderField({required Color color}) {
+    return OutlineInputBorder(
+      borderSide: BorderSide(color: color),
+      borderRadius: BorderRadius.circular(18),
+    );
   }
 }

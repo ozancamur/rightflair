@@ -21,42 +21,52 @@ class WelcomeButtonsWidget extends StatelessWidget {
       child: Column(
         spacing: context.height * .015,
         children: [
-          ElevatedButtonComponent(
-            width: context.width * .8,
-            color: context.colors.primary,
-            onPressed: () => context.push(RouteConstants.REGISTER),
-            child: ButtonTextWithIconComponent(
-              icon: AppIcons.MAIL_FILLED,
-              text: AppStrings.WITH_MAIL,
-              foregroundColor: context.colors.secondary,
-            ),
-          ),
+          _mail(context),
           const WelcomeOrWidget(),
-          ElevatedButtonComponent(
-            width: context.width * .8,
-            color: context.colors.outline,
-            onPressed: () => context.read<AuthenticationBloc>().add(
-              AuthtenticationGoogleEvent(),
-            ),
-            child: ButtonTextWithIconComponent(
-              icon: AppIcons.GOOGLE,
-              text: AppStrings.WITH_GOOGLE,
-              foregroundColor: context.colors.primary,
-            ),
-          ),
-          ElevatedButtonComponent(
-            width: context.width * .8,
-            color: context.colors.outline,
-            onPressed: () => context.read<AuthenticationBloc>().add(
-              AuthtenticationAppleEvent(),
-            ),
-            child: ButtonTextWithIconComponent(
-              icon: AppIcons.APPLE,
-              text: AppStrings.WITH_APPLE,
-              foregroundColor: context.colors.primary,
-            ),
-          ),
+          _google(context),
+          _apple(context),
         ],
+      ),
+    );
+  }
+
+  ElevatedButtonComponent _mail(BuildContext context) {
+    return ElevatedButtonComponent(
+      width: context.width * .8,
+      color: context.colors.primary,
+      onPressed: () => context.push(RouteConstants.REGISTER),
+      child: ButtonTextWithIconComponent(
+        icon: AppIcons.MAIL_FILLED,
+        text: AppStrings.WITH_MAIL,
+        foregroundColor: context.colors.secondary,
+      ),
+    );
+  }
+
+  ElevatedButtonComponent _google(BuildContext context) {
+    return ElevatedButtonComponent(
+      width: context.width * .8,
+      color: context.colors.outline,
+      onPressed: () =>
+          context.read<AuthenticationBloc>().add(AuthtenticationGoogleEvent()),
+      child: ButtonTextWithIconComponent(
+        icon: AppIcons.GOOGLE,
+        text: AppStrings.WITH_GOOGLE,
+        foregroundColor: context.colors.primary,
+      ),
+    );
+  }
+
+  ElevatedButtonComponent _apple(BuildContext context) {
+    return ElevatedButtonComponent(
+      width: context.width * .8,
+      color: context.colors.outline,
+      onPressed: () =>
+          context.read<AuthenticationBloc>().add(AuthtenticationAppleEvent()),
+      child: ButtonTextWithIconComponent(
+        icon: AppIcons.APPLE,
+        text: AppStrings.WITH_APPLE,
+        foregroundColor: context.colors.primary,
       ),
     );
   }

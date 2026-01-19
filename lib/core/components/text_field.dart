@@ -57,10 +57,12 @@ class TextFieldComponent extends StatelessWidget {
         fillColor: context.colors.shadow,
         hintText: hintText.tr(),
         hintStyle: _hintStyle(context),
-        enabledBorder: _buildBorderField(),
-        focusedBorder: _buildBorderField(),
+        enabledBorder: _buildBorderField(color: context.colors.secondaryFixed),
+        focusedBorder: _buildBorderField(
+          color: context.colors.onSecondaryFixed,
+        ),
         errorBorder: _buildBorderField(color: Colors.red),
-        focusedErrorBorder: _buildBorderField(),
+        focusedErrorBorder: _buildBorderField(color: context.colors.error),
         counterText: "",
       ),
       validator: (value) {
@@ -98,7 +100,10 @@ class TextFieldComponent extends StatelessWidget {
     );
   }
 
-  OutlineInputBorder _buildBorderField({Color color = Colors.grey}) {
-    return OutlineInputBorder(borderRadius: BorderRadius.circular(18));
+  OutlineInputBorder _buildBorderField({required Color color}) {
+    return OutlineInputBorder(
+      borderSide: BorderSide(color: color),
+      borderRadius: BorderRadius.circular(18),
+    );
   }
 }

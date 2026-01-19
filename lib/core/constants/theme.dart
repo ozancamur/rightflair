@@ -44,11 +44,14 @@ class AppTheme {
       surfaceVariant: LightColors.BLUE,
       onSurfaceVariant: LightColors.TRANSPARENT_BLUE,
 
-      outline: LightColors.DARK_BUTTON,
-      shadow: LightColors.INACTIVE,
+      outline: LightColors.NOTIFICATION,
+      shadow: Colors.white,
 
       onBackground: Colors.white,
       onSecondary: LightColors.NOTIFICATION,
+
+      secondaryFixed: Colors.grey.shade300,
+      onSecondaryFixed: Colors.grey.shade700,
     ),
   );
 
@@ -94,6 +97,10 @@ class AppTheme {
 
       onBackground: DarkColors.INACTIVE,
       onSecondary: Color(0xFFD9D9D9).withOpacity(.12),
+
+
+      secondaryFixed: Colors.grey.shade700,
+      onSecondaryFixed: Colors.grey.shade300,
     ),
   );
 }
