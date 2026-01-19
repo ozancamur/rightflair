@@ -182,6 +182,7 @@ class AuthenticationBloc
       email: email,
       fullName: name,
       token: token,
+
     );
     await _firestoreAuthentication.createWithId(
       collection: CollectionEnum.USERS,

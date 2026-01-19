@@ -160,7 +160,7 @@ class _FeedPostItemState extends State<FeedPostItem>
               color: context.colors.primary,
               borderRadius: BorderRadius.circular(context.width * 0.06),
               image: DecorationImage(
-                image: NetworkImage(widget.post.imageUrl),
+                image: NetworkImage(widget.post.postImageUrl),
                 fit: BoxFit.cover,
               ),
             ),

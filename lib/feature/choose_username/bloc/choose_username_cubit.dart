@@ -29,7 +29,6 @@ class ChooseUsernameCubit extends Cubit<ChooseUsernameState> {
       final isUnique = await _firestoreAuthentication.isUsernameUnique(
         controller.text,
       );
-      debugPrint("USERNAME ${controller.text} is UNOQUE :> $isUnique");
       emit(state.copyWith(isUnique: isUnique));
       if (isUnique) {
         try {

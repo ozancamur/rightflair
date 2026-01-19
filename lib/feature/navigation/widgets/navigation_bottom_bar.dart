@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:rightflair/core/constants/color/color.dart';
 import 'package:rightflair/core/constants/route.dart';
 import 'package:rightflair/feature/create_post/cubit/create_post_cubit.dart';
 
@@ -26,7 +27,7 @@ class NavigationBottomBar extends StatelessWidget {
         height: context.height * .08,
         padding: EdgeInsets.symmetric(horizontal: context.width * .04),
         decoration: BoxDecoration(
-          color: context.colors.outline,
+          color: AppColors.NAVIGATION,
           borderRadius: BorderRadius.circular(100),
         ),
         child: Row(

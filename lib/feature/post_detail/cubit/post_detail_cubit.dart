@@ -10,10 +10,10 @@ class PostDetailCubit extends Cubit<PostDetailState> {
         PostDetailState(
           post: FeedPostModel(
             id: '1',
-            userId: '',
-            userName: 'Jennifer Coppen',
-            userAvatar: 'https://i.pravatar.cc/150?img=1',
-            imageUrl: 'https://picsum.photos/400/600?random=1',
+            ownerId: '',
+            ownerName: 'Jennifer Coppen',
+            ownerAvatar: 'https://i.pravatar.cc/150?img=1',
+            postImageUrl: 'https://picsum.photos/400/600?random=1',
             description: '',
             likeCount: 2515,
             commentCount: 21,

@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import 'package:rightflair/core/firebase/authentication.dart';
+import '../../../core/constants/route.dart';
 import '../../../main.dart';
 import '../model/settings_model.dart';
 import 'settings_state.dart';
@@ -80,8 +83,9 @@ class SettingsCubit extends Cubit<SettingsState> {
     }
   }
 
-  void logOut() {
-    // Implement logout logic
+  void logOut(BuildContext context) {
+    context.replaceNamed(RouteConstants.WELCOME);
+    FirebaseAuthenticationManager().logout();
   }
 
   void deactivateAccount() {

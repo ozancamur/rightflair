@@ -2,10 +2,10 @@ import 'package:equatable/equatable.dart';
 
 class FeedPostModel extends Equatable {
   final String id;
-  final String userId;
-  final String userName;
-  final String userAvatar;
-  final String imageUrl;
+  final String ownerId;
+  final String ownerName;
+  final String ownerAvatar;
+  final String postImageUrl;
   final String? description;
   final int likeCount;
   final int commentCount;
@@ -16,10 +16,10 @@ class FeedPostModel extends Equatable {
 
   const FeedPostModel({
     required this.id,
-    required this.userId,
-    required this.userName,
-    required this.userAvatar,
-    required this.imageUrl,
+    required this.ownerId,
+    required this.ownerName,
+    required this.ownerAvatar,
+    required this.postImageUrl,
     this.description,
     required this.likeCount,
     required this.commentCount,
@@ -31,10 +31,10 @@ class FeedPostModel extends Equatable {
 
   FeedPostModel copyWith({
     String? id,
-    String? userId,
-    String? userName,
-    String? userAvatar,
-    String? imageUrl,
+    String? ownerId,
+    String? ownerName,
+    String? ownerAvatar,
+    String? postImageUrl,
     String? description,
     int? likeCount,
     int? commentCount,
@@ -45,10 +45,10 @@ class FeedPostModel extends Equatable {
   }) {
     return FeedPostModel(
       id: id ?? this.id,
-      userId: userId ?? this.userId,
-      userName: userName ?? this.userName,
-      userAvatar: userAvatar ?? this.userAvatar,
-      imageUrl: imageUrl ?? this.imageUrl,
+      ownerId: ownerId ?? this.ownerId,
+      ownerName: ownerName ?? this.ownerName,
+      ownerAvatar: ownerAvatar ?? this.ownerAvatar,
+      postImageUrl: postImageUrl ?? this.postImageUrl,
       description: description ?? this.description,
       likeCount: likeCount ?? this.likeCount,
       commentCount: commentCount ?? this.commentCount,
@@ -62,10 +62,10 @@ class FeedPostModel extends Equatable {
   factory FeedPostModel.fromJson(Map<String, dynamic> json) {
     return FeedPostModel(
       id: json['id'] as String,
-      userId: json['userId'] as String,
-      userName: json['userName'] as String,
-      userAvatar: json['userAvatar'] as String,
-      imageUrl: json['imageUrl'] as String,
+      ownerId: json['ownerId'] as String,
+      ownerName: json['ownerName'] as String,
+      ownerAvatar: json['ownerAvatar'] as String,
+      postImageUrl: json['postImageUrl'] as String,
       description: json['description'] as String?,
       likeCount: json['likeCount'] as int,
       commentCount: json['commentCount'] as int,
@@ -79,10 +79,10 @@ class FeedPostModel extends Equatable {
   Map<String, dynamic> toJson() {
     return {
       'id': id,
-      'userId': userId,
-      'userName': userName,
-      'userAvatar': userAvatar,
-      'imageUrl': imageUrl,
+      'ownerId': ownerId,
+      'ownerName': ownerName,
+      'ownerAvatar': ownerAvatar,
+      'postImageUrl': postImageUrl,
       'description': description,
       'likeCount': likeCount,
       'commentCount': commentCount,
@@ -96,10 +96,10 @@ class FeedPostModel extends Equatable {
   @override
   List<Object?> get props => [
     id,
-    userId,
-    userName,
-    userAvatar,
-    imageUrl,
+    ownerId,
+    ownerName,
+    ownerAvatar,
+    postImageUrl,
     description,
     likeCount,
     commentCount,

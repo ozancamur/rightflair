@@ -66,6 +66,9 @@ class FirestoreAuthenticationManager extends FirestoreManager {
       await firestore.collection(CollectionEnum.PROFILES.path).doc(uid).update({
         'username': username,
       });
+      await firestore.collection(CollectionEnum.USERS.path).doc(uid).update({
+        'username': username,
+      });
 
       // Usernames koleksiyonuna kaydet
       await firestore

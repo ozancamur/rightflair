@@ -19,7 +19,7 @@ class SettingsButtonsWidget extends StatelessWidget {
       icon: Icons.logout,
       title: AppStrings.SETTINGS_LOG_OUT,
       textColor: context.colors.primary,
-      onTap: () => context.read<SettingsCubit>().logOut(),
+      onTap: () => context.read<SettingsCubit>().logOut(context),
     );
   }
 

@@ -164,10 +164,10 @@ class FeedBloc extends Bloc<FeedEvent, FeedState> {
       posts.add(
         FeedPostModel(
           id: 'post_${tabIndex}_$index',
-          userId: 'user_$index',
-          userName: 'User ${index + 1}',
-          userAvatar: 'https://i.pravatar.cc/150?img=$index',
-          imageUrl: 'https://picsum.photos/400/600?random=$index$tabIndex',
+          ownerId: 'user_$index',
+          ownerName: 'User ${index + 1}',
+          ownerAvatar: 'https://i.pravatar.cc/150?img=$index',
+          postImageUrl: 'https://picsum.photos/400/600?random=$index$tabIndex',
           description: '${tabNames[tabIndex]} tab - Post $index açıklaması',
           likeCount: (index * 10) + 100,
           commentCount: (index * 5) + 20,

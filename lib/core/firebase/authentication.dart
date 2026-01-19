@@ -6,6 +6,8 @@ import 'package:rightflair/core/constants/string.dart';
 import 'package:rightflair/core/utils/dialog.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
+import '../error/auth.dart';
+
 class FirebaseAuthenticationManager {
   
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -32,7 +34,7 @@ class FirebaseAuthenticationManager {
       return userCredential;
       
     } on FirebaseAuthException catch (e) {
-      final errorMessage = _handleAuthException(e);
+      final errorMessage = handleAuthException(e);
       if (context != null && context.mounted) {
         await DialogUtils.showErrorDialog(context, message: errorMessage);
       }
@@ -60,7 +62,7 @@ class FirebaseAuthenticationManager {
       );
       return userCredential;
     } on FirebaseAuthException catch (e) {
-      final errorMessage = _handleAuthException(e);
+      final errorMessage = handleAuthException(e);
       if (context != null && context.mounted) {
         await DialogUtils.showErrorDialog(context, message: errorMessage);
       }
@@ -92,7 +94,7 @@ class FirebaseAuthenticationManager {
       final userCredential = await _auth.signInWithCredential(credential);
       return userCredential;
     } on FirebaseAuthException catch (e) {
-      final errorMessage = _handleAuthException(e);
+      final errorMessage = handleAuthException(e);
       if (context != null && context.mounted) {
         await DialogUtils.showErrorDialog(context, message: errorMessage);
       }
@@ -135,7 +137,7 @@ class FirebaseAuthenticationManager {
 
       return userCredential;
     } on FirebaseAuthException catch (e) {
-      final errorMessage = _handleAuthException(e);
+      final errorMessage = handleAuthException(e);
       if (context != null && context.mounted) {
         await DialogUtils.showErrorDialog(context, message: errorMessage);
       }
@@ -159,7 +161,7 @@ class FirebaseAuthenticationManager {
       await _auth.sendPasswordResetEmail(email: email);
       return true;
     } on FirebaseAuthException catch (e) {
-      final errorMessage = _handleAuthException(e);
+      final errorMessage = handleAuthException(e);
       if (context != null && context.mounted) {
         await DialogUtils.showErrorDialog(context, message: errorMessage);
       }
@@ -177,7 +179,7 @@ class FirebaseAuthenticationManager {
     }
   }
 
-  Future<bool> signOut({BuildContext? context}) async {
+  Future<bool> logout({BuildContext? context}) async {
     try {
       await Future.wait([_auth.signOut(), _googleSignIn.signOut()]);
       return true;
@@ -197,7 +199,7 @@ class FirebaseAuthenticationManager {
       await _auth.currentUser?.delete();
       return true;
     } on FirebaseAuthException catch (e) {
-      final errorMessage = _handleAuthException(e);
+      final errorMessage = handleAuthException(e);
       if (context != null && context.mounted) {
         await DialogUtils.showErrorDialog(context, message: errorMessage);
       }
@@ -267,7 +269,7 @@ class FirebaseAuthenticationManager {
       await _auth.currentUser?.updatePassword(newPassword);
       return true;
     } on FirebaseAuthException catch (e) {
-      final errorMessage = _handleAuthException(e);
+      final errorMessage = handleAuthException(e);
       if (context != null && context.mounted) {
         await DialogUtils.showErrorDialog(context, message: errorMessage);
       }
@@ -286,32 +288,5 @@ class FirebaseAuthenticationManager {
   }
 
   /// Firebase Auth hatalarını yönet
-  String _handleAuthException(FirebaseAuthException e) {
-    switch (e.code) {
-      case 'weak-password':
-        return AppStrings.ERROR_WEAK_PASSWORD.tr();
-      case 'email-already-in-use':
-        return AppStrings.ERROR_EMAIL_ALREADY_IN_USE.tr();
-      case 'invalid-email':
-        return AppStrings.ERROR_INVALID_EMAIL.tr();
-      case 'user-not-found':
-        return AppStrings.ERROR_USER_NOT_FOUND.tr();
-      case 'wrong-password':
-        return AppStrings.ERROR_WRONG_PASSWORD.tr();
-      case 'user-disabled':
-        return AppStrings.ERROR_USER_DISABLED.tr();
-      case 'too-many-requests':
-        return AppStrings.ERROR_TOO_MANY_REQUESTS.tr();
-      case 'operation-not-allowed':
-        return AppStrings.ERROR_OPERATION_NOT_ALLOWED.tr();
-      case 'requires-recent-login':
-        return AppStrings.ERROR_REQUIRES_RECENT_LOGIN.tr();
-      case 'invalid-credential':
-        return AppStrings.ERROR_INVALID_CREDENTIAL.tr();
-      case 'account-exists-with-different-credential':
-        return AppStrings.ERROR_ACCOUNT_EXISTS_WITH_DIFFERENT_CREDENTIAL.tr();
-      default:
-        return AppStrings.ERROR_DEFAULT.tr(args: [e.message ?? '']);
-    }
-  }
+ 
 }

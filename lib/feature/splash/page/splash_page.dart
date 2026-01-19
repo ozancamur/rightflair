@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rightflair/core/base/base_scaffold.dart';
@@ -61,13 +62,13 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
 
     // Firebase Auth check
     final user = FirebaseAuth.instance.currentUser;
-
+    if (kDebugMode) {
+      debugPrint("FIREBASE USER :> ${user?.uid} - ${user?.email}");
+    }
     if (user != null) {
-      // User is logged in, navigate to main screen
       context.go(RouteConstants.NAVIGATION);
     } else {
-      // User is not logged in, navigate to register screen
-      context.go(RouteConstants.REGISTER);
+      context.go(RouteConstants.WELCOME);
     }
   }
 
