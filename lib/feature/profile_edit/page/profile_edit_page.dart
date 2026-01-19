@@ -6,7 +6,7 @@ import 'package:rightflair/core/constants/string.dart';
 import 'package:rightflair/core/extensions/context.dart';
 import 'package:rightflair/feature/navigation/widgets/navigation_bottom_bar.dart';
 
-import '../../../core/base/base_scaffold.dart';
+import '../../../core/base/page/base_scaffold.dart';
 import '../../../core/utils/dialog.dart';
 import '../cubit/profile_edit_cubit.dart';
 import '../widgets/profile_edit_done_button.dart';

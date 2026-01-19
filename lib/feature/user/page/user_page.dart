@@ -5,7 +5,7 @@ import 'package:rightflair/core/extensions/context.dart';
 import 'package:rightflair/core/components/profile/profile_header_widget.dart';
 import 'package:rightflair/core/components/profile/profile_photo_grid_widget.dart';
 
-import '../../../core/base/base_scaffold.dart';
+import '../../../core/base/page/base_scaffold.dart';
 import '../../../core/components/profile/profile_tab_item.dart';
 import '../cubit/user_cubit.dart';
 import '../widgets/user_appbar.dart';

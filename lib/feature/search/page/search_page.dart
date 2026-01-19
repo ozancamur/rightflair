@@ -9,7 +9,7 @@ import 'package:rightflair/feature/search/cubit/search_cubit.dart';
 import 'package:rightflair/feature/search/widgets/recent_search_chip.dart';
 import 'package:rightflair/feature/search/widgets/search_text_field.dart';
 
-import '../../../core/base/base_scaffold.dart';
+import '../../../core/base/page/base_scaffold.dart';
 
 class SearchPage extends StatelessWidget {
   const SearchPage({super.key});

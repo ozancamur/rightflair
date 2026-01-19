@@ -3,26 +3,16 @@ import 'dart:async';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
-import 'package:rightflair/core/constants/route.dart';
-import 'package:rightflair/core/firebase/authentication.dart';
-
-import '../../../core/firebase/firestore/firestore_authentication.dart';
-
 part 'choose_username_state.dart';
 
 class ChooseUsernameCubit extends Cubit<ChooseUsernameState> {
   final FocusNode focusNode = FocusNode();
   final TextEditingController controller = TextEditingController();
 
-  final FirestoreAuthenticationManager _firestoreAuthentication =
-      FirestoreAuthenticationManager();
-  final FirebaseAuthenticationManager _authentication =
-      FirebaseAuthenticationManager();
 
   ChooseUsernameCubit() : super(ChooseUsernameState());
 
-  Future<void> onSave(BuildContext context) async {
+  Future<void> onSave(BuildContext context) async {/*
     try {
       if (controller.text.trim().isEmpty) return;
       emit(state.copyWith(isLoading: true));
@@ -53,6 +43,6 @@ class ChooseUsernameCubit extends Cubit<ChooseUsernameState> {
     } catch (e) {
       debugPrint('Username kaydedilemedi: $e');
       emit(state.copyWith(isLoading: false));
-    }
+    }*/
   }
 }

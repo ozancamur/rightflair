@@ -1,10 +1,6 @@
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import 'package:rightflair/core/base/base_scaffold.dart';
+import 'package:rightflair/core/base/page/base_scaffold.dart';
 import 'package:rightflair/core/constants/image.dart';
-import 'package:rightflair/core/constants/route.dart';
 import 'package:rightflair/core/extensions/context.dart';
 
 class SplashPage extends StatefulWidget {
@@ -60,16 +56,8 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
 
     if (!mounted) return;
 
-    // Firebase Auth check
-    final user = FirebaseAuth.instance.currentUser;
-    if (kDebugMode) {
-      debugPrint("FIREBASE USER :> ${user?.uid} - ${user?.email}");
-    }
-    if (user != null) {
-      context.go(RouteConstants.NAVIGATION);
-    } else {
-      context.go(RouteConstants.WELCOME);
-    }
+    // TODO AUTH CHECK
+    
   }
 
   @override

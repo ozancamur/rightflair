@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rightflair/core/components/appbar.dart';
 import 'package:rightflair/core/constants/string.dart';
 
-import '../../../core/base/base_scaffold.dart';
+import '../../../core/base/page/base_scaffold.dart';
 import '../../../core/extensions/context.dart';
 import '../bloc/choose_username_cubit.dart';
 import '../../authentication/widgets/authentication_text.dart';

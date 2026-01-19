@@ -1,4 +1,4 @@
-import '../../../../../core/base/base_model.dart';
+import '../../../../../core/base/model/base.dart';
 
 class PhotoModel extends BaseModel {
   String? url;

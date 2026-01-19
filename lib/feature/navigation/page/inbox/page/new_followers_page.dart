@@ -4,7 +4,7 @@ import 'package:rightflair/core/components/text.dart';
 import 'package:rightflair/core/constants/font/font_size.dart';
 import 'package:rightflair/core/extensions/context.dart';
 
-import '../../../../../core/base/base_scaffold.dart';
+import '../../../../../core/base/page/base_scaffold.dart';
 import '../../../../../core/components/appbar.dart';
 import '../../../../../core/components/back_button.dart';
 import '../../../../../core/components/settings_button.dart';

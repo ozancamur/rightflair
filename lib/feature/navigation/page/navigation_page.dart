@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rightflair/core/extensions/context.dart';
 
-import '../../../core/base/base_scaffold.dart';
+import '../../../core/base/page/base_scaffold.dart';
 import '../cubit/navigation_cubit.dart';
 import '../widgets/navigation_bottom_bar.dart';
 

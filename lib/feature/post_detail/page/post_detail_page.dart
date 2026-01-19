@@ -7,7 +7,7 @@ import 'package:rightflair/core/constants/icons.dart';
 import 'package:rightflair/core/extensions/context.dart';
 import 'package:rightflair/feature/post_detail/cubit/post_detail_cubit.dart';
 
-import '../../../core/base/base_scaffold.dart';
+import '../../../core/base/page/base_scaffold.dart';
 import '../../navigation/page/feed/widgets/feed_post_item.dart';
 
 class PostDetailPage extends StatelessWidget {

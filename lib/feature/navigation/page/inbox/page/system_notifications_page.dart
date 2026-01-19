@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:rightflair/core/components/appbar.dart';
 import 'package:rightflair/core/components/back_button.dart';
 import 'package:rightflair/core/extensions/context.dart';
-import '../../../../../core/base/base_scaffold.dart';
+import '../../../../../core/base/page/base_scaffold.dart';
 import '../../../../../core/components/settings_button.dart';
 import '../../../../../core/constants/string.dart';
 import '../widgets/system_notifications_list.dart';

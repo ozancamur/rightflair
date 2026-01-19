@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../../core/base/base_scaffold.dart';
+import '../../../../../core/base/page/base_scaffold.dart';
 import '../../../../../core/components/error_message.dart';
 import '../../../../../core/components/loading.dart';
 import '../cubit/inbox_cubit.dart';

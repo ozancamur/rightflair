@@ -1,10 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:rightflair/core/constants/collection.dart';
 import 'package:rightflair/core/firebase/messaging.dart';
 
-import '../../../core/firebase/authentication.dart';
-import '../../../core/firebase/firestore/firestore_authentication.dart';
 import '../model/profile.dart';
 import '../model/user.dart';
 
@@ -13,10 +10,6 @@ part 'authentication_state.dart';
 
 class AuthenticationBloc
     extends Bloc<AuthenticationEvent, AuthenticationState> {
-  final FirebaseAuthenticationManager _authentication =
-      FirebaseAuthenticationManager();
-  final FirestoreAuthenticationManager _firestoreAuthentication =
-      FirestoreAuthenticationManager();
   final FirebaseMessagingManager _messaging = FirebaseMessagingManager();
 
   AuthenticationBloc() : super(AuthenticationInitial()) {
@@ -32,7 +25,7 @@ class AuthenticationBloc
     Emitter<AuthenticationState> emit,
   ) async {
     emit(AuthenticationLoading());
-    final response = await _authentication.signUpWithEmailAndPassword(
+    /*final response = await _authentication.signUpWithEmailAndPassword(
       email: event.email,
       password: event.password,
     );
@@ -60,14 +53,14 @@ class AuthenticationBloc
         name: response.user?.displayName,
       );
       emit(AuthenticationSetUsername());
-    }
+    }*/
   }
 
   Future<void> _onLogin(
     AuthenticationLoginEvent event,
     Emitter<AuthenticationState> emit,
   ) async {
-    emit(AuthenticationLoading());
+    /* emit(AuthenticationLoading());
     final response = await _authentication.signInWithEmailAndPassword(
       email: event.email,
       password: event.password,
@@ -102,14 +95,14 @@ class AuthenticationBloc
         id: uid,
         data: user,
       );
-    }
+    }*/
   }
 
   Future<void> _onApple(
     AuthtenticationAppleEvent event,
     Emitter<AuthenticationState> emit,
   ) async {
-    emit(AuthenticationLoading());
+    /* emit(AuthenticationLoading());
     final response = await _authentication.signInWithApple();
     if (response == null) {
       emit(AuthenticationError(""));
@@ -131,14 +124,14 @@ class AuthenticationBloc
         email: response.user?.email ?? "",
         name: response.user?.displayName,
       );
-    }
+    }*/
   }
 
   Future<void> _onGoogle(
     AuthtenticationGoogleEvent event,
     Emitter<AuthenticationState> emit,
   ) async {
-    emit(AuthenticationLoading());
+    /*emit(AuthenticationLoading());
     final response = await _authentication.signInWithGoogle();
     if (response == null) {
       emit(AuthenticationError(""));
@@ -160,7 +153,7 @@ class AuthenticationBloc
         email: response.user?.email ?? "",
         name: response.user?.displayName,
       );
-    }
+    }*/
   }
 
   Future<void> _onReset(
@@ -168,7 +161,6 @@ class AuthenticationBloc
     Emitter<AuthenticationState> emit,
   ) async {
     emit(AuthenticationLoading());
-    await _authentication.sendPasswordResetEmail(event.email);
   }
 
   Future<void> _create({
@@ -176,7 +168,7 @@ class AuthenticationBloc
     required String email,
     String? name,
   }) async {
-    final String? token = await _messaging.getToken();
+    /*final String? token = await _messaging.getToken();
     final UserModel user = UserModel(
       uid: uid,
       email: email,
@@ -194,6 +186,6 @@ class AuthenticationBloc
       collection: CollectionEnum.PROFILES,
       id: uid,
       data: profile,
-    );
+    );*/
   }
 }

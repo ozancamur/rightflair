@@ -8,7 +8,7 @@ import 'package:rightflair/core/constants/string.dart';
 import 'package:rightflair/core/utils/dialog.dart';
 import 'package:rightflair/feature/authentication/bloc/authentication_bloc.dart';
 
-import '../../../core/base/base_scaffold.dart';
+import '../../../core/base/page/base_scaffold.dart';
 import '../../../core/components/loading.dart';
 import '../../../core/extensions/context.dart';
 import '../widgets/authentication_have_account.dart';

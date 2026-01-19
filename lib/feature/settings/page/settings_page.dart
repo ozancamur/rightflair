@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rightflair/core/constants/app.dart';
 import 'package:rightflair/core/constants/font/font_size.dart';
 import 'package:rightflair/feature/settings/widgets/settings_appbar.dart';
-import '../../../core/base/base_scaffold.dart';
+import '../../../core/base/page/base_scaffold.dart';
 import '../../../core/components/loading.dart';
 import '../../../core/components/text.dart';
 import '../../../core/constants/string.dart';

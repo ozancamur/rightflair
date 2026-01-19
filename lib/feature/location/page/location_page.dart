@@ -8,7 +8,7 @@ import 'package:rightflair/core/components/loading.dart';
 import 'package:rightflair/core/extensions/context.dart';
 import 'package:rightflair/feature/location/widgets/location_list.dart';
 
-import '../../../core/base/base_scaffold.dart';
+import '../../../core/base/page/base_scaffold.dart';
 import '../cubit/location_cubit.dart';
 import '../cubit/location_state.dart';
 import '../widgets/location_empty.dart';

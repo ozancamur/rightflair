@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rightflair/core/extensions/context.dart';
 
-import '../../../core/base/base_scaffold.dart';
+import '../../../core/base/page/base_scaffold.dart';
 import '../widgets/welcome/welcome_buttons.dart';
 import '../widgets/authentication_have_account.dart';
 import '../widgets/welcome/welcome_logo.dart';

@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import '../../../../../core/base/base_model.dart';
+import '../../../../../core/base/model/base.dart';
 
 class CommentModel extends BaseModel<CommentModel> {
   String? id;
