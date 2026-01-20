@@ -76,7 +76,9 @@
             "genericDeleteAccount": "An error occurred while deleting account: {}",
             "genericEmailVerification": "An error occurred while sending email verification: {}",
             "genericUpdateProfile": "An error occurred while updating profile: {}",
-            "genericUpdatePassword": "An error occurred while updating password: {}"
+            "genericUpdatePassword": "An error occurred while updating password: {}",
+            "welcomePage": "An unexpected error occurred",
+            "loginPage": "Login failed. Please try again"
         }
     },
     "navigation": {

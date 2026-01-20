@@ -76,7 +76,9 @@
             "genericDeleteAccount": "Hesap silinirken bir hata oluştu: {}",
             "genericEmailVerification": "Email doğrulama gönderilirken hata oluştu: {}",
             "genericUpdateProfile": "Profil güncellenirken hata oluştu: {}",
-            "genericUpdatePassword": "Şifre güncellenirken hata oluştu: {}"
+            "genericUpdatePassword": "Şifre güncellenirken hata oluştu: {}",
+            "welcomePage": "Beklenmedik bir hata oluştu",
+            "loginPage": "Giriş başarısız. Lütfen tekrar deneyin"
         }
     },
     "navigation": {

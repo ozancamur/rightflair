@@ -99,6 +99,8 @@ class AppStrings {
       'authentication.errors.genericGoogle';
   static const String ERROR_GENERIC_APPLE =
       'authentication.errors.genericApple';
+  static const String ERROR_WELCOME_PAGE = 'authentication.errors.welcomePage';
+  static const String ERROR_LOGIN_PAGE = 'authentication.errors.loginPage';
   static const String ERROR_GENERIC_PASSWORD_RESET =
       'authentication.errors.genericPasswordReset';
   static const String ERROR_GENERIC_SIGNOUT =

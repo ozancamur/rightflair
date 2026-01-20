@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rightflair/core/components/appbar.dart';
+import 'package:rightflair/core/components/back_button.dart';
 import 'package:rightflair/core/constants/route.dart';
 import 'package:rightflair/core/constants/string.dart';
 import 'package:rightflair/core/utils/dialog.dart';
 import 'package:rightflair/feature/authentication/bloc/authentication_bloc.dart';
 
 import '../../../core/base/page/base_scaffold.dart';
-import '../../../core/components/loading.dart';
 import '../../../core/extensions/context.dart';
 import '../widgets/authentication_have_account.dart';
 import '../widgets/authentication_text.dart';
@@ -40,20 +40,21 @@ class RegisterPage extends StatelessWidget {
       },
       builder: (BuildContext context, AuthenticationState state) {
         return BaseScaffold(
-          appBar: AppBarComponent(title: AppStrings.REGISTER_APPBAR),
+          appBar: AppBarComponent(
+            leading: BackButtonComponent(),
+            title: AppStrings.REGISTER_APPBAR,
+          ),
           body: SizedBox(
             height: context.height,
             width: context.width,
-            child: (state is AuthenticationLoading)
-                ? LoadingComponent()
-                : _body(context),
+            child: _body(context, (state is AuthenticationLoading)),
           ),
         );
       },
     );
   }
 
-  Widget _body(BuildContext context) {
+  Widget _body(BuildContext context, bool isLoading) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: context.width * .05),
       child: Column(
@@ -72,21 +73,27 @@ class RegisterPage extends StatelessWidget {
             ctrlConfirmPassword: ctrlConfirmPassword,
           ),
           SizedBox(height: context.height * .025),
-          RegisterButtonWidget(
-            onRegister: () {
-              if (keyRegister.currentState?.validate() ?? false) {
-                context.read<AuthenticationBloc>().add(
-                  AuthenticationRegisterEvent(
-                    email: ctrlEmail.text.trim(),
-                    password: ctrlPassword.text.trim(),
-                  ),
-                );
-              }
-            },
-          ),
+          _button(isLoading, context),
           const AuthenticationHaveAccountWidget(),
         ],
       ),
     );
+  }
+
+  RegisterButtonWidget _button(bool isLoading, BuildContext context) {
+    return RegisterButtonWidget(
+          isLoading: isLoading,
+          onRegister: () {
+            if (isLoading) return;
+            if (keyRegister.currentState?.validate() ?? false) {
+              context.read<AuthenticationBloc>().add(
+                AuthenticationRegisterEvent(
+                  email: ctrlEmail.text.trim(),
+                  password: ctrlPassword.text.trim(),
+                ),
+              );
+            }
+          },
+        );
   }
 }

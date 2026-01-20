@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rightflair/core/components/loading.dart';
 
 import '../../../../core/components/elevated_button.dart';
 import '../../../../core/components/text.dart';
@@ -7,7 +8,13 @@ import '../../../../core/constants/string.dart';
 import '../../../../core/extensions/context.dart';
 
 class LoginButtonWidget extends StatelessWidget {
-  const LoginButtonWidget({super.key});
+  final bool isLoading;
+  final Function() onTap;
+  const LoginButtonWidget({
+    super.key,
+    required this.isLoading,
+    required this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -15,13 +22,15 @@ class LoginButtonWidget extends StatelessWidget {
       height: context.height * .07,
       radius: 100,
       color: context.colors.outline,
-      onPressed: () {},
-      child: TextComponent(
-        color: context.colors.primaryContainer,
-        text: AppStrings.LOGIN,
-        size: FontSizeConstants.LARGE,
-        weight: FontWeight.w600,
-      ),
+      onPressed: onTap,
+      child: isLoading
+          ? LoadingComponent()
+          : TextComponent(
+              color: context.colors.primaryContainer,
+              text: AppStrings.LOGIN,
+              size: FontSizeConstants.LARGE,
+              weight: FontWeight.w600,
+            ),
     );
   }
 }

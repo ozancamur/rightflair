@@ -28,8 +28,12 @@ class AuthenticationBloc
       email: event.email,
       password: event.password,
     );
-    print("AUTHENTICATION BLOC : REGISTER RESPONSE SESSION: ${response.session?.toJson()}");
-    print("AUTHENTICATION BLOC : REGISTER RESPONSE USER: ${response.user?.toJson()}");
+    print(
+      "AUTHENTICATION BLOC : REGISTER RESPONSE SESSION: ${response.session?.toJson()}",
+    );
+    print(
+      "AUTHENTICATION BLOC : REGISTER RESPONSE USER: ${response.user?.toJson()}",
+    );
     final String? uid = response.user?.id;
     if (uid == null) {
       emit(AuthenticationError(""));
@@ -53,8 +57,12 @@ class AuthenticationBloc
       password: event.password,
     );
 
-    print("AUTHENTICATION BLOC : LOGIN RESPONSE SESSION: ${response.session?.toJson()}");
-    print("AUTHENTICATION BLOC : LOGIN RESPONSE USER: ${response.user?.toJson()}");
+    print(
+      "AUTHENTICATION BLOC : LOGIN RESPONSE SESSION: ${response.session?.toJson()}",
+    );
+    print(
+      "AUTHENTICATION BLOC : LOGIN RESPONSE USER: ${response.user?.toJson()}",
+    );
     final String? uid = response.user?.id;
     if (uid == null) {
       emit(AuthenticationError(""));
@@ -74,6 +82,7 @@ class AuthenticationBloc
         data: user,
       );
     */
+    emit(AuthenticationSetUsername());
   }
 
   Future<void> _onApple(
@@ -83,8 +92,12 @@ class AuthenticationBloc
     emit(AuthenticationLoading());
     final response = await _authentication.signInWithApple();
 
-    print("AUTHENTICATION BLOC : REGISTER APPLE SESSION: ${response.session?.toJson()}");
-    print("AUTHENTICATION BLOC : REGISTER APPLE USER: ${response.user?.toJson()}");
+    print(
+      "AUTHENTICATION BLOC : REGISTER APPLE SESSION: ${response.session?.toJson()}",
+    );
+    print(
+      "AUTHENTICATION BLOC : REGISTER APPLE USER: ${response.user?.toJson()}",
+    );
     final String? uid = response.user?.id;
     if (uid == null) return;
 
@@ -94,6 +107,7 @@ class AuthenticationBloc
         name: response.user?.displayName,
       );
     */
+    emit(AuthenticationSetUsername());
   }
 
   Future<void> _onGoogle(
@@ -102,8 +116,12 @@ class AuthenticationBloc
   ) async {
     emit(AuthenticationLoading());
     final response = await _authentication.signInWithGoogle();
-    print("AUTHENTICATION BLOC : REGISTER GOOGLE SESSION: ${response.session?.toJson()}");
-    print("AUTHENTICATION BLOC : REGISTER GOOGLE USER: ${response.user?.toJson()}");
+    print(
+      "AUTHENTICATION BLOC : REGISTER GOOGLE SESSION: ${response.session?.toJson()}",
+    );
+    print(
+      "AUTHENTICATION BLOC : REGISTER GOOGLE USER: ${response.user?.toJson()}",
+    );
     final String? uid = response.user?.id;
     if (uid == null) return;
 
@@ -113,6 +131,7 @@ class AuthenticationBloc
         name: response.user?.displayName,
       );
     */
+    emit(AuthenticationSetUsername());
   }
 
   Future<void> _onReset(
