@@ -1,134 +1,108 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-
 import '../../../core/base/model/base.dart';
 
 class UserModel extends BaseModel<UserModel> {
-  String? uid;
-  String? token;
+  String? id;
   String? email;
-  String? fullName;
   String? username;
+  String? fullName;
   String? bio;
-  String? image;
-  List<String>? tags;
-  List<String>? followers;
-  List<String>? followings;
+  String? profilePhotoUrl;
+  String? role;
+  String? status;
+  int? followersCount;
+  int? followingCount;
   DateTime? createdAt;
-  DateTime? lastActiveAt;
-  List<String>? posts;
-  List<String>? saves;
-  List<String>? drafts;
+  DateTime? lastActive;
+  String? fcm;
 
   UserModel({
-    this.uid,
-    this.token,
+    this.id,
     this.email,
-    this.fullName,
     this.username,
+    this.fullName,
     this.bio,
-    this.image,
-    this.tags,
-    this.followers,
-    this.followings,
+    this.profilePhotoUrl,
+    this.role,
+    this.status,
+    this.followersCount,
+    this.followingCount,
     this.createdAt,
-    this.lastActiveAt,
-    this.posts,
-    this.saves,
-    this.drafts,
+    this.lastActive,
+    this.fcm,
   });
 
   @override
-  copyWith({
-    String? uid,
-    String? token,
+  UserModel copyWith({
+    String? id,
     String? email,
-    String? fullName,
     String? username,
+    String? fullName,
     String? bio,
-    String? image,
-    List<String>? tags,
-    List<String>? followers,
-    List<String>? followings,
+    String? profilePhotoUrl,
+    String? role,
+    String? status,
+    int? followersCount,
+    int? followingCount,
     DateTime? createdAt,
-    DateTime? lastActiveAt,
-    List<String>? posts,
-    List<String>? saves,
-    List<String>? drafts,
+    DateTime? lastActive,
+    String? fcm,
   }) {
     return UserModel(
-      uid: uid ?? this.uid,
-      token: token ?? this.token,
+      id: id ?? this.id,
       email: email ?? this.email,
-      fullName: fullName ?? this.fullName,
       username: username ?? this.username,
+      fullName: fullName ?? this.fullName,
       bio: bio ?? this.bio,
-      image: image ?? this.image,
-      tags: tags ?? this.tags,
-      followers: followers ?? this.followers,
-      followings: followings ?? this.followings,
+      profilePhotoUrl: profilePhotoUrl ?? this.profilePhotoUrl,
+      role: role ?? this.role,
+      status: status ?? this.status,
+      followersCount: followersCount ?? this.followersCount,
+      followingCount: followingCount ?? this.followingCount,
       createdAt: createdAt ?? this.createdAt,
-      lastActiveAt: lastActiveAt ?? this.lastActiveAt,
-      posts: posts ?? this.posts,
-      saves: saves ?? this.saves,
-      drafts: drafts ?? this.drafts,
+      lastActive: lastActive ?? this.lastActive,
+      fcm: fcm ?? this.fcm,
     );
   }
 
   @override
-  fromJson(Map<String, dynamic> json) {
+  UserModel fromJson(Map<String, dynamic> json) {
     return UserModel(
-      uid: json['uid'] as String?,
-      token: json['token'] as String?,
+      id: json['id'] as String?,
       email: json['email'] as String?,
-      fullName: json['fullName'] as String?,
       username: json['username'] as String?,
+      fullName: json['full_name'] as String?,
       bio: json['bio'] as String?,
-      image: json['image'] as String?,
-      tags: (json['tags'] as List<dynamic>?)?.map((e) => e as String).toList(),
-      followers: (json['followers'] as List<dynamic>?)
-          ?.map((e) => e as String)
-          .toList(),
-      followings: (json['followings'] as List<dynamic>?)
-          ?.map((e) => e as String)
-          .toList(),
-      createdAt: json['createdAt'] != null
-          ? (json['createdAt'] as Timestamp).toDate()
+      profilePhotoUrl: json['profile_photo_url'] as String?,
+      role: json['role'] as String?,
+      status: json['status'] as String?,
+      followersCount: json['followers_count'] as int?,
+      followingCount: json['following_count'] as int?,
+      createdAt: json['created_at'] != null
+          ? DateTime.parse(json['created_at'] as String)
           : null,
-      lastActiveAt: json['lastActiveAt'] != null
-          ? (json['lastActiveAt'] as Timestamp).toDate()
+      lastActive: json['last_active'] != null
+          ? DateTime.parse(json['last_active'] as String)
           : null,
-      posts: (json['posts'] as List<dynamic>?)
-          ?.map((e) => e as String)
-          .toList(),
-      saves: (json['saves'] as List<dynamic>?)
-          ?.map((e) => e as String)
-          .toList(),
-      drafts: (json['drafts'] as List<dynamic>?)
-          ?.map((e) => e as String)
-          .toList(),
+      fcm: json['fcm'] as String?,
     );
   }
 
   @override
   Map<String, dynamic> toJson() {
     return {
-      'uid': uid,
-      'token': token,
+      'id': id,
       'email': email,
-      'fullName': fullName,
       'username': username,
+      'full_name': fullName,
       'bio': bio,
-      'image': image,
-      'tags': tags,
-      'followers': followers,
-      'followings': followings,
-      'createdAt': createdAt != null ? Timestamp.fromDate(createdAt!) : null,
-      'lastActiveAt': lastActiveAt != null
-          ? Timestamp.fromDate(lastActiveAt!)
-          : null,
-      'posts': posts,
-      'saves': saves,
-      'drafts': drafts,
+      'profile_photo_url': profilePhotoUrl,
+      'role': role,
+      'status': status,
+      'followers_count': followersCount,
+      'following_count': followingCount,
+      'created_at': createdAt?.toIso8601String(),
+      'last_active': lastActive?.toIso8601String(),
+      'fcm': fcm,
     };
   }
 }

@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:rightflair/core/config/database_initialize.dart';
 import 'package:rightflair/core/constants/app.dart';
 import 'package:rightflair/core/constants/locale.dart';
-import 'package:rightflair/core/database/firebase/messaging.dart';
+import 'package:rightflair/core/cloud/firebase/messaging.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -12,7 +12,6 @@ import 'app.dart';
 import 'core/config/theme_notifier.dart';
 
 void main() async {
-
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
 
@@ -38,6 +37,6 @@ void main() async {
 
 Future<bool> _isDarkMode() async {
   final prefs = await SharedPreferences.getInstance();
-  final isDarkMode = prefs.getBool('isDarkMode') ?? false;
+  final isDarkMode = prefs.getBool('isDarkMode') ?? true;
   return isDarkMode;
 }
