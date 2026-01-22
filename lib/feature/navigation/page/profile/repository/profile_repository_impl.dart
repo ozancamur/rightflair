@@ -27,4 +27,17 @@ class ProfileRepositoryImpl extends ProfileRepository {
       return null;
     }
   }
+
+  @override
+  Future<void> getUserPosts() async {
+    try {
+      final request = await _api.get(Endpoint.GET_USER_POSTS);
+      final ResponseModel response = ResponseModel().fromJson(
+        request.data as Map<String, dynamic>,
+      );
+      print("GET USER POSTS ${response.data}");
+    } catch (e) {
+      debugPrint("ProfileRepositoryImpl ERROR in getUserPosts :> $e");
+    }
+  }
 }

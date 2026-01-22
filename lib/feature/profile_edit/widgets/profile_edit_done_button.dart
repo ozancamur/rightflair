@@ -5,16 +5,18 @@ import 'package:rightflair/core/constants/font/font_size.dart';
 
 import '../../../core/constants/string.dart';
 import '../../../core/extensions/context.dart';
+import '../../authentication/model/user.dart';
 import '../cubit/profile_edit_cubit.dart';
 
 class ProfileEditDoneButtonWidget extends StatelessWidget {
-  const ProfileEditDoneButtonWidget({super.key});
+  final UserModel user;
+  const ProfileEditDoneButtonWidget({super.key, required this.user});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        context.read<ProfileEditCubit>().saveProfile();
+        context.read<ProfileEditCubit>().saveProfile(user);
         Navigator.pop(context);
       },
       child: Container(

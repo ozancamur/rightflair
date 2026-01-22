@@ -1,71 +1,68 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:rightflair/core/components/loading.dart';
 import 'package:rightflair/core/components/text.dart';
 import 'package:rightflair/core/constants/font/font_size.dart';
 import 'package:rightflair/core/constants/icons.dart';
 import 'package:rightflair/core/constants/string.dart';
 import 'package:rightflair/core/extensions/context.dart';
 
+import '../../../core/components/profile/header/profile_photo.dart';
+
 class ProfileEditImageWidget extends StatelessWidget {
-  final String imageUrl;
+  final String? imageUrl;
+  final bool isUploading;
   final VoidCallback onTap;
 
   const ProfileEditImageWidget({
     super.key,
     required this.imageUrl,
     required this.onTap,
+    required this.isUploading,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      spacing: context.height * 0.015,
-      children: [_profileImage(context), _changePhotoText(context)],
+    return SizedBox(
+      height: context.height * .16,
+      width: context.width,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [_photo(context), _changePhotoText(context)],
+      ),
     );
   }
 
-  Widget _profileImage(BuildContext context) {
+  GestureDetector _photo(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
-      child: Stack(
-        alignment: Alignment.center,
-        children: [
-          Container(
-            height: context.height * 0.13,
-            width: context.height * 0.13,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              border: Border.all(
-                color: context.colors.primaryFixedDim,
-                width: context.width * 0.005,
+      child: SizedBox(
+        height: context.height * .12,
+        width: context.height * .12,
+        child: Stack(
+          children: [
+            ProfilePhotoComponent(url: imageUrl),
+            Container(
+              height: context.height * .12,
+              width: context.height * .12,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: Colors.black.withOpacity(0.75),
+                border: Border.all(width: .5, color: Colors.white),
               ),
-              image: DecorationImage(
-                image: NetworkImage(
-                  imageUrl.isEmpty
-                      ? "https://media.istockphoto.com/id/1495088043/tr/vekt%C3%B6r/user-profile-icon-avatar-or-person-icon-profile-picture-portrait-symbol-default-portrait.jpg?s=1024x1024&w=is&k=20&c=gKLAWzRAE77Y213dcbWWxa_l3I4FqKoUNTX1gPk363E="
-                      : imageUrl,
-                ),
-                fit: BoxFit.cover,
-              ),
+              child: isUploading
+                  ? LoadingComponent()
+                  : Center(
+                      child: SvgPicture.asset(
+                        AppIcons.CAMERA,
+                        color: Colors.white,
+                        height: context.height * .04,
+                      ),
+                    ),
             ),
-          ),
-          Container(
-            height: context.height * 0.13,
-            width: context.height * 0.13,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: context.colors.secondary.withOpacity(0.3),
-            ),
-            child: Center(
-              child: SvgPicture.asset(
-                AppIcons.CAMERA,
-                height: context.height * 0.04,
-                color: context.colors.primary,
-              ),
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

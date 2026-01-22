@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:rightflair/core/extensions/context.dart';
 import 'package:rightflair/core/components/profile/profile_action_buttons_widget.dart';
 
+import '../../../feature/authentication/model/user.dart';
 import 'header/profile_header_bio.dart';
 import 'header/profile_header_image.dart';
 import 'header/profile_header_stats.dart';
@@ -9,12 +10,7 @@ import 'header/profile_header_tags.dart';
 import 'header/profile_header_username.dart';
 
 class ProfileHeaderWidget extends StatelessWidget {
-  final String? profileImage;
-  final String? name;
-  final String username;
-  final int followerCount;
-  final int followingCount;
-  final String bio;
+  final UserModel user;
   final List<String> tags;
   final VoidCallback? onFollowTap;
   final VoidCallback? onMessageTap;
@@ -22,16 +18,11 @@ class ProfileHeaderWidget extends StatelessWidget {
 
   const ProfileHeaderWidget({
     super.key,
-    required this.profileImage,
-    required this.name,
-    required this.username,
-    required this.followerCount,
-    required this.followingCount,
-    required this.bio,
     required this.tags,
     this.onFollowTap,
     this.onMessageTap,
     this.isCanEdit = false,
+    required this.user,
   });
 
   @override
@@ -39,11 +30,11 @@ class ProfileHeaderWidget extends StatelessWidget {
     return Column(
       spacing: context.height * 0.015,
       children: [
-        ProfileHeaderImageWidget(url: profileImage, isCanEdit: isCanEdit),
-        ProfileHeaderUsernameWidget(name: name, username: username),
+        ProfileHeaderImageWidget(isCanEdit: isCanEdit, user: user,),
+        ProfileHeaderUsernameWidget(name: user.fullName, username: user.username ?? "@rightflair_user",),
         ProfileHeaderStatsWidget(
-          followerCount: followerCount,
-          followingCount: followingCount,
+          followerCount: user.followersCount ?? 0,
+          followingCount: user.followingCount ?? 0,
         ),
         (onFollowTap == null && onMessageTap == null)
             ? SizedBox.shrink()
@@ -51,7 +42,7 @@ class ProfileHeaderWidget extends StatelessWidget {
                 onFollowTap: onFollowTap!,
                 onMessageTap: onMessageTap!,
               ),
-        ProfileHeaderBioWidget(text: bio),
+        ProfileHeaderBioWidget(text: user.bio ?? ""),
         ProfileHeaderTagsWidget(tags: tags),
       ],
     );

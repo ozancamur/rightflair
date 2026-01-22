@@ -85,7 +85,7 @@ class ProfileCubit extends Cubit<ProfileState> {
               viewed: 2,
             ),
           ],
-          isDraftsLoading: false
+          isDraftsLoading: false,
         ),
       ) {
     _getUser();
@@ -95,5 +95,9 @@ class ProfileCubit extends Cubit<ProfileState> {
     emit(state.copyWith(isLoading: true));
     final UserModel? user = await _repo.getUser();
     emit(state.copyWith(isLoading: false, user: user ?? UserModel()));
+  }
+
+  _getUserPosts() async {
+    await _repo.getUserPosts();
   }
 }

@@ -4,6 +4,7 @@ import 'package:rightflair/core/constants/string.dart';
 import 'package:rightflair/core/extensions/context.dart';
 import 'package:rightflair/core/components/profile/profile_header_widget.dart';
 import 'package:rightflair/core/components/profile/profile_photo_grid_widget.dart';
+import 'package:rightflair/feature/authentication/model/user.dart';
 
 import '../../../core/base/page/base_scaffold.dart';
 import '../../../core/components/profile/profile_tab_item.dart';
@@ -15,9 +16,6 @@ class UserPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final String url =
-        "https://media.istockphoto.com/id/1495088043/tr/vekt%C3%B6r/user-profile-icon-avatar-or-person-icon-profile-picture-portrait-symbol-default-portrait.jpg?s=1024x1024&w=is&k=20&c=gKLAWzRAE77Y213dcbWWxa_l3I4FqKoUNTX1gPk363E=";
-
     return BlocBuilder<UserCubit, UserState>(
       builder: (context, state) {
         return BaseScaffold(
@@ -30,13 +28,7 @@ class UserPage extends StatelessWidget {
                   spacing: context.height * 0.025,
                   children: [
                     ProfileHeaderWidget(
-                      profileImage: url,
-                      name: 'Lorem Ipsum',
-                      username: '@loremipsum',
-                      followerCount: 17,
-                      followingCount: 270,
-                      bio:
-                          'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum is simply dummy text of the printing and typesetting industry',
+                      user: UserModel(),
                       tags: [
                         AppStrings.PROFILE_OVERSIZED,
                         AppStrings.PROFILE_STREETWEAR,

@@ -19,7 +19,7 @@ class ProfileHeaderUsernameWidget extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         TextComponent(
-          text: name ?? 'user',
+          text: name ?? 'Rightflair User',
           size: FontSizeConstants.XXXX_LARGE,
           weight: FontWeight.w700,
           color: context.colors.primary,

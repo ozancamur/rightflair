@@ -8,6 +8,7 @@ import 'package:rightflair/feature/navigation/widgets/navigation_bottom_bar.dart
 
 import '../../../core/base/page/base_scaffold.dart';
 import '../../../core/utils/dialog.dart';
+import '../../authentication/model/user.dart';
 import '../cubit/profile_edit_cubit.dart';
 import '../widgets/profile_edit_done_button.dart';
 import '../widgets/profile_edit_image_widget.dart';
@@ -15,7 +16,8 @@ import '../widgets/profile_edit_text_field_widget.dart';
 import '../widgets/profile_edit_styles_widget.dart';
 
 class ProfileEditPage extends StatefulWidget {
-  const ProfileEditPage({super.key});
+  final UserModel user;
+  const ProfileEditPage({super.key, required this.user});
 
   @override
   State<ProfileEditPage> createState() => _ProfileEditPageState();
@@ -29,10 +31,26 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
   @override
   void initState() {
     super.initState();
-    final state = context.read<ProfileEditCubit>().state;
-    _nameController = TextEditingController(text: state.name);
-    _usernameController = TextEditingController(text: state.username);
-    _bioController = TextEditingController(text: state.bio);
+    final ProfileEditCubit cubit = context.read<ProfileEditCubit>();
+    final ProfileEditState state = cubit.state;
+
+    final initialName = state.name ?? widget.user.fullName ?? '';
+    final initialUsername = state.username ?? widget.user.username ?? '';
+    final initialBio = state.bio ?? widget.user.bio ?? '';
+
+    _nameController = TextEditingController(text: initialName);
+    _usernameController = TextEditingController(text: initialUsername);
+    _bioController = TextEditingController(text: initialBio);
+
+    if (state.name == null && initialName.isNotEmpty) {
+      cubit.updateName(initialName);
+    }
+    if (state.username == null && initialUsername.isNotEmpty) {
+      cubit.updateUsername(initialUsername);
+    }
+    if (state.bio == null && initialBio.isNotEmpty) {
+      cubit.updateBio(initialBio);
+    }
 
     _nameController.addListener(() {
       context.read<ProfileEditCubit>().updateName(_nameController.text);
@@ -70,7 +88,7 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
     return AppBarComponent(
       leading: const BackButtonComponent(),
       actions: [
-        const ProfileEditDoneButtonWidget(),
+        ProfileEditDoneButtonWidget(user: widget.user),
         SizedBox(width: context.width * 0.04),
       ],
     );
@@ -101,20 +119,20 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
   }
 
   Widget _profileImage(ProfileEditState state) {
-    return Center(
-      child: ProfileEditImageWidget(
-        imageUrl: state.profileImage,
-        onTap: () {
-          // TODO: Implement image picker
-        },
-      ),
+    final String? displayImageUrl =
+        state.profileImage ?? widget.user.profilePhotoUrl;
+
+    return ProfileEditImageWidget(
+      imageUrl: displayImageUrl,
+      isUploading: state.isUploading,
+      onTap: () => context.read<ProfileEditCubit>().changePhotoDialog(context),
     );
   }
 
   Widget _nameField() {
     return ProfileEditTextFieldWidget(
       label: AppStrings.PROFILE_EDIT_NAME,
-      hintText: 'Lorem Ipsum',
+      hintText: widget.user.fullName ?? "Rightflair User",
       controller: _nameController,
     );
   }
@@ -122,7 +140,7 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
   Widget _usernameField() {
     return ProfileEditTextFieldWidget(
       label: AppStrings.PROFILE_EDIT_USERNAME,
-      hintText: '@loremipsum',
+      hintText: widget.user.username ?? '@rightflair_user',
       controller: _usernameController,
     );
   }
@@ -130,7 +148,7 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
   Widget _bioField(ProfileEditState state) {
     return ProfileEditTextFieldWidget(
       label: AppStrings.PROFILE_EDIT_BIO,
-      hintText: 'Tell us about yourself...',
+      hintText: widget.user.bio ?? 'Tell us about yourself...',
       controller: _bioController,
       maxLength: 100,
       maxLines: 4,
@@ -139,8 +157,9 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
 
   Widget _styles(ProfileEditState state) {
     return ProfileEditStylesWidget(
-      selectedStyles: state.selectedStyles,
-      onRemoveStyle: (style) => context.read<ProfileEditCubit>().removeStyle(style),
+      selectedStyles: [],
+      onRemoveStyle: (style) =>
+          context.read<ProfileEditCubit>().removeStyle(style),
       onAddNew: () => DialogUtils.showSelectMyStyles(context),
       canAddMore: context.read<ProfileEditCubit>().canAddMoreStyles,
     );

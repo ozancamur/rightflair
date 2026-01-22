@@ -241,6 +241,10 @@ class AppStrings {
   static const String PROFILE_EDIT_BIO = 'profileEdit.bio';
   static const String PROFILE_EDIT_MY_STYLES = 'profileEdit.myStyles';
   static const String PROFILE_EDIT_ADD_NEW = 'profileEdit.addNew';
+  static const String PROFILE_EDIT_SELECT_PHOTO = 'profileEdit.selectPhoto';
+  static const String PROFILE_EDIT_TAKE_PHOTO = 'profileEdit.takePhoto';
+  static const String PROFILE_EDIT_CHOOSE_FROM_GALLERY =
+      'profileEdit.chooseFromGallery';
 
   // SETTINGS
   static const String SETTINGS_TITLE = 'settings.title';

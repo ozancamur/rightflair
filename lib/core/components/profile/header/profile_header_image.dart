@@ -1,26 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
-import 'package:rightflair/core/components/loading.dart';
 import 'package:rightflair/core/components/text.dart';
 import 'package:rightflair/core/constants/font/font_size.dart';
 import 'package:rightflair/core/constants/icons.dart';
 import 'package:rightflair/core/constants/route.dart';
 
 import '../../../../../../core/extensions/context.dart';
+import '../../../../feature/authentication/model/user.dart';
+import 'profile_photo.dart';
 
 class ProfileHeaderImageWidget extends StatelessWidget {
-  final String? url;
   final bool isCanEdit;
+  final UserModel user;
   const ProfileHeaderImageWidget({
     super.key,
-    required this.url,
     required this.isCanEdit,
+    required this.user,
   });
 
   @override
   Widget build(BuildContext context) {
-    return isCanEdit ? _profile(context) : _photo(context);
+    return isCanEdit ? _profile(context) : ProfilePhotoComponent(url: user.profilePhotoUrl);
   }
 
   SizedBox _profile(BuildContext context) {
@@ -29,22 +30,7 @@ class ProfileHeaderImageWidget extends StatelessWidget {
       width: context.width,
       child: Stack(
         alignment: Alignment.topCenter,
-        children: [_photo(context), _change(context), _edit(context)],
-      ),
-    );
-  }
-
-  CircleAvatar _photo(BuildContext context) {
-    return CircleAvatar(
-      backgroundColor: context.colors.primary,
-      radius: context.height * .06,
-      child: Image.network(
-        url ?? '',
-        loadingBuilder: (context, child, loadingProgress) => LoadingComponent(),
-        errorBuilder: (context, error, stackTrace) => Image.asset(
-          AppIcons.NON_PROFILE_PHOTO,
-          color: context.colors.secondary,
-        ),
+        children: [ProfilePhotoComponent(url: user.profilePhotoUrl), _change(context), _edit(context)],
       ),
     );
   }
@@ -76,7 +62,7 @@ class ProfileHeaderImageWidget extends StatelessWidget {
       bottom: 0,
       right: context.width * .175,
       child: InkWell(
-        onTap: () => context.push(RouteConstants.EDIT_PROFILE),
+        onTap: () => context.push(RouteConstants.EDIT_PROFILE, extra: user),
         borderRadius: BorderRadius.circular(100),
         child: Container(
           height: context.height * .03,

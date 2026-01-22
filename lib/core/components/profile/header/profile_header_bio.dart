@@ -34,7 +34,7 @@ class _ProfileHeaderBioWidgetState extends State<ProfileHeaderBioWidget> {
           ),
           widget.text == ""
               ? TextComponent(
-                  text: "     Write something about you...",
+                  text: "Tell us about yourself...",
                   color: context.colors.tertiary,
                   weight: FontWeight.w400,
                   size: FontSizeConstants.X_SMALL,

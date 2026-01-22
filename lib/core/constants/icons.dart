@@ -39,6 +39,7 @@ class AppIcons {
 
   static const String FAVORITE = '${_path}favorite.svg';
 
+  static const String GALLERY = '${_path}gallery.svg';
   static const String GOOGLE = '${_path}google.svg';
 
   static const String HASHTAG = '${_path}hashtag.svg';
