@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rightflair/core/components/loading.dart';
-import 'package:rightflair/core/constants/string.dart';
 import 'package:rightflair/core/extensions/context.dart';
 import 'package:rightflair/core/components/profile/profile_header_widget.dart';
 
@@ -29,32 +28,31 @@ class ProfilePage extends StatelessWidget {
     );
   }
 
-  SafeArea _body(BuildContext context, ProfileState state) {
-    return SafeArea(
-      child: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: context.width * 0.05),
-          child: Column(
-            spacing: context.height * 0.025,
-            children: [
-              state.isLoading
-                  ? const LoadingComponent()
-                  : ProfileHeaderWidget(
-                      isCanEdit: true,
-                      user: state.user,
-                      tags: [
-                        AppStrings.PROFILE_OVERSIZED,
-                        AppStrings.PROFILE_STREETWEAR,
-                        AppStrings.PROFILE_MODELING,
-                      ],
-                    ),
-              ProfileTabBarsWidget(),
-              ProfileTabViewsWidget(
-                photos: state.photos,
-                saves: state.saves,
-                drafts: state.drafts,
-              ),
-            ],
+  RefreshIndicator _body(BuildContext context, ProfileState state) {
+    return RefreshIndicator(
+      onRefresh: () async => context.read<ProfileCubit>().refresh(),
+      child: SafeArea(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: context.width * 0.05),
+            child: Column(
+              spacing: context.height * 0.025,
+              children: [
+                state.isLoading
+                    ? const LoadingComponent()
+                    : ProfileHeaderWidget(
+                        isCanEdit: true,
+                        user: state.user,
+                        tags: state.tags?.styleTags ?? [],
+                      ),
+                ProfileTabBarsWidget(),
+                ProfileTabViewsWidget(
+                  photos: state.photos,
+                  saves: state.saves,
+                  drafts: state.drafts,
+                ),
+              ],
+            ),
           ),
         ),
       ),

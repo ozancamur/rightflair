@@ -17,7 +17,8 @@ import '../widgets/profile_edit_styles_widget.dart';
 
 class ProfileEditPage extends StatefulWidget {
   final UserModel user;
-  const ProfileEditPage({super.key, required this.user});
+  final List<String> tags;
+  const ProfileEditPage({super.key, required this.user, required this.tags});
 
   @override
   State<ProfileEditPage> createState() => _ProfileEditPageState();
@@ -125,7 +126,10 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
     return ProfileEditImageWidget(
       imageUrl: displayImageUrl,
       isUploading: state.isUploading,
-      onTap: () => context.read<ProfileEditCubit>().changePhotoDialog(context),
+      onTap: () => context.read<ProfileEditCubit>().changePhotoDialog(
+        context,
+        userId: widget.user.id ?? '',
+      ),
     );
   }
 
@@ -158,7 +162,7 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
 
   Widget _styles(ProfileEditState state) {
     return ProfileEditStylesWidget(
-      selectedStyles: [],
+      currentTags: widget.tags,
       onRemoveStyle: (style) =>
           context.read<ProfileEditCubit>().removeStyle(style),
       onAddNew: () => DialogUtils.showSelectMyStyles(context),

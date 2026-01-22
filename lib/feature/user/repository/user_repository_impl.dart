@@ -5,16 +5,19 @@ import 'package:rightflair/feature/authentication/model/user.dart';
 import 'package:rightflair/feature/navigation/page/profile/model/style_tags.dart';
 
 import '../../../../../core/base/model/response.dart';
-import 'profile_repository.dart';
+import 'user_repository.dart';
 
-class ProfileRepositoryImpl extends ProfileRepository {
+class UserRepositoryImpl extends UserRepository {
   final ApiService _api;
-  ProfileRepositoryImpl({ApiService? api}) : _api = api ?? ApiService();
+  UserRepositoryImpl({ApiService? api}) : _api = api ?? ApiService();
 
   @override
-  Future<UserModel?> getUser() async {
+  Future<UserModel?> getUser({required String userId}) async {
     try {
-      final request = await _api.get(Endpoint.GET_USER);
+      final request = await _api.get(
+        Endpoint.GET_USER,
+        data: {'user_id': userId},
+      );
       final ResponseModel response = ResponseModel().fromJson(
         request.data as Map<String, dynamic>,
       );
@@ -24,27 +27,33 @@ class ProfileRepositoryImpl extends ProfileRepository {
       );
       return data;
     } catch (e) {
-      debugPrint("ProfileRepositoryImpl ERROR in getUser :> $e");
+      debugPrint("UserRepositoryImpl ERROR in getUser :> $e");
       return null;
     }
   }
 
   @override
-  Future<void> getUserPosts() async {
+  Future<void> getUserPosts({required String userId}) async {
     try {
-      final request = await _api.get(Endpoint.GET_USER_POSTS);
+      final request = await _api.get(
+        Endpoint.GET_USER_POSTS,
+        data: {'user_id': userId},
+      );
       final ResponseModel response = ResponseModel().fromJson(
         request.data as Map<String, dynamic>,
       );
     } catch (e) {
-      debugPrint("ProfileRepositoryImpl ERROR in getUserPosts :> $e");
+      debugPrint("UserRepositoryImpl ERROR in getUserPosts :> $e");
     }
   }
 
   @override
-  Future<StyleTagsModel?> getUserStyleTags() async {
+  Future<StyleTagsModel?> getUserStyleTags({required String userId}) async {
     try {
-      final request = await _api.get(Endpoint.GET_USER_STYLE_TAGS);
+      final request = await _api.get(
+        Endpoint.GET_USER_STYLE_TAGS,
+        data: {'user_id': userId},
+      );
       final ResponseModel response = ResponseModel().fromJson(
         request.data as Map<String, dynamic>,
       );
@@ -53,7 +62,7 @@ class ProfileRepositoryImpl extends ProfileRepository {
       );
       return data;
     } catch (e) {
-      debugPrint("ProfileRepositoryImpl ERROR in getUserStyleTags :> $e");
+      debugPrint("UserRepositoryImpl ERROR in getUserStyleTags :> $e");
       return null;
     }
   }

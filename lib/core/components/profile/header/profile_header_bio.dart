@@ -24,7 +24,7 @@ class _ProfileHeaderBioWidgetState extends State<ProfileHeaderBioWidget> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
-        spacing: context.height * 0.005,
+        spacing: context.height * 0.0075,
         children: [
           TextComponent(
             text: "Bio",

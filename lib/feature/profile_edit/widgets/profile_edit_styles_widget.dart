@@ -7,14 +7,14 @@ import 'package:rightflair/core/extensions/context.dart';
 import 'profile_edit_style_tag_widget.dart';
 
 class ProfileEditStylesWidget extends StatelessWidget {
-  final List<String> selectedStyles;
+  final List<String> currentTags;
   final Function(String) onRemoveStyle;
   final VoidCallback onAddNew;
   final bool canAddMore;
 
   const ProfileEditStylesWidget({
     super.key,
-    required this.selectedStyles,
+    required this.currentTags,
     required this.onRemoveStyle,
     required this.onAddNew,
     required this.canAddMore,
@@ -43,7 +43,7 @@ class ProfileEditStylesWidget extends StatelessWidget {
               weight: FontWeight.w600,
             ),
             TextComponent(
-              text: '${selectedStyles.length}/3',
+              text: '${currentTags.length}/3',
               tr: false,
               color: context.colors.onPrimary,
               size: FontSizeConstants.SMALL,
@@ -71,7 +71,7 @@ class ProfileEditStylesWidget extends StatelessWidget {
     return Wrap(
       spacing: context.width * 0.025,
       runSpacing: context.height * 0.012,
-      children: selectedStyles
+      children: currentTags
           .map(
             (style) => ProfileEditStyleTagWidget(
               text: style,

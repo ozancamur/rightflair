@@ -30,8 +30,11 @@ class ProfileHeaderWidget extends StatelessWidget {
     return Column(
       spacing: context.height * 0.015,
       children: [
-        ProfileHeaderImageWidget(isCanEdit: isCanEdit, user: user,),
-        ProfileHeaderUsernameWidget(name: user.fullName, username: user.username ?? "@rightflair_user",),
+        ProfileHeaderImageWidget(isCanEdit: isCanEdit, user: user, tags: tags),
+        ProfileHeaderUsernameWidget(
+          name: user.fullName,
+          username: user.username ?? "@rightflair_user",
+        ),
         ProfileHeaderStatsWidget(
           followerCount: user.followersCount ?? 0,
           followingCount: user.followingCount ?? 0,

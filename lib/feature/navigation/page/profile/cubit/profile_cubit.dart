@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rightflair/feature/navigation/page/profile/model/style_tags.dart';
 import 'package:rightflair/feature/navigation/page/profile/repository/profile_repository_impl.dart';
 
 import '../../../../authentication/model/user.dart';
@@ -89,12 +90,23 @@ class ProfileCubit extends Cubit<ProfileState> {
         ),
       ) {
     _getUser();
+    _getUserStyleTags();
+  }
+
+  Future<void> refresh() async {
+    await _getUser();
+    await _getUserStyleTags();
   }
 
   Future<void> _getUser() async {
     emit(state.copyWith(isLoading: true));
     final UserModel? user = await _repo.getUser();
     emit(state.copyWith(isLoading: false, user: user ?? UserModel()));
+  }
+
+  Future<void> _getUserStyleTags() async {
+    final response = await _repo.getUserStyleTags();
+    emit(state.copyWith(tags: response));
   }
 
   _getUserPosts() async {

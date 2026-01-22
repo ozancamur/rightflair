@@ -61,6 +61,7 @@ class ApiService extends SupabaseService {
   // GET Method
   Future<Response> get(
     Endpoint endpoint, {
+    dynamic data,
     Map<String, dynamic>? parameters,
     Options? options,
     CancelToken? cancelToken,
@@ -69,6 +70,7 @@ class ApiService extends SupabaseService {
     try {
       final Response response = await dio.get(
         endpoint.value,
+        data: data,
         queryParameters: parameters,
         options: options,
         cancelToken: cancelToken,

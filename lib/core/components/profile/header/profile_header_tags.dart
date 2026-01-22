@@ -16,7 +16,7 @@ class ProfileHeaderTagsWidget extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
-        spacing: context.height * 0.005,
+        spacing: context.height * 0.0075,
         children: [
           TextComponent(
             text: "My Styles",
@@ -24,16 +24,13 @@ class ProfileHeaderTagsWidget extends StatelessWidget {
             weight: FontWeight.w600,
             size: FontSizeConstants.NORMAL,
           ),
-          Align(
-            alignment: Alignment.center,
-            child: Wrap(
-              spacing: context.width * 0.025,
-              runSpacing: context.height * 0.01,
-              alignment: WrapAlignment.start,
-              children: tags
-                  .map((tag) => ProfileTagComponent(text: tag))
-                  .toList(),
-            ),
+          Wrap(
+            spacing: context.width * 0.025,
+            runSpacing: context.height * 0.01,
+            alignment: WrapAlignment.start,
+            children: tags
+                .map((tag) => ProfileTagComponent(text: tag))
+                .toList(),
           ),
         ],
       ),

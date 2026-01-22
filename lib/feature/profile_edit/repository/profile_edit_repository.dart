@@ -11,4 +11,6 @@ abstract class ProfileEditRepository {
     required String userId,
     required File imageFile,
   });
+
+  Future<void> updateUserStyleTags({required List<String> tags});
 }

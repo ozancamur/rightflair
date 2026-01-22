@@ -13,15 +13,19 @@ import 'profile_photo.dart';
 class ProfileHeaderImageWidget extends StatelessWidget {
   final bool isCanEdit;
   final UserModel user;
+  final List<String> tags;
   const ProfileHeaderImageWidget({
     super.key,
     required this.isCanEdit,
     required this.user,
+    required this.tags,
   });
 
   @override
   Widget build(BuildContext context) {
-    return isCanEdit ? _profile(context) : ProfilePhotoComponent(url: user.profilePhotoUrl);
+    return isCanEdit
+        ? _profile(context)
+        : ProfilePhotoComponent(url: user.profilePhotoUrl);
   }
 
   SizedBox _profile(BuildContext context) {
@@ -30,7 +34,11 @@ class ProfileHeaderImageWidget extends StatelessWidget {
       width: context.width,
       child: Stack(
         alignment: Alignment.topCenter,
-        children: [ProfilePhotoComponent(url: user.profilePhotoUrl), _change(context), _edit(context)],
+        children: [
+          ProfilePhotoComponent(url: user.profilePhotoUrl),
+          _change(context),
+          _edit(context),
+        ],
       ),
     );
   }
@@ -62,7 +70,10 @@ class ProfileHeaderImageWidget extends StatelessWidget {
       bottom: 0,
       right: context.width * .175,
       child: InkWell(
-        onTap: () => context.push(RouteConstants.EDIT_PROFILE, extra: user),
+        onTap: () => context.push(
+          RouteConstants.EDIT_PROFILE,
+          extra: {'user': user, 'tags': tags},
+        ),
         borderRadius: BorderRadius.circular(100),
         child: Container(
           height: context.height * .03,

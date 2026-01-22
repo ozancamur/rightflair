@@ -3,6 +3,7 @@ part of 'profile_cubit.dart';
 class ProfileState extends Equatable {
   final bool isLoading;
   final UserModel user;
+  final StyleTagsModel? tags;
   final List<PhotoModel> photos;
   final bool isPhotosLoading;
   final List<PhotoModel> saves;
@@ -12,6 +13,7 @@ class ProfileState extends Equatable {
   const ProfileState({
     this.isLoading = false,
     required this.user,
+    this.tags,
     this.photos = const [],
     this.isPhotosLoading = false,
     this.saves = const [],
@@ -23,6 +25,7 @@ class ProfileState extends Equatable {
   ProfileState copyWith({
     bool? isLoading,
     UserModel? user,
+    StyleTagsModel? tags,
     List<PhotoModel>? photos,
     bool? isPhotosLoading,
     List<PhotoModel>? saves,
@@ -33,6 +36,7 @@ class ProfileState extends Equatable {
     return ProfileState(
       isLoading: isLoading ?? this.isLoading,
       user: user ?? this.user,
+      tags: tags ?? this.tags,
       photos: photos ?? this.photos,
       isPhotosLoading: isPhotosLoading ?? this.isPhotosLoading,
       saves: saves ?? this.saves,
@@ -46,6 +50,7 @@ class ProfileState extends Equatable {
   List<Object> get props => [
     isLoading,
     user,
+    tags ?? StyleTagsModel(),
     photos,
     isPhotosLoading,
     saves,

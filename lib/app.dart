@@ -14,8 +14,11 @@ import 'package:rightflair/feature/navigation/page/feed/bloc/feed_bloc.dart';
 import 'package:rightflair/feature/navigation/page/profile/cubit/profile_cubit.dart';
 import 'package:rightflair/feature/navigation/page/profile/repository/profile_repository_impl.dart';
 import 'package:rightflair/feature/post_detail/cubit/post_detail_cubit.dart';
+import 'package:rightflair/feature/profile_edit/cubit/profile_edit_cubit.dart';
+import 'package:rightflair/feature/profile_edit/repository/profile_edit_repository_impl.dart';
 import 'package:rightflair/feature/settings/cubit/settings_cubit.dart';
 import 'package:rightflair/feature/user/cubit/user_cubit.dart';
+import 'package:rightflair/feature/user/repository/user_repository_impl.dart';
 
 import 'core/config/theme_notifier.dart';
 import 'core/constants/theme.dart';
@@ -35,12 +38,8 @@ class RightFlair extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         // AUTHENTICATION
-        BlocProvider(
-          create: (_) => AuthenticationBloc(AuthenticationRepositoryImpl()),
-        ),
-        BlocProvider(
-          create: (_) => ChooseUsernameCubit(ChooseUsernameRepositoryImpl()),
-        ),
+        BlocProvider(create: (_) => AuthenticationBloc(AuthenticationRepositoryImpl())),
+        BlocProvider(create: (_) => ChooseUsernameCubit(ChooseUsernameRepositoryImpl())),
 
         // NAVIGATION
         BlocProvider(create: (_) => NavigationCubit()),
@@ -49,14 +48,15 @@ class RightFlair extends StatelessWidget {
         BlocProvider(create: (_) => InboxCubit(InboxRepositoryImpl())),
         BlocProvider(create: (_) => ProfileCubit(ProfileRepositoryImpl())),
 
-        BlocProvider(create: (_) => UserCubit()),
+        
+        BlocProvider(create: (_) => ProfileEditCubit(ProfileEditRepositoryImpl())),
+        
+        BlocProvider(create: (_) => UserCubit(UserRepositoryImpl())),
         BlocProvider(create: (_) => PostDetailCubit()),
         BlocProvider(create: (_) => SettingsCubit()),
 
-        // CREATE
-        BlocProvider(
-          create: (_) => CreatePostCubit(CreatePostRepositoryImpl()),
-        ),
+        
+        BlocProvider(create: (_) => CreatePostCubit(CreatePostRepositoryImpl())),
         BlocProvider(create: (_) => LocationCubit(LocationRepositoryImpl())),
       ],
       child: MaterialApp.router(

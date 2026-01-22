@@ -12,8 +12,8 @@ class ProfileEditRepositoryImpl extends ProfileEditRepository {
   final SupabaseClient _supabase;
 
   ProfileEditRepositoryImpl({ApiService? api})
-      : _api = api ?? ApiService(),
-        _supabase = Supabase.instance.client;
+    : _api = api ?? ApiService(),
+      _supabase = Supabase.instance.client;
 
   @override
   Future<void> updateUser({
@@ -32,7 +32,6 @@ class ProfileEditRepositoryImpl extends ProfileEditRepository {
       }
     } catch (e) {
       debugPrint("ProfileEditRepositoryImpl ERROR in updateUser :> $e");
-      rethrow;
     }
   }
 
@@ -47,22 +46,36 @@ class ProfileEditRepositoryImpl extends ProfileEditRepository {
           'profile_${DateTime.now().millisecondsSinceEpoch}.$fileExtension';
       final String storagePath = '$userId/profile-photos/$fileName';
 
-      await _supabase.storage.from('profile-photos').upload(
+      await _supabase.storage
+          .from('profile-photos')
+          .upload(
             storagePath,
             imageFile,
-            fileOptions: const FileOptions(
-              cacheControl: '3600',
-              upsert: true,
-            ),
+            fileOptions: const FileOptions(cacheControl: '3600', upsert: true),
           );
 
-      final String publicUrl =
-          _supabase.storage.from('profile-photos').getPublicUrl(storagePath);
+      final String publicUrl = _supabase.storage
+          .from('profile-photos')
+          .getPublicUrl(storagePath);
 
       return publicUrl;
     } catch (e) {
       debugPrint("ProfileEditRepositoryImpl ERROR in uploadProfilePhoto :> $e");
-      rethrow;
+      return null;
+    }
+  }
+
+  @override
+  Future<void> updateUserStyleTags({required List<String> tags}) async {
+    try {
+      await _api.post(
+        Endpoint.UPDATE_USER_STYLE_TAGS,
+        data: {'style_tags': tags},
+      );
+    } catch (e) {
+      debugPrint(
+        "ProfileEditRepositoryImpl ERROR in updateUserStyleTags :> $e",
+      );
     }
   }
 }

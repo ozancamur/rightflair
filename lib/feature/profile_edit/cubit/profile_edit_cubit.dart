@@ -12,16 +12,10 @@ import '../repository/profile_edit_repository.dart';
 part 'profile_edit_state.dart';
 
 class ProfileEditCubit extends Cubit<ProfileEditState> {
-  final ProfileEditRepository _repository;
+  final ProfileEditRepository _repo;
   final ImagePicker _picker = ImagePicker();
-  final String _userId;
 
-  ProfileEditCubit({
-    required ProfileEditRepository repository,
-    required String userId,
-  }) : _repository = repository,
-       _userId = userId,
-       super(const ProfileEditState());
+  ProfileEditCubit(this._repo) : super(const ProfileEditState());
 
   void updateName(String name) {
     emit(state.copyWith(name: name));
@@ -39,21 +33,22 @@ class ProfileEditCubit extends Cubit<ProfileEditState> {
     emit(state.copyWith(profileImage: imageUrl));
   }
 
-  Future<void> changePhotoDialog(BuildContext context) async {
+  Future<void> changePhotoDialog(BuildContext context, {String? userId}) async {
+    if (userId == null) return;
     final option = await DialogUtils.showImagePickerDialog(context);
     if (option == null || !context.mounted) return;
 
     switch (option) {
       case ImagePickerOption.camera:
-        await _pickImageFromCamera();
+        await _pickImageFromCamera(userId: userId);
         break;
       case ImagePickerOption.gallery:
-        await _pickImageFromGallery();
+        await _pickImageFromGallery(userId: userId);
         break;
     }
   }
 
-  Future<void> _pickImageFromCamera() async {
+  Future<void> _pickImageFromCamera({required String userId}) async {
     emit(state.copyWith(isUploading: true));
     final XFile? image = await _picker.pickImage(
       source: ImageSource.camera,
@@ -63,12 +58,12 @@ class ProfileEditCubit extends Cubit<ProfileEditState> {
     );
     if (image != null) {
       emit(state.copyWith(selectedImagePath: image.path));
-      await _uploadAndUpdateProfilePhoto(image.path);
+      await _uploadAndUpdateProfilePhoto(userId: userId, imagePath: image.path);
     }
     emit(state.copyWith(isUploading: false));
   }
 
-  Future<void> _pickImageFromGallery() async {
+  Future<void> _pickImageFromGallery({required String userId}) async {
     emit(state.copyWith(isUploading: true));
     final XFile? image = await _picker.pickImage(
       source: ImageSource.gallery,
@@ -78,23 +73,26 @@ class ProfileEditCubit extends Cubit<ProfileEditState> {
     );
     if (image != null) {
       emit(state.copyWith(selectedImagePath: image.path));
-      await _uploadAndUpdateProfilePhoto(image.path);
+      await _uploadAndUpdateProfilePhoto(userId: userId, imagePath: image.path);
     }
     emit(state.copyWith(isUploading: false));
   }
 
-  Future<void> _uploadAndUpdateProfilePhoto(String imagePath) async {
+  Future<void> _uploadAndUpdateProfilePhoto({
+    required String userId,
+    required String imagePath,
+  }) async {
     if (!isClosed) emit(state.copyWith(isUploading: true, errorMessage: null));
     try {
       final File imageFile = File(imagePath);
 
-      final String? photoUrl = await _repository.uploadProfilePhoto(
-        userId: _userId,
+      final String? photoUrl = await _repo.uploadProfilePhoto(
+        userId: userId,
         imageFile: imageFile,
       );
 
       if (photoUrl != null) {
-        await _repository.updateUser(profilePhotoUrl: photoUrl);
+        await _repo.updateUser(profilePhotoUrl: photoUrl);
         if (!isClosed) {
           emit(state.copyWith(profileImage: photoUrl, isUploading: false));
         }
@@ -120,17 +118,19 @@ class ProfileEditCubit extends Cubit<ProfileEditState> {
     }
   }
 
-  void addStyle(String style) {
+  Future<void> addStyle(String style) async {
     final styles = state.selectedStyles ?? [];
     if (styles.length < 3 && !styles.contains(style)) {
       final updatedStyles = List<String>.from(styles)..add(style);
+      await _repo.updateUserStyleTags(tags: updatedStyles);
       emit(state.copyWith(selectedStyles: updatedStyles));
     }
   }
 
-  void removeStyle(String style) {
+  Future<void> removeStyle(String style) async {
     final updatedStyles = List<String>.from(state.selectedStyles ?? [])
       ..remove(style);
+    await _repo.updateUserStyleTags(tags: updatedStyles);
     emit(state.copyWith(selectedStyles: updatedStyles));
   }
 
@@ -141,7 +141,7 @@ class ProfileEditCubit extends Cubit<ProfileEditState> {
     if (nameChanged || bioChanged) {
       if (!isClosed) emit(state.copyWith(isSaving: true, errorMessage: null));
       try {
-        await _repository.updateUser(
+        await _repo.updateUser(
           fullName: nameChanged ? (state.name ?? '') : null,
           bio: bioChanged ? (state.bio ?? '') : null,
         );

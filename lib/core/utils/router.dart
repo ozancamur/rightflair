@@ -8,12 +8,12 @@ import 'package:rightflair/feature/authentication/pages/login_page.dart';
 import 'package:rightflair/feature/authentication/pages/welcome_page.dart';
 import 'package:rightflair/feature/create_post/page/create_post_page.dart';
 import 'package:rightflair/feature/navigation/page/navigation_page.dart';
+import 'package:rightflair/feature/profile_edit/repository/profile_edit_repository_impl.dart';
 import 'package:rightflair/feature/search/page/search_page.dart';
 import 'package:rightflair/feature/navigation/page/inbox/page/system_notifications_page.dart';
 import 'package:rightflair/feature/navigation/page/inbox/page/new_followers_page.dart';
 import 'package:rightflair/feature/settings/page/settings_page.dart';
 import 'package:rightflair/feature/profile_edit/cubit/profile_edit_cubit.dart';
-import 'package:rightflair/feature/profile_edit/repository/profile_edit_repository_impl.dart';
 
 import '../../feature/authentication/model/user.dart';
 import '../../feature/authentication/pages/register_page.dart';
@@ -84,13 +84,10 @@ final GoRouter router = GoRouter(
       path: RouteConstants.EDIT_PROFILE,
       name: RouteConstants.EDIT_PROFILE,
       builder: (context, state) {
-        final user = state.extra as UserModel;
+        final data = state.extra as Map<String, dynamic>;
         return BlocProvider(
-          create: (_) => ProfileEditCubit(
-            repository: ProfileEditRepositoryImpl(),
-            userId: user.id ?? '',
-          ),
-          child: ProfileEditPage(user: user),
+          create: (_) => ProfileEditCubit(ProfileEditRepositoryImpl()),
+          child: ProfileEditPage(user: data['user'], tags: data['tags']),
         );
       },
     ),
