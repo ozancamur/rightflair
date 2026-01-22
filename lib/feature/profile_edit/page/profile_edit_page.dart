@@ -140,8 +140,9 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
   Widget _usernameField() {
     return ProfileEditTextFieldWidget(
       label: AppStrings.PROFILE_EDIT_USERNAME,
-      hintText: widget.user.username ?? '@rightflair_user',
+      hintText: widget.user.username ?? "rightflair_user",
       controller: _usernameController,
+      prefixText: '@',
     );
   }
 

@@ -10,6 +10,7 @@ class ProfileEditTextFieldWidget extends StatelessWidget {
   final int? maxLength;
   final int maxLines;
   final Widget? suffix;
+  final String? prefixText;
 
   const ProfileEditTextFieldWidget({
     super.key,
@@ -19,6 +20,7 @@ class ProfileEditTextFieldWidget extends StatelessWidget {
     this.maxLength,
     this.maxLines = 1,
     this.suffix,
+    this.prefixText,
   });
 
   @override
@@ -53,6 +55,12 @@ class ProfileEditTextFieldWidget extends StatelessWidget {
       ),
       cursorColor: context.colors.primary,
       decoration: InputDecoration(
+        prefixText: prefixText,
+        prefixStyle: TextStyle(
+          color: context.colors.primary,
+          fontSize: FontSizeConstants.NORMAL.first,
+          fontWeight: FontWeight.w400,
+        ),
         hintText: hintText,
         hintStyle: TextStyle(
           color: context.colors.primaryFixed,

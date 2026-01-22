@@ -26,7 +26,7 @@ class ProfileHeaderUsernameWidget extends StatelessWidget {
           tr: false,
         ),
         TextComponent(
-          text: username,
+          text: "@$username",
           size: FontSizeConstants.NORMAL,
           weight: FontWeight.w500,
           color: context.colors.onPrimary,
