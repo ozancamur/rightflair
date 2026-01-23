@@ -9,6 +9,7 @@ class ProfileEditState extends Equatable {
   final String? selectedImagePath;
   final bool isSaving;
   final bool isUploading;
+  final bool hasUpdated;
   final String? errorMessage;
 
   const ProfileEditState({
@@ -20,6 +21,7 @@ class ProfileEditState extends Equatable {
     this.selectedImagePath,
     this.isSaving = false,
     this.isUploading = false,
+    this.hasUpdated = false,
     this.errorMessage,
   });
 
@@ -32,6 +34,7 @@ class ProfileEditState extends Equatable {
     String? selectedImagePath,
     bool? isSaving,
     bool? isUploading,
+    bool? hasUpdated,
     String? errorMessage,
   }) {
     return ProfileEditState(
@@ -43,6 +46,7 @@ class ProfileEditState extends Equatable {
       selectedImagePath: selectedImagePath ?? this.selectedImagePath,
       isSaving: isSaving ?? this.isSaving,
       isUploading: isUploading ?? this.isUploading,
+      hasUpdated: hasUpdated ?? this.hasUpdated,
       errorMessage: errorMessage,
     );
   }
@@ -57,8 +61,7 @@ class ProfileEditState extends Equatable {
     selectedImagePath,
     isSaving,
     isUploading,
+    hasUpdated,
     errorMessage,
   ];
 }
-
-

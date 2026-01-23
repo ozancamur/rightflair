@@ -253,6 +253,7 @@ class DialogUtils {
   }
 
   static void showSelectMyStyles(BuildContext context) {
+    final profileEditCubit = context.read<ProfileEditCubit>();
     final styles = [
       'Oversized',
       'Streetwear',
@@ -301,7 +302,7 @@ class DialogUtils {
                   size: FontSizeConstants.LARGE,
                 ),
                 onTap: () {
-                  context.read<ProfileEditCubit>().addStyle(styles[index]);
+                  profileEditCubit.addStyle(styles[index]);
                   Navigator.pop(context);
                 },
               );

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:rightflair/core/components/text.dart';
 import 'package:rightflair/core/constants/font/font_size.dart';
 
@@ -15,9 +16,11 @@ class ProfileEditDoneButtonWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        context.read<ProfileEditCubit>().saveProfile(user);
-        Navigator.pop(context);
+      onTap: () async {
+        final cubit = context.read<ProfileEditCubit>();
+        await cubit.saveProfile(user);
+        if (!context.mounted) return;
+        context.pop("refresh");
       },
       child: Container(
         margin: EdgeInsets.symmetric(vertical: context.height * 0.0125),

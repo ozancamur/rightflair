@@ -17,6 +17,10 @@ class ProfileEditCubit extends Cubit<ProfileEditState> {
 
   ProfileEditCubit(this._repo) : super(const ProfileEditState());
 
+  void initStyles(List<String> styles) {
+    emit(state.copyWith(selectedStyles: styles));
+  }
+
   void updateName(String name) {
     emit(state.copyWith(name: name));
   }
@@ -94,7 +98,13 @@ class ProfileEditCubit extends Cubit<ProfileEditState> {
       if (photoUrl != null) {
         await _repo.updateUser(profilePhotoUrl: photoUrl);
         if (!isClosed) {
-          emit(state.copyWith(profileImage: photoUrl, isUploading: false));
+          emit(
+            state.copyWith(
+              profileImage: photoUrl,
+              isUploading: false,
+              hasUpdated: true,
+            ),
+          );
         }
       } else {
         if (!isClosed) {
@@ -123,7 +133,7 @@ class ProfileEditCubit extends Cubit<ProfileEditState> {
     if (styles.length < 3 && !styles.contains(style)) {
       final updatedStyles = List<String>.from(styles)..add(style);
       await _repo.updateUserStyleTags(tags: updatedStyles);
-      emit(state.copyWith(selectedStyles: updatedStyles));
+      emit(state.copyWith(selectedStyles: updatedStyles, hasUpdated: true));
     }
   }
 
@@ -131,7 +141,7 @@ class ProfileEditCubit extends Cubit<ProfileEditState> {
     final updatedStyles = List<String>.from(state.selectedStyles ?? [])
       ..remove(style);
     await _repo.updateUserStyleTags(tags: updatedStyles);
-    emit(state.copyWith(selectedStyles: updatedStyles));
+    emit(state.copyWith(selectedStyles: updatedStyles, hasUpdated: true));
   }
 
   Future<void> saveProfile(UserModel user) async {
@@ -145,7 +155,7 @@ class ProfileEditCubit extends Cubit<ProfileEditState> {
           fullName: nameChanged ? (state.name ?? '') : null,
           bio: bioChanged ? (state.bio ?? '') : null,
         );
-        if (!isClosed) emit(state.copyWith(isSaving: false));
+        if (!isClosed) emit(state.copyWith(isSaving: false, hasUpdated: true));
       } catch (e) {
         if (!isClosed) {
           emit(

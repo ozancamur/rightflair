@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:rightflair/core/extensions/context.dart';
 import 'package:rightflair/core/components/profile/profile_action_buttons_widget.dart';
 
 import '../../../feature/authentication/model/user.dart';
+import '../../../feature/navigation/page/profile/cubit/profile_cubit.dart';
 import 'header/profile_header_bio.dart';
 import 'header/profile_header_image.dart';
 import 'header/profile_header_stats.dart';
@@ -14,6 +16,7 @@ class ProfileHeaderWidget extends StatelessWidget {
   final List<String> tags;
   final VoidCallback? onFollowTap;
   final VoidCallback? onMessageTap;
+  final VoidCallback? onEditPhoto;
   final bool isCanEdit;
 
   const ProfileHeaderWidget({
@@ -21,6 +24,7 @@ class ProfileHeaderWidget extends StatelessWidget {
     required this.tags,
     this.onFollowTap,
     this.onMessageTap,
+    this.onEditPhoto,
     this.isCanEdit = false,
     required this.user,
   });
@@ -30,7 +34,13 @@ class ProfileHeaderWidget extends StatelessWidget {
     return Column(
       spacing: context.height * 0.015,
       children: [
-        ProfileHeaderImageWidget(isCanEdit: isCanEdit, user: user, tags: tags),
+        ProfileHeaderImageWidget(
+          isCanEdit: isCanEdit,
+          user: user,
+          tags: tags,
+          onRefresh: () => context.read<ProfileCubit>().refresh(),
+          onPhotoChange: onEditPhoto,
+        ),
         ProfileHeaderUsernameWidget(
           name: user.fullName,
           username: user.username ?? "@rightflair_user",

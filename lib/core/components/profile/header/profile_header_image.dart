@@ -14,11 +14,16 @@ class ProfileHeaderImageWidget extends StatelessWidget {
   final bool isCanEdit;
   final UserModel user;
   final List<String> tags;
+  final VoidCallback onRefresh;
+  final VoidCallback? onPhotoChange;
+
   const ProfileHeaderImageWidget({
     super.key,
     required this.isCanEdit,
     required this.user,
     required this.tags,
+    required this.onRefresh,
+    this.onPhotoChange,
   });
 
   @override
@@ -48,7 +53,7 @@ class ProfileHeaderImageWidget extends StatelessWidget {
       top: context.height * .085,
       right: context.width * .31,
       child: InkWell(
-        onTap: () {},
+        onTap: onPhotoChange,
         customBorder: CircleBorder(),
         child: Container(
           height: context.height * .035,
@@ -70,10 +75,15 @@ class ProfileHeaderImageWidget extends StatelessWidget {
       bottom: 0,
       right: context.width * .175,
       child: InkWell(
-        onTap: () => context.push(
-          RouteConstants.EDIT_PROFILE,
-          extra: {'user': user, 'tags': tags},
-        ),
+        onTap: () async {
+          final result = await context.push(
+            RouteConstants.EDIT_PROFILE,
+            extra: {'user': user, 'tags': tags},
+          );
+          if (result == "refresh") {
+            onRefresh?.call();
+          }
+        },
         borderRadius: BorderRadius.circular(100),
         child: Container(
           height: context.height * .03,

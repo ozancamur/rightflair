@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:rightflair/core/components/appbar.dart';
 import 'package:rightflair/core/components/back_button.dart';
 import 'package:rightflair/core/constants/string.dart';
@@ -53,6 +54,10 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
       cubit.updateBio(initialBio);
     }
 
+    if (state.selectedStyles == null) {
+      cubit.initStyles(widget.tags);
+    }
+
     _nameController.addListener(() {
       context.read<ProfileEditCubit>().updateName(_nameController.text);
     });
@@ -77,7 +82,7 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
     return BlocBuilder<ProfileEditCubit, ProfileEditState>(
       builder: (context, state) {
         return BaseScaffold(
-          appBar: _appBar(context),
+          appBar: _appBar(context, state.hasUpdated),
           body: _body(context, state),
           navigation: const NavigationBottomBar(currentIndex: 3),
         );
@@ -85,9 +90,9 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
     );
   }
 
-  PreferredSizeWidget _appBar(BuildContext context) {
+  PreferredSizeWidget _appBar(BuildContext context, bool updated) {
     return AppBarComponent(
-      leading: const BackButtonComponent(),
+      leading: BackButtonComponent(onBack: () => context.pop()),
       actions: [
         ProfileEditDoneButtonWidget(user: widget.user),
         SizedBox(width: context.width * 0.04),
@@ -162,7 +167,7 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
 
   Widget _styles(ProfileEditState state) {
     return ProfileEditStylesWidget(
-      currentTags: widget.tags,
+      currentTags: state.selectedStyles ?? widget.tags,
       onRemoveStyle: (style) =>
           context.read<ProfileEditCubit>().removeStyle(style),
       onAddNew: () => DialogUtils.showSelectMyStyles(context),
