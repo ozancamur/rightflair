@@ -8,7 +8,7 @@ import 'package:rightflair/core/extensions/context.dart';
 import '../../../core/base/page/base_scaffold.dart';
 import '../../../core/constants/route.dart';
 import '../../../core/constants/string.dart';
-import '../../../core/utils/dialog.dart';
+import '../../../core/utils/dialogs/error.dart';
 import '../bloc/authentication_bloc.dart';
 import '../widgets/welcome/welcome_buttons.dart';
 import '../widgets/authentication_have_account.dart';
@@ -29,10 +29,7 @@ class WelcomePage extends StatelessWidget {
           context.replace(RouteConstants.NAVIGATION);
         }
         if (state is AuthenticationError) {
-          DialogUtils.showErrorDialog(
-            context,
-            message: AppStrings.ERROR_WELCOME_PAGE.tr(),
-          );
+          dialogError(context, message: AppStrings.ERROR_WELCOME_PAGE.tr());
         }
       },
       builder: (context, state) {

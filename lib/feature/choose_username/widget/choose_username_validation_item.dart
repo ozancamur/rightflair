@@ -30,12 +30,13 @@ class ChooseUsernameValidationItem extends StatelessWidget {
             shape: BoxShape.circle,
             color: isUnique
                 ? context.colors.inverseSurface
-                : context.colors.shadow,
+                : context.colors.error,
           ),
           duration: const Duration(milliseconds: 300),
           child: SvgPicture.asset(
             isUnique ? AppIcons.CHECK : AppIcons.CLOSE,
             height: context.height * .013,
+            color: Colors.white,
           ),
         ),
         TextComponent(

@@ -9,7 +9,6 @@ import 'package:rightflair/core/constants/string.dart';
 import '../../../core/base/page/base_scaffold.dart';
 import '../../../core/constants/route.dart';
 import '../../../core/extensions/context.dart';
-import '../../../core/utils/dialog.dart';
 import '../bloc/authentication_bloc.dart';
 import '../widgets/authentication_text.dart';
 import '../widgets/login/login_button.dart';
@@ -31,7 +30,7 @@ class LoginPage extends StatelessWidget {
           context.replace(RouteConstants.NAVIGATION);
         }
         if (state is AuthenticationError) {
-          DialogUtils.showErrorDialog(
+          (
             context,
             message: AppStrings.ERROR_LOGIN_PAGE.tr(),
           );

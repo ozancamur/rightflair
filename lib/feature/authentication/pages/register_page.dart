@@ -5,11 +5,11 @@ import 'package:rightflair/core/components/appbar.dart';
 import 'package:rightflair/core/components/back_button.dart';
 import 'package:rightflair/core/constants/route.dart';
 import 'package:rightflair/core/constants/string.dart';
-import 'package:rightflair/core/utils/dialog.dart';
 import 'package:rightflair/feature/authentication/bloc/authentication_bloc.dart';
 
 import '../../../core/base/page/base_scaffold.dart';
 import '../../../core/extensions/context.dart';
+import '../../../core/utils/dialogs/error.dart';
 import '../widgets/authentication_have_account.dart';
 import '../widgets/authentication_text.dart';
 import '../widgets/register/register_button.dart';
@@ -34,7 +34,7 @@ class RegisterPage extends StatelessWidget {
           );
         }
         if (state is AuthenticationError) {
-          DialogUtils.showErrorDialog(context, message: state.message);
+          dialogError(context, message: state.message);
         }
       },
       builder: (BuildContext context, AuthenticationState state) {

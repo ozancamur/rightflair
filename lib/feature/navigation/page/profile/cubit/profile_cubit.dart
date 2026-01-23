@@ -4,10 +4,10 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:rightflair/core/utils/dialog.dart';
 import 'package:rightflair/feature/navigation/page/profile/model/style_tags.dart';
 import 'package:rightflair/feature/navigation/page/profile/repository/profile_repository_impl.dart';
 
+import '../../../../../core/utils/dialogs/pick_image.dart';
 import '../../../../authentication/model/user.dart';
 import '../model/photo.dart';
 
@@ -118,7 +118,7 @@ class ProfileCubit extends Cubit<ProfileState> {
 
   Future<void> changePhotoDialog(BuildContext context, {String? userId}) async {
     if (userId == null) return;
-    final option = await DialogUtils.showImagePickerDialog(context);
+    final option = await dialogPickImage(context);
     if (option == null || !context.mounted) return;
 
     switch (option) {

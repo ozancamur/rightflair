@@ -9,7 +9,7 @@ import 'package:rightflair/core/extensions/context.dart';
 import 'package:rightflair/feature/navigation/widgets/navigation_bottom_bar.dart';
 
 import '../../../core/base/page/base_scaffold.dart';
-import '../../../core/utils/dialog.dart';
+import '../../../core/utils/dialogs/style_tags.dart';
 import '../../authentication/model/user.dart';
 import '../cubit/profile_edit_cubit.dart';
 import '../widgets/profile_edit_done_button.dart';
@@ -183,7 +183,7 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
       currentTags: state.selectedStyles ?? widget.tags,
       onRemoveStyle: (style) =>
           context.read<ProfileEditCubit>().removeStyle(style),
-      onAddNew: () => DialogUtils.showSelectMyStyles(context),
+      onAddNew: () => dialogStyleTags(context),
       canAddMore: context.read<ProfileEditCubit>().canAddMoreStyles,
     );
   }
