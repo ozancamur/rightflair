@@ -264,6 +264,11 @@
         "privacyPolicy": "Privacy Policy",
         "logOut": "Log Out",
         "deactiveAccount": "Deactive Account",
-        "version": "version {}"
+        "version": "version {}",
+
+        "supportEmailSubject": "Support Request:",
+        "shareUs": "Share Us",
+        "shareText": "Share the Rightflair App with your friends!",
+        "rateUs": "Rate Us"
     }
 }

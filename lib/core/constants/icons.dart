@@ -66,6 +66,8 @@ class AppIcons {
   static const String PRIVACY = '${_path}privacy.svg';
   static const String PROFILE = '${_path}profile.svg';
 
+  static const String RATE = '${_path}rate.svg';
+
   static const String SAVE_FILLED = '${_path}save_filled.svg';
   static const String SAVED = '${_path}saved.svg';
   static const String SEARCH_FILLED = '${_path}search_filled.svg';

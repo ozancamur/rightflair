@@ -227,7 +227,7 @@ class AppStrings {
   static const String PROFILE_EMPTY_BIO = 'profile.emptyBio';
 
   // STYLE TAGS
-  static String STYLE_TAG (String tag) => "styleTags.$tag"; 
+  static String STYLE_TAG(String tag) => "styleTags.$tag";
   static const String OVERSIZED = 'styleTags.oversized';
   static const String STREETWEAR = 'styleTags.streetwear';
   static const String MODELLING = 'styleTags.modelling';
@@ -287,6 +287,11 @@ class AppStrings {
   static const String SETTINGS_LOG_OUT = 'settings.logOut';
   static const String SETTINGS_DEACTIVE_ACCOUNT = 'settings.deactiveAccount';
   static const String SETTINGS_VERSION = 'settings.version';
+
+  static const String SETTINGS_SUPPORT_EMAIL_SUBJECT = "settings.supportEmailSubject";
+  static const String SETTINGS_SHARE_US = "settings.shareUs";
+  static const String SETTINGS_SHARE_TEXT = "settings.shareText";
+  static const String SETTINGS_RATE_US = "settings.rateUs";
 
   // INBOX
   static const String INBOX_SYSTEM_NOTIFICATIONS_TITLE =

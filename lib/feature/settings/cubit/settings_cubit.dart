@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -7,6 +8,7 @@ import 'package:rightflair/feature/settings/repository/settings_repository_impl.
 import 'package:url_launcher/url_launcher.dart';
 import '../../../core/config/theme_notifier.dart';
 import '../../../core/constants/route.dart';
+import '../../../core/constants/string.dart';
 import '../../../core/services/authentication.dart';
 import 'settings_state.dart';
 
@@ -109,6 +111,37 @@ class SettingsCubit extends Cubit<SettingsState> {
     final uri = Uri.parse(AppConstants.PRIVACY);
     if (!await launchUrl(uri)) {
       debugPrint('Could not launch $uri');
+    }
+  }
+
+  Future<void> onContact() async {
+    try {
+      final String subjectRaw = AppStrings.SETTINGS_SUPPORT_EMAIL_SUBJECT.tr();
+      final String version = AppConstants.VERSION;
+      final String uid = _auth.user?.id ?? 'N/A';
+      final String bodyRaw =
+          '''
+        -> 
+        ________________________________
+        --------------------------------
+        User ID: $uid
+        App Version: $version
+        ${AppConstants.APP_NAME}
+        ________________________________
+        ''';
+
+      final String subject = Uri.encodeComponent(subjectRaw);
+      final String body = Uri.encodeComponent(bodyRaw);
+
+      final Uri emailUri = Uri.parse(
+        'mailto:${AppConstants.CONTACT_EMAIL}'
+        '?subject=$subject'
+        '&body=$body',
+      );
+
+      await launchUrl(emailUri);
+    } catch (e) {
+      debugPrint("SETTINGS CONTROLLER _supportEmail ERROR :> $e");
     }
   }
 
