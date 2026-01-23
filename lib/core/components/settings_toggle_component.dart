@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:rightflair/core/constants/color/color.dart';
 import '../extensions/context.dart';
 
 class SettingsToggleComponent extends StatelessWidget {
@@ -19,8 +20,8 @@ class SettingsToggleComponent extends StatelessWidget {
       child: CupertinoSwitch(
         value: value,
         onChanged: onChanged,
-        activeColor: const Color(0xFF4CAF50),
-        trackColor: const Color(0xFF2A2A2A),
+        activeColor: AppColors.GREEN,
+        trackColor: context.colors.tertiary,
       ),
     );
   }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rightflair/core/components/text.dart';
 import 'package:rightflair/core/constants/font/font_size.dart';
+import 'package:rightflair/core/constants/string.dart';
 import 'package:rightflair/core/extensions/context.dart';
 
 class ProfileTagComponent extends StatelessWidget {
@@ -19,7 +20,7 @@ class ProfileTagComponent extends StatelessWidget {
         borderRadius: BorderRadius.circular(context.width * 0.05),
       ),
       child: TextComponent(
-        text: text,
+        text: AppStrings.STYLE_TAG(text),
         size: FontSizeConstants.X_SMALL,
         weight: FontWeight.w500,
         color: context.colors.primary,

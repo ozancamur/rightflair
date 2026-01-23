@@ -28,7 +28,7 @@ class RegisterPage extends StatelessWidget {
     return BlocConsumer<AuthenticationBloc, AuthenticationState>(
       listener: (context, state) {
         if (state is AuthenticationSetUsername) {
-          context.push(RouteConstants.CHOOSE_USERNAME, extra: state.user);
+          context.push(RouteConstants.CHOOSE_USERNAME, extra: state.user.username);
         }
         if (state is AuthenticationError) {
           DialogUtils.showErrorDialog(

@@ -5,24 +5,13 @@ import 'package:rightflair/feature/settings/widgets/settings_divider.dart';
 import '../../../../core/constants/string.dart';
 import '../../../../core/extensions/context.dart';
 import '../../cubit/settings_cubit.dart';
+import '../../model/notifications.dart';
 import '../settings_section_header_widget.dart';
 import '../settings_toggle_item_widget.dart';
 
 class SettingsNotificationsWidget extends StatelessWidget {
-  final bool likes;
-  final bool saves;
-  final bool milestones;
-  final bool trending;
-  final bool follow;
-
-  const SettingsNotificationsWidget({
-    super.key,
-    required this.likes,
-    required this.saves,
-    required this.milestones,
-    required this.trending,
-    required this.follow,
-  });
+  final NotificationsModel? notifications;
+  const SettingsNotificationsWidget({super.key, this.notifications});
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +48,7 @@ class SettingsNotificationsWidget extends StatelessWidget {
   SettingsToggleItemWidget _likes(SettingsCubit cubit) {
     return SettingsToggleItemWidget(
       title: AppStrings.SETTINGS_LIKES,
-      value: likes,
+      value: notifications?.enableLikes ?? false,
       onChanged: cubit.toggleLikes,
     );
   }
@@ -67,7 +56,7 @@ class SettingsNotificationsWidget extends StatelessWidget {
   SettingsToggleItemWidget _saves(SettingsCubit cubit) {
     return SettingsToggleItemWidget(
       title: AppStrings.SETTINGS_SAVES,
-      value: saves,
+      value: notifications?.enableSaves ?? false,
       onChanged: cubit.toggleSaves,
     );
   }
@@ -75,7 +64,7 @@ class SettingsNotificationsWidget extends StatelessWidget {
   SettingsToggleItemWidget _milestones(SettingsCubit cubit) {
     return SettingsToggleItemWidget(
       title: AppStrings.SETTINGS_MILESTONES,
-      value: milestones,
+      value: notifications?.enableMilestones ?? false,
       onChanged: cubit.toggleMilestones,
     );
   }
@@ -83,7 +72,7 @@ class SettingsNotificationsWidget extends StatelessWidget {
   SettingsToggleItemWidget _trending(SettingsCubit cubit) {
     return SettingsToggleItemWidget(
       title: AppStrings.SETTINGS_TRENDING,
-      value: trending,
+      value: notifications?.enableTrending ?? false,
       onChanged: cubit.toggleTrending,
     );
   }
@@ -91,7 +80,7 @@ class SettingsNotificationsWidget extends StatelessWidget {
   SettingsToggleItemWidget _follow(SettingsCubit cubit) {
     return SettingsToggleItemWidget(
       title: AppStrings.SETTINGS_FOLLOW,
-      value: follow,
+      value: notifications?.enableFollow ?? false,
       onChanged: cubit.toggleFollow,
     );
   }

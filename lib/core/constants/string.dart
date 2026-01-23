@@ -217,16 +217,33 @@ class AppStrings {
   static const String PROFILE_FOLLOWER = 'profile.follower';
   static const String PROFILE_FOLLOWING = 'profile.following';
   static const String PROFILE_FOLLOW = 'profile.follow';
+  static const String PROFILE_EDIT = 'profile.edit';
   static const String PROFILE_MESSAGE = 'profile.message';
-  static const String PROFILE_OVERSIZED = 'profile.oversized';
-  static const String PROFILE_STREETWEAR = 'profile.streetwear';
-  static const String PROFILE_MODELING = 'profile.modeling';
   static const String PROFILE_PHOTOS = 'profile.photos';
   static const String PROFILE_SAVES = 'profile.saves';
   static const String PROFILE_DRAFTS = 'profile.drafts';
   static const String PROFILE_READ_MORE = 'profile.readMore';
   static const String PROFILE_HIDE = 'profile.hide';
+  static const String PROFILE_EMPTY_BIO = 'profile.emptyBio';
 
+  // STYLE TAGS
+  static String STYLE_TAG (String tag) => "styleTags.$tag"; 
+  static const String OVERSIZED = 'styleTags.oversized';
+  static const String STREETWEAR = 'styleTags.streetwear';
+  static const String MODELLING = 'styleTags.modelling';
+  static const String CASUAL = 'styleTags.casual';
+  static const String FORMAL = 'styleTags.formal';
+  static const String VINTAGE = 'styleTags.vintage';
+  static const String SPORTY = 'styleTags.sporty';
+  static const String BOHEMIAN = 'styleTags.bohemian';
+  static const String Y2K = 'styleTags.y2k';
+  static const String GOTH = 'styleTags.goth';
+  static const String MINIMALIST = 'styleTags.minimalist';
+  static const String TECHWEAR = 'styleTags.techwear';
+  static const String SKATER = 'styleTags.skater';
+  static const String RETRO = 'styleTags.retro';
+  static const String CLEAN = 'styleTags.clean';
+  static const String GIRL = 'styleTags.girl';
   // POST DETAIL
   static const String POST_DETAIL_COMMENTS = 'postDetail.comments';
   static const String POST_DETAIL_BOOKMARKED = 'postDetail.bookmarked';

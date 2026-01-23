@@ -10,7 +10,11 @@ enum Endpoint {
   GET_USER_DRAFTS("get-user-draft"),
 
   GET_USER_STYLE_TAGS("get-user-style-tags"),
-  UPDATE_USER_STYLE_TAGS("update-user-style-tags")
+  UPDATE_USER_STYLE_TAGS("update-user-style-tags"),
+
+  GET_USER_SETTINGS("get-user-settings"),
+  UPDATE_USER_SETTINGS("update-user-settings"),
+
   ;
 
   final String value;

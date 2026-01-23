@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rightflair/core/constants/string.dart';
 
 import '../../../../../../core/components/profile_tag.dart';
 import '../../../../../../core/extensions/context.dart';
@@ -19,7 +20,7 @@ class ProfileHeaderTagsWidget extends StatelessWidget {
         spacing: context.height * 0.0075,
         children: [
           TextComponent(
-            text: "My Styles",
+            text: AppStrings.PROFILE_EDIT_MY_STYLES,
             color: context.colors.primary,
             weight: FontWeight.w600,
             size: FontSizeConstants.NORMAL,

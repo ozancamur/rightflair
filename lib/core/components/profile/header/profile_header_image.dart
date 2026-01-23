@@ -5,6 +5,7 @@ import 'package:rightflair/core/components/text.dart';
 import 'package:rightflair/core/constants/font/font_size.dart';
 import 'package:rightflair/core/constants/icons.dart';
 import 'package:rightflair/core/constants/route.dart';
+import 'package:rightflair/core/constants/string.dart';
 
 import '../../../../../../core/extensions/context.dart';
 import '../../../../feature/authentication/model/user.dart';
@@ -98,7 +99,7 @@ class ProfileHeaderImageWidget extends StatelessWidget {
           ),
           child: Center(
             child: TextComponent(
-              text: "Edit",
+              text: AppStrings.PROFILE_EDIT,
               size: FontSizeConstants.X_SMALL,
               color: context.colors.primary,
             ),

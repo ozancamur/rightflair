@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rightflair/feature/settings/widgets/settings_divider.dart';
 
 import '../../../../core/constants/icons.dart';
 import '../../../../core/constants/string.dart';
 import '../../../../core/extensions/context.dart';
+import '../../cubit/settings_cubit.dart';
 import '../settings_list_item_widget.dart';
 import '../settings_section_header_widget.dart';
 
@@ -33,7 +35,7 @@ class SettingsAboutWidget extends StatelessWidget {
                   color: context.colors.primary,
                   size: context.width * 0.06,
                 ),
-                onTap: () {},
+                onTap: () => context.read<SettingsCubit>().openTermsOfUse(),
               ),
               const SettingsDividerWidget(),
               SettingsListItemWidget(
@@ -44,7 +46,7 @@ class SettingsAboutWidget extends StatelessWidget {
                   color: context.colors.primary,
                   size: context.width * 0.06,
                 ),
-                onTap: () {},
+                onTap: () => context.read<SettingsCubit>().openPrivacyPolicy(),
               ),
             ],
           ),

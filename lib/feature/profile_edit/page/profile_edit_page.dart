@@ -92,7 +92,7 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
 
   PreferredSizeWidget _appBar(BuildContext context, bool updated) {
     return AppBarComponent(
-      leading: BackButtonComponent(onBack: () => context.pop()),
+      leading: BackButtonComponent(onBack: () => context.pop('refresh')),
       actions: [
         ProfileEditDoneButtonWidget(user: widget.user),
         SizedBox(width: context.width * 0.04),

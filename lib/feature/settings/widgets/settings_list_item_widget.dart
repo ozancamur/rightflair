@@ -65,6 +65,7 @@ class SettingsListItemWidget extends StatelessWidget {
               size: FontSizeConstants.X_SMALL,
               color: context.colors.primaryFixed,
               weight: FontWeight.w500,
+              tr: false,
             ),
           ],
         ],

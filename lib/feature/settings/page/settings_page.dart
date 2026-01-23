@@ -7,7 +7,6 @@ import 'package:rightflair/feature/settings/widgets/settings_appbar.dart';
 import '../../../core/base/page/base_scaffold.dart';
 import '../../../core/components/loading.dart';
 import '../../../core/components/text.dart';
-import '../../../core/config/theme_notifier.dart';
 import '../../../core/constants/string.dart';
 import '../../../core/extensions/context.dart';
 import '../cubit/settings_cubit.dart';
@@ -25,50 +24,35 @@ class SettingsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) {
-        final isDarkMode =
-            context.read<ThemeNotifier>().themeMode == ThemeMode.dark;
-        return SettingsCubit()..loadSettings(isDarkMode: isDarkMode);
-      },
+      create: (context) => context.read<SettingsCubit>()..init(context),
       child: BlocBuilder<SettingsCubit, SettingsState>(
         builder: (context, state) {
           return BaseScaffold(
             appBar: SettingsAppbarWidget(),
-            body: (state is SettingsLoading)
+            body: (state.isLoading)
                 ? const LoadingComponent()
-                : (state is SettingsLoaded)
-                ? _body(context, state)
-                : const SizedBox.shrink(),
+                : _body(context, state),
           );
         },
       ),
     );
   }
 
-  Widget _body(BuildContext context, SettingsLoaded state) {
+  Widget _body(BuildContext context, SettingsState state) {
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         spacing: context.height * 0.015,
         children: [
           SettingsAccountWidget(
-            username: state.settings.username,
-            email: state.settings.email,
+            username: state.username,
+            email: state.email,
+            emailVerified: state.emailVerified,
           ),
           const SettingsSupportWidget(),
-          SettingsNotificationsWidget(
-            likes: state.settings.likesEnabled,
-            saves: state.settings.savesEnabled,
-            milestones: state.settings.milestonesEnabled,
-            trending: state.settings.trendingEnabled,
-            follow: state.settings.followEnabled,
-          ),
-          SettingsAppWidget(
-            darkmode: state.settings.darkModeEnabled,
-            language: state.settings.language,
-          ),
+          SettingsNotificationsWidget(notifications: state.notifications),
+          SettingsAppWidget(darkmode: state.isDarkMode),
           const SettingsAboutWidget(),
-
           const SettingsButtonsWidget(),
           _buildVersion(context),
           SizedBox(height: context.height * 0.025),

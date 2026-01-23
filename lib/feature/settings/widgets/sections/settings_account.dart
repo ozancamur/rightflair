@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:rightflair/core/constants/icons.dart';
+import 'package:rightflair/core/constants/route.dart';
 
 import '../../../../core/constants/string.dart';
 import '../../../../core/extensions/context.dart';
@@ -8,12 +11,14 @@ import '../settings_list_item_widget.dart';
 import '../settings_section_header_widget.dart';
 
 class SettingsAccountWidget extends StatelessWidget {
-  final String username;
-  final String email;
+  final String? username;
+  final String? email;
+  final bool? emailVerified;
   const SettingsAccountWidget({
     super.key,
-    required this.username,
-    required this.email,
+    this.username,
+    this.email,
+    this.emailVerified,
   });
 
   @override
@@ -34,8 +39,10 @@ class SettingsAccountWidget extends StatelessWidget {
               _username(context),
               const SettingsDividerWidget(),
               _email(context),
+              /*
               const SettingsDividerWidget(),
               _changePassword(context),
+              */
             ],
           ),
         ),
@@ -44,16 +51,17 @@ class SettingsAccountWidget extends StatelessWidget {
   }
 
   SettingsListItemWidget _username(BuildContext context) {
+    final String _username = username ?? "rightflair_user";
     return SettingsListItemWidget(
       icon: AppIcons.USERNAME,
       title: AppStrings.SETTINGS_USERNAME,
-      subtitle: username,
-      trailing: Icon(
-        Icons.chevron_right,
+      subtitle: "@$_username",
+      trailing: SvgPicture.asset(
+        AppIcons.ARROW_RIGHT,
         color: context.colors.primary,
-        size: context.width * 0.06,
+        height: context.width * 0.03,
       ),
-      onTap: () {},
+      onTap: () => context.push(RouteConstants.CHOOSE_USERNAME, extra: _username),
     );
   }
 
@@ -61,16 +69,22 @@ class SettingsAccountWidget extends StatelessWidget {
     return SettingsListItemWidget(
       icon: AppIcons.EMAIL,
       title: AppStrings.SETTINGS_EMAIL,
-      subtitle: email,
-      trailing: Icon(
-        Icons.chevron_right,
-        color: context.colors.primary,
-        size: context.width * 0.06,
-      ),
-      onTap: () {},
+      subtitle: email ?? "rightflairuser@example.com",
+      trailing: emailVerified == true
+          ? Icon(
+              Icons.check_circle,
+              color: context.colors.inverseSurface,
+              size: context.width * 0.06,
+            )
+          : Icon(
+              Icons.error,
+              color: context.colors.error,
+              size: context.width * 0.06,
+            ),
     );
   }
 
+  /*
   SettingsListItemWidget _changePassword(BuildContext context) {
     return SettingsListItemWidget(
       icon: AppIcons.CHANGE_PASSWORD,
@@ -82,5 +96,5 @@ class SettingsAccountWidget extends StatelessWidget {
       ),
       onTap: () {},
     );
-  }
+  }*/
 }

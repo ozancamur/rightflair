@@ -7,5 +7,7 @@ abstract class SupabaseService {
 
   User? get user => client.auth.currentUser;
 
+  bool? get emailVerified => user?.emailConfirmedAt != null;
+
   Stream<AuthState> get authStateChanges => client.auth.onAuthStateChange;
 }

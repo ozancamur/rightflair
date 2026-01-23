@@ -5,7 +5,6 @@ import 'package:rightflair/core/constants/string.dart';
 
 import '../../../core/base/page/base_scaffold.dart';
 import '../../../core/extensions/context.dart';
-import '../../authentication/model/user.dart';
 import '../cubit/choose_username_cubit.dart';
 import '../../authentication/widgets/authentication_text.dart';
 import '../widget/choose_username_button.dart';
@@ -13,11 +12,12 @@ import '../widget/choose_username_textfield.dart';
 import '../widget/choose_username_validation.dart';
 
 class ChooseUsernamePage extends StatelessWidget {
-  final UserModel user;
-  const ChooseUsernamePage({super.key, required this.user});
+  final String? username;
+  const ChooseUsernamePage({super.key, required this.username});
 
   @override
   Widget build(BuildContext context) {
+    
     return BlocBuilder<ChooseUsernameCubit, ChooseUsernameState>(
       builder: (context, state) {
         return BaseScaffold(
@@ -46,7 +46,7 @@ class ChooseUsernamePage extends StatelessWidget {
           ),
           ChooseUsernameTextField(
             isValid: state.isUnique,
-            hintText: user.username ?? AppStrings.CHOOSE_USERNAME_USERNAME,
+            hintText: username ?? AppStrings.CHOOSE_USERNAME_USERNAME,
             isLoading: state.isLoading,
           ),
           ChooseUsernameValidationWidget(isUnique: state.isUnique),

@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:rightflair/core/components/text.dart';
 import 'package:rightflair/core/constants/font/font_size.dart';
 import 'package:rightflair/core/constants/icons.dart';
+import 'package:rightflair/core/constants/string.dart';
 import 'package:rightflair/core/extensions/context.dart';
 
 class ProfileEditStyleTagWidget extends StatelessWidget {
@@ -33,11 +34,10 @@ class ProfileEditStyleTagWidget extends StatelessWidget {
           spacing: context.width * 0.02,
           children: [
             TextComponent(
-              text: text,
+              text: AppStrings.STYLE_TAG(text),
               size: FontSizeConstants.SMALL,
               weight: FontWeight.w500,
               color: context.colors.primary,
-              tr: false,
             ),
             SvgPicture.asset(
               AppIcons.CLOSE,

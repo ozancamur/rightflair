@@ -255,22 +255,22 @@ class DialogUtils {
   static void showSelectMyStyles(BuildContext context) {
     final profileEditCubit = context.read<ProfileEditCubit>();
     final styles = [
-      'Oversized',
-      'Streetwear',
-      'Modeling',
-      'Casual',
-      'Formal',
-      'Vintage',
-      'Sporty',
-      'Bohemian',
-      'Y2K',
-      'Goth',
-      'Minimalist',
-      'Techwear',
-      'Skater',
-      'Retro',
-      'Clean',
-      'Girl',
+      AppStrings.OVERSIZED,
+      AppStrings.STREETWEAR,
+      AppStrings.MODELLING,
+      AppStrings.CASUAL,
+      AppStrings.FORMAL,
+      AppStrings.VINTAGE,
+      AppStrings.SPORTY,
+      AppStrings.BOHEMIAN,
+      AppStrings.Y2K,
+      AppStrings.GOTH,
+      AppStrings.MINIMALIST,
+      AppStrings.TECHWEAR,
+      AppStrings.SKATER,
+      AppStrings.RETRO,
+      AppStrings.CLEAN,
+      AppStrings.GIRL,
     ];
 
     showModalBottomSheet(
@@ -302,7 +302,7 @@ class DialogUtils {
                   size: FontSizeConstants.LARGE,
                 ),
                 onTap: () {
-                  profileEditCubit.addStyle(styles[index]);
+                  profileEditCubit.addStyle(styles[index].tr());
                   Navigator.pop(context);
                 },
               );

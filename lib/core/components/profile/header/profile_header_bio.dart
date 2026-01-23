@@ -27,14 +27,14 @@ class _ProfileHeaderBioWidgetState extends State<ProfileHeaderBioWidget> {
         spacing: context.height * 0.0075,
         children: [
           TextComponent(
-            text: "Bio",
+            text: AppStrings.PROFILE_EDIT_BIO,
             color: context.colors.primary,
             weight: FontWeight.w600,
             size: FontSizeConstants.NORMAL,
           ),
           widget.text == ""
               ? TextComponent(
-                  text: "Tell us about yourself...",
+                  text: AppStrings.PROFILE_EMPTY_BIO,
                   color: context.colors.tertiary,
                   weight: FontWeight.w400,
                   size: FontSizeConstants.X_SMALL,

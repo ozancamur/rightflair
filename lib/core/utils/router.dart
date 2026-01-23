@@ -15,7 +15,6 @@ import 'package:rightflair/feature/navigation/page/inbox/page/new_followers_page
 import 'package:rightflair/feature/settings/page/settings_page.dart';
 import 'package:rightflair/feature/profile_edit/cubit/profile_edit_cubit.dart';
 
-import '../../feature/authentication/model/user.dart';
 import '../../feature/authentication/pages/register_page.dart';
 import '../../feature/post_detail/page/post_detail_page.dart';
 import '../../feature/profile_edit/page/profile_edit_page.dart';
@@ -46,7 +45,7 @@ final GoRouter router = GoRouter(
       path: RouteConstants.CHOOSE_USERNAME,
       name: RouteConstants.CHOOSE_USERNAME,
       builder: (context, state) =>
-          ChooseUsernamePage(user: state.extra as UserModel),
+          ChooseUsernamePage(username: state.extra as String?),
     ),
     GoRoute(
       path: RouteConstants.LOGIN,

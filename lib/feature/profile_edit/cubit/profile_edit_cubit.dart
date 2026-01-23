@@ -18,6 +18,7 @@ class ProfileEditCubit extends Cubit<ProfileEditState> {
   ProfileEditCubit(this._repo) : super(const ProfileEditState());
 
   void initStyles(List<String> styles) {
+    print("INIT STYLES: $styles");
     emit(state.copyWith(selectedStyles: styles));
   }
 
@@ -129,19 +130,20 @@ class ProfileEditCubit extends Cubit<ProfileEditState> {
   }
 
   Future<void> addStyle(String style) async {
+    final String tag = style.toLowerCase();
     final styles = state.selectedStyles ?? [];
-    if (styles.length < 3 && !styles.contains(style)) {
-      final updatedStyles = List<String>.from(styles)..add(style);
-      await _repo.updateUserStyleTags(tags: updatedStyles);
+    if (styles.length < 3 && !styles.contains(tag)) {
+      final updatedStyles = List<String>.from(styles)..add(tag);
       emit(state.copyWith(selectedStyles: updatedStyles, hasUpdated: true));
+      await _repo.updateUserStyleTags(tags: updatedStyles);
     }
   }
 
   Future<void> removeStyle(String style) async {
     final updatedStyles = List<String>.from(state.selectedStyles ?? [])
       ..remove(style);
-    await _repo.updateUserStyleTags(tags: updatedStyles);
     emit(state.copyWith(selectedStyles: updatedStyles, hasUpdated: true));
+    await _repo.updateUserStyleTags(tags: updatedStyles);
   }
 
   Future<void> saveProfile(UserModel user) async {

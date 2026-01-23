@@ -32,7 +32,6 @@ class ProfileHeaderWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      spacing: context.height * 0.015,
       children: [
         ProfileHeaderImageWidget(
           isCanEdit: isCanEdit,
@@ -45,10 +44,12 @@ class ProfileHeaderWidget extends StatelessWidget {
           name: user.fullName,
           username: user.username ?? "@rightflair_user",
         ),
+        SizedBox(height: context.height * 0.015),
         ProfileHeaderStatsWidget(
           followerCount: user.followersCount ?? 0,
           followingCount: user.followingCount ?? 0,
         ),
+        SizedBox(height: context.height * 0.01),
         (onFollowTap == null && onMessageTap == null)
             ? SizedBox.shrink()
             : ProfileActionButtonsWidget(
@@ -56,6 +57,7 @@ class ProfileHeaderWidget extends StatelessWidget {
                 onMessageTap: onMessageTap!,
               ),
         ProfileHeaderBioWidget(text: user.bio ?? ""),
+        SizedBox(height: context.height * 0.01),
         ProfileHeaderTagsWidget(tags: tags),
       ],
     );

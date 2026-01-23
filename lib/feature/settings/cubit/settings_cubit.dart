@@ -2,91 +2,114 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import 'package:rightflair/core/constants/app.dart';
+import 'package:rightflair/feature/settings/repository/settings_repository_impl.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../../core/config/theme_notifier.dart';
 import '../../../core/constants/route.dart';
-import '../model/settings_model.dart';
+import '../../../core/services/authentication.dart';
 import 'settings_state.dart';
 
 class SettingsCubit extends Cubit<SettingsState> {
-  SettingsCubit() : super(SettingsInitial());
+  final AuthenticationService _auth = AuthenticationService();
 
-  void loadSettings({bool isDarkMode = false}) {
-    emit(SettingsLoading());
+  final SettingsRepositoryImpl _repo;
+  SettingsCubit(this._repo) : super(SettingsState());
 
-    // Mock data - replace with actual data source
-    final settings = SettingsModel(
-      username: '@loremipsum',
-      email: 'loremipsum@mail.com',
-      likesEnabled: true,
-      savesEnabled: true,
-      milestonesEnabled: true,
-      trendingEnabled: true,
-      followEnabled: true,
-      darkModeEnabled: isDarkMode,
-      language: 'english',
+  Future<void> init(BuildContext context) async {
+    emit(state.copyWith(isLoading: true));
+    final isDarkMode =
+        context.read<ThemeNotifier>().themeMode == ThemeMode.dark;
+    final response = await _repo.getSettings();
+    emit(
+      state.copyWith(
+        isLoading: false,
+        username: response.username,
+        email: response.email,
+        emailVerified: _auth.emailVerified,
+        notifications: response.notifications,
+        isDarkMode: isDarkMode,
+      ),
     );
-
-    emit(SettingsLoaded(settings));
   }
 
-  void toggleLikes(bool value) {
-    final currentState = state;
-    if (currentState is SettingsLoaded) {
-      emit(SettingsLoaded(currentState.settings.copyWith(likesEnabled: value)));
-    }
+  Future<void> toggleLikes(bool value) async {
+    emit(
+      state.copyWith(
+        notifications: state.notifications?.copyWith(enableLikes: value),
+      ),
+    );
+    await update();
   }
 
-  void toggleSaves(bool value) {
-    final currentState = state;
-    if (currentState is SettingsLoaded) {
-      emit(SettingsLoaded(currentState.settings.copyWith(savesEnabled: value)));
-    }
+  Future<void> toggleSaves(bool value) async {
+    emit(
+      state.copyWith(
+        notifications: state.notifications?.copyWith(enableSaves: value),
+      ),
+    );
+    await update();
   }
 
-  void toggleMilestones(bool value) {
-    final currentState = state;
-    if (currentState is SettingsLoaded) {
-      emit(
-        SettingsLoaded(
-          currentState.settings.copyWith(milestonesEnabled: value),
-        ),
-      );
-    }
+  Future<void> toggleMilestones(bool value) async {
+    emit(
+      state.copyWith(
+        notifications: state.notifications?.copyWith(enableMilestones: value),
+      ),
+    );
+    await update();
   }
 
-  void toggleTrending(bool value) {
-    final currentState = state;
-    if (currentState is SettingsLoaded) {
-      emit(
-        SettingsLoaded(currentState.settings.copyWith(trendingEnabled: value)),
-      );
-    }
+  Future<void> toggleTrending(bool value) async {
+    emit(
+      state.copyWith(
+        notifications: state.notifications?.copyWith(enableTrending: value),
+      ),
+    );
+    await update();
   }
 
-  void toggleFollow(bool value) {
-    final currentState = state;
-    if (currentState is SettingsLoaded) {
-      emit(
-        SettingsLoaded(currentState.settings.copyWith(followEnabled: value)),
-      );
-    }
+  Future<void> toggleFollow(bool value) async {
+    emit(
+      state.copyWith(
+        notifications: state.notifications?.copyWith(enableFollow: value),
+      ),
+    );
+    await update();
   }
 
   void toggleDarkMode(BuildContext context, bool value) {
-    final currentState = state;
-    if (currentState is SettingsLoaded) {
-      Provider.of<ThemeNotifier>(context, listen: false).setTheme(value);
-      emit(
-        SettingsLoaded(currentState.settings.copyWith(darkModeEnabled: value)),
-      );
-    }
+    Provider.of<ThemeNotifier>(context, listen: false).setTheme(value);
+    emit(state.copyWith(isDarkMode: value));
   }
 
-  void logOut(BuildContext context) {
-    context.replaceNamed(RouteConstants.WELCOME);
+  Future<void> logOut(BuildContext context) async {
+    await _auth.signOut();
+    if (context.mounted) {
+      context.replaceNamed(RouteConstants.WELCOME);
+    }
   }
 
   void deactivateAccount() {
     // Implement account deactivation logic
+  }
+
+  Future<void> openTermsOfUse() async {
+    final uri = Uri.parse(AppConstants.TERMS);
+    if (!await launchUrl(uri)) {
+      debugPrint('Could not launch $uri');
+    }
+  }
+
+  Future<void> openPrivacyPolicy() async {
+    final uri = Uri.parse(AppConstants.PRIVACY);
+    if (!await launchUrl(uri)) {
+      debugPrint('Could not launch $uri');
+    }
+  }
+
+  Future<void> update() async {
+    if (state.notifications == null) return;
+    await _repo.updateSettings(notifications: state.notifications!);
   }
 }
