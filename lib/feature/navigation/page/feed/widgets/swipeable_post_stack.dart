@@ -58,7 +58,7 @@ class _SwipeablePostStackState extends State<SwipeablePostStack> {
                 ),
                 SizedBox(height: context.height * 0.02),
                 TextComponent(
-                  text: state.errorMessage ?? AppStrings.ERROR_OCCURRED,
+                  text: state.error ?? AppStrings.ERROR_OCCURRED,
                   size: FontSizeConstants.LARGE,
                   color: context.colors.primary,
                   align: TextAlign.center,
