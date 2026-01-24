@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 
 import '../../../../../core/components/profile/profile_post_grid.dart';
-import '../../../../../core/extensions/context.dart';
 import '../../../../create_post/model/post.dart';
 
-class ProfileTabViewsWidget extends StatelessWidget {
+class ProfileTabViewsWidget extends StatefulWidget {
   final List<PostModel>? posts;
   final bool isPostsLoading;
   final List<PostModel>? saves;
@@ -22,16 +21,54 @@ class ProfileTabViewsWidget extends StatelessWidget {
   });
 
   @override
+  State<ProfileTabViewsWidget> createState() => _ProfileTabViewsWidgetState();
+}
+
+class _ProfileTabViewsWidgetState extends State<ProfileTabViewsWidget> {
+  TabController? _tabController;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final newController = DefaultTabController.of(context);
+    if (newController != _tabController) {
+      _tabController?.removeListener(_handleTabSelection);
+      _tabController = newController;
+      _tabController?.addListener(_handleTabSelection);
+    }
+  }
+
+  @override
+  void dispose() {
+    _tabController?.removeListener(_handleTabSelection);
+    super.dispose();
+  }
+
+  void _handleTabSelection() {
+    setState(() {});
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: context.height * 0.55,
-      child: TabBarView(
-        children: [
-          ProfilePostGridComponent(posts: posts, isLoading: isPostsLoading),
-          ProfilePostGridComponent(posts: saves, isLoading: isSavesLoading),
-          ProfilePostGridComponent(posts: drafts, isLoading: isDraftsLoading),
-        ],
-      ),
-    );
+    final index = _tabController?.index ?? 0;
+    switch (index) {
+      case 0:
+        return ProfilePostGridComponent(
+          posts: widget.posts,
+          isLoading: widget.isPostsLoading,
+        );
+      case 1:
+        return ProfilePostGridComponent(
+          posts: widget.saves,
+          isLoading: widget.isSavesLoading,
+        );
+      case 2:
+        return ProfilePostGridComponent(
+          posts: widget.drafts,
+          isLoading: widget.isDraftsLoading,
+        );
+      default:
+        return const SizedBox.shrink();
+    }
   }
 }
