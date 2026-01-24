@@ -42,20 +42,25 @@ class _SwipeablePostStackState extends State<SwipeablePostStack> {
     return BlocBuilder<FeedBloc, FeedState>(
       builder: (context, state) {
         if (state.isLoading) return const LoadingComponent();
-        if (state.posts?.length == 0) return const ProfileNonPostComponent();
+        if (state.posts?.length == 0 && !state.isLoadingMore) {
+          return const ProfileNonPostComponent();
+        }
 
         return Stack(
-          children: List.generate(state.posts?.length ?? 0, (index) {
-            final post = state.posts![state.posts!.length - 1 - index];
-            final isTop = index == state.posts!.length - 1;
+          children: [
+            if (state.isLoadingMore) const Center(child: LoadingComponent()),
+            ...List.generate(state.posts?.length ?? 0, (index) {
+              final post = state.posts![state.posts!.length - 1 - index];
+              final isTop = index == state.posts!.length - 1;
 
-            return _post(
-              post: post,
-              index: index,
-              totalCards: state.posts!.length,
-              isTop: isTop,
-            );
-          }),
+              return _post(
+                post: post,
+                index: index,
+                totalCards: state.posts!.length,
+                isTop: isTop,
+              );
+            }),
+          ],
         );
       },
     );
