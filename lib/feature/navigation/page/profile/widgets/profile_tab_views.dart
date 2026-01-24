@@ -4,6 +4,7 @@ import '../../../../../core/components/profile/profile_post_grid.dart';
 import '../../../../create_post/model/post.dart';
 
 class ProfileTabViewsWidget extends StatefulWidget {
+  final TabController? tabController;
   final List<PostModel>? posts;
   final bool isPostsLoading;
   final List<PostModel>? saves;
@@ -12,6 +13,7 @@ class ProfileTabViewsWidget extends StatefulWidget {
   final bool isDraftsLoading;
   const ProfileTabViewsWidget({
     super.key,
+    this.tabController,
     required this.posts,
     required this.saves,
     required this.drafts,
@@ -28,13 +30,38 @@ class _ProfileTabViewsWidgetState extends State<ProfileTabViewsWidget> {
   TabController? _tabController;
 
   @override
+  void initState() {
+    super.initState();
+    if (widget.tabController != null) {
+      _tabController = widget.tabController;
+      _tabController?.addListener(_handleTabSelection);
+    }
+  }
+
+  @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    final newController = DefaultTabController.of(context);
-    if (newController != _tabController) {
-      _tabController?.removeListener(_handleTabSelection);
-      _tabController = newController;
-      _tabController?.addListener(_handleTabSelection);
+    if (widget.tabController == null) {
+      final newController = DefaultTabController.of(context);
+      if (newController != _tabController) {
+        _tabController?.removeListener(_handleTabSelection);
+        _tabController = newController;
+        _tabController?.addListener(_handleTabSelection);
+      }
+    }
+  }
+
+  @override
+  void didUpdateWidget(ProfileTabViewsWidget oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.tabController != oldWidget.tabController) {
+      if (oldWidget.tabController != null) {
+        oldWidget.tabController!.removeListener(_handleTabSelection);
+      }
+      if (widget.tabController != null) {
+        _tabController = widget.tabController;
+        _tabController!.addListener(_handleTabSelection);
+      }
     }
   }
 

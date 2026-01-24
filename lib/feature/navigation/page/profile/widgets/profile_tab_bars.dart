@@ -6,13 +6,15 @@ import '../../../../../core/constants/font/font_size.dart';
 import '../../../../../core/extensions/context.dart';
 
 class ProfileTabBarsWidget extends StatelessWidget {
-  const ProfileTabBarsWidget({super.key});
+  final TabController? tabController;
+  const ProfileTabBarsWidget({super.key, this.tabController});
 
   @override
   Widget build(BuildContext context) {
     return Align(
       alignment: Alignment.centerLeft,
       child: TabBar(
+        controller: tabController,
         isScrollable: true,
         indicatorColor: context.colors.primary,
         indicatorSize: TabBarIndicatorSize.label,

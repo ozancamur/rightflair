@@ -10,19 +10,49 @@ import '../cubit/profile_cubit.dart';
 import '../widgets/profile_tab_bars.dart';
 import '../widgets/profile_tab_views.dart';
 
-class ProfilePage extends StatelessWidget {
+class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
+
+  @override
+  State<ProfilePage> createState() => _ProfilePageState();
+}
+
+class _ProfilePageState extends State<ProfilePage>
+    with SingleTickerProviderStateMixin {
+  late TabController _tabController;
+  late ScrollController _scrollController;
+
+  @override
+  void initState() {
+    super.initState();
+    _tabController = TabController(length: 3, vsync: this);
+    _scrollController = ScrollController();
+    _scrollController.addListener(_onScroll);
+  }
+
+  void _onScroll() {
+    if (_scrollController.position.pixels >=
+        _scrollController.position.maxScrollExtent - 200) {
+      if (_tabController.index == 0) {
+        context.read<ProfileCubit>().loadMorePosts();
+      }
+    }
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    _scrollController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ProfileCubit, ProfileState>(
       builder: (context, state) {
-        return DefaultTabController(
-          length: 3,
-          child: BaseScaffold(
-            appBar: const ProfileAppbarWidget(),
-            body: _body(context, state),
-          ),
+        return BaseScaffold(
+          appBar: const ProfileAppbarWidget(),
+          body: _body(context, state),
         );
       },
     );
@@ -33,6 +63,7 @@ class ProfilePage extends StatelessWidget {
       onRefresh: () async => context.read<ProfileCubit>().refresh(),
       child: SafeArea(
         child: SingleChildScrollView(
+          controller: _scrollController,
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: context.width * 0.05),
             child: state.isLoading ? _loading(context) : _user(context, state),
@@ -55,8 +86,9 @@ class ProfilePage extends StatelessWidget {
             userId: state.user.id,
           ),
         ),
-        ProfileTabBarsWidget(),
+        ProfileTabBarsWidget(tabController: _tabController),
         ProfileTabViewsWidget(
+          tabController: _tabController,
           posts: state.posts,
           saves: state.saves,
           drafts: state.drafts,
@@ -64,6 +96,11 @@ class ProfilePage extends StatelessWidget {
           isSavesLoading: state.isSavesLoading,
           isDraftsLoading: state.isDraftsLoading,
         ),
+        if (state.isLoadingMorePosts)
+          Padding(
+            padding: EdgeInsets.symmetric(vertical: context.height * 0.02),
+            child: const LoadingComponent(),
+          ),
       ],
     );
   }

@@ -67,6 +67,35 @@ class ProfileCubit extends Cubit<ProfileState> {
     );
   }
 
+  Future<void> loadMorePosts() async {
+    if (state.isPostsLoading || state.isLoadingMorePosts) return;
+    if (state.postsPagination?.hasNext != true) return;
+
+    emit(state.copyWith(isLoadingMorePosts: true));
+
+    final nextPage = (state.postsPagination?.page ?? 1) + 1;
+    final response = await _repo.getUserPosts(
+      parameters: RequestUserPostsModel().requestSortByDateOrderDesc(
+        page: nextPage,
+      ),
+    );
+
+    if (response?.posts != null) {
+      final currentPosts = List<PostModel>.from(state.posts ?? []);
+      currentPosts.addAll(response!.posts!);
+
+      emit(
+        state.copyWith(
+          posts: currentPosts,
+          postsPagination: response.pagination,
+          isLoadingMorePosts: false,
+        ),
+      );
+    } else {
+      emit(state.copyWith(isLoadingMorePosts: false));
+    }
+  }
+
   Future<void> changePhotoDialog(BuildContext context, {String? userId}) async {
     if (userId == null) return;
     final option = await dialogPickImage(context);

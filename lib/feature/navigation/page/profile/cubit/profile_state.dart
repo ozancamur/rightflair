@@ -8,6 +8,7 @@ class ProfileState extends Equatable {
   final List<PostModel>? posts;
   final PaginationModel? postsPagination;
   final bool isPostsLoading;
+  final bool isLoadingMorePosts;
 
   final List<PostModel>? saves;
   final bool isSavesLoading;
@@ -23,6 +24,7 @@ class ProfileState extends Equatable {
     this.posts = const [],
     this.isPostsLoading = false,
     this.postsPagination,
+    this.isLoadingMorePosts = false,
 
     this.saves = const [],
     this.isSavesLoading = false,
@@ -39,6 +41,7 @@ class ProfileState extends Equatable {
     List<PostModel>? posts,
     bool? isPostsLoading,
     PaginationModel? postsPagination,
+    bool? isLoadingMorePosts,
 
     List<PostModel>? saves,
     bool? isSavesLoading,
@@ -54,6 +57,7 @@ class ProfileState extends Equatable {
       posts: posts ?? this.posts,
       isPostsLoading: isPostsLoading ?? this.isPostsLoading,
       postsPagination: postsPagination ?? this.postsPagination,
+      isLoadingMorePosts: isLoadingMorePosts ?? this.isLoadingMorePosts,
 
       saves: saves ?? this.saves,
       isSavesLoading: isSavesLoading ?? this.isSavesLoading,
@@ -70,6 +74,8 @@ class ProfileState extends Equatable {
     tags ?? StyleTagsModel(),
     posts ?? [],
     isPostsLoading,
+    postsPagination ?? PaginationModel(),
+    isLoadingMorePosts,
     saves ?? [],
     isSavesLoading,
     drafts ?? [],
