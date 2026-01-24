@@ -225,6 +225,7 @@ class AppStrings {
   static const String PROFILE_READ_MORE = 'profile.readMore';
   static const String PROFILE_HIDE = 'profile.hide';
   static const String PROFILE_EMPTY_BIO = 'profile.emptyBio';
+  static const String NON_POST = 'profile.nonPost';
 
   // STYLE TAGS
   static String STYLE_TAG(String tag) => "styleTags.$tag";
@@ -288,7 +289,8 @@ class AppStrings {
   static const String SETTINGS_DEACTIVE_ACCOUNT = 'settings.deactiveAccount';
   static const String SETTINGS_VERSION = 'settings.version';
 
-  static const String SETTINGS_SUPPORT_EMAIL_SUBJECT = "settings.supportEmailSubject";
+  static const String SETTINGS_SUPPORT_EMAIL_SUBJECT =
+      "settings.supportEmailSubject";
   static const String SETTINGS_SHARE_US = "settings.shareUs";
   static const String SETTINGS_SHARE_TEXT = "settings.shareText";
   static const String SETTINGS_RATE_US = "settings.rateUs";

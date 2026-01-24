@@ -12,6 +12,7 @@ import 'package:rightflair/feature/navigation/page/inbox/page/new_followers_page
 import 'package:rightflair/feature/settings/page/settings_page.dart';
 
 import '../../feature/authentication/pages/register_page.dart';
+import '../../feature/create_post/model/post.dart';
 import '../../feature/post_detail/page/post_detail_page.dart';
 import '../../feature/profile_edit/page/profile_edit_page.dart';
 import '../../feature/splash/page/splash_page.dart';
@@ -79,7 +80,8 @@ final GoRouter router = GoRouter(
     GoRoute(
       path: RouteConstants.POST_DETAIL,
       name: RouteConstants.POST_DETAIL,
-      builder: (context, state) => const PostDetailPage(),
+      builder: (context, state) =>
+          PostDetailPage(post: state.extra as PostModel),
     ),
     GoRoute(
       path: RouteConstants.EDIT_PROFILE,

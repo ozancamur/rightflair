@@ -4,20 +4,29 @@ class ProfileState extends Equatable {
   final bool isLoading;
   final UserModel user;
   final StyleTagsModel? tags;
-  final List<PhotoModel> photos;
-  final bool isPhotosLoading;
-  final List<PhotoModel> saves;
+
+  final List<PostModel>? posts;
+  final PaginationModel? postsPagination;
+  final bool isPostsLoading;
+
+  final List<PostModel>? saves;
   final bool isSavesLoading;
-  final List<PhotoModel> drafts;
+
+  final List<PostModel>? drafts;
   final bool isDraftsLoading;
+
   const ProfileState({
     this.isLoading = false,
     required this.user,
     this.tags,
-    this.photos = const [],
-    this.isPhotosLoading = false,
+
+    this.posts = const [],
+    this.isPostsLoading = false,
+    this.postsPagination,
+
     this.saves = const [],
     this.isSavesLoading = false,
+
     this.drafts = const [],
     this.isDraftsLoading = false,
   });
@@ -26,21 +35,29 @@ class ProfileState extends Equatable {
     bool? isLoading,
     UserModel? user,
     StyleTagsModel? tags,
-    List<PhotoModel>? photos,
-    bool? isPhotosLoading,
-    List<PhotoModel>? saves,
+
+    List<PostModel>? posts,
+    bool? isPostsLoading,
+    PaginationModel? postsPagination,
+
+    List<PostModel>? saves,
     bool? isSavesLoading,
-    List<PhotoModel>? drafts,
+
+    List<PostModel>? drafts,
     bool? isDraftsLoading,
   }) {
     return ProfileState(
       isLoading: isLoading ?? this.isLoading,
       user: user ?? this.user,
       tags: tags ?? this.tags,
-      photos: photos ?? this.photos,
-      isPhotosLoading: isPhotosLoading ?? this.isPhotosLoading,
+
+      posts: posts ?? this.posts,
+      isPostsLoading: isPostsLoading ?? this.isPostsLoading,
+      postsPagination: postsPagination ?? this.postsPagination,
+
       saves: saves ?? this.saves,
       isSavesLoading: isSavesLoading ?? this.isSavesLoading,
+
       drafts: drafts ?? this.drafts,
       isDraftsLoading: isDraftsLoading ?? this.isDraftsLoading,
     );
@@ -51,11 +68,11 @@ class ProfileState extends Equatable {
     isLoading,
     user,
     tags ?? StyleTagsModel(),
-    photos,
-    isPhotosLoading,
-    saves,
+    posts ?? [],
+    isPostsLoading,
+    saves ?? [],
     isSavesLoading,
-    drafts,
+    drafts ?? [],
     isDraftsLoading,
   ];
 }

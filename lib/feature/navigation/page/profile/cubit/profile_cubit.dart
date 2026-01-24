@@ -4,12 +4,14 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:rightflair/feature/navigation/page/profile/model/request_user_posts.dart';
 import 'package:rightflair/feature/navigation/page/profile/model/style_tags.dart';
 import 'package:rightflair/feature/navigation/page/profile/repository/profile_repository_impl.dart';
 
 import '../../../../../core/utils/dialogs/pick_image.dart';
 import '../../../../authentication/model/user.dart';
-import '../model/photo.dart';
+import '../../../../create_post/model/post.dart';
+import '../model/pagination.dart';
 
 part 'profile_state.dart';
 
@@ -22,82 +24,17 @@ class ProfileCubit extends Cubit<ProfileState> {
         ProfileState(
           user: UserModel(),
           isLoading: false,
-          photos: [
-            PhotoModel(
-              url:
-                  'https://media.istockphoto.com/id/1657460312/tr/foto%C4%9Fraf/beautiful-sensual-woman.jpg?s=1024x1024&w=is&k=20&c=mpNuQR920Mv2wZoFr-J13OOjS_rjcNNVZmusAvqMYV8=',
-              viewed: 1242,
-            ),
-            PhotoModel(
-              url:
-                  'https://media.istockphoto.com/id/1362588255/tr/foto%C4%9Fraf/beautiful-brunette-woman-walking-on-sunset-beach-in-fashionable-maxi-dress-relaxing-on.jpg?s=1024x1024&w=is&k=20&c=hKza9LJ80QTYijNY1kMKKuRjhA6J00-1x8gh943g0gc=',
-
-              viewed: 432,
-            ),
-            PhotoModel(
-              url:
-                  'https://media.istockphoto.com/id/1311415818/tr/foto%C4%9Fraf/giyindim-ve-hayallerimin-pe%C5%9Finden-gitmeye-haz%C4%B1r.jpg?s=1024x1024&w=is&k=20&c=UMSoGayVya20IjU0AKsGNs1EnFf_HKZ7pX-B5_MliM0=',
-              viewed: 521,
-            ),
-            PhotoModel(
-              url:
-                  'https://media.istockphoto.com/id/1462655622/tr/foto%C4%9Fraf/beautiful-woman-in-a-leather-suit-looking-masculine.jpg?s=1024x1024&w=is&k=20&c=z3rSRE4jNYtQ0lD2Lzn0_idWA-o9SElixR-qwY3M4Ss=',
-              viewed: 1,
-            ),
-          ],
-          isPhotosLoading: false,
-          saves: [
-            PhotoModel(
-              url:
-                  'https://media.istockphoto.com/id/1462655622/tr/foto%C4%9Fraf/beautiful-woman-in-a-leather-suit-looking-masculine.jpg?s=1024x1024&w=is&k=20&c=z3rSRE4jNYtQ0lD2Lzn0_idWA-o9SElixR-qwY3M4Ss=',
-              viewed: 521,
-            ),
-            PhotoModel(
-              url:
-                  'https://media.istockphoto.com/id/1362588255/tr/foto%C4%9Fraf/beautiful-brunette-woman-walking-on-sunset-beach-in-fashionable-maxi-dress-relaxing-on.jpg?s=1024x1024&w=is&k=20&c=hKza9LJ80QTYijNY1kMKKuRjhA6J00-1x8gh943g0gc=',
-
-              viewed: 3251,
-            ),
-            PhotoModel(
-              url:
-                  'https://media.istockphoto.com/id/1657460312/tr/foto%C4%9Fraf/beautiful-sensual-woman.jpg?s=1024x1024&w=is&k=20&c=mpNuQR920Mv2wZoFr-J13OOjS_rjcNNVZmusAvqMYV8=',
-              viewed: 42,
-            ),
-            PhotoModel(
-              url:
-                  'https://media.istockphoto.com/id/1311415818/tr/foto%C4%9Fraf/giyindim-ve-hayallerimin-pe%C5%9Finden-gitmeye-haz%C4%B1r.jpg?s=1024x1024&w=is&k=20&c=UMSoGayVya20IjU0AKsGNs1EnFf_HKZ7pX-B5_MliM0=',
-              viewed: 126,
-            ),
-          ],
+          posts: [],
+          isPostsLoading: false,
+          saves: [],
           isSavesLoading: false,
-          drafts: [
-            PhotoModel(
-              url:
-                  'https://media.istockphoto.com/id/1657460312/tr/foto%C4%9Fraf/beautiful-sensual-woman.jpg?s=1024x1024&w=is&k=20&c=mpNuQR920Mv2wZoFr-J13OOjS_rjcNNVZmusAvqMYV8=',
-              viewed: 425,
-            ),
-            PhotoModel(
-              url:
-                  'https://media.istockphoto.com/id/1462655622/tr/foto%C4%9Fraf/beautiful-woman-in-a-leather-suit-looking-masculine.jpg?s=1024x1024&w=is&k=20&c=z3rSRE4jNYtQ0lD2Lzn0_idWA-o9SElixR-qwY3M4Ss=',
-              viewed: 645,
-            ),
-            PhotoModel(
-              url:
-                  'https://media.istockphoto.com/id/1311415818/tr/foto%C4%9Fraf/giyindim-ve-hayallerimin-pe%C5%9Finden-gitmeye-haz%C4%B1r.jpg?s=1024x1024&w=is&k=20&c=UMSoGayVya20IjU0AKsGNs1EnFf_HKZ7pX-B5_MliM0=',
-              viewed: 14215,
-            ),
-            PhotoModel(
-              url:
-                  'https://media.istockphoto.com/id/1362588255/tr/foto%C4%9Fraf/beautiful-brunette-woman-walking-on-sunset-beach-in-fashionable-maxi-dress-relaxing-on.jpg?s=1024x1024&w=is&k=20&c=hKza9LJ80QTYijNY1kMKKuRjhA6J00-1x8gh943g0gc=',
-
-              viewed: 2,
-            ),
-          ],
+          drafts: [],
           isDraftsLoading: false,
         ),
       ) {
     _getUser();
     _getUserStyleTags();
+    _getUserPosts();
   }
 
   Future<void> refresh() async {
@@ -114,6 +51,20 @@ class ProfileCubit extends Cubit<ProfileState> {
   Future<void> _getUserStyleTags() async {
     final response = await _repo.getUserStyleTags();
     emit(state.copyWith(tags: response));
+  }
+
+  Future<void> _getUserPosts() async {
+    emit(state.copyWith(isPostsLoading: true));
+    final response = await _repo.getUserPosts(
+      parameters: RequestUserPostsModel().requestSortByDateOrderDesc(page: 1),
+    );
+    emit(
+      state.copyWith(
+        isPostsLoading: false,
+        posts: response?.posts ?? [],
+        postsPagination: response?.pagination,
+      ),
+    );
   }
 
   Future<void> changePhotoDialog(BuildContext context, {String? userId}) async {

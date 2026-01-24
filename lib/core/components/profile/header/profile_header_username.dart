@@ -4,10 +4,10 @@ import '../../../../../../core/components/text.dart';
 import '../../../constants/font/font_size.dart';
 import '../../../extensions/context.dart';
 
-class ProfileHeaderUsernameWidget extends StatelessWidget {
+class ProfileHeaderUsernameComponent extends StatelessWidget {
   final String? name;
   final String username;
-  const ProfileHeaderUsernameWidget({
+  const ProfileHeaderUsernameComponent({
     super.key,
     required this.name,
     required this.username,

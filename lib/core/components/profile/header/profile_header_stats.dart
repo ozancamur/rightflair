@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 
 import '../../../../../../core/constants/string.dart';
 import '../../../../../../core/extensions/context.dart';
-import '../profile_stats_widget.dart';
+import '../profile_stats.dart';
 
-class ProfileHeaderStatsWidget extends StatelessWidget {
+class ProfileHeaderStatsComponent extends StatelessWidget {
   final int followerCount;
   final int followingCount;
-  const ProfileHeaderStatsWidget({
+  const ProfileHeaderStatsComponent({
     super.key,
     required this.followerCount,
     required this.followingCount,
@@ -19,11 +19,11 @@ class ProfileHeaderStatsWidget extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       spacing: context.width * 0.15,
       children: [
-        ProfileStatsWidget(
+        ProfileStatsComponent(
           count: followerCount,
           label: AppStrings.PROFILE_FOLLOWER,
         ),
-        ProfileStatsWidget(
+        ProfileStatsComponent(
           count: followingCount,
           label: AppStrings.PROFILE_FOLLOWING,
         ),

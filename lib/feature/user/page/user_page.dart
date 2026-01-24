@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rightflair/core/constants/string.dart';
 import 'package:rightflair/core/extensions/context.dart';
-import 'package:rightflair/core/components/profile/profile_header_widget.dart';
-import 'package:rightflair/core/components/profile/profile_photo_grid_widget.dart';
+import 'package:rightflair/core/components/profile/profile_header.dart';
 import 'package:rightflair/feature/user/repository/user_repository_impl.dart';
 
 import '../../../core/base/page/base_scaffold.dart';
@@ -19,7 +18,8 @@ class UserPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => UserCubit(UserRepositoryImpl())..init(context, userId: userId),
+      create: (context) =>
+          UserCubit(UserRepositoryImpl())..init(context, userId: userId),
       child: BlocBuilder<UserCubit, UserState>(
         builder: (context, state) {
           return BaseScaffold(
@@ -33,14 +33,14 @@ class UserPage extends StatelessWidget {
                   child: Column(
                     spacing: context.height * 0.025,
                     children: [
-                      ProfileHeaderWidget(
+                      ProfileHeaderComponent(
                         user: state.user,
                         tags: state.tags?.styleTags ?? [],
                         onFollowTap: () {},
                         onMessageTap: () {},
                       ),
-                      ProfileTabItemWidget(text: AppStrings.PROFILE_PHOTOS),
-                      ProfilePhotoGridWidget(photos: state.photos),
+                      ProfileTabItemComponent(text: AppStrings.PROFILE_PHOTOS),
+                      //ProfilePhotoGridWidget(posts: state.photos),
                     ],
                   ),
                 ),

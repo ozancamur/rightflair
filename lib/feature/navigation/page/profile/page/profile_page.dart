@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rightflair/core/components/loading.dart';
 import 'package:rightflair/core/extensions/context.dart';
-import 'package:rightflair/core/components/profile/profile_header_widget.dart';
+import 'package:rightflair/core/components/profile/profile_header.dart';
 
 import '../../../../../core/base/page/base_scaffold.dart';
 import '../widgets/profile_appbar.dart';
@@ -46,7 +46,7 @@ class ProfilePage extends StatelessWidget {
     return Column(
       spacing: context.height * 0.025,
       children: [
-        ProfileHeaderWidget(
+        ProfileHeaderComponent(
           isCanEdit: true,
           user: state.user,
           tags: state.tags?.styleTags ?? [],
@@ -57,9 +57,12 @@ class ProfilePage extends StatelessWidget {
         ),
         ProfileTabBarsWidget(),
         ProfileTabViewsWidget(
-          photos: state.photos,
+          posts: state.posts,
           saves: state.saves,
           drafts: state.drafts,
+          isPostsLoading: state.isPostsLoading,
+          isSavesLoading: state.isSavesLoading,
+          isDraftsLoading: state.isDraftsLoading,
         ),
       ],
     );

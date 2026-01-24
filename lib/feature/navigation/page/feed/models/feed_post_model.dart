@@ -11,6 +11,7 @@ class FeedPostModel extends Equatable {
   final int commentCount;
   final int shareCount;
   final DateTime createdAt;
+  final DateTime? updatedAt;
   final bool isLiked;
   final bool isSaved;
 
@@ -25,6 +26,7 @@ class FeedPostModel extends Equatable {
     required this.commentCount,
     required this.shareCount,
     required this.createdAt,
+    this.updatedAt,
     this.isLiked = false,
     this.isSaved = false,
   });
@@ -40,6 +42,7 @@ class FeedPostModel extends Equatable {
     int? commentCount,
     int? shareCount,
     DateTime? createdAt,
+    DateTime? updatedAt,
     bool? isLiked,
     bool? isSaved,
   }) {
@@ -54,6 +57,7 @@ class FeedPostModel extends Equatable {
       commentCount: commentCount ?? this.commentCount,
       shareCount: shareCount ?? this.shareCount,
       createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
       isLiked: isLiked ?? this.isLiked,
       isSaved: isSaved ?? this.isSaved,
     );
@@ -71,6 +75,9 @@ class FeedPostModel extends Equatable {
       commentCount: json['commentCount'] as int,
       shareCount: json['shareCount'] as int,
       createdAt: DateTime.parse(json['createdAt'] as String),
+      updatedAt: json['updatedAt'] != null
+          ? DateTime.parse(json['updatedAt'] as String)
+          : null,
       isLiked: json['isLiked'] as bool? ?? false,
       isSaved: json['isSaved'] as bool? ?? false,
     );
@@ -88,6 +95,7 @@ class FeedPostModel extends Equatable {
       'commentCount': commentCount,
       'shareCount': shareCount,
       'createdAt': createdAt.toIso8601String(),
+      'updatedAt': updatedAt?.toIso8601String(),
       'isLiked': isLiked,
       'isSaved': isSaved,
     };
@@ -105,6 +113,7 @@ class FeedPostModel extends Equatable {
     commentCount,
     shareCount,
     createdAt,
+    updatedAt,
     isLiked,
     isSaved,
   ];

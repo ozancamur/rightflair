@@ -203,7 +203,8 @@
         "drafts": "Drafts",
         "readMore": "read more",
         "hide": "   hide",
-        "emptyBio": "Tell us about yourself..."
+        "emptyBio": "Tell us about yourself...",
+        "nonPost": "No Posts Yet"
     },
     "styleTags": {
         "oversized": "Oversized",
@@ -265,7 +266,6 @@
         "logOut": "Log Out",
         "deactiveAccount": "Deactive Account",
         "version": "version {}",
-
         "supportEmailSubject": "Support Request:",
         "shareUs": "Share Us",
         "shareText": "Share the Rightflair App with your friends!",

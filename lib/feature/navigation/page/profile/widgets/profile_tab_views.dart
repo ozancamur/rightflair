@@ -1,18 +1,24 @@
 import 'package:flutter/material.dart';
 
-import '../../../../../core/components/profile/profile_photo_grid_widget.dart';
+import '../../../../../core/components/profile/profile_post_grid.dart';
 import '../../../../../core/extensions/context.dart';
-import '../model/photo.dart';
+import '../../../../create_post/model/post.dart';
 
 class ProfileTabViewsWidget extends StatelessWidget {
-  final List<PhotoModel> photos;
-  final List<PhotoModel> saves;
-  final List<PhotoModel> drafts;
+  final List<PostModel>? posts;
+  final bool isPostsLoading;
+  final List<PostModel>? saves;
+  final bool isSavesLoading;
+  final List<PostModel>? drafts;
+  final bool isDraftsLoading;
   const ProfileTabViewsWidget({
     super.key,
-    required this.photos,
+    required this.posts,
     required this.saves,
     required this.drafts,
+    required this.isPostsLoading,
+    required this.isSavesLoading,
+    required this.isDraftsLoading,
   });
 
   @override
@@ -21,9 +27,9 @@ class ProfileTabViewsWidget extends StatelessWidget {
       height: context.height * 0.55,
       child: TabBarView(
         children: [
-          ProfilePhotoGridWidget(photos: photos),
-          ProfilePhotoGridWidget(photos: saves),
-          ProfilePhotoGridWidget(photos: drafts),
+          ProfilePostGridComponent(posts: posts, isLoading: isPostsLoading),
+          ProfilePostGridComponent(posts: saves, isLoading: isSavesLoading),
+          ProfilePostGridComponent(posts: drafts, isLoading: isDraftsLoading),
         ],
       ),
     );

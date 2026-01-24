@@ -6,15 +6,16 @@ import 'package:rightflair/core/constants/font/font_size.dart';
 import 'package:rightflair/core/constants/string.dart';
 import 'package:rightflair/core/extensions/context.dart';
 
-class ProfileHeaderBioWidget extends StatefulWidget {
+class ProfileHeaderBioComponent extends StatefulWidget {
   final String text;
-  const ProfileHeaderBioWidget({super.key, required this.text});
+  const ProfileHeaderBioComponent({super.key, required this.text});
 
   @override
-  State<ProfileHeaderBioWidget> createState() => _ProfileHeaderBioWidgetState();
+  State<ProfileHeaderBioComponent> createState() =>
+      _ProfileHeaderBioComponentState();
 }
 
-class _ProfileHeaderBioWidgetState extends State<ProfileHeaderBioWidget> {
+class _ProfileHeaderBioComponentState extends State<ProfileHeaderBioComponent> {
   bool isExpanded = false;
 
   @override

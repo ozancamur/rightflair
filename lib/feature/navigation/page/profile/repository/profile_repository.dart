@@ -1,12 +1,16 @@
 import 'dart:io';
 
+import 'package:rightflair/feature/navigation/page/profile/model/request_user_posts.dart';
 import 'package:rightflair/feature/navigation/page/profile/model/style_tags.dart';
 
 import '../../../../authentication/model/user.dart';
+import '../model/user_posts.dart';
 
 abstract class ProfileRepository {
   Future<UserModel?> getUser();
-  Future<void> getUserPosts();
+  Future<UserPostsModel?> getUserPosts({
+    required RequestUserPostsModel parameters,
+  });
   Future<StyleTagsModel?> getUserStyleTags();
   Future<void> updateUser({String? profilePhotoUrl});
   Future<String?> uploadProfilePhoto({

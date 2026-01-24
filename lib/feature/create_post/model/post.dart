@@ -1,114 +1,101 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-
 import '../../../core/base/model/base.dart';
-import '../../navigation/page/inbox/model/comment.dart';
 
 class PostModel extends BaseModel<PostModel> {
   String? id;
-  String? owner;
-  String? image;
+  String? postImageUrl;
   String? description;
-  List<String>? tags;
-  List<String>? mentionedUsers;
   String? location;
   bool? isAnonymous;
-  bool? commentsEnabled;
-  bool? isDraft;
-  bool? visibility;
+  bool? allowComments;
+  int? likesCount;
+  int? commentsCount;
+  int? savesCount;
+  int? sharesCount;
+  int? viewCount;
   DateTime? createdAt;
-  List<String>? likes;
-  List<String>? saves;
-  List<String>? shares;
-  List<String>? views;
-  List<CommentModel>? comments;
+  DateTime? updatedAt;
+  List<String>? tags;
+  List<String>? mentionedUsers;
 
   PostModel({
     this.id,
-    this.owner,
-    this.image,
+    this.postImageUrl,
     this.description,
-    this.tags,
-    this.mentionedUsers,
     this.location,
     this.isAnonymous,
-    this.commentsEnabled,
-    this.isDraft,
-    this.visibility,
+    this.allowComments,
+    this.likesCount,
+    this.commentsCount,
+    this.savesCount,
+    this.sharesCount,
+    this.viewCount,
     this.createdAt,
-    this.likes,
-    this.saves,
-    this.shares,
-    this.views,
-    this.comments,
+    this.updatedAt,
+    this.tags,
+    this.mentionedUsers,
   });
 
   @override
   PostModel copyWith({
     String? id,
-    String? owner,
-    String? image,
+    String? postImageUrl,
     String? description,
-    List<String>? tags,
-    List<String>? mentionedUsers,
     String? location,
     bool? isAnonymous,
-    bool? commentsEnabled,
-    bool? isDraft,
-    bool? visibility,
+    bool? allowComments,
+    int? likesCount,
+    int? commentsCount,
+    int? savesCount,
+    int? sharesCount,
+    int? viewCount,
     DateTime? createdAt,
-    List<String>? likes,
-    List<String>? saves,
-    List<String>? shares,
-    List<String>? views,
-    List<CommentModel>? comments,
+    DateTime? updatedAt,
+    List<String>? tags,
+    List<String>? mentionedUsers,
   }) {
     return PostModel(
       id: id ?? this.id,
-      owner: owner ?? this.owner,
-      image: image ?? this.image,
+      postImageUrl: postImageUrl ?? this.postImageUrl,
       description: description ?? this.description,
-      tags: tags ?? this.tags,
-      mentionedUsers: mentionedUsers ?? this.mentionedUsers,
       location: location ?? this.location,
       isAnonymous: isAnonymous ?? this.isAnonymous,
-      commentsEnabled: commentsEnabled ?? this.commentsEnabled,
-      isDraft: isDraft ?? this.isDraft,
-      visibility: visibility ?? this.visibility,
+      allowComments: allowComments ?? this.allowComments,
+      likesCount: likesCount ?? this.likesCount,
+      commentsCount: commentsCount ?? this.commentsCount,
+      savesCount: savesCount ?? this.savesCount,
+      sharesCount: sharesCount ?? this.sharesCount,
+      viewCount: viewCount ?? this.viewCount,
       createdAt: createdAt ?? this.createdAt,
-      likes: likes ?? this.likes,
-      saves: saves ?? this.saves,
-      shares: shares ?? this.shares,
-      views: views ?? this.views,
-      comments: comments ?? this.comments,
+      updatedAt: updatedAt ?? this.updatedAt,
+      tags: tags ?? this.tags,
+      mentionedUsers: mentionedUsers ?? this.mentionedUsers,
     );
   }
 
   @override
-  fromJson(Map<String, dynamic> json) {
+  PostModel fromJson(Map<String, dynamic> json) {
     return PostModel(
-      id: json['id'],
-      owner: json['owner'],
-      image: json['image'],
-      description: json['description'],
-      tags: List<String>.from(json['tags'] ?? []),
-      mentionedUsers: List<String>.from(json['mentionedUsers'] ?? []),
-      location: json['location'],
-      isAnonymous: json['isAnonymous'],
-      commentsEnabled: json['commentsEnabled'],
-      isDraft: json['isDraft'],
-      visibility: json['visibility'],
-      createdAt: json['createdAt'] != null
-          ? (json['createdAt'] as Timestamp).toDate()
+      id: json['id'] as String?,
+      postImageUrl: json['post_image_url'] as String?,
+      description: json['description'] as String?,
+      location: json['location'] as String?,
+      isAnonymous: json['is_anonymous'] as bool?,
+      allowComments: json['allow_comments'] as bool?,
+      likesCount: json['likes_count'] as int?,
+      commentsCount: json['comments_count'] as int?,
+      savesCount: json['saves_count'] as int?,
+      sharesCount: json['shares_count'] as int?,
+      viewCount: json['view_count'] as int?,
+      createdAt: json['created_at'] != null
+          ? DateTime.parse(json['created_at'] as String)
           : null,
-      likes: List<String>.from(json['likes'] ?? []),
-      saves: List<String>.from(json['saves'] ?? []),
-      shares: List<String>.from(json['shares'] ?? []),
-      views: List<String>.from(json['views'] ?? []),
-      comments: json['comments'] != null
-          ? List<CommentModel>.from(
-              (json['comments'] as List).map((x) => CommentModel().fromJson(x)),
-            )
-          : [],
+      updatedAt: json['updated_at'] != null
+          ? DateTime.parse(json['updated_at'] as String)
+          : null,
+      tags: (json['tags'] as List<dynamic>?)?.map((e) => e as String).toList(),
+      mentionedUsers: (json['mentioned_users'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toList(),
     );
   }
 
@@ -116,22 +103,20 @@ class PostModel extends BaseModel<PostModel> {
   Map<String, dynamic> toJson() {
     return {
       'id': id,
-      'owner': owner,
-      'image': image,
+      'post_image_url': postImageUrl,
       'description': description,
-      'tags': tags,
-      'mentionedUsers': mentionedUsers,
       'location': location,
-      'isAnonymous': isAnonymous,
-      'commentsEnabled': commentsEnabled,
-      'isDraft': isDraft,
-      'visibility': visibility,
-      'createdAt': createdAt != null ? Timestamp.fromDate(createdAt!) : null,
-      'likes': likes,
-      'saves': saves,
-      'shares': shares,
-      'views': views,
-      'comments': comments?.map((x) => x.toJson()).toList(),
+      'is_anonymous': isAnonymous,
+      'allow_comments': allowComments,
+      'likes_count': likesCount,
+      'comments_count': commentsCount,
+      'saves_count': savesCount,
+      'shares_count': sharesCount,
+      'view_count': viewCount,
+      'created_at': createdAt?.toIso8601String(),
+      'updated_at': updatedAt?.toIso8601String(),
+      'tags': tags,
+      'mentioned_users': mentionedUsers,
     };
   }
 }

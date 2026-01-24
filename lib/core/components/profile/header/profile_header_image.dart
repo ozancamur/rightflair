@@ -11,14 +11,14 @@ import '../../../../../../core/extensions/context.dart';
 import '../../../../feature/authentication/model/user.dart';
 import 'profile_photo.dart';
 
-class ProfileHeaderImageWidget extends StatelessWidget {
+class ProfileHeaderImageComponent extends StatelessWidget {
   final bool isCanEdit;
   final UserModel user;
   final List<String> tags;
   final VoidCallback onRefresh;
   final VoidCallback? onPhotoChange;
 
-  const ProfileHeaderImageWidget({
+  const ProfileHeaderImageComponent({
     super.key,
     required this.isCanEdit,
     required this.user,

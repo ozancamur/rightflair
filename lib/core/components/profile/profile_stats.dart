@@ -4,10 +4,10 @@ import 'package:rightflair/core/constants/font/font_size.dart';
 
 import '../../extensions/context.dart';
 
-class ProfileStatsWidget extends StatelessWidget {
+class ProfileStatsComponent extends StatelessWidget {
   final int count;
   final String label;
-  const ProfileStatsWidget({
+  const ProfileStatsComponent({
     super.key,
     required this.count,
     required this.label,

@@ -5,13 +5,13 @@ import 'package:rightflair/core/constants/icons.dart';
 import 'package:rightflair/core/constants/route.dart';
 
 import '../../../../../core/components/text.dart';
+import '../../../feature/create_post/model/post.dart';
 import '../../constants/font/font_size.dart';
 import '../../../../../core/extensions/context.dart';
-import '../../../feature/navigation/page/profile/model/photo.dart';
 
-class ProfilePhotoGridItemWidget extends StatelessWidget {
-  final PhotoModel photo;
-  const ProfilePhotoGridItemWidget({super.key, required this.photo});
+class ProfilePostGridItemComponent extends StatelessWidget {
+  final PostModel post;
+  const ProfilePostGridItemComponent({super.key, required this.post});
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +30,7 @@ class ProfilePhotoGridItemWidget extends StatelessWidget {
         borderRadius: BorderRadius.circular(context.width * 0.03),
         color: Colors.transparent,
         image: DecorationImage(
-          image: NetworkImage(photo.url ?? ''),
+          image: NetworkImage(post.postImageUrl ?? ''),
           fit: BoxFit.cover,
         ),
       ),
@@ -69,7 +69,7 @@ class ProfilePhotoGridItemWidget extends StatelessWidget {
               height: context.width * 0.05,
             ),
             TextComponent(
-              text: '${photo.viewed}',
+              text: '${post.viewCount ?? 0}',
               size: FontSizeConstants.XX_SMALL,
               weight: FontWeight.w600,
               color: Colors.white,

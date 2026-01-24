@@ -59,6 +59,7 @@ class AppIcons {
 
   static const String NEW_FOLLOWERS = '${_path}new_followers.svg';
   static const String NON_PROFILE_PHOTO = '${_path}non_profile_photo.svg';
+  static const String NON_POST = '${_path}non_post.svg';
 
   static const String PASSWORD_HIDE = '${_path}password_hide.svg';
   static const String PASSWORD_SHOW = '${_path}password_show.svg';
@@ -84,6 +85,6 @@ class AppIcons {
   static const String TREND = '${_path}trend.svg';
 
   static const String USERNAME = '${_path}username.svg';
-  
+
   static const String VIEWED = '${_path}viewed.svg';
 }

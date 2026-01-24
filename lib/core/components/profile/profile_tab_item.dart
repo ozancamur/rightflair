@@ -4,9 +4,9 @@ import '../../../../../core/components/text.dart';
 import '../../constants/font/font_size.dart';
 import '../../../../../core/extensions/context.dart';
 
-class ProfileTabItemWidget extends StatelessWidget {
+class ProfileTabItemComponent extends StatelessWidget {
   final String text;
-  const ProfileTabItemWidget({super.key, required this.text});
+  const ProfileTabItemComponent({super.key, required this.text});
 
   @override
   Widget build(BuildContext context) {

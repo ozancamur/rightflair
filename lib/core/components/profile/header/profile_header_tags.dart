@@ -6,9 +6,9 @@ import '../../../../../../core/extensions/context.dart';
 import '../../../constants/font/font_size.dart';
 import '../../text.dart';
 
-class ProfileHeaderTagsWidget extends StatelessWidget {
+class ProfileHeaderTagsComponent extends StatelessWidget {
   final List<String> tags;
-  const ProfileHeaderTagsWidget({super.key, required this.tags});
+  const ProfileHeaderTagsComponent({super.key, required this.tags});
 
   @override
   Widget build(BuildContext context) {

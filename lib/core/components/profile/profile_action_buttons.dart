@@ -6,10 +6,10 @@ import 'package:rightflair/core/constants/font/font_size.dart';
 import 'package:rightflair/core/constants/string.dart';
 import 'package:rightflair/core/extensions/context.dart';
 
-class ProfileActionButtonsWidget extends StatelessWidget {
+class ProfileActionButtonsComponent extends StatelessWidget {
   final VoidCallback onFollowTap;
   final VoidCallback onMessageTap;
-  const ProfileActionButtonsWidget({
+  const ProfileActionButtonsComponent({
     super.key,
     required this.onFollowTap,
     required this.onMessageTap,
