@@ -16,6 +16,8 @@ enum Endpoint {
   UPDATE_USER_SETTINGS("update-user-settings"),
   DELETE_USER("delete-user"),
 
+  GET_DISCOVER_FEED("get-discover-feed"),
+
   ;
 
   final String value;
