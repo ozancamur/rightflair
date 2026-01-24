@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 
 import '../../../../../core/extensions/context.dart';
-import '../models/feed_post_model.dart';
+import '../../../../create_post/model/post.dart';
 import '../models/swipe_direction.dart';
 import 'post/post_actions.dart';
 import 'post/post_shadow.dart';
 import 'post/post_user_info.dart';
 
 class FeedPostItem extends StatefulWidget {
-  final FeedPostModel post;
+  final PostModel post;
   final void Function(String postId, SwipeDirection direction)? onSwipeComplete;
 
   const FeedPostItem({super.key, required this.post, this.onSwipeComplete});
@@ -52,19 +52,15 @@ class _FeedPostItemState extends State<FeedPostItem>
     final threshold = screenWidth * 0.3;
 
     if (_dragOffset.dx > threshold) {
-      // Sağa kaydırma - Beğenme
       _swipeRight();
     } else if (_dragOffset.dx < -threshold) {
-      // Sola kaydırma - Beğenmeme
       _swipeLeft();
     } else {
-      // Yerine geri dön
       _resetPosition();
     }
   }
 
   void _swipeRight() {
-    // Beğenme animasyonu
     final screenWidth = MediaQuery.of(context).size.width;
 
     _animationController.reset();
@@ -77,13 +73,12 @@ class _FeedPostItemState extends State<FeedPostItem>
         );
 
     _animationController.forward().then((_) {
-      widget.onSwipeComplete?.call(widget.post.id, SwipeDirection.right);
+      widget.onSwipeComplete?.call(widget.post.id ?? "", SwipeDirection.right);
       _resetCard();
     });
   }
 
   void _swipeLeft() {
-    // Beğenmeme animasyonu
     final screenWidth = MediaQuery.of(context).size.width;
 
     _animationController.reset();
@@ -96,7 +91,7 @@ class _FeedPostItemState extends State<FeedPostItem>
         );
 
     _animationController.forward().then((_) {
-      widget.onSwipeComplete?.call(widget.post.id, SwipeDirection.left);
+      widget.onSwipeComplete?.call(widget.post.id ?? "", SwipeDirection.left);
       _resetCard();
     });
   }
@@ -120,8 +115,7 @@ class _FeedPostItemState extends State<FeedPostItem>
   }
 
   double _getRotation(Offset offset, BuildContext context) {
-    // Tinder/Bumble gibi yumuşak rotasyon (max 15 derece)
-    const maxRotation = 0.26; // ~15 derece (radyan cinsinden)
+    const maxRotation = 0.26;
     final screenWidth = context.width;
     final rotation = (offset.dx / screenWidth) * maxRotation;
     return rotation.clamp(-maxRotation, maxRotation);
@@ -159,14 +153,16 @@ class _FeedPostItemState extends State<FeedPostItem>
             decoration: BoxDecoration(
               color: context.colors.primary,
               borderRadius: BorderRadius.circular(context.width * 0.06),
-              image: DecorationImage(
-                image: NetworkImage(widget.post.postImageUrl),
-                fit: BoxFit.cover,
-              ),
             ),
             child: Stack(
               alignment: Alignment.bottomCenter,
               children: [
+                Positioned.fill(
+                  child: Image.network(
+                    widget.post.postImageUrl ?? "",
+                    fit: BoxFit.cover,
+                  ),
+                ),
                 if (currentOffset.dx > 0)
                   Positioned.fill(
                     child: Container(
@@ -206,9 +202,9 @@ class _FeedPostItemState extends State<FeedPostItem>
                 const PostShadowWidget(),
                 const PostUserInfoWidget(),
                 PostActionsWidget(
-                  comment: widget.post.commentCount,
-                  like: widget.post.likeCount,
-                  share: widget.post.shareCount,
+                  comment: widget.post.commentsCount ?? 0,
+                  saved: widget.post.likesCount ?? 0,
+                  shared: widget.post.sharesCount ?? 0,
                 ),
               ],
             ),

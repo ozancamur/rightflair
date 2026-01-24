@@ -8,35 +8,15 @@ abstract class FeedEvent extends Equatable {
 }
 
 class LoadDiscoverFeedEvent extends FeedEvent {
-  final int tabIndex;
-
-  const LoadDiscoverFeedEvent(this.tabIndex);
-
-  @override
-  List<Object?> get props => [tabIndex];
 }
 
 class LoadFollowingFeedEvent extends FeedEvent {
-  final int tabIndex;
-
-  const LoadFollowingFeedEvent(this.tabIndex);
-
-  @override
-  List<Object?> get props => [tabIndex];
 }
 
-class LoadFriendsFeedEvent extends FeedEvent {
-  final int tabIndex;
-
-  const LoadFriendsFeedEvent(this.tabIndex);
-
-  @override
-  List<Object?> get props => [tabIndex];
-}
+class LoadFriendsFeedEvent extends FeedEvent {}
 
 class LoadMorePostsEvent extends FeedEvent {
   final int tabIndex;
-
   const LoadMorePostsEvent(this.tabIndex);
 
   @override

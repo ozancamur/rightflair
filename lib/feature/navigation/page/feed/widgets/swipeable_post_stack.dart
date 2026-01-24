@@ -2,12 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rightflair/core/components/loading.dart';
 
-import '../../../../../core/components/text.dart';
-import '../../../../../core/constants/font/font_size.dart';
-import '../../../../../core/constants/string.dart';
-import '../../../../../core/extensions/context.dart';
+import '../../../../create_post/model/post.dart';
 import '../bloc/feed_bloc.dart';
-import '../models/feed_post_model.dart';
 import '../models/swipe_direction.dart';
 import 'feed_post_item.dart';
 
@@ -24,7 +20,7 @@ class _SwipeablePostStackState extends State<SwipeablePostStack> {
   @override
   void initState() {
     super.initState();
-    context.read<FeedBloc>().add(LoadFeedEvent(widget.tabIndex));
+    //context.read<FeedBloc>().add(LoadFeedEvent(widget.tabIndex));
   }
 
   void _onSwipeComplete(String postId, SwipeDirection direction) {
@@ -41,84 +37,10 @@ class _SwipeablePostStackState extends State<SwipeablePostStack> {
   Widget build(BuildContext context) {
     return BlocBuilder<FeedBloc, FeedState>(
       builder: (context, state) {
-        if (state.status == FeedStatus.loading &&
-            !state.hasPostsForTab(widget.tabIndex)) {
-          return const LoadingComponent();
-        }
+        if (state.isLoading) const LoadingComponent();
+        if (state.posts?.length == 0) SizedBox.shrink();
 
-        if (state.status == FeedStatus.failure) {
-          return Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(
-                  Icons.error_outline,
-                  size: context.width * 0.12,
-                  color: context.colors.error,
-                ),
-                SizedBox(height: context.height * 0.02),
-                TextComponent(
-                  text: state.error ?? AppStrings.ERROR_OCCURRED,
-                  size: FontSizeConstants.LARGE,
-                  color: context.colors.primary,
-                  align: TextAlign.center,
-                ),
-                SizedBox(height: context.height * 0.02),
-                ElevatedButton(
-                  onPressed: () {
-                    context.read<FeedBloc>().add(
-                      LoadFeedEvent(widget.tabIndex),
-                    );
-                  },
-                  child: TextComponent(
-                    text: AppStrings.ERROR_TRY_AGAIN,
-                    size: FontSizeConstants.LARGE,
-                    color: context.colors.secondary,
-                  ),
-                ),
-              ],
-            ),
-          );
-        }
-
-        final posts = state.getPostsForTab(widget.tabIndex);
-
-        if (posts.isEmpty) {
-          return Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(
-                  Icons.inbox_outlined,
-                  size: context.width * 0.16,
-                  color: context.colors.tertiary,
-                ),
-                SizedBox(height: context.height * 0.02),
-                TextComponent(
-                  text: AppStrings.ERROR_NO_POSTS,
-                  size: FontSizeConstants.LARGE,
-                  color: context.colors.tertiary,
-                ),
-                SizedBox(height: context.height * 0.02),
-                ElevatedButton(
-                  onPressed: () {
-                    context.read<FeedBloc>().add(
-                      LoadFeedEvent(widget.tabIndex),
-                    );
-                  },
-                  child: TextComponent(
-                    text: AppStrings.ERROR_REFRESH,
-                    size: FontSizeConstants.LARGE,
-                    color: context.colors.secondary,
-                  ),
-                ),
-              ],
-            ),
-          );
-        }
-
-        // En fazla 3 kart göster (stack effect için)
-        final displayPosts = posts.take(3).toList();
+        final displayPosts = state.posts!.take(3).toList();
 
         return Stack(
           children: List.generate(displayPosts.length, (index) {
@@ -138,7 +60,7 @@ class _SwipeablePostStackState extends State<SwipeablePostStack> {
   }
 
   Widget _buildCard({
-    required FeedPostModel post,
+    required PostModel post,
     required int index,
     required int totalCards,
     required bool isTop,

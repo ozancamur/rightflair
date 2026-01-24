@@ -7,13 +7,13 @@ import 'post_action_icon.dart';
 
 class PostActionsWidget extends StatelessWidget {
   final int comment;
-  final int like;
-  final int share;
+  final int saved;
+  final int shared;
   const PostActionsWidget({
     super.key,
     required this.comment,
-    required this.like,
-    required this.share,
+    required this.saved,
+    required this.shared,
   });
 
   @override
@@ -34,12 +34,12 @@ class PostActionsWidget extends StatelessWidget {
           PostIconButtonWidget(
             onTap: () {},
             icon: AppIcons.SAVE_FILLED,
-            value: share,
+            value: saved,
           ),
           PostIconButtonWidget(
             onTap: () {},
             icon: AppIcons.SHARE_FILLED,
-            value: like,
+            value: shared,
           ),
         ],
       ),
