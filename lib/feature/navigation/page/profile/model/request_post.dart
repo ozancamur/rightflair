@@ -43,10 +43,13 @@ class RequestPostModel extends BaseModel<RequestPostModel> {
     };
   }
 
-  RequestPostModel requestSortByDateOrderDesc({required int page}) {
+  RequestPostModel requestSortByDateOrderDesc({
+    required int page,
+    int limit = 6,
+  }) {
     return RequestPostModel(
       page: page,
-      limit: 6,
+      limit: limit,
       sortBy: 'created_at',
       sortOrder: 'desc',
     );

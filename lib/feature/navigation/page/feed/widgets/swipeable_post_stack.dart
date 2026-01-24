@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rightflair/core/components/loading.dart';
 
+import '../../../../../core/components/profile/profile_non_post.dart';
 import '../../../../create_post/model/post.dart';
 import '../bloc/feed_bloc.dart';
 import '../models/swipe_direction.dart';
@@ -41,7 +42,7 @@ class _SwipeablePostStackState extends State<SwipeablePostStack> {
     return BlocBuilder<FeedBloc, FeedState>(
       builder: (context, state) {
         if (state.isLoading) return const LoadingComponent();
-        if (state.posts?.length == 0) return SizedBox.shrink();
+        if (state.posts?.length == 0) return const ProfileNonPostComponent();
 
         return Stack(
           children: List.generate(state.posts?.length ?? 0, (index) {

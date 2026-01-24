@@ -16,6 +16,7 @@ class ProfileNonPostComponent extends StatelessWidget {
       width: context.width,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
+        spacing: context.height * .015,
         children: [
           SvgPicture.asset(
             AppIcons.NON_POST,
