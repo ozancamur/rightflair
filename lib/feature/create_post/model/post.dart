@@ -7,6 +7,7 @@ class PostModel extends BaseModel<PostModel> {
   String? location;
   bool? isAnonymous;
   bool? allowComments;
+  bool? isSaved;
   int? likesCount;
   int? commentsCount;
   int? savesCount;
@@ -24,6 +25,7 @@ class PostModel extends BaseModel<PostModel> {
     this.location,
     this.isAnonymous,
     this.allowComments,
+    this.isSaved,
     this.likesCount,
     this.commentsCount,
     this.savesCount,
@@ -43,6 +45,7 @@ class PostModel extends BaseModel<PostModel> {
     String? location,
     bool? isAnonymous,
     bool? allowComments,
+    bool? isSaved,
     int? likesCount,
     int? commentsCount,
     int? savesCount,
@@ -60,6 +63,7 @@ class PostModel extends BaseModel<PostModel> {
       location: location ?? this.location,
       isAnonymous: isAnonymous ?? this.isAnonymous,
       allowComments: allowComments ?? this.allowComments,
+      isSaved: isSaved ?? this.isSaved,
       likesCount: likesCount ?? this.likesCount,
       commentsCount: commentsCount ?? this.commentsCount,
       savesCount: savesCount ?? this.savesCount,
@@ -81,6 +85,7 @@ class PostModel extends BaseModel<PostModel> {
       location: json['location'] as String?,
       isAnonymous: json['is_anonymous'] as bool?,
       allowComments: json['allow_comments'] as bool?,
+      isSaved: json['is_saved'] as bool?,
       likesCount: json['likes_count'] as int?,
       commentsCount: json['comments_count'] as int?,
       savesCount: json['saves_count'] as int?,
@@ -108,6 +113,7 @@ class PostModel extends BaseModel<PostModel> {
       'location': location,
       'is_anonymous': isAnonymous,
       'allow_comments': allowComments,
+      'is_saved': isSaved,
       'likes_count': likesCount,
       'comments_count': commentsCount,
       'saves_count': savesCount,

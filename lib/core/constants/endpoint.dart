@@ -25,6 +25,7 @@ enum Endpoint {
 
   GET_POST_COMMENTS("get-post-comments"),
   CREATE_COMMENT("create-comment"),
+  SAVE_POST("save-post"),
 
   ;
 

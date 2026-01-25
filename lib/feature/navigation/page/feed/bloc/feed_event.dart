@@ -71,3 +71,12 @@ class SendCommentToPostEvent extends FeedEvent {
   @override
   List<Object?> get props => [postId, content, parentId];
 }
+
+class SavePostEvent extends FeedEvent {
+  final String? postId;
+
+  const SavePostEvent({this.postId});
+
+  @override
+  List<Object?> get props => [postId];
+}

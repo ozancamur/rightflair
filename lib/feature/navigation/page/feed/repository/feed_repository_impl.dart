@@ -154,4 +154,13 @@ class FeedRepositoryImpl extends FeedRepository {
       return null;
     }
   }
+
+  @override
+  Future<void> savePost({required String pId}) async {
+    try {
+      await _api.post(Endpoint.SAVE_POST, data: {'post_id': pId});
+    } catch (e) {
+      debugPrint("FeedRepositoryImpl ERROR in sendCommentToPost :> $e");
+    }
+  }
 }

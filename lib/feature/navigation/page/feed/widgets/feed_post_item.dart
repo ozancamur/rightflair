@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../core/extensions/context.dart';
 import '../../../../comments/page/dialog_comments.dart';
 import '../../../../create_post/model/post.dart';
+import '../bloc/feed_bloc.dart';
 import '../models/swipe_direction.dart';
 import 'post/post_actions.dart';
 import 'post/post_image.dart';
@@ -168,12 +170,14 @@ class _FeedPostItemState extends State<FeedPostItem>
                 const PostUserInfoWidget(),
                 PostActionsWidget(
                   comment: widget.post.commentsCount ?? 0,
-                  saved: widget.post.likesCount ?? 0,
+                  saved: widget.post.savesCount ?? 0,
                   shared: widget.post.sharesCount ?? 0,
                   postId: widget.post.id ?? "",
                   onComment: () =>
                       dialogComments(context, postId: widget.post.id ?? ""),
-                  onSave: () {},
+                  onSave: () => context.read<FeedBloc>().add(
+                    SavePostEvent(postId: widget.post.id),
+                  ),
                   onShare: () {},
                 ),
               ],

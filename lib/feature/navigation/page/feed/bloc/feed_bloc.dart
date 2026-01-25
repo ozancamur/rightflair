@@ -25,6 +25,7 @@ class FeedBloc extends Bloc<FeedEvent, FeedState> {
     on<ChangeTabEvent>(_onChangeTab);
     on<LoadPostCommentsEvent>(_onLoadComments);
     on<SendCommentToPostEvent>(_onSendComment);
+    on<SavePostEvent>(_onSavePost);
   }
 
   Future<void> _onLoadPostInitializeEvent(
@@ -182,5 +183,21 @@ class FeedBloc extends Bloc<FeedEvent, FeedState> {
 
       emit(state.copyWith(comments: updatedComments, posts: updatedPosts));
     }
+  }
+
+  Future<void> _onSavePost(SavePostEvent event, Emitter<FeedState> emit) async {
+    if(event.postId == null) return;
+    final updatedPosts = state.posts?.map((post) {
+      if (post.id == event.postId) {
+        final isSaved = post.isSaved ?? false;
+        return post.copyWith(
+          isSaved: !isSaved,
+          savesCount: (post.savesCount ?? 0) + (!isSaved ? 1 : -1),
+        );
+      }
+      return post;
+    }).toList();
+    emit(state.copyWith(posts: updatedPosts));
+    await _repo.savePost(pId: event.postId!);
   }
 }
