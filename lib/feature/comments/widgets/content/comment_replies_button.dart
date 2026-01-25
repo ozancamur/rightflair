@@ -8,21 +8,26 @@ import '../../../../core/extensions/context.dart';
 
 class CommentRepliesButtonWidget extends StatelessWidget {
   final int replyCount;
-  const CommentRepliesButtonWidget({super.key, required this.replyCount});
+  final VoidCallback onTap;
+  final bool isExpanded;
+  const CommentRepliesButtonWidget({
+    super.key,
+    required this.replyCount,
+    required this.onTap,
+    required this.isExpanded,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(top: 12),
       child: GestureDetector(
-        onTap: () {
-          // Handle view replies
-        },
+        onTap: onTap,
         child: Row(
           spacing: context.width * 0.01,
           children: [
             Icon(
-              Icons.keyboard_arrow_down,
+              isExpanded ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
               color: context.colors.primary.withOpacity(0.7),
               size: context.width * 0.04,
             ),
