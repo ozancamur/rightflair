@@ -20,6 +20,9 @@ enum Endpoint {
   GET_FOLLOWING_FEED("get-following-feed"),
   GET_FRIENDS_FEED("get-friends-feed"),
 
+  POST_LIKE("post-like"),
+  POST_DISLIKE("post-dislike"),
+
   ;
 
   final String value;

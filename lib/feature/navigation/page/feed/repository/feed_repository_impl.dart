@@ -11,6 +11,7 @@ import 'feed_repository.dart';
 class FeedRepositoryImpl extends FeedRepository {
   final ApiService _api;
   FeedRepositoryImpl({ApiService? api}) : _api = api ?? ApiService();
+
   @override
   Future<ResponsePostModel?> fetchDiscoverFeed({
     required RequestPostModel body,
@@ -74,6 +75,38 @@ class FeedRepositoryImpl extends FeedRepository {
     } catch (e) {
       debugPrint("FeedRepositoryImpl ERROR in fetchDiscoverFeed :> $e");
       return null;
+    }
+  }
+
+  @override
+  Future<void> likePost({required String pId}) async {
+    try {
+      final request = await _api.post(
+        Endpoint.POST_LIKE,
+        data: {'post_id': pId},
+      );
+      final ResponseModel response = ResponseModel().fromJson(
+        request.data as Map<String, dynamic>,
+      );
+      print("Like Post Response :> ${response.toJson()}");
+    } catch (e) {
+      debugPrint("FeedRepositoryImpl ERROR in dislikePost :> $e");
+    }
+  }
+
+  @override
+  Future<void> dislikePost({required String pId}) async {
+    try {
+      final request = await _api.post(
+        Endpoint.POST_DISLIKE,
+        data: {'post_id': pId},
+      );
+      final ResponseModel response = ResponseModel().fromJson(
+        request.data as Map<String, dynamic>,
+      );
+      print("Like Post Response :> ${response.toJson()}");
+    } catch (e) {
+      debugPrint("FeedRepositoryImpl ERROR in dislikePost :> $e");
     }
   }
 }

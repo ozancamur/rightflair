@@ -1,5 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:rightflair/core/components/text.dart';
+import 'package:rightflair/core/constants/font/font_size.dart';
+import 'package:rightflair/core/constants/icons.dart';
 
 import '../../../../../../core/extensions/context.dart';
 
@@ -13,11 +17,30 @@ class PostImageWidget extends StatelessWidget {
       child: ClipRRect(
         borderRadius: BorderRadius.circular(context.width * 0.06),
         child: CachedNetworkImage(
-          imageUrl:
-              "https://images.unsplash.com/photo-1516826957135-700dedea698c?w=800",
+          imageUrl: url ?? "",
           fit: BoxFit.cover,
-          errorWidget: (context, url, error) =>
-              Container(height: 100, width: 100, color: Colors.red),
+          errorWidget: (context, url, error) => Container(
+            height: context.height,
+            width: context.width,
+            color: context.colors.onSecondaryFixed,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              spacing: context.height * .01,
+              children: [
+                SvgPicture.asset(
+                  AppIcons.NON_POST,
+                  height: context.height * .04,
+                  color: context.colors.secondary,
+                ),
+                TextComponent(
+                  text: "Image failed.",
+                  size: FontSizeConstants.X_LARGE,
+                  color: context.colors.secondary,
+                ),
+              ],
+            ),
+          ),
         ),
       ),
     );

@@ -5,4 +5,7 @@ abstract class FeedRepository {
   Future<ResponsePostModel?> fetchDiscoverFeed({required RequestPostModel body});
   Future<ResponsePostModel?> fetchFollowingFeed({required RequestPostModel body});
   Future<ResponsePostModel?> fetchFriendFeed({required RequestPostModel body});
+
+  Future<void> likePost({required String pId});
+  Future<void> dislikePost({required String pId});
 }

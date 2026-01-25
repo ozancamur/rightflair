@@ -37,10 +37,7 @@ class FeedBloc extends Bloc<FeedEvent, FeedState> {
       );
       final response = await _load(
         index: event.currentTabIndex,
-        request: RequestPostModel().requestSortByDateOrderDesc(
-          page: 1,
-          limit: 3,
-        ),
+        request: RequestPostModel().requestSortByDateOrderDesc(page: 1),
       );
       emit(
         state.copyWith(
@@ -70,7 +67,6 @@ class FeedBloc extends Bloc<FeedEvent, FeedState> {
           index: event.tabIndex,
           request: RequestPostModel().requestSortByDateOrderDesc(
             page: (state.pagination?.page ?? 0) + 1,
-            limit: 3,
           ),
         );
         final updatedPosts = List<PostModel>.from(state.posts ?? [])
@@ -121,6 +117,7 @@ class FeedBloc extends Bloc<FeedEvent, FeedState> {
     Emitter<FeedState> emit,
   ) async {
     updateListAfterSwipe(emit, event.postId);
+    await _repo.likePost(pId: event.postId);
   }
 
   Future<void> _onSwipeLeft(
@@ -128,6 +125,7 @@ class FeedBloc extends Bloc<FeedEvent, FeedState> {
     Emitter<FeedState> emit,
   ) async {
     updateListAfterSwipe(emit, event.postId);
+    await _repo.dislikePost(pId: event.postId);
   }
 
   void updateListAfterSwipe(Emitter<FeedState> emit, String postId) {

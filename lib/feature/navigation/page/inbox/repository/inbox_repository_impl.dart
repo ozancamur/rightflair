@@ -7,6 +7,7 @@ import '../model/notification_type.dart';
 import 'inbox_repository.dart';
 
 class InboxRepositoryImpl implements InboxRepository {
+  
   @override
   Future<List<CommentModel>> getMessages() async {
     await Future.delayed(const Duration(milliseconds: 500));
