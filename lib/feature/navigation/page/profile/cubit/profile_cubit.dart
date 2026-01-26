@@ -47,6 +47,12 @@ class ProfileCubit extends Cubit<ProfileState> {
     await _getUserDrafts();
   }
 
+  Future<void> deleteRefresh() async {
+    await _getUserPosts();
+    await _getUserSavedPosts();
+    await _getUserDrafts();
+  }
+
   Future<void> _getUser() async {
     emit(state.copyWith(isLoading: true));
     final UserModel? user = await _repo.getUser();

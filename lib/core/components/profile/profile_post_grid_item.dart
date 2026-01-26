@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rightflair/core/constants/icons.dart';
 import 'package:rightflair/core/constants/route.dart';
+import 'package:rightflair/feature/navigation/page/profile/cubit/profile_cubit.dart';
 
 import '../text/text.dart';
 import '../../../feature/create_post/model/post.dart';
@@ -21,10 +23,15 @@ class ProfilePostGridItemComponent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => context.push(
-        RouteConstants.POST_DETAIL,
-        extra: {'post': post, 'isDraft': isDraft},
-      ),
+      onTap: () async {
+        final result = await context.push(
+          RouteConstants.POST_DETAIL,
+          extra: {'post': post, 'isDraft': isDraft},
+        );
+        if (result == 'deleted' && context.mounted) {
+          context.read<ProfileCubit>().deleteRefresh();
+        }
+      },
       borderRadius: BorderRadius.circular(context.width * 0.03),
       child: Stack(
         children: [_image(context), _shadow(context), _view(context)],

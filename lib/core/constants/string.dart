@@ -17,6 +17,8 @@ class AppStrings {
   static const String DIALOG_OK = 'dialog.ok';
   static const String DIALOG_CANCEL = 'dialog.cancel';
   static const String DIALOG_CONFIRM = 'dialog.confirm';
+  static const String DIALOG_DELETE_POST_TITLE = 'dialog.deletePost.title';
+  static const String DIALOG_DELETE_POST_MESSAGE = 'dialog.deletePost.message';
   // AUTHENTICATION
   static const String LOGIN = 'authentication.login';
   static const String EMAIL = 'authentication.email';

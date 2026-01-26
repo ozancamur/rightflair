@@ -2,13 +2,16 @@ part of 'post_detail_cubit.dart';
 
 class PostDetailState extends Equatable {
   final PostModel post;
+  final bool isLoading;
+  const PostDetailState({required this.post, required this.isLoading});
 
-  const PostDetailState({required this.post});
-
-  PostDetailState copyWith({PostModel? post}) {
-    return PostDetailState(post: post ?? this.post);
+  PostDetailState copyWith({PostModel? post, bool? isLoading}) {
+    return PostDetailState(
+      post: post ?? this.post,
+      isLoading: isLoading ?? this.isLoading,
+    );
   }
 
   @override
-  List<Object> get props => [post];
+  List<Object> get props => [post, isLoading];
 }

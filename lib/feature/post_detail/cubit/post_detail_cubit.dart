@@ -8,7 +8,8 @@ part 'post_detail_state.dart';
 
 class PostDetailCubit extends Cubit<PostDetailState> {
   final PostDetailRepositoryImpl _repo;
-  PostDetailCubit(this._repo) : super(PostDetailState(post: PostModel()));
+  PostDetailCubit(this._repo)
+    : super(PostDetailState(post: PostModel(), isLoading: false));
 
   void init({required PostModel post}) => emit(state.copyWith(post: post));
 
@@ -31,5 +32,13 @@ class PostDetailCubit extends Cubit<PostDetailState> {
     );
 
     emit(state.copyWith(post: updatedPost));
+  }
+
+  Future<bool> deletePost() async {
+    emit(state.copyWith(isLoading: true));
+    if (state.post.id == null) return false;
+    final response = await _repo.deletePost(pId: state.post.id!);
+    emit(state.copyWith(isLoading: false));
+    return response;
   }
 }
