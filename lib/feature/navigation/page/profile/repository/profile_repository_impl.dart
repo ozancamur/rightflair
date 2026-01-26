@@ -129,25 +129,8 @@ class ProfileRepositoryImpl extends ProfileRepository {
         parameters: parameters.toJson(),
       );
 
-      // API returns {success: true, data: {posts: [...], pagination: {...}}}
-      // Extract the data object
-      final responseData = request.data as Map<String, dynamic>;
-      final dataObject = responseData['data'] as Map<String, dynamic>?;
-
-      if (dataObject == null) return null;
-
-      // Each item in posts array has a nested "post" object - extract them
-      final postsArray = dataObject['posts'] as List?;
-      final actualPosts = postsArray?.map((item) => item['post']).toList();
-
-      // Create the structure that ResponsePostModel expects
-      final transformedData = {
-        'posts': actualPosts,
-        'pagination': dataObject['pagination'],
-      };
-
       final ResponsePostModel data = ResponsePostModel().fromJson(
-        transformedData,
+        request.data as Map<String, dynamic>,
       );
       return data;
     } catch (e) {
