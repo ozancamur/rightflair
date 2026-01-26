@@ -14,9 +14,9 @@ import '../../create_post/model/post.dart';
 import '../repository/post_detail_repository_impl.dart';
 
 class PostDetailPage extends StatelessWidget {
-  final bool amIOwner;
   final PostModel post;
-  const PostDetailPage({super.key, required this.amIOwner, required this.post});
+  final bool isDraft;
+  const PostDetailPage({super.key, required this.post, required this.isDraft});
 
   @override
   Widget build(BuildContext context) {
@@ -45,6 +45,7 @@ class PostDetailPage extends StatelessWidget {
                     bottom: context.height * .075,
                   ),
                   child: PostComponent(
+                    isDraft: isDraft,
                     post: state.post,
                     onComment: () => dialogComments(
                       context,

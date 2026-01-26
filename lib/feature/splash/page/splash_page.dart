@@ -23,7 +23,6 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
   void initState() {
     super.initState();
 
-    // Fade-in animation (only once at the beginning)
     _fadeController = AnimationController(
       duration: const Duration(milliseconds: 800),
       vsync: this,
@@ -34,7 +33,6 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
       end: 1.0,
     ).animate(CurvedAnimation(parent: _fadeController, curve: Curves.easeIn));
 
-    // Up and down movement animation (continuously repeating)
     _moveController = AnimationController(
       duration: const Duration(milliseconds: 2000),
       vsync: this,
@@ -44,17 +42,14 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
       CurvedAnimation(parent: _moveController, curve: Curves.easeInOut),
     );
 
-    // Start fade-in first, then start movement animation when it finishes
     _fadeController.forward().then((_) {
       _moveController.repeat(reverse: true);
     });
 
-    // Authentication check and navigation
     _checkAuthAndNavigate();
   }
 
   Future<void> _checkAuthAndNavigate() async {
-    // Wait a bit for the animation to complete
     await Future.delayed(const Duration(milliseconds: 2500));
 
     if (!mounted) return;

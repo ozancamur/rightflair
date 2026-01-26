@@ -11,12 +11,20 @@ import '../../../../../core/extensions/context.dart';
 
 class ProfilePostGridItemComponent extends StatelessWidget {
   final PostModel post;
-  const ProfilePostGridItemComponent({super.key, required this.post});
+  final bool isDraft;
+  const ProfilePostGridItemComponent({
+    super.key,
+    required this.post,
+    required this.isDraft,
+  });
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => context.push(RouteConstants.POST_DETAIL, extra: post),
+      onTap: () => context.push(
+        RouteConstants.POST_DETAIL,
+        extra: {'post': post, 'isDraft': isDraft},
+      ),
       borderRadius: BorderRadius.circular(context.width * 0.03),
       child: Stack(
         children: [_image(context), _shadow(context), _view(context)],

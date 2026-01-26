@@ -16,32 +16,38 @@ class PostImageComponent extends StatelessWidget {
     return Positioned.fill(
       child: ClipRRect(
         borderRadius: BorderRadius.circular(context.width * 0.06),
-        child: CachedNetworkImage(
-          imageUrl: url ?? "",
-          fit: BoxFit.cover,
-          errorWidget: (context, url, error) => Container(
-            height: context.height,
-            width: context.width,
-            color: context.colors.onSecondaryFixed,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              spacing: context.height * .01,
-              children: [
-                SvgPicture.asset(
-                  AppIcons.NON_POST,
-                  height: context.height * .04,
-                  color: context.colors.secondary,
-                ),
-                TextComponent(
-                  text: "Image failed.",
-                  size: FontSizeConstants.X_LARGE,
-                  color: context.colors.secondary,
-                ),
-              ],
-            ),
+        child: (url == null || url == "")
+            ? _null(context)
+            : CachedNetworkImage(
+                imageUrl: url ?? "",
+                fit: BoxFit.cover,
+                errorWidget: (context, url, error) => _null(context),
+              ),
+      ),
+    );
+  }
+
+  Container _null(BuildContext context) {
+    return Container(
+      height: context.height,
+      width: context.width,
+      color: context.colors.onSecondaryFixed,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        spacing: context.height * .01,
+        children: [
+          SvgPicture.asset(
+            AppIcons.NON_POST,
+            height: context.height * .04,
+            color: context.colors.secondary,
           ),
-        ),
+          TextComponent(
+            text: "Image failed.",
+            size: FontSizeConstants.X_LARGE,
+            color: context.colors.secondary,
+          ),
+        ],
       ),
     );
   }

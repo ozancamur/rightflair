@@ -1,4 +1,5 @@
 import '../../../core/base/model/base.dart';
+import 'post_user.dart';
 
 class PostModel extends BaseModel<PostModel> {
   String? id;
@@ -17,6 +18,7 @@ class PostModel extends BaseModel<PostModel> {
   DateTime? updatedAt;
   List<String>? tags;
   List<String>? mentionedUsers;
+  PostUserModel? user;
 
   PostModel({
     this.id,
@@ -35,6 +37,7 @@ class PostModel extends BaseModel<PostModel> {
     this.updatedAt,
     this.tags,
     this.mentionedUsers,
+    this.user,
   });
 
   @override
@@ -55,6 +58,7 @@ class PostModel extends BaseModel<PostModel> {
     DateTime? updatedAt,
     List<String>? tags,
     List<String>? mentionedUsers,
+    PostUserModel? user,
   }) {
     return PostModel(
       id: id ?? this.id,
@@ -73,6 +77,7 @@ class PostModel extends BaseModel<PostModel> {
       updatedAt: updatedAt ?? this.updatedAt,
       tags: tags ?? this.tags,
       mentionedUsers: mentionedUsers ?? this.mentionedUsers,
+      user: user ?? this.user,
     );
   }
 
@@ -101,6 +106,9 @@ class PostModel extends BaseModel<PostModel> {
       mentionedUsers: (json['mentioned_users'] as List<dynamic>?)
           ?.map((e) => e as String)
           .toList(),
+      user: json['user'] != null
+          ? PostUserModel().fromJson(json['user'] as Map<String, dynamic>)
+          : null,
     );
   }
 
@@ -123,6 +131,7 @@ class PostModel extends BaseModel<PostModel> {
       'updated_at': updatedAt?.toIso8601String(),
       'tags': tags,
       'mentioned_users': mentionedUsers,
+      'user': user?.toJson(),
     };
   }
 }

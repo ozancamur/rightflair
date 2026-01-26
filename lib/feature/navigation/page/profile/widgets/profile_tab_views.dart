@@ -83,16 +83,19 @@ class _ProfileTabViewsWidgetState extends State<ProfileTabViewsWidget> {
         return ProfilePostGridComponent(
           posts: widget.posts,
           isLoading: widget.isPostsLoading,
+          isDraft: false,
         );
       case 1:
         return ProfilePostGridComponent(
           posts: widget.saves,
           isLoading: widget.isSavesLoading,
+          isDraft: false,
         );
       case 2:
         return ProfilePostGridComponent(
           posts: widget.drafts,
           isLoading: widget.isDraftsLoading,
+          isDraft: true,
         );
       default:
         return const SizedBox.shrink();

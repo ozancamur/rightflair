@@ -13,9 +13,6 @@ class ApiService extends SupabaseService {
   ApiService._internal();
 
   void init({required String BASE_URL}) {
-    if (kDebugMode) {
-      debugPrint("Bearer ${client.auth.currentSession?.accessToken}");
-    }
     dio = Dio(
       BaseOptions(
         baseUrl: BASE_URL,

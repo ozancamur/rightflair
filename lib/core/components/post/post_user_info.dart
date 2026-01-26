@@ -1,45 +1,62 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:rightflair/core/constants/icons.dart';
 
+import '../../../feature/create_post/model/post_user.dart';
 import '../text/text.dart';
 import '../../constants/font/font_size.dart';
 import '../../extensions/context.dart';
 
 class PostUserInfoComponent extends StatelessWidget {
-  const PostUserInfoComponent({super.key});
+  final PostUserModel user;
+  const PostUserInfoComponent({super.key, required this.user});
 
   @override
   Widget build(BuildContext context) {
-    final String photo =
-        "https://plus.unsplash.com/premium_photo-1690407617542-2f210cf20d7e?q=80&w=987&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
-
     return Padding(
       padding: EdgeInsets.all(context.width * .04),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
         spacing: context.width * .03,
-        children: [
-          Container(
-            height: context.height * .045,
-            width: context.height * .045,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              border: Border.all(color: context.colors.scrim, width: .5),
-              image: DecorationImage(
-                image: NetworkImage(photo),
-                fit: BoxFit.cover,
-              ),
-            ),
-          ),
-          TextComponent(
-            text: "Jennifer Coppen",
-            size: FontSizeConstants.SMALL,
-            color: Colors.white,
-            weight: FontWeight.w600,
-            tr: false,
-          ),
-        ],
+        children: [_photo(context), _fullname()],
       ),
+    );
+  }
+
+  Container _photo(BuildContext context) {
+    return Container(
+      height: context.height * .045,
+      width: context.height * .045,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        shape: BoxShape.circle,
+        border: Border.all(color: context.colors.scrim, width: .5),
+      ),
+      child: (user.profilePhotoUrl == null || user.profilePhotoUrl == "")
+          ? _null(context)
+          : Image.network(
+              user.profilePhotoUrl ?? "",
+              fit: BoxFit.cover,
+              errorBuilder: (context, error, stackTrace) => _null(context),
+            ),
+    );
+  }
+
+  Padding _null(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.all(context.width * 0.015),
+      child: SvgPicture.asset(AppIcons.NON_PROFILE_PHOTO, color: Colors.black),
+    );
+  }
+
+  TextComponent _fullname() {
+    return TextComponent(
+      text: user.fullName ?? "Rightflair User",
+      size: FontSizeConstants.SMALL,
+      color: Colors.white,
+      weight: FontWeight.w600,
+      tr: false,
     );
   }
 }

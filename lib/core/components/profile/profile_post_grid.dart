@@ -9,10 +9,12 @@ import 'profile_post_grid_item.dart';
 class ProfilePostGridComponent extends StatelessWidget {
   final List<PostModel>? posts;
   final bool isLoading;
+  final bool isDraft;
   const ProfilePostGridComponent({
     super.key,
     required this.posts,
     required this.isLoading,
+    required this.isDraft,
   });
 
   @override
@@ -31,8 +33,10 @@ class ProfilePostGridComponent extends StatelessWidget {
               childAspectRatio: 0.75,
             ),
             itemCount: posts?.length,
-            itemBuilder: (context, index) =>
-                ProfilePostGridItemComponent(post: posts![index]),
+            itemBuilder: (context, index) => ProfilePostGridItemComponent(
+              post: posts![index],
+              isDraft: isDraft,
+            ),
           );
   }
 }

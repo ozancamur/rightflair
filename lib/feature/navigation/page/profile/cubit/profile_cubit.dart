@@ -42,6 +42,9 @@ class ProfileCubit extends Cubit<ProfileState> {
   Future<void> refresh() async {
     await _getUser();
     await _getUserStyleTags();
+    await _getUserPosts();
+    await _getUserSavedPosts();
+    await _getUserDrafts();
   }
 
   Future<void> _getUser() async {
