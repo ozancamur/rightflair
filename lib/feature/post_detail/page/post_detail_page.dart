@@ -11,15 +11,18 @@ import 'package:rightflair/feature/post_detail/cubit/post_detail_cubit.dart';
 import '../../../core/base/page/base_scaffold.dart';
 import '../../comments/page/dialog_comments.dart';
 import '../../create_post/model/post.dart';
+import '../repository/post_detail_repository_impl.dart';
 
 class PostDetailPage extends StatelessWidget {
+  final bool amIOwner;
   final PostModel post;
-  const PostDetailPage({super.key, required this.post});
+  const PostDetailPage({super.key, required this.amIOwner, required this.post});
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => PostDetailCubit()..init(post: post),
+      create: (context) =>
+          PostDetailCubit(PostDetailRepositoryImpl())..init(post: post),
       child: BlocBuilder<PostDetailCubit, PostDetailState>(
         builder: (context, state) {
           return BaseScaffold(
@@ -49,7 +52,7 @@ class PostDetailPage extends StatelessWidget {
                       onAddComment: () =>
                           context.read<PostDetailCubit>().addComment(),
                     ),
-                    onSave: () {},
+                    onSave: () => context.read<PostDetailCubit>().onSavePost(),
                     onShare: () {},
                   ),
                 );

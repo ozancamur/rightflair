@@ -31,6 +31,7 @@ import 'feature/location/repository/location_repository_impl.dart';
 import 'feature/navigation/cubit/navigation_cubit.dart';
 import 'feature/navigation/page/analytics/cubit/analytics_cubit.dart';
 import 'feature/navigation/page/analytics/repository/analytics_repository.dart';
+import 'feature/post_detail/repository/post_detail_repository_impl.dart';
 import 'feature/settings/repository/settings_repository_impl.dart';
 
 class RightFlair extends StatelessWidget {
@@ -56,7 +57,7 @@ class RightFlair extends StatelessWidget {
         BlocProvider(create: (_) => ProfileEditCubit(ProfileEditRepositoryImpl())),
         
         BlocProvider(create: (_) => UserCubit(UserRepositoryImpl())),
-        BlocProvider(create: (_) => PostDetailCubit()),
+        BlocProvider(create: (_) => PostDetailCubit(PostDetailRepositoryImpl())),
         BlocProvider(create: (_) => SettingsCubit(SettingsRepositoryImpl())),
         
         BlocProvider(create: (_) => CreatePostCubit(CreatePostRepositoryImpl())),

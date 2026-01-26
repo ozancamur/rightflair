@@ -22,7 +22,6 @@ class FeedBloc extends Bloc<FeedEvent, FeedState> {
     on<SwipeLeftEvent>(_onSwipeLeft);
     on<LoadMorePostsEvent>(_onLoadMorePosts);
     on<ChangeTabEvent>(_onChangeTab);
-    on<LoadPostCommentsEvent>(_onLoadComments);
     on<SendCommentToPostEvent>(_onSendComment);
     on<SavePostEvent>(_onSavePost);
   }
@@ -148,14 +147,7 @@ class FeedBloc extends Bloc<FeedEvent, FeedState> {
     emit(state.copyWith(currentTabIndex: event.tabIndex));
   }
 
-  Future<void> _onLoadComments(
-    LoadPostCommentsEvent event,
-    Emitter<FeedState> emit,
-  ) async {
-    emit(state.copyWith(isLoadingComments: true));
-    final response = await _repo.fetchPostComments(pId: event.postId);
-    emit(state.copyWith(isLoadingComments: false, comments: response));
-  }
+
 
   Future<void> _onSendComment(
     SendCommentToPostEvent event,

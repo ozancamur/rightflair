@@ -1,14 +1,29 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rightflair/feature/post_detail/repository/post_detail_repository_impl.dart';
 
 import '../../create_post/model/post.dart';
 
 part 'post_detail_state.dart';
 
 class PostDetailCubit extends Cubit<PostDetailState> {
-  PostDetailCubit() : super(PostDetailState(post: PostModel()));
+  final PostDetailRepositoryImpl _repo;
+  PostDetailCubit(this._repo) : super(PostDetailState(post: PostModel()));
 
   void init({required PostModel post}) => emit(state.copyWith(post: post));
+
+  Future<void> onSavePost() async {
+    if (state.post.id == null) return;
+    final updatedPost = state.post.copyWith(
+      isSaved: !(state.post.isSaved ?? false),
+      savesCount:
+          (state.post.savesCount ?? 0) +
+          (!(state.post.isSaved ?? false) ? 1 : -1),
+    );
+
+    emit(state.copyWith(post: updatedPost));
+    await _repo.savePost(pId: state.post.id!);
+  }
 
   void addComment() {
     final updatedPost = state.post.copyWith(
