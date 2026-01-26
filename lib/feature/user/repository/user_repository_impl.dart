@@ -16,7 +16,7 @@ class UserRepositoryImpl extends UserRepository {
   @override
   Future<UserModel?> getUser({required String userId}) async {
     try {
-      final request = await _api.get(
+      final request = await _api.post(
         Endpoint.GET_USER,
         data: {'user_id': userId},
       );
@@ -40,7 +40,7 @@ class UserRepositoryImpl extends UserRepository {
     required RequestPostModel parameters,
   }) async {
     try {
-      final request = await _api.get(
+      final request = await _api.post(
         Endpoint.GET_USER_POSTS,
         parameters: parameters.toJson(),
       );
@@ -59,7 +59,7 @@ class UserRepositoryImpl extends UserRepository {
   @override
   Future<StyleTagsModel?> getUserStyleTags({required String userId}) async {
     try {
-      final request = await _api.get(
+      final request = await _api.post(
         Endpoint.GET_USER_STYLE_TAGS,
         data: {'user_id': userId},
       );
