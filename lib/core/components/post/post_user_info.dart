@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:rightflair/core/constants/icons.dart';
+import 'package:rightflair/core/constants/route.dart';
 
 import '../../../feature/create_post/model/post_user.dart';
 import '../text/text.dart';
@@ -13,13 +15,16 @@ class PostUserInfoComponent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.all(context.width * .04),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        spacing: context.width * .03,
-        children: [_photo(context), _fullname()],
+    return GestureDetector(
+      onTap: () => context.push(RouteConstants.USER, extra: user.id),
+      child: Padding(
+        padding: EdgeInsets.all(context.width * .04),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          spacing: context.width * .03,
+          children: [_photo(context), _fullname()],
+        ),
       ),
     );
   }

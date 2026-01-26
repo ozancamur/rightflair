@@ -16,6 +16,7 @@ import '../../feature/create_post/model/post.dart';
 import '../../feature/post_detail/page/post_detail_page.dart';
 import '../../feature/profile_edit/page/profile_edit_page.dart';
 import '../../feature/splash/page/splash_page.dart';
+import '../../feature/user/page/user_page.dart';
 
 final GoRouter router = GoRouter(
   initialLocation: RouteConstants.SPLASH,
@@ -110,6 +111,11 @@ final GoRouter router = GoRouter(
       path: RouteConstants.SETTINGS,
       name: RouteConstants.SETTINGS,
       builder: (context, state) => const SettingsPage(),
+    ),
+    GoRoute(
+      path: RouteConstants.USER,
+      name: RouteConstants.USER,
+      builder: (context, state) => UserPage(userId: state.extra as String),
     ),
   ],
 

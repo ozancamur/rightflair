@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rightflair/core/base/page/base_scaffold.dart';
@@ -57,6 +58,10 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
     final user = Supabase.instance.client.auth.currentUser;
 
     if (user != null) {
+      if (kDebugMode) {
+        debugPrint("USER JWT TOKEN :> ${Supabase.instance.client.auth.currentSession?.accessToken}");
+        debugPrint("USER ID :> ${user.id}");
+      }
       context.go(RouteConstants.NAVIGATION);
     } else {
       context.go(RouteConstants.WELCOME);

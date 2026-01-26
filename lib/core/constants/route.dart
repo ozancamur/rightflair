@@ -20,6 +20,8 @@ class RouteConstants {
   
   static const String SYSTEM_NOTIFICATIONS = '/system_notifications';
   static const String NEW_FOLLOWERS = '/new_followers';
+  
+  static const String USER = '/user';
 
 
 }

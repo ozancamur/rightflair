@@ -1,37 +1,48 @@
 import 'package:equatable/equatable.dart';
-import 'package:rightflair/feature/navigation/page/profile/model/photo.dart'
-    show PhotoModel;
 
 import '../../authentication/model/user.dart';
+import '../../create_post/model/post.dart';
+import '../../navigation/page/profile/model/pagination.dart';
 import '../../navigation/page/profile/model/style_tags.dart';
 
 class UserState extends Equatable {
   final bool isLoading;
+
   final UserModel user;
   final StyleTagsModel? tags;
-  final List<PhotoModel> photos;
-  final bool isPhotosLoading;
+
+  final List<PostModel>? posts;
+  final PaginationModel? pagination;
+  final bool isPostsLoading;
+  final bool isLoadingMorePosts;
+
   const UserState({
     this.isLoading = false,
     required this.user,
     this.tags,
-    this.photos = const [],
-    this.isPhotosLoading = false,
+    this.posts = const [],
+    this.pagination,
+    this.isPostsLoading = false,
+    this.isLoadingMorePosts = false,
   });
 
   UserState copyWith({
     bool? isLoading,
     UserModel? user,
     StyleTagsModel? tags,
-    List<PhotoModel>? photos,
-    bool? isPhotosLoading,
+    List<PostModel>? posts,
+    PaginationModel? pagination,
+    bool? isPostsLoading,
+    bool? isLoadingMorePosts,
   }) {
     return UserState(
       isLoading: isLoading ?? this.isLoading,
       user: user ?? this.user,
       tags: tags ?? this.tags,
-      photos: photos ?? this.photos,
-      isPhotosLoading: isPhotosLoading ?? this.isPhotosLoading,
+      posts: posts ?? this.posts,
+      pagination: pagination ?? this.pagination,
+      isPostsLoading: isPostsLoading ?? this.isPostsLoading,
+      isLoadingMorePosts: isLoadingMorePosts ?? this.isLoadingMorePosts,
     );
   }
 
@@ -40,7 +51,9 @@ class UserState extends Equatable {
     isLoading,
     user,
     tags ?? StyleTagsModel(),
-    photos,
-    isPhotosLoading,
+    posts ?? [],
+    pagination ?? PaginationModel(),
+    isPostsLoading,
+    isLoadingMorePosts,
   ];
 }

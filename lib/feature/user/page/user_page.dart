@@ -6,6 +6,7 @@ import 'package:rightflair/core/components/profile/profile_header.dart';
 import 'package:rightflair/feature/user/repository/user_repository_impl.dart';
 
 import '../../../core/base/page/base_scaffold.dart';
+import '../../../core/components/profile/profile_post_grid.dart';
 import '../../../core/components/profile/profile_tab_item.dart';
 import '../cubit/user_cubit.dart';
 import '../cubit/user_state.dart';
@@ -40,7 +41,11 @@ class UserPage extends StatelessWidget {
                         onMessageTap: () {},
                       ),
                       ProfileTabItemComponent(text: AppStrings.PROFILE_PHOTOS),
-                      //ProfilePhotoGridWidget(posts: state.photos),
+                      ProfilePostGridComponent(
+                        posts: state.posts,
+                        isLoading: state.isPostsLoading,
+                        isDraft: false,
+                      ),
                     ],
                   ),
                 ),

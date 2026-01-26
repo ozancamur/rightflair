@@ -56,7 +56,7 @@ class ApiService extends SupabaseService {
   }
 
   // GET Method
-  Future<Response> get(
+  Future<Response?> get(
     Endpoint endpoint, {
     dynamic data,
     Map<String, dynamic>? parameters,
@@ -75,12 +75,12 @@ class ApiService extends SupabaseService {
       );
       return response;
     } catch (e) {
-      rethrow;
+      return null;
     }
   }
 
   // POST Method
-  Future<Response> post(
+  Future<Response?> post(
     Endpoint endpoint, {
     dynamic data,
     Map<String, dynamic>? parameters,
@@ -101,12 +101,12 @@ class ApiService extends SupabaseService {
       );
       return response;
     } catch (e) {
-      rethrow;
+      return null;
     }
   }
 
   // PUT Method
-  Future<Response> put(
+  Future<Response?> put(
     Endpoint endpoint, {
     dynamic data,
     Map<String, dynamic>? parameters,
@@ -127,12 +127,12 @@ class ApiService extends SupabaseService {
       );
       return response;
     } catch (e) {
-      rethrow;
+      return null;
     }
   }
 
   // DELETE Method
-  Future<Response> delete(
+  Future<Response?> delete(
     Endpoint endpoint, {
     dynamic data,
     Map<String, dynamic>? parameters,
@@ -149,7 +149,7 @@ class ApiService extends SupabaseService {
       );
       return response;
     } catch (e) {
-      rethrow;
+      return null;
     }
   }
 }
