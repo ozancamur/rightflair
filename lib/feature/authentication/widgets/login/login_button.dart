@@ -19,8 +19,8 @@ class LoginButtonWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ElevatedButtonComponent(
-      height: context.height * .07,
       radius: 100,
+      width: context.width * .8,
       color: context.colors.outline,
       onPressed: onTap,
       child: isLoading

@@ -24,7 +24,6 @@ class ChooseUsernameButtonWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final ChooseUsernameCubit cubit = context.read<ChooseUsernameCubit>();
     return ElevatedButtonComponent(
-      height: context.height * .07,
       radius: 100,
       color: context.colors.outline.withOpacity(0.5),
       onPressed: () => isLoading

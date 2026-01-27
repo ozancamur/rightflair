@@ -64,7 +64,9 @@ class _PasswordTextFieldComponentState
         hintText: widget.hintText.tr(),
         hintStyle: _hintStyle(),
         enabledBorder: _buildBorderField(color: context.colors.secondaryFixed),
-        focusedBorder: _buildBorderField(color: context.colors.onSecondaryFixed),
+        focusedBorder: _buildBorderField(
+          color: context.colors.onSecondaryFixed,
+        ),
         errorBorder: _buildBorderField(color: Colors.red),
         focusedErrorBorder: _buildBorderField(color: context.colors.error),
         counterText: "",
@@ -78,8 +80,8 @@ class _PasswordTextFieldComponentState
           child: Container(
             width: context.width * .15,
             padding: EdgeInsets.only(
-              top: context.height * .0125,
-              bottom: context.height * .0125,
+              top: context.height * .015,
+              bottom: context.height * .015,
               right: context.width * .02,
             ),
             child: SvgPicture.asset(
@@ -108,7 +110,7 @@ class _PasswordTextFieldComponentState
   TextStyle _textStyle() {
     return TextStyle(
       color: context.colors.primary,
-      fontSize: 17,
+      fontSize: 14,
       fontWeight: FontWeight.w500,
     );
   }

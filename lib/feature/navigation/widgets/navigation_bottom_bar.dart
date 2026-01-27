@@ -24,7 +24,7 @@ class NavigationBottomBar extends StatelessWidget {
         vertical: context.height * .02,
       ),
       child: Container(
-        height: context.height * .08,
+        height: context.height * .07,
         padding: EdgeInsets.symmetric(horizontal: context.width * .04),
         decoration: BoxDecoration(
           color: AppColors.NAVIGATION,
@@ -81,13 +81,14 @@ class NavigationBottomBar extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.center,
+        spacing: context.height * 0.0035,
         children: [
           SvgPicture.asset(
             icon,
-            height: context.height * (isSelected ? 0.0275 : 0.025),
+            height: context.height * (isSelected ? 0.0225 : 0.02),
             color: isSelected ? Colors.white : context.colors.tertiary,
           ),
-          SizedBox(height: context.height * 0.005),
+
           Text(
             label.tr(),
             style: TextStyle(

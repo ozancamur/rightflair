@@ -49,7 +49,7 @@ class WelcomePage extends StatelessWidget {
     );
   }
 
-  _body(BuildContext context) {
+  Positioned _body(BuildContext context) {
     return Positioned.fill(
       child: SafeArea(
         child: Column(
@@ -68,7 +68,7 @@ class WelcomePage extends StatelessWidget {
     );
   }
 
-  _loading(BuildContext context) {
+  Container _loading(BuildContext context) {
     return Container(
       height: context.height,
       width: context.width,

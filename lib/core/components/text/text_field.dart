@@ -79,7 +79,7 @@ class TextFieldComponent extends StatelessWidget {
   TextStyle _textStyle(BuildContext context) {
     return TextStyle(
       color: context.colors.primary,
-      fontSize: 17,
+      fontSize: 14,
       fontWeight: FontWeight.w500,
     );
   }
