@@ -87,7 +87,7 @@ class _ProfilePageState extends State<ProfilePage>
 
   Column _user(BuildContext context, ProfileState state) {
     return Column(
-      spacing: context.height * 0.025,
+      spacing: context.height * .01,
       children: [
         ProfileHeaderComponent(
           isCanEdit: true,

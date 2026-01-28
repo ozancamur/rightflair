@@ -23,7 +23,7 @@ class ProfileHeaderTagsComponent extends StatelessWidget {
             text: AppStrings.PROFILE_EDIT_MY_STYLES,
             color: context.colors.primary,
             weight: FontWeight.w600,
-            size: FontSizeConstants.NORMAL,
+            size: FontSizeConstants.LARGE,
           ),
           Wrap(
             spacing: context.width * 0.025,

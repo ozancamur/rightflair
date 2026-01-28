@@ -31,7 +31,7 @@ class _ProfileHeaderBioComponentState extends State<ProfileHeaderBioComponent> {
             text: AppStrings.PROFILE_EDIT_BIO,
             color: context.colors.primary,
             weight: FontWeight.w600,
-            size: FontSizeConstants.NORMAL,
+            size: FontSizeConstants.LARGE,
           ),
           widget.text == ""
               ? TextComponent(

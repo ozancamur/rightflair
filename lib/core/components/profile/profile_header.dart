@@ -44,7 +44,7 @@ class ProfileHeaderComponent extends StatelessWidget {
           name: user.fullName,
           username: user.username ?? "@rightflair_user",
         ),
-        SizedBox(height: context.height * 0.015),
+        SizedBox(height: context.height * 0.01),
         ProfileHeaderStatsComponent(
           followerCount: user.followersCount ?? 0,
           followingCount: user.followingCount ?? 0,
