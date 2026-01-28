@@ -27,7 +27,7 @@ class ProfileStatsComponent extends StatelessWidget {
         ),
         TextComponent(
           text: label,
-          size: FontSizeConstants.XX_SMALL,
+          size: FontSizeConstants.SMALL,
           weight: FontWeight.w500,
           color: context.colors.primaryContainer,
         ),

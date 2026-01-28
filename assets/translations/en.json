@@ -28,7 +28,7 @@
         "continueButton": "Continue",
         "pageWelcome": {
             "title": "Your *Moment Start* Here!",
-            "withMail": "Continue with Mail",
+            "withMail": "Continue with Email",
             "or": "OR CONTINUE WITH",
             "withGoogle": "Continue with Google",
             "withApple": "Continue with Apple"
@@ -198,8 +198,8 @@
         "userNotFound": "User not found"
     },
     "profile": {
-        "follower": "followers",
-        "following": "following",
+        "follower": "Followers",
+        "following": "Following",
         "follow": "Follow",
         "edit": "Edit",
         "message": "Message",

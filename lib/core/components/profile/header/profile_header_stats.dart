@@ -17,7 +17,7 @@ class ProfileHeaderStatsComponent extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
-      spacing: context.width * 0.15,
+      spacing: context.width * 0.1,
       children: [
         ProfileStatsComponent(
           count: followerCount,
