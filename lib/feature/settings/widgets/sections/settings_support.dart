@@ -1,8 +1,5 @@
-
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:in_app_review/in_app_review.dart';
-import 'package:share_plus/share_plus.dart';
 
 import '../../../../core/constants/icons.dart';
 import '../../../../core/constants/string.dart';
@@ -31,8 +28,6 @@ class SettingsSupportWidget extends StatelessWidget {
             children: [
               _contact(context),
               const SettingsDividerWidget(),
-              _rate(context),
-              const SettingsDividerWidget(),
               _share(context),
             ],
           ),
@@ -51,25 +46,6 @@ class SettingsSupportWidget extends StatelessWidget {
         size: context.width * 0.06,
       ),
       onTap: () {},
-    );
-  }
-
-  SettingsListItemWidget _rate(BuildContext context) {
-    return SettingsListItemWidget(
-      icon: AppIcons.RATE,
-      title: AppStrings.SETTINGS_RATE_US,
-      trailing: Icon(
-        Icons.chevron_right,
-        color: context.colors.primary,
-        size: context.width * 0.06,
-      ),
-      onTap: () async {
-        try {
-          await Share.share(AppStrings.SETTINGS_SHARE_TEXT.tr());
-        } catch (e) {
-          debugPrint("SETTINGS CUBIT _share ERROR :> $e");
-        }
-      },
     );
   }
 
