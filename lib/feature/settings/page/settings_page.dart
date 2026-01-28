@@ -58,7 +58,7 @@ class _SettingsPageState extends State<SettingsPage> {
             emailVerified: state.emailVerified,
           ),
           SettingsNotificationsWidget(notifications: state.notifications),
-          SettingsAppWidget(darkmode: state.isDarkMode),
+          SettingsAppWidget(themeMode: state.themeMode),
           const SettingsSupportWidget(),
           const SettingsAboutWidget(),
           const SettingsButtonsWidget(),

@@ -21,8 +21,7 @@ class SettingsCubit extends Cubit<SettingsState> {
 
   Future<void> init(BuildContext context) async {
     emit(state.copyWith(isLoading: true));
-    final isDarkMode =
-        context.read<ThemeNotifier>().themeMode == ThemeMode.dark;
+    final themeMode = context.read<ThemeNotifier>().themeMode;
     final response = await _repo.getSettings();
     emit(
       state.copyWith(
@@ -31,7 +30,7 @@ class SettingsCubit extends Cubit<SettingsState> {
         email: response.email,
         emailVerified: _auth.emailVerified,
         notifications: response.notifications,
-        isDarkMode: isDarkMode,
+        themeMode: themeMode,
       ),
     );
   }
@@ -87,7 +86,13 @@ class SettingsCubit extends Cubit<SettingsState> {
 
   void toggleDarkMode(BuildContext context, bool value) {
     Provider.of<ThemeNotifier>(context, listen: false).setTheme(value);
-    emit(state.copyWith(isDarkMode: value));
+    final themeMode = value ? ThemeMode.dark : ThemeMode.light;
+    emit(state.copyWith(themeMode: themeMode));
+  }
+
+  void setThemeMode(BuildContext context, ThemeMode mode) {
+    Provider.of<ThemeNotifier>(context, listen: false).setThemeMode(mode);
+    emit(state.copyWith(themeMode: mode));
   }
 
   Future<void> logOut(BuildContext context) async {

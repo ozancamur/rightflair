@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 
 import '../model/notifications.dart';
 
@@ -8,7 +9,7 @@ class SettingsState extends Equatable {
   final String? email;
   final bool? emailVerified;
   final NotificationsModel? notifications;
-  final bool isDarkMode;
+  final ThemeMode themeMode;
 
   const SettingsState({
     this.isLoading = false,
@@ -16,7 +17,7 @@ class SettingsState extends Equatable {
     this.email = "rightflair@example.com",
     this.emailVerified = false,
     this.notifications,
-    this.isDarkMode = false,
+    this.themeMode = ThemeMode.system,
   });
 
   SettingsState copyWith({
@@ -25,7 +26,7 @@ class SettingsState extends Equatable {
     String? email,
     bool? emailVerified,
     NotificationsModel? notifications,
-    bool? isDarkMode,
+    ThemeMode? themeMode,
   }) {
     return SettingsState(
       isLoading: isLoading ?? this.isLoading,
@@ -33,7 +34,7 @@ class SettingsState extends Equatable {
       email: email ?? this.email,
       emailVerified: emailVerified ?? this.emailVerified,
       notifications: notifications ?? this.notifications,
-      isDarkMode: isDarkMode ?? this.isDarkMode,
+      themeMode: themeMode ?? this.themeMode,
     );
   }
 
@@ -44,6 +45,6 @@ class SettingsState extends Equatable {
     email,
     emailVerified,
     notifications,
-    isDarkMode,
+    themeMode,
   ];
 }

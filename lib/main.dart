@@ -19,12 +19,11 @@ void main() async {
 
   await FirebaseMessagingManager().initialize();
 
-  final bool isDarkMode = await _isDarkMode();
+  final ThemeMode themeMode = await _getThemeMode();
 
   runApp(
     ChangeNotifierProvider(
-      create: (_) =>
-          ThemeNotifier(isDarkMode ? ThemeMode.dark : ThemeMode.light),
+      create: (_) => ThemeNotifier(themeMode),
       child: EasyLocalization(
         supportedLocales: LocaleEnum.values.map((e) => e.locale).toList(),
         path: AppConstants.PATH_LOCALIZATION,
@@ -35,8 +34,17 @@ void main() async {
   );
 }
 
-Future<bool> _isDarkMode() async {
+Future<ThemeMode> _getThemeMode() async {
   final prefs = await SharedPreferences.getInstance();
-  final isDarkMode = prefs.getBool('isDarkMode') ?? true;
-  return isDarkMode;
+  final themeModeString = prefs.getString('themeMode') ?? 'system';
+
+  switch (themeModeString) {
+    case 'light':
+      return ThemeMode.light;
+    case 'dark':
+      return ThemeMode.dark;
+    case 'system':
+    default:
+      return ThemeMode.system;
+  }
 }

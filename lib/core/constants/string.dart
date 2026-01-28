@@ -282,6 +282,10 @@ class AppStrings {
   static const String SETTINGS_FOLLOW = 'settings.follow';
   static const String SETTINGS_APP = 'settings.app';
   static const String SETTINGS_DARK_MODE = 'settings.darkMode';
+  static const String SETTINGS_THEME_MODE = 'settings.themeMode';
+  static const String SETTINGS_THEME_MODE_AUTO = 'settings.themeModeAuto';
+  static const String SETTINGS_THEME_MODE_LIGHT = 'settings.themeModeLight';
+  static const String SETTINGS_THEME_MODE_DARK = 'settings.themeModeDark';
   static const String SETTINGS_LANGUAGE = 'settings.language';
   static const String SETTINGS_LANGUAGE_VALUE = 'settings.languageValue';
   static const String SETTINGS_ABOUT = 'settings.about';
