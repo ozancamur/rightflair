@@ -14,6 +14,7 @@ class TextFieldComponent extends StatelessWidget {
   final TextInputType? keyboardType;
   final TextCapitalization? textCapitalization;
   final Function(String)? onFieldSubmitted;
+  final Function(String)? onChanged;
   final int maxLines;
   final int? maxLength;
   final List<TextInputFormatter>? inputFormatters;
@@ -28,6 +29,7 @@ class TextFieldComponent extends StatelessWidget {
     this.keyboardType,
     this.textCapitalization,
     this.onFieldSubmitted,
+    this.onChanged,
     this.maxLines = 1,
     this.maxLength,
     this.inputFormatters,
@@ -46,6 +48,7 @@ class TextFieldComponent extends StatelessWidget {
       keyboardType: keyboardType,
       cursorColor: context.colors.primary,
       onFieldSubmitted: onFieldSubmitted,
+      onChanged: onChanged,
       textCapitalization: textCapitalization ?? TextCapitalization.none,
       inputFormatters: inputFormatters,
       decoration: InputDecoration(

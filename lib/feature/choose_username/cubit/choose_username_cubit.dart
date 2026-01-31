@@ -17,15 +17,27 @@ class ChooseUsernameCubit extends Cubit<ChooseUsernameState> {
   final ChooseUsernameRepositoryImpl _repo;
   ChooseUsernameCubit(this._repo) : super(ChooseUsernameState());
 
+  void onTextChanged() {
+    final currentText = controller.text.toLowerCase().trim();
+    if (state.checkedUsername != null && state.checkedUsername != currentText) {
+      emit(state.copyWith(isUnique: false, checkedUsername: null));
+    }
+  }
+
   Future<void> onCheck(BuildContext context) async {
     try {
       if (controller.text.trim().isEmpty) return;
+      final username = controller.text.toLowerCase();
       emit(state.copyWith(isLoading: true));
 
-      final bool isUnique = await _repo.checkUsername(
-        username: controller.text.toLowerCase(),
+      final bool isUnique = await _repo.checkUsername(username: username);
+      emit(
+        state.copyWith(
+          isLoading: false,
+          isUnique: isUnique,
+          checkedUsername: username,
+        ),
       );
-      emit(state.copyWith(isLoading: false, isUnique: isUnique));
     } catch (e) {
       debugPrint('Username kaydedilemedi: $e');
       emit(state.copyWith(isLoading: false));

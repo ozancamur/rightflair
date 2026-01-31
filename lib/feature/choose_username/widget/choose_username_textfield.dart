@@ -29,13 +29,14 @@ class ChooseUsernameTextField extends StatelessWidget {
 
     final FocusNode focusNode = context.read<ChooseUsernameCubit>().focusNode;
     return controller.text == ""
-        ? _field(controller, focusNode)
+        ? _field(context, controller, focusNode)
         : isLoading
-        ? _field(controller, focusNode)
+        ? _field(context, controller, focusNode)
         : _valid(context, controller, focusNode, isValid ?? false);
   }
 
   TextFieldComponent _field(
+    BuildContext context,
     TextEditingController controller,
     FocusNode focusNode,
   ) {
@@ -47,6 +48,9 @@ class ChooseUsernameTextField extends StatelessWidget {
       regExp: RegExp(''),
       errorText: "",
       inputFormatters: [LowerCaseTextFormatter()],
+      onChanged: (value) {
+        context.read<ChooseUsernameCubit>().onTextChanged();
+      },
     );
   }
 
@@ -60,7 +64,7 @@ class ChooseUsernameTextField extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _field(controller, focusNode),
+        _field(context, controller, focusNode),
         _text(context, controller.text, isValid),
       ],
     );
