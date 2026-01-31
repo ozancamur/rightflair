@@ -198,7 +198,7 @@ class _FeedPostItemState extends State<FeedPostItem>
             begin: Alignment.bottomCenter,
             end: Alignment.topCenter,
             colors: [
-              context.colors.scrim.withOpacity(.35),
+              context.colors.scrim.withOpacity(.5),
               context.colors.scrim.withOpacity(0),
             ],
           ),
@@ -222,7 +222,7 @@ class _FeedPostItemState extends State<FeedPostItem>
             begin: Alignment.bottomCenter,
             end: Alignment.topCenter,
             colors: [
-              context.colors.error.withOpacity(.35),
+              context.colors.error.withOpacity(.5),
               context.colors.error.withOpacity(0),
             ],
           ),
