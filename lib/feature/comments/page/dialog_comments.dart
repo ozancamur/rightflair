@@ -16,7 +16,8 @@ void dialogComments(
     builder: (context) =>
         CommentsDialogPage(postId: postId, onAddComment: onAddComment),
   ).whenComplete(() {
-    // Klavyeyi kapat ve focus'u temizle
-    FocusScope.of(context).unfocus();
+    if (context.mounted) {
+      FocusScope.of(context).unfocus();
+    }
   });
 }

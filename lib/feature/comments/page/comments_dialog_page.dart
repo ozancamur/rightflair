@@ -33,12 +33,15 @@ class _CommentsDialogPageState extends State<CommentsDialogPage> {
 
   @override
   Widget build(BuildContext context) {
+    final keyboardHeight = MediaQuery.of(context).viewInsets.bottom;
+    final isKeyboardOpen = keyboardHeight > 0;
+
     return BlocBuilder<CommentsCubit, CommentsState>(
       builder: (context, state) {
         return Padding(
           padding: EdgeInsets.only(
-            top: context.height * 0.1,
-            bottom: MediaQuery.of(context).viewInsets.bottom,
+            top: isKeyboardOpen ? context.height * 0.15 : context.height * 0.4,
+            bottom: keyboardHeight,
           ),
           child: Container(
             height: context.height * 0.85,
