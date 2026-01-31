@@ -23,7 +23,7 @@ class ProfileAppbarWidget extends StatelessWidget
       ),
       actions: [
         IconButtonComponent(onTap: () {}, icon: AppIcons.SHARE),
-        SizedBox(width: context.width * 0.03),
+        SizedBox(width: context.width * 0.02),
         SettingsButtonComponent(
           onSettings: () async {
             final rsult = await context.push(RouteConstants.SETTINGS);
@@ -32,7 +32,6 @@ class ProfileAppbarWidget extends StatelessWidget
             }
           },
         ),
-        SizedBox(width: context.width * .04),
       ],
     );
   }
