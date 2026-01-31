@@ -1,17 +1,14 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:rightflair/core/components/post/post.dart';
-import 'package:rightflair/core/constants/color/color.dart';
-import 'package:rightflair/core/constants/icons.dart';
+import 'package:rightflair/feature/navigation/page/feed/widgets/post_like_button.dart';
 
 import '../../../../../core/extensions/context.dart';
 import '../../../../comments/page/dialog_comments.dart';
 import '../../../../create_post/model/post.dart';
 import '../bloc/feed_bloc.dart';
 import '../models/swipe_direction.dart';
+import 'post_dislike_button.dart';
 
 class FeedPostItem extends StatefulWidget {
   final PostModel post;
@@ -243,51 +240,11 @@ class _FeedPostItemState extends State<FeedPostItem>
         width: context.width * .4,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [_dislike(context), _like(context)],
+          children: [
+            PostDislikeButton(onTap: _swipeLeft),
+            PostLikeButtonWidget(onTap: _swipeRight),
+          ],
         ),
-      ),
-    );
-  }
-
-  GestureDetector _dislike(BuildContext context) {
-    return GestureDetector(
-      onTap: () => _swipeLeft(),
-      child: Container(
-        height: context.height * .06,
-        width: context.height * .06,
-        padding: EdgeInsets.all(context.width * .0275),
-        decoration: BoxDecoration(
-          color: context.colors.onErrorContainer,
-          border: Border.all(
-            width: 1,
-            color: context.colors.primary.withOpacity(.16),
-          ),
-          shape: BoxShape.circle,
-        ),
-        child: SvgPicture.asset(
-          AppIcons.DISLIKE,
-          color: context.colors.primary,
-        ),
-      ),
-    );
-  }
-
-  GestureDetector _like(BuildContext context) {
-    return GestureDetector(
-      onTap: () => _swipeRight(),
-      child: Container(
-        height: context.height * .06,
-        width: context.height * .06,
-        padding: EdgeInsets.all(context.width * .0275),
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [AppColors.YELLOW, AppColors.ORANGE],
-            begin: AlignmentGeometry.topLeft,
-            end: AlignmentGeometry.bottomCenter,
-          ),
-          shape: BoxShape.circle,
-        ),
-        child: SvgPicture.asset(AppIcons.FIRE, color: Colors.white),
       ),
     );
   }
