@@ -18,7 +18,10 @@ class PostUserInfoComponent extends StatelessWidget {
     return GestureDetector(
       onTap: () => context.push(RouteConstants.USER, extra: user.id),
       child: Padding(
-        padding: EdgeInsets.all(context.width * .04),
+        padding: EdgeInsets.only(
+          left: context.width * .04,
+          bottom: context.width * .08,
+        ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,

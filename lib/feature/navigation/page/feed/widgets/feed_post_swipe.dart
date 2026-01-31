@@ -1,6 +1,11 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:rightflair/core/components/post/post.dart';
+import 'package:rightflair/core/constants/color/color.dart';
+import 'package:rightflair/core/constants/icons.dart';
 
 import '../../../../../core/extensions/context.dart';
 import '../../../../comments/page/dialog_comments.dart';
@@ -44,7 +49,7 @@ class _FeedPostItemState extends State<FeedPostItem>
 
   void _onPanUpdate(DragUpdateDetails details) {
     setState(() {
-      _dragOffset += details.delta;
+      _dragOffset += Offset(details.delta.dx, 0);
     });
   }
 
@@ -115,7 +120,7 @@ class _FeedPostItemState extends State<FeedPostItem>
   }
 
   double _getRotation(Offset offset, BuildContext context) {
-    const maxRotation = 0.26;
+    const maxRotation = 0.785; // 45 degrees in radians
     final screenWidth = context.width;
     final rotation = (offset.dx / screenWidth) * maxRotation;
     return rotation.clamp(-maxRotation, maxRotation);
@@ -136,11 +141,11 @@ class _FeedPostItemState extends State<FeedPostItem>
     return GestureDetector(
       onPanUpdate: _onPanUpdate,
       onPanEnd: _onPanEnd,
-      child: _post(currentOffset, context),
+      child: _swipe(currentOffset, context),
     );
   }
 
-  Transform _post(Offset currentOffset, BuildContext context) {
+  Transform _swipe(Offset currentOffset, BuildContext context) {
     return Transform.translate(
       offset: currentOffset,
       child: Transform.rotate(
@@ -150,23 +155,10 @@ class _FeedPostItemState extends State<FeedPostItem>
           child: Stack(
             alignment: Alignment.bottomCenter,
             children: [
-              PostComponent(
-                post: widget.post,
-                onComment: () => dialogComments(
-                  context,
-                  postId: widget.post.id ?? "",
-                  onAddComment: () => context.read<FeedBloc>().add(
-                    SendCommentToPostEvent(postId: widget.post.id ?? ""),
-                  ),
-                ),
-                onSave: () => context.read<FeedBloc>().add(
-                  SavePostEvent(postId: widget.post.id),
-                ),
-                onShare: () {},
-              ),
+              _post(context),
               if (currentOffset.dx > 0) _right(context),
-
               if (currentOffset.dx < 0) _left(context),
+              _actions(context),
             ],
           ),
         ),
@@ -174,9 +166,36 @@ class _FeedPostItemState extends State<FeedPostItem>
     );
   }
 
+  Positioned _post(BuildContext context) {
+    return Positioned(
+      top: 0,
+      right: 0,
+      left: 0,
+      child: PostComponent(
+        post: widget.post,
+        onComment: () => dialogComments(
+          context,
+          postId: widget.post.id ?? "",
+          onAddComment: () => context.read<FeedBloc>().add(
+            SendCommentToPostEvent(postId: widget.post.id ?? ""),
+          ),
+        ),
+        onSave: () =>
+            context.read<FeedBloc>().add(SavePostEvent(postId: widget.post.id)),
+        onShare: () {},
+      ),
+    );
+  }
+
   Positioned _right(BuildContext context) {
     return Positioned.fill(
+      top: 0,
+      right: 0,
+      left: 0,
+      bottom: context.height * .04,
       child: Container(
+        height: context.height * .68,
+        width: context.width,
         decoration: BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.bottomCenter,
@@ -194,7 +213,13 @@ class _FeedPostItemState extends State<FeedPostItem>
 
   Positioned _left(BuildContext context) {
     return Positioned.fill(
+      top: 0,
+      right: 0,
+      left: 0,
+      bottom: context.height * .04,
       child: Container(
+        height: context.height * .68,
+        width: context.width,
         decoration: BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.bottomCenter,
@@ -206,6 +231,63 @@ class _FeedPostItemState extends State<FeedPostItem>
           ),
           borderRadius: BorderRadius.circular(context.width * 0.06),
         ),
+      ),
+    );
+  }
+
+  Positioned _actions(BuildContext context) {
+    return Positioned(
+      bottom: 0,
+      child: SizedBox(
+        height: context.height * .075,
+        width: context.width * .4,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [_dislike(context), _like(context)],
+        ),
+      ),
+    );
+  }
+
+  GestureDetector _dislike(BuildContext context) {
+    return GestureDetector(
+      onTap: () => _swipeLeft(),
+      child: Container(
+        height: context.height * .06,
+        width: context.height * .06,
+        padding: EdgeInsets.all(context.width * .0275),
+        decoration: BoxDecoration(
+          color: context.colors.onErrorContainer,
+          border: Border.all(
+            width: 1,
+            color: context.colors.primary.withOpacity(.16),
+          ),
+          shape: BoxShape.circle,
+        ),
+        child: SvgPicture.asset(
+          AppIcons.DISLIKE,
+          color: context.colors.primary,
+        ),
+      ),
+    );
+  }
+
+  GestureDetector _like(BuildContext context) {
+    return GestureDetector(
+      onTap: () => _swipeRight(),
+      child: Container(
+        height: context.height * .06,
+        width: context.height * .06,
+        padding: EdgeInsets.all(context.width * .0275),
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [AppColors.YELLOW, AppColors.ORANGE],
+            begin: AlignmentGeometry.topLeft,
+            end: AlignmentGeometry.bottomCenter,
+          ),
+          shape: BoxShape.circle,
+        ),
+        child: SvgPicture.asset(AppIcons.FIRE, color: Colors.white),
       ),
     );
   }

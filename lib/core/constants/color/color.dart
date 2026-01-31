@@ -11,4 +11,6 @@ class AppColors {
   static Color get SHADOW => Colors.black.withOpacity(.25);
   static Color get NAVIGATION => Color(0xFF2E2E30);
   static Color get GREEN => Color(0xFF34C759);
+  static Color get YELLOW => Color(0xFFFFAB00);
+  static Color get ORANGE => Color(0xFFFF7600);
 }

@@ -34,4 +34,7 @@ class DarkColors {
 
   static Color get DARK_BUTTON => Color(0xFF2E2E30);
   static Color get INACTIVE => Color(0xFF1C1B1B);
+
+  static Color get DISLIKE => Color(0xFF2C2C2C);
+
 }

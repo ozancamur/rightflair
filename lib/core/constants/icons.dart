@@ -32,12 +32,14 @@ class AppIcons {
 
   static const String DARK_MODE = '${_path}dark.svg';
   static const String DELETE = '${_path}delete.svg';
+  static const String DISLIKE = '${_path}dislike.svg';
   static const String DRAFT = '${_path}draft.svg';
 
   static const String EDIT = '${_path}edit.svg';
   static const String EMAIL = '${_path}email.svg';
 
   static const String FAVORITE = '${_path}favorite.svg';
+  static const String FIRE = '${_path}fire.svg';
 
   static const String GALLERY = '${_path}gallery.svg';
   static const String GOOGLE = '${_path}google.svg';

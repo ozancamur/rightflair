@@ -52,6 +52,8 @@ class AppTheme {
 
       secondaryFixed: Colors.grey.shade300,
       onSecondaryFixed: Colors.grey.shade700,
+
+      onErrorContainer: LightColors.DISLIKE
     ),
   );
 
@@ -101,6 +103,9 @@ class AppTheme {
 
       secondaryFixed: Colors.grey.shade700,
       onSecondaryFixed: Colors.grey.shade300,
+    
+      onErrorContainer: DarkColors.DISLIKE
+
     ),
   );
 }
