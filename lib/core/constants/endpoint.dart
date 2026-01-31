@@ -28,6 +28,8 @@ enum Endpoint {
   SAVE_POST("save-post"),
   DELETE_POST("delete-post"),
 
+  GET_CONVERSATIONS("get-conversations"),
+
   ;
 
   final String value;

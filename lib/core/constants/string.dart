@@ -320,6 +320,14 @@ class AppStrings {
   static const String INBOX_REMOVE = 'inbox.remove';
   static const String INBOX_FOLLOW = 'inbox.follow';
 
+  // TIME
+  static const String TIME_MINUTES_AGO = 'time.minutesAgo';
+  static const String TIME_HOURS_AGO = 'time.hoursAgo';
+  static const String TIME_DAYS_AGO = 'time.daysAgo';
+  static const String TIME_WEEKS_AGO = 'time.weeksAgo';
+  static const String TIME_MONTHS_AGO = 'time.monthsAgo';
+  static const String TIME_YEARS_AGO = 'time.yearsAgo';
+
   // FEED NEW
   static const String FEED_TREND = 'feed.trend';
 

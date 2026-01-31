@@ -1,8 +1,7 @@
-import '../model/comment.dart';
-import '../model/notification_model.dart';
+import 'package:rightflair/feature/navigation/page/profile/model/pagination.dart';
+
+import '../model/conversations.dart';
 
 abstract class InboxRepository {
-  Future<List<CommentModel>> getMessages();
-  Future<List<NotificationModel>> getNotifications();
-
+  Future<ConversationsModel?> fetchConversations({required PaginationModel pagination});
 }

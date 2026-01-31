@@ -1,33 +1,19 @@
 import 'package:equatable/equatable.dart';
-import '../model/comment.dart';
-import '../model/notification_model.dart';
 
-abstract class InboxState extends Equatable {
-  const InboxState();
+import '../model/conversations.dart';
 
-  @override
-  List<Object> get props => [];
-}
+class InboxState extends Equatable {
+  final bool isLoading;
+  final ConversationsModel? conversations;
+  const InboxState({this.isLoading = false, this.conversations});
 
-class InboxInitial extends InboxState {}
-
-class InboxLoading extends InboxState {}
-
-class InboxLoaded extends InboxState {
-  final List<CommentModel> messages;
-  final List<NotificationModel> notifications;
-
-  const InboxLoaded(this.messages, this.notifications);
+  InboxState copyWith({bool? isLoading, ConversationsModel? conversations}) {
+    return InboxState(
+      isLoading: isLoading ?? this.isLoading,
+      conversations: conversations ?? this.conversations,
+    );
+  } /*  */
 
   @override
-  List<Object> get props => [messages, notifications];
-}
-
-class InboxError extends InboxState {
-  final String message;
-
-  const InboxError(this.message);
-
-  @override
-  List<Object> get props => [message];
+  List<Object> get props => [isLoading, conversations ?? ConversationsModel()];
 }

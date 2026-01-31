@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import '../../../../../../core/extensions/context.dart';
-import '../../model/comment.dart';
+import '../../model/conversation.dart';
+import '../../model/conversations.dart';
 import 'inbox_message_item.dart';
 
 class InboxMessagesListWidget extends StatelessWidget {
-  final List<CommentModel> messages;
-  const InboxMessagesListWidget({super.key, required this.messages});
+  final ConversationsModel data;
+  const InboxMessagesListWidget({super.key, required this.data});
 
   @override
   Widget build(BuildContext context) {
@@ -14,9 +15,10 @@ class InboxMessagesListWidget extends StatelessWidget {
         vertical: context.height * 0.02,
         horizontal: context.width * .03,
       ),
-      itemCount: messages.length,
+      itemCount: data.conversations?.length ?? 0,
       itemBuilder: (context, index) {
-        return InboxMessageItem(message: messages[index]);
+        final ConversationModel conversation = data.conversations![index];
+        return InboxMessageItem(conversation: conversation);
       },
     );
   }

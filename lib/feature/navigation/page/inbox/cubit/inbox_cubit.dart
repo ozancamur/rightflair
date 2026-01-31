@@ -1,20 +1,19 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rightflair/feature/navigation/page/inbox/repository/inbox_repository_impl.dart';
 import 'package:rightflair/feature/navigation/page/inbox/cubit/inbox_state.dart';
+import 'package:rightflair/feature/navigation/page/profile/model/pagination.dart';
 
 class InboxCubit extends Cubit<InboxState> {
   final InboxRepositoryImpl _repo;
+  InboxCubit(this._repo) : super(InboxState()) {
+    _loadConversations();
+  }
 
-  InboxCubit(this._repo) : super(InboxInitial());
-
-  Future<void> loadMessages() async {
-    emit(InboxLoading());
-    try {
-      final messages = await _repo.getMessages();
-      final notifications = await _repo.getNotifications();
-      emit(InboxLoaded(messages, notifications));
-    } catch (e) {
-      emit(InboxError(e.toString()));
-    }
+  Future<void> _loadConversations() async {
+    emit(state.copyWith(isLoading: true));
+    final response = await _repo.fetchConversations(
+      pagination: PaginationModel().forConversations(page: 1),
+    );
+    emit(state.copyWith(isLoading: false, conversations: response));
   }
 }

@@ -281,5 +281,13 @@
         "shareUs": "Share Us",
         "shareText": "Share the Rightflair App with your friends!",
         "rateUs": "Rate Us"
+    },
+    "time": {
+        "minutesAgo": "m ago",
+        "hoursAgo": "h ago",
+        "daysAgo": "d ago",
+        "weeksAgo": "w ago",
+        "monthsAgo": "mo ago",
+        "yearsAgo": "y ago"
     }
 }
