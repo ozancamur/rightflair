@@ -24,6 +24,8 @@ import 'package:rightflair/feature/user/repository/user_repository_impl.dart';
 
 import 'core/config/theme_notifier.dart';
 import 'core/constants/theme.dart';
+import 'feature/chat/cubit/chat_cubit.dart';
+import 'feature/chat/repository/chat_repository_impl.dart';
 import 'feature/create_post/cubit/create_post_cubit.dart';
 import 'feature/navigation/page/analytics/repository/analytics_repository_impl.dart';
 import 'feature/navigation/page/feed/repository/feed_repository_impl.dart';
@@ -73,6 +75,9 @@ class RightFlair extends StatelessWidget {
         BlocProvider(create: (_) => LocationCubit(LocationRepositoryImpl())),
 
         BlocProvider(create: (_) => CommentsCubit(CommentsRepositoryImpl())),
+        BlocProvider(create: (_) => ChatCubit(ChatRepositoryImpl())),
+
+
       ],
       child: MaterialApp.router(
         title: 'RightFlair',

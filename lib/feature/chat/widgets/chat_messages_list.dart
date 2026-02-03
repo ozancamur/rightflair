@@ -8,48 +8,20 @@ import 'package:rightflair/feature/chat/widgets/message_bubble.dart';
 
 class ChatMessagesListWidget extends StatefulWidget {
   final List<ChatMessageModel> messages;
-
-  const ChatMessagesListWidget({super.key, required this.messages});
+  final ScrollController scrollController;
+  const ChatMessagesListWidget({
+    super.key,
+    required this.messages,
+    required this.scrollController,
+  });
 
   @override
   State<ChatMessagesListWidget> createState() => _ChatMessagesListWidgetState();
 }
 
 class _ChatMessagesListWidgetState extends State<ChatMessagesListWidget> {
-  final ScrollController _scrollController = ScrollController();
-  bool _initialScrollDone = false;
 
-  @override
-  void didUpdateWidget(ChatMessagesListWidget oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    // Scroll to bottom on initial load
-    if (!_initialScrollDone && widget.messages.isNotEmpty) {
-      _initialScrollDone = true;
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        if (_scrollController.hasClients) {
-          _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
-        }
-      });
-    }
-    // Scroll to bottom when new message is added
-    else if (widget.messages.length > oldWidget.messages.length) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        if (_scrollController.hasClients) {
-          _scrollController.animateTo(
-            _scrollController.position.maxScrollExtent,
-            duration: const Duration(milliseconds: 300),
-            curve: Curves.easeOut,
-          );
-        }
-      });
-    }
-  }
 
-  @override
-  void dispose() {
-    _scrollController.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -64,7 +36,7 @@ class _ChatMessagesListWidgetState extends State<ChatMessagesListWidget> {
     }
 
     return ListView.builder(
-      controller: _scrollController,
+      controller: widget.scrollController,
       padding: EdgeInsets.symmetric(
         horizontal: context.width * 0.04,
         vertical: context.height * 0.02,

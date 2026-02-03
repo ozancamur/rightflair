@@ -3,34 +3,35 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rightflair/feature/chat/model/chat_message.dart';
 import 'package:rightflair/feature/chat/model/chat_pagination.dart';
 import 'package:rightflair/feature/chat/model/chat_request.dart';
+import 'package:rightflair/feature/chat/model/message_sender.dart';
 import 'package:rightflair/feature/chat/model/send_message_request.dart';
 import 'package:rightflair/feature/chat/repository/chat_repository_impl.dart';
+
+import '../model/message_send_status.dart';
+import '../model/new_message.dart';
 
 part 'chat_state.dart';
 
 class ChatCubit extends Cubit<ChatState> {
   final ChatRepositoryImpl _repo;
-  final String conversationId;
-  final String otherUserName;
-  final String? otherUserPhoto;
-  final String otherUserId;
+  ChatCubit(this._repo) : super(ChatState.initial());
 
-  ChatCubit({
-    required this.conversationId,
-    required this.otherUserName,
-    this.otherUserPhoto,
-    required this.otherUserId,
-    ChatRepositoryImpl? repo,
-  }) : _repo = repo ?? ChatRepositoryImpl(),
-       super(ChatState.initial()) {
-    _loadMessages();
-  }
-
-  Future<void> _loadMessages({int page = 1}) async {
-    emit(state.copyWith(isLoading: true));
+  Future<void> init({
+    int page = 1,
+    required String cId,
+    required String ouid,
+    required String otherUsername,
+    required String otherPhotoUrl,
+  }) async {
+    final MessageSenderModel sender = MessageSenderModel(
+      id: ouid,
+      username: otherUsername,
+      profilePhotoUrl: otherPhotoUrl,
+    );
+    emit(state.copyWith(isLoading: true, cId: cId, sender: sender));
 
     final request = ChatRequestModel(
-      conversationId: conversationId,
+      conversationId: cId,
       page: page,
       limit: 50,
     );
@@ -57,7 +58,7 @@ class ChatCubit extends Cubit<ChatState> {
 
     final nextPage = (state.pagination?.page ?? 0) + 1;
     final request = ChatRequestModel(
-      conversationId: conversationId,
+      conversationId: state.cId,
       page: nextPage,
       limit: 50,
       beforeMessageId: state.pagination?.oldestMessageId,
@@ -82,10 +83,8 @@ class ChatCubit extends Cubit<ChatState> {
   Future<void> sendMessage(String content, {String? imageUrl}) async {
     if (content.trim().isEmpty && imageUrl == null) return;
 
-    // Create a temporary message ID for optimistic update
     final tempId = 'temp_${DateTime.now().millisecondsSinceEpoch}';
 
-    // Create optimistic message
     final optimisticMessage = ChatMessageModel(
       id: tempId,
       content: content.trim().isNotEmpty ? content.trim() : null,
@@ -96,12 +95,11 @@ class ChatCubit extends Cubit<ChatState> {
       sendStatus: MessageSendStatus.sending,
     );
 
-    // Add optimistic message to list immediately
     final messagesWithOptimistic = [...state.messages, optimisticMessage];
     emit(state.copyWith(messages: messagesWithOptimistic));
 
     final request = SendMessageRequestModel(
-      conversationId: conversationId,
+      conversationId: state.cId,
       content: content.trim().isNotEmpty ? content.trim() : null,
       imageUrl: imageUrl,
     );
@@ -109,7 +107,6 @@ class ChatCubit extends Cubit<ChatState> {
     final response = await _repo.sendMessage(request: request);
 
     if (response != null && response.message != null) {
-      // Replace optimistic message with real message
       final updatedMessages = state.messages.map((msg) {
         if (msg.id == tempId) {
           return response.message!.copyWith(sendStatus: MessageSendStatus.sent);
@@ -118,7 +115,6 @@ class ChatCubit extends Cubit<ChatState> {
       }).toList();
       emit(state.copyWith(messages: updatedMessages));
     } else {
-      // Mark message as failed
       final updatedMessages = state.messages.map((msg) {
         if (msg.id == tempId) {
           return msg.copyWith(sendStatus: MessageSendStatus.failed);
@@ -132,7 +128,6 @@ class ChatCubit extends Cubit<ChatState> {
   Future<void> resendMessage(ChatMessageModel failedMessage) async {
     if (failedMessage.sendStatus != MessageSendStatus.failed) return;
 
-    // Update status to sending
     final updatedMessages = state.messages.map((msg) {
       if (msg.id == failedMessage.id) {
         return msg.copyWith(sendStatus: MessageSendStatus.sending);
@@ -142,7 +137,7 @@ class ChatCubit extends Cubit<ChatState> {
     emit(state.copyWith(messages: updatedMessages));
 
     final request = SendMessageRequestModel(
-      conversationId: conversationId,
+      conversationId: state.cId,
       content: failedMessage.content,
       imageUrl: failedMessage.imageUrl,
     );
@@ -150,7 +145,6 @@ class ChatCubit extends Cubit<ChatState> {
     final response = await _repo.sendMessage(request: request);
 
     if (response != null && response.message != null) {
-      // Replace with real message
       final newMessages = state.messages.map((msg) {
         if (msg.id == failedMessage.id) {
           return response.message!.copyWith(sendStatus: MessageSendStatus.sent);
@@ -159,7 +153,6 @@ class ChatCubit extends Cubit<ChatState> {
       }).toList();
       emit(state.copyWith(messages: newMessages));
     } else {
-      // Mark as failed again
       final newMessages = state.messages.map((msg) {
         if (msg.id == failedMessage.id) {
           return msg.copyWith(sendStatus: MessageSendStatus.failed);
@@ -177,7 +170,11 @@ class ChatCubit extends Cubit<ChatState> {
     emit(state.copyWith(messages: updatedMessages));
   }
 
-  Future<void> refresh() async {
-    await _loadMessages();
+  void addNewMessage({required NewMessageModel newMessage}) {
+    final ChatMessageModel message = newMessage.convertToChatMessageModel(
+      sender: state.sender,
+    );
+    final updatedMessages = [...state.messages, message];
+    emit(state.copyWith(messages: updatedMessages));
   }
 }

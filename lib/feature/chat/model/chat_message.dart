@@ -1,7 +1,6 @@
 import '../../../core/base/model/base.dart';
+import 'message_send_status.dart';
 import 'message_sender.dart';
-
-enum MessageSendStatus { sent, sending, failed }
 
 class ChatMessageModel extends BaseModel<ChatMessageModel> {
   String? id;
