@@ -21,8 +21,7 @@ class DateRangeButton extends StatelessWidget {
         return 'analytics.last6Months'.tr();
       case DateRange.last1Year:
         return 'analytics.last1Year'.tr();
-      case DateRange.allTime:
-        return 'analytics.allTime'.tr();
+      
     }
   }
 

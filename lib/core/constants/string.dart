@@ -200,6 +200,20 @@ class AppStrings {
   static const String DAY_SATURDAY = 'days.saturday';
   static const String DAY_SUNDAY = 'days.sunday';
 
+  // MONTHS
+  static const String MONTH_JANUARY = 'months.january';
+  static const String MONTH_FEBRUARY = 'months.february';
+  static const String MONTH_MARCH = 'months.march';
+  static const String MONTH_APRIL = 'months.april';
+  static const String MONTH_MAY = 'months.may';
+  static const String MONTH_JUNE = 'months.june';
+  static const String MONTH_JULY = 'months.july';
+  static const String MONTH_AUGUST = 'months.august';
+  static const String MONTH_SEPTEMBER = 'months.september';
+  static const String MONTH_OCTOBER = 'months.october';
+  static const String MONTH_NOVEMBER = 'months.november';
+  static const String MONTH_DECEMBER = 'months.december';
+
   // FEED ERRORS (Backend)
   static const String FEED_ERROR_LOADING_POSTS = 'feed.error.loadingPosts';
   static const String FEED_ERROR_LOADING_MORE = 'feed.error.loadingMore';

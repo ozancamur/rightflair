@@ -14,7 +14,7 @@ class AnalyticsRepositoryImpl extends AnalyticsRepository {
 
   @override
   Future<AnalyticsModel?> getAnalytics({
-    DateRange dateRange = DateRange.allTime,
+    DateRange dateRange = DateRange.last7Days,
   }) async {
     try {
       final request = await _api.post(

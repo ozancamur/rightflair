@@ -7,6 +7,7 @@ class AppIcons {
   static const String ADD = '${_path}add.svg';
   static const String ADD_FRIEND = '${_path}add_friend.svg';
   static const String ANALYTIC_DOWN = '${_path}analytic_down.svg';
+  static const String ANALYTIC_EQUAL = '${_path}analytic_equal.svg';
   static const String ANALYTIC_FOLLOWER = '${_path}analytic_follower.svg';
   static const String ANALYTIC_LIKE = '${_path}analytic_like.svg';
   static const String ANALYTIC_SAVES = '${_path}analytic_saves.svg';

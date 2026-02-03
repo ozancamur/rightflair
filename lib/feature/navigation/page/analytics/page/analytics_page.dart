@@ -32,11 +32,8 @@ class AnalyticsPage extends StatelessWidget {
                       children: [
                         AnalyticsGridWidget(data: state.data),
                         AnalyticsEngagementChartWidget(
-                          data:
-                              state.data?.engagementChart
-                                  ?.map((e) => (e.value as double))
-                                  .toList() ??
-                              [],
+                          data: state.data?.engagementChart ?? [],
+                          dateRange: state.selectedDateRange,
                         ),
                       ],
                     ),

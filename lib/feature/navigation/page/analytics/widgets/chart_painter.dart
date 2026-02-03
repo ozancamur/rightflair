@@ -1,3 +1,4 @@
+import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 
@@ -6,12 +7,14 @@ class ChartPainter extends CustomPainter {
   final Color lineColor;
   final Color fillColor;
   final Color gridColor;
+  final double animationValue;
 
   ChartPainter({
     required this.data,
     required this.lineColor,
     required this.fillColor,
     required this.gridColor,
+    this.animationValue = 1.0,
   });
 
   @override
@@ -40,8 +43,10 @@ class ChartPainter extends CustomPainter {
 
     final path = Path();
     final double stepX = size.width / (data.length - 1);
-    final double maxY =
-        7.0; // Assuming max value related to mock data + padding
+
+    // Dinamik maxY hesapla - verinin maksimum değerine göre
+    final double dataMax = data.reduce(math.max);
+    final double maxY = dataMax <= 0 ? 1.0 : dataMax * 1.2; // %20 padding
 
     // Move to first point
     // Invert Y axis because canvas 0,0 is top-left
@@ -49,7 +54,11 @@ class ChartPainter extends CustomPainter {
     // value max -> 0
 
     double getX(int i) => i * stepX;
-    double getY(double val) => size.height - (val / maxY) * size.height;
+    double getY(double val) {
+      // Animasyonu uygula - değeri animationValue ile çarp
+      final animatedVal = val * animationValue;
+      return size.height - (animatedVal / maxY) * size.height;
+    }
 
     path.moveTo(getX(0), getY(data[0]));
 
@@ -78,5 +87,10 @@ class ChartPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => true;
+  bool shouldRepaint(covariant ChartPainter oldDelegate) {
+    return oldDelegate.data != data ||
+        oldDelegate.animationValue != animationValue ||
+        oldDelegate.lineColor != lineColor ||
+        oldDelegate.fillColor != fillColor;
+  }
 }

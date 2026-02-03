@@ -66,22 +66,18 @@ class AnalyticsStatCardWidget extends StatelessWidget {
           Row(
             children: [
               SvgPicture.asset(
-                growth >= 0 ? AppIcons.ANALYTIC_UP : AppIcons.ANALYTIC_DOWN,
+                _getGrowthIcon(),
                 height: context.width * 0.04,
                 colorFilter: ColorFilter.mode(
-                  growth >= 0
-                      ? context.colors.inverseSurface
-                      : context.colors.error,
+                  _getGrowthColor(context),
                   BlendMode.srcIn,
                 ),
               ),
               SizedBox(width: context.width * 0.01),
               TextComponent(
-                text: "${growth >= 0 ? '+' : ''}$growth%",
+                text: _getGrowthText(),
                 size: [context.width * 0.035],
-                color: growth >= 0
-                    ? context.colors.inverseSurface
-                    : context.colors.error,
+                color: _getGrowthColor(context),
                 tr: false,
               ),
             ],
@@ -89,5 +85,23 @@ class AnalyticsStatCardWidget extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  String _getGrowthIcon() {
+    if (growth > 0) return AppIcons.ANALYTIC_UP;
+    if (growth < 0) return AppIcons.ANALYTIC_DOWN;
+    return AppIcons.ANALYTIC_EQUAL;
+  }
+
+  Color _getGrowthColor(BuildContext context) {
+    if (growth > 0) return context.colors.inverseSurface;
+    if (growth < 0) return context.colors.error;
+    return context.colors.tertiary;
+  }
+
+  String _getGrowthText() {
+    if (growth > 0) return '+$growth%';
+    if (growth < 0) return '$growth%';
+    return '0%';
   }
 }
