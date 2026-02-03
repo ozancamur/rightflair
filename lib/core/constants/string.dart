@@ -252,6 +252,10 @@ class AppStrings {
   static const String PROFILE_EMPTY_BIO = 'profile.emptyBio';
   static const String NON_POST = 'profile.nonPost';
 
+  // FOLLOW LIST
+  static const String FOLLOW_LIST_SEARCH = 'followList.search';
+  static const String FOLLOW_LIST_EMPTY = 'followList.empty';
+
   // STYLE TAGS
   static String STYLE_TAG(String tag) => "styleTags.$tag";
   static const String OVERSIZED = 'styleTags.oversized';

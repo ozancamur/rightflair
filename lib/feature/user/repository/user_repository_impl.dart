@@ -7,6 +7,8 @@ import 'package:rightflair/feature/navigation/page/profile/model/style_tags.dart
 import '../../../../../core/base/model/response.dart';
 import '../../navigation/page/profile/model/request_post.dart';
 import '../../navigation/page/profile/model/response_post.dart';
+import '../../follow/model/follow_list_request.dart';
+import '../../follow/model/follow_list_response.dart';
 import 'user_repository.dart';
 
 class UserRepositoryImpl extends UserRepository {
@@ -114,6 +116,54 @@ class UserRepositoryImpl extends UserRepository {
       return response.data as Map<String, dynamic>;
     } catch (e) {
       debugPrint("UserRepositoryImpl ERROR in followUser :> $e");
+      return null;
+    }
+  }
+
+  @override
+  Future<FollowListResponseModel?> getFollowersList({
+    required FollowListRequestModel parameters,
+  }) async {
+    try {
+      final request = await _api.post(
+        Endpoint.GET_FOLLOWERS_LIST,
+        data: parameters.toJson(),
+      );
+      if (request == null) return null;
+      final ResponseModel response = ResponseModel().fromJson(
+        request.data as Map<String, dynamic>,
+      );
+      if (response.data == null) return null;
+      final FollowListResponseModel data = FollowListResponseModel().fromJson(
+        response.data as Map<String, dynamic>,
+      );
+      return data;
+    } catch (e) {
+      debugPrint("UserRepositoryImpl ERROR in getFollowersList :> $e");
+      return null;
+    }
+  }
+
+  @override
+  Future<FollowListResponseModel?> getFollowingList({
+    required FollowListRequestModel parameters,
+  }) async {
+    try {
+      final request = await _api.post(
+        Endpoint.GET_FOLLOWING_LIST,
+        data: parameters.toJson(),
+      );
+      if (request == null) return null;
+      final ResponseModel response = ResponseModel().fromJson(
+        request.data as Map<String, dynamic>,
+      );
+      if (response.data == null) return null;
+      final FollowListResponseModel data = FollowListResponseModel().fromJson(
+        response.data as Map<String, dynamic>,
+      );
+      return data;
+    } catch (e) {
+      debugPrint("UserRepositoryImpl ERROR in getFollowingList :> $e");
       return null;
     }
   }

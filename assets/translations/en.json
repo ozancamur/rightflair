@@ -236,6 +236,10 @@
         "emptyBio": "Tell us about yourself...",
         "nonPost": "No Posts Yet"
     },
+    "followList": {
+        "search": "Search users...",
+        "empty": "No users found"
+    },
     "styleTags": {
         "oversized": "Oversized",
         "streetwear": "Streetwear",

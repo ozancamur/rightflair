@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rightflair/core/components/loading.dart';
 import 'package:rightflair/core/extensions/context.dart';
 import 'package:rightflair/core/components/profile/profile_header.dart';
+import 'package:rightflair/feature/follow/cubit/follow_list_state.dart';
+import 'package:rightflair/feature/follow/page/dialog_follow_list.dart';
 
 import '../../../../../core/base/page/base_scaffold.dart';
 import '../widgets/profile_appbar.dart';
@@ -97,6 +99,20 @@ class _ProfilePageState extends State<ProfilePage>
             context,
             userId: state.user.id,
           ),
+          onFollowersTap: () {
+            dialogFollowList(
+              context,
+              listType: FollowListType.followers,
+              userId: null, // null for current user's own profile
+            );
+          },
+          onFollowingTap: () {
+            dialogFollowList(
+              context,
+              listType: FollowListType.following,
+              userId: null, // null for current user's own profile
+            );
+          },
         ),
         ProfileTabBarsWidget(tabController: _tabController),
         ProfileTabViewsWidget(

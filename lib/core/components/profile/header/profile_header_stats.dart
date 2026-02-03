@@ -7,10 +7,14 @@ import '../profile_stats.dart';
 class ProfileHeaderStatsComponent extends StatelessWidget {
   final int followerCount;
   final int followingCount;
+  final VoidCallback? onFollowersTap;
+  final VoidCallback? onFollowingTap;
   const ProfileHeaderStatsComponent({
     super.key,
     required this.followerCount,
     required this.followingCount,
+    this.onFollowersTap,
+    this.onFollowingTap,
   });
 
   @override
@@ -22,10 +26,12 @@ class ProfileHeaderStatsComponent extends StatelessWidget {
         ProfileStatsComponent(
           count: followerCount,
           label: AppStrings.PROFILE_FOLLOWER,
+          onTap: onFollowersTap,
         ),
         ProfileStatsComponent(
           count: followingCount,
           label: AppStrings.PROFILE_FOLLOWING,
+          onTap: onFollowingTap,
         ),
       ],
     );

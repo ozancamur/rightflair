@@ -17,6 +17,8 @@ class ProfileHeaderComponent extends StatelessWidget {
   final VoidCallback? onFollowTap;
   final VoidCallback? onMessageTap;
   final VoidCallback? onEditPhoto;
+  final VoidCallback? onFollowersTap;
+  final VoidCallback? onFollowingTap;
   final bool isCanEdit;
   final bool isFollowing;
 
@@ -26,6 +28,8 @@ class ProfileHeaderComponent extends StatelessWidget {
     this.onFollowTap,
     this.onMessageTap,
     this.onEditPhoto,
+    this.onFollowersTap,
+    this.onFollowingTap,
     this.isCanEdit = false,
     required this.user,
     this.isFollowing = false,
@@ -50,6 +54,8 @@ class ProfileHeaderComponent extends StatelessWidget {
         ProfileHeaderStatsComponent(
           followerCount: user.followersCount ?? 0,
           followingCount: user.followingCount ?? 0,
+          onFollowersTap: onFollowersTap,
+          onFollowingTap: onFollowingTap,
         ),
         SizedBox(height: context.height * 0.01),
         (onFollowTap == null && onMessageTap == null)

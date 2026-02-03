@@ -8,8 +8,10 @@ import 'package:rightflair/feature/user/repository/user_repository_impl.dart';
 import '../../../core/base/page/base_scaffold.dart';
 import '../../../core/components/profile/profile_post_grid.dart';
 import '../../../core/components/profile/profile_tab_item.dart';
+import '../../follow/cubit/follow_list_state.dart';
 import '../cubit/user_cubit.dart';
 import '../cubit/user_state.dart';
+import '../../follow/page/dialog_follow_list.dart';
 import '../widgets/user_appbar.dart';
 
 class UserPage extends StatelessWidget {
@@ -39,6 +41,20 @@ class UserPage extends StatelessWidget {
                         context.read<UserCubit>().followUser(userId: userId);
                       },
                       onMessageTap: () {},
+                      onFollowersTap: () {
+                        dialogFollowList(
+                          context,
+                          listType: FollowListType.followers,
+                          userId: userId,
+                        );
+                      },
+                      onFollowingTap: () {
+                        dialogFollowList(
+                          context,
+                          listType: FollowListType.following,
+                          userId: userId,
+                        );
+                      },
                     ),
                     ProfileTabItemComponent(text: AppStrings.PROFILE_PHOTOS),
                     ProfilePostGridComponent(
