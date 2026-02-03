@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 import 'package:rightflair/core/components/appbar.dart';
 import 'package:rightflair/core/components/button/back_button.dart';
-import 'package:rightflair/core/constants/route.dart';
 import 'package:rightflair/core/constants/string.dart';
 import 'package:rightflair/feature/authentication/bloc/authentication_bloc.dart';
 
@@ -27,12 +25,6 @@ class RegisterPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocConsumer<AuthenticationBloc, AuthenticationState>(
       listener: (context, state) {
-        if (state is AuthenticationSetUsername) {
-          context.push(
-            RouteConstants.CHOOSE_USERNAME,
-            extra: {'username': state.user.username, 'canPop': false},
-          );
-        }
         if (state is AuthenticationError) {
           dialogError(context, message: state.message);
         }

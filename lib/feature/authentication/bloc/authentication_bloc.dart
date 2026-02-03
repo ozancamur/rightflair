@@ -43,7 +43,7 @@ class AuthenticationBloc
     if (user == null) {
       emit(AuthenticationError(AppStrings.AUTHENTICATION_REGISTER_ERROR.tr()));
     } else {
-      emit(AuthenticationSetUsername(user: user));
+      emit(AuthenticationSuccess());
     }
   }
 
@@ -72,22 +72,18 @@ class AuthenticationBloc
   ) async {
     emit(AuthenticationLoading());
     final response = await _authentication.signInWithApple();
-
-    print(
-      "AUTHENTICATION BLOC : REGISTER APPLE SESSION: ${response.session?.toJson()}",
-    );
-    print(
-      "AUTHENTICATION BLOC : REGISTER APPLE USER: ${response.user?.toJson()}",
-    );
     final String? uid = response.user?.id;
     if (uid == null) return;
 
-    /*  await _create(
-        uid: uid,
-        email: response.user?.email ?? "",
-        name: response.user?.displayName,
-      );
-    */
+    final UserModel? user = await _create(
+      id: uid,
+      email: response.user?.email ?? "",
+    );
+    if (user == null) {
+      emit(AuthenticationError(AppStrings.AUTHENTICATION_REGISTER_ERROR.tr()));
+    } else {
+      emit(AuthenticationSuccess());
+    }
   }
 
   Future<void> _onGoogle(
@@ -96,21 +92,19 @@ class AuthenticationBloc
   ) async {
     emit(AuthenticationLoading());
     final response = await _authentication.signInWithGoogle();
-    print(
-      "AUTHENTICATION BLOC : REGISTER GOOGLE SESSION: ${response.session?.toJson()}",
-    );
-    print(
-      "AUTHENTICATION BLOC : REGISTER GOOGLE USER: ${response.user?.toJson()}",
-    );
+
     final String? uid = response.user?.id;
     if (uid == null) return;
 
-    /* await _create(
-        uid: uid,
-        email: response.user?.email ?? "",
-        name: response.user?.displayName,
-      );
-    */
+    final UserModel? user = await _create(
+      id: uid,
+      email: response.user?.email ?? "",
+    );
+    if (user == null) {
+      emit(AuthenticationError(AppStrings.AUTHENTICATION_REGISTER_ERROR.tr()));
+    } else {
+      emit(AuthenticationSuccess());
+    }
   }
 
   Future<void> _onReset(

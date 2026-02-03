@@ -22,9 +22,6 @@ class WelcomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocConsumer<AuthenticationBloc, AuthenticationState>(
       listener: (context, state) {
-        if (state is AuthenticationSetUsername) {
-          context.push(RouteConstants.NAVIGATION);
-        }
         if (state is AuthenticationSuccess) {
           context.replace(RouteConstants.NAVIGATION);
         }
