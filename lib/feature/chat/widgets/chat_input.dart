@@ -22,15 +22,21 @@ class _ChatInputWidgetState extends State<ChatInputWidget> {
   @override
   void initState() {
     super.initState();
-    _controller.addListener(() {
+    _controller.addListener(_onTextChanged);
+  }
+
+  void _onTextChanged() {
+    final hasText = _controller.text.isNotEmpty;
+    if (_hasText != hasText) {
       setState(() {
-        _hasText = _controller.text.trim().isNotEmpty;
+        _hasText = hasText;
       });
-    });
+    }
   }
 
   @override
   void dispose() {
+    _controller.removeListener(_onTextChanged);
     _controller.dispose();
     _focusNode.dispose();
     super.dispose();
@@ -118,46 +124,30 @@ class _ChatInputWidgetState extends State<ChatInputWidget> {
     );
   }
 
-  BlocBuilder<ChatCubit, ChatState> _send() {
-    return BlocBuilder<ChatCubit, ChatState>(
-      builder: (context, state) {
-        return GestureDetector(
-          onTap: state.isSending ? null : _sendMessage,
-          child: Container(
-            width: context.width * 0.11,
-            height: context.width * 0.11,
-            decoration: BoxDecoration(
-              color: _hasText && !state.isSending
-                  ? context.colors.primaryContainer
-                  : context.colors.tertiary.withOpacity(0.3),
-              shape: BoxShape.circle,
+  Widget _send() {
+    return GestureDetector(
+      onTap: _sendMessage,
+      child: Container(
+        width: context.width * 0.11,
+        height: context.width * 0.11,
+        decoration: BoxDecoration(
+          color: _hasText
+              ? context.colors.scrim
+              : context.colors.tertiary.withOpacity(0.3),
+          shape: BoxShape.circle,
+        ),
+        child: Center(
+          child: SvgPicture.asset(
+            AppIcons.SEND,
+            width: context.width * 0.05,
+            height: context.width * 0.05,
+            colorFilter: ColorFilter.mode(
+              context.colors.primary,
+              BlendMode.srcIn,
             ),
-            child: state.isSending
-                ? Padding(
-                    padding: EdgeInsets.all(context.width * 0.03),
-                    child: CircularProgressIndicator(
-                      strokeWidth: context.width * 0.005,
-                      valueColor: AlwaysStoppedAnimation<Color>(
-                        context.colors.onPrimaryContainer,
-                      ),
-                    ),
-                  )
-                : Center(
-                    child: SvgPicture.asset(
-                      AppIcons.SEND,
-                      width: context.width * 0.05,
-                      height: context.width * 0.05,
-                      colorFilter: ColorFilter.mode(
-                        _hasText
-                            ? context.colors.onPrimaryContainer
-                            : context.colors.tertiary,
-                        BlendMode.srcIn,
-                      ),
-                    ),
-                  ),
           ),
-        );
-      },
+        ),
+      ),
     );
   }
 }

@@ -17,15 +17,32 @@ class ChatMessagesListWidget extends StatefulWidget {
 
 class _ChatMessagesListWidgetState extends State<ChatMessagesListWidget> {
   final ScrollController _scrollController = ScrollController();
+  bool _initialScrollDone = false;
 
   @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (_scrollController.hasClients) {
-        _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
-      }
-    });
+  void didUpdateWidget(ChatMessagesListWidget oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    // Scroll to bottom on initial load
+    if (!_initialScrollDone && widget.messages.isNotEmpty) {
+      _initialScrollDone = true;
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (_scrollController.hasClients) {
+          _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
+        }
+      });
+    }
+    // Scroll to bottom when new message is added
+    else if (widget.messages.length > oldWidget.messages.length) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (_scrollController.hasClients) {
+          _scrollController.animateTo(
+            _scrollController.position.maxScrollExtent,
+            duration: const Duration(milliseconds: 300),
+            curve: Curves.easeOut,
+          );
+        }
+      });
+    }
   }
 
   @override

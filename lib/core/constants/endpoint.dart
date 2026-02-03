@@ -29,7 +29,7 @@ enum Endpoint {
 
   GET_CONVERSATIONS("get-conversations"),
   GET_CONVERSATION_MESSAGES("get-conversation-messages"),
-  SEND_MESSAGE("send-message");
+  SEND_MESSAGE_TO_CONVERSATION("send-message-to-conversation");
 
   final String value;
   const Endpoint(this.value);

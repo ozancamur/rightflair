@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rightflair/feature/chat/model/chat_message.dart';
 import 'package:rightflair/feature/chat/model/chat_pagination.dart';
 import 'package:rightflair/feature/chat/model/chat_request.dart';
+import 'package:rightflair/feature/chat/model/send_message_request.dart';
 import 'package:rightflair/feature/chat/repository/chat_repository_impl.dart';
 
 part 'chat_state.dart';
@@ -81,21 +82,99 @@ class ChatCubit extends Cubit<ChatState> {
   Future<void> sendMessage(String content, {String? imageUrl}) async {
     if (content.trim().isEmpty && imageUrl == null) return;
 
-    emit(state.copyWith(isSending: true));
+    // Create a temporary message ID for optimistic update
+    final tempId = 'temp_${DateTime.now().millisecondsSinceEpoch}';
 
-    final success = await _repo.sendMessage(
+    // Create optimistic message
+    final optimisticMessage = ChatMessageModel(
+      id: tempId,
+      content: content.trim().isNotEmpty ? content.trim() : null,
+      imageUrl: imageUrl,
+      isOwnMessage: true,
+      isRead: false,
+      createdAt: DateTime.now(),
+      sendStatus: MessageSendStatus.sending,
+    );
+
+    // Add optimistic message to list immediately
+    final messagesWithOptimistic = [...state.messages, optimisticMessage];
+    emit(state.copyWith(messages: messagesWithOptimistic));
+
+    final request = SendMessageRequestModel(
       conversationId: conversationId,
-      content: content,
+      content: content.trim().isNotEmpty ? content.trim() : null,
       imageUrl: imageUrl,
     );
 
-    if (success) {
-      // Reload messages to get the new message from server
-      await _loadMessages();
-      emit(state.copyWith(isSending: false));
+    final response = await _repo.sendMessage(request: request);
+
+    if (response != null && response.message != null) {
+      // Replace optimistic message with real message
+      final updatedMessages = state.messages.map((msg) {
+        if (msg.id == tempId) {
+          return response.message!.copyWith(sendStatus: MessageSendStatus.sent);
+        }
+        return msg;
+      }).toList();
+      emit(state.copyWith(messages: updatedMessages));
     } else {
-      emit(state.copyWith(isSending: false, error: 'Failed to send message'));
+      // Mark message as failed
+      final updatedMessages = state.messages.map((msg) {
+        if (msg.id == tempId) {
+          return msg.copyWith(sendStatus: MessageSendStatus.failed);
+        }
+        return msg;
+      }).toList();
+      emit(state.copyWith(messages: updatedMessages));
     }
+  }
+
+  Future<void> resendMessage(ChatMessageModel failedMessage) async {
+    if (failedMessage.sendStatus != MessageSendStatus.failed) return;
+
+    // Update status to sending
+    final updatedMessages = state.messages.map((msg) {
+      if (msg.id == failedMessage.id) {
+        return msg.copyWith(sendStatus: MessageSendStatus.sending);
+      }
+      return msg;
+    }).toList();
+    emit(state.copyWith(messages: updatedMessages));
+
+    final request = SendMessageRequestModel(
+      conversationId: conversationId,
+      content: failedMessage.content,
+      imageUrl: failedMessage.imageUrl,
+    );
+
+    final response = await _repo.sendMessage(request: request);
+
+    if (response != null && response.message != null) {
+      // Replace with real message
+      final newMessages = state.messages.map((msg) {
+        if (msg.id == failedMessage.id) {
+          return response.message!.copyWith(sendStatus: MessageSendStatus.sent);
+        }
+        return msg;
+      }).toList();
+      emit(state.copyWith(messages: newMessages));
+    } else {
+      // Mark as failed again
+      final newMessages = state.messages.map((msg) {
+        if (msg.id == failedMessage.id) {
+          return msg.copyWith(sendStatus: MessageSendStatus.failed);
+        }
+        return msg;
+      }).toList();
+      emit(state.copyWith(messages: newMessages));
+    }
+  }
+
+  void deleteFailedMessage(String messageId) {
+    final updatedMessages = state.messages
+        .where((msg) => msg.id != messageId)
+        .toList();
+    emit(state.copyWith(messages: updatedMessages));
   }
 
   Future<void> refresh() async {

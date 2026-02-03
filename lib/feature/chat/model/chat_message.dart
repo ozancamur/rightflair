@@ -1,6 +1,8 @@
 import '../../../core/base/model/base.dart';
 import 'message_sender.dart';
 
+enum MessageSendStatus { sent, sending, failed }
+
 class ChatMessageModel extends BaseModel<ChatMessageModel> {
   String? id;
   String? content;
@@ -9,6 +11,7 @@ class ChatMessageModel extends BaseModel<ChatMessageModel> {
   bool? isOwnMessage;
   bool? isRead;
   DateTime? createdAt;
+  MessageSendStatus? sendStatus;
 
   ChatMessageModel({
     this.id,
@@ -18,6 +21,7 @@ class ChatMessageModel extends BaseModel<ChatMessageModel> {
     this.isOwnMessage,
     this.isRead,
     this.createdAt,
+    this.sendStatus,
   });
 
   @override
@@ -29,6 +33,7 @@ class ChatMessageModel extends BaseModel<ChatMessageModel> {
     bool? isOwnMessage,
     bool? isRead,
     DateTime? createdAt,
+    MessageSendStatus? sendStatus,
   }) {
     return ChatMessageModel(
       id: id ?? this.id,
@@ -38,6 +43,7 @@ class ChatMessageModel extends BaseModel<ChatMessageModel> {
       isOwnMessage: isOwnMessage ?? this.isOwnMessage,
       isRead: isRead ?? this.isRead,
       createdAt: createdAt ?? this.createdAt,
+      sendStatus: sendStatus ?? this.sendStatus,
     );
   }
 
