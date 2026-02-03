@@ -77,4 +77,44 @@ class UserRepositoryImpl extends UserRepository {
       return null;
     }
   }
+
+  @override
+  Future<bool?> checkFollowingUser({required String userId}) async {
+    try {
+      final request = await _api.post(
+        Endpoint.CHECK_TO_FOLLOWING_USER,
+        data: {'user_id': userId},
+      );
+      if (request == null) return null;
+      final ResponseModel response = ResponseModel().fromJson(
+        request.data as Map<String, dynamic>,
+      );
+      if (response.data == null) return null;
+      final data = response.data as Map<String, dynamic>;
+      final bool isFollowing = data['is_following'] ?? false;
+      return isFollowing;
+    } catch (e) {
+      debugPrint("UserRepositoryImpl ERROR in checkFollowingUser :> $e");
+      return null;
+    }
+  }
+
+  @override
+  Future<Map<String, dynamic>?> followUser({required String userId}) async {
+    try {
+      final request = await _api.post(
+        Endpoint.FOLLOW_TO_USER,
+        data: {'user_id': userId},
+      );
+      if (request == null) return null;
+      final ResponseModel response = ResponseModel().fromJson(
+        request.data as Map<String, dynamic>,
+      );
+      if (response.data == null) return null;
+      return response.data as Map<String, dynamic>;
+    } catch (e) {
+      debugPrint("UserRepositoryImpl ERROR in followUser :> $e");
+      return null;
+    }
+  }
 }

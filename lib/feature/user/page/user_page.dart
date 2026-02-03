@@ -25,29 +25,28 @@ class UserPage extends StatelessWidget {
         builder: (context, state) {
           return BaseScaffold(
             appBar: const UserAppbarWidget(),
-            body: SafeArea(
-              child: SingleChildScrollView(
-                child: Padding(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: context.width * 0.05,
-                  ),
-                  child: Column(
-                    spacing: context.height * 0.025,
-                    children: [
-                      ProfileHeaderComponent(
-                        user: state.user,
-                        tags: state.tags?.styleTags ?? [],
-                        onFollowTap: () {},
-                        onMessageTap: () {},
-                      ),
-                      ProfileTabItemComponent(text: AppStrings.PROFILE_PHOTOS),
-                      ProfilePostGridComponent(
-                        posts: state.posts,
-                        isLoading: state.isPostsLoading,
-                        isDraft: false,
-                      ),
-                    ],
-                  ),
+            body: SingleChildScrollView(
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: context.width * 0.05),
+                child: Column(
+                  spacing: context.height * 0.025,
+                  children: [
+                    ProfileHeaderComponent(
+                      user: state.user,
+                      tags: state.tags?.styleTags ?? [],
+                      isFollowing: state.isFollowing,
+                      onFollowTap: () {
+                        context.read<UserCubit>().followUser(userId: userId);
+                      },
+                      onMessageTap: () {},
+                    ),
+                    ProfileTabItemComponent(text: AppStrings.PROFILE_PHOTOS),
+                    ProfilePostGridComponent(
+                      posts: state.posts,
+                      isLoading: state.isPostsLoading,
+                      isDraft: false,
+                    ),
+                  ],
                 ),
               ),
             ),

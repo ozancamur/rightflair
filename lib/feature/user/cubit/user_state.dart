@@ -16,6 +16,9 @@ class UserState extends Equatable {
   final bool isPostsLoading;
   final bool isLoadingMorePosts;
 
+  final bool isFollowing;
+  final bool isFollowLoading;
+
   const UserState({
     this.isLoading = false,
     required this.user,
@@ -24,6 +27,8 @@ class UserState extends Equatable {
     this.pagination,
     this.isPostsLoading = false,
     this.isLoadingMorePosts = false,
+    this.isFollowing = false,
+    this.isFollowLoading = false,
   });
 
   UserState copyWith({
@@ -34,6 +39,8 @@ class UserState extends Equatable {
     PaginationModel? pagination,
     bool? isPostsLoading,
     bool? isLoadingMorePosts,
+    bool? isFollowing,
+    bool? isFollowLoading,
   }) {
     return UserState(
       isLoading: isLoading ?? this.isLoading,
@@ -43,6 +50,8 @@ class UserState extends Equatable {
       pagination: pagination ?? this.pagination,
       isPostsLoading: isPostsLoading ?? this.isPostsLoading,
       isLoadingMorePosts: isLoadingMorePosts ?? this.isLoadingMorePosts,
+      isFollowing: isFollowing ?? this.isFollowing,
+      isFollowLoading: isFollowLoading ?? this.isFollowLoading,
     );
   }
 
@@ -55,5 +64,7 @@ class UserState extends Equatable {
     pagination ?? PaginationModel(),
     isPostsLoading,
     isLoadingMorePosts,
+    isFollowing,
+    isFollowLoading,
   ];
 }

@@ -11,4 +11,7 @@ abstract class UserRepository {
   Future<ResponsePostModel?> getUserPosts({
     required RequestPostModel parameters,
   });
+
+  Future<bool?> checkFollowingUser({required String userId});
+  Future<Map<String, dynamic>?> followUser({required String userId});
 }

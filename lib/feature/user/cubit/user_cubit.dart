@@ -22,6 +22,7 @@ class UserCubit extends Cubit<UserState> {
     await _getUser(userId: userId);
     await _getUserStyleTags(userId: userId);
     await _getUserPosts(userId: userId);
+    await checkFollowingUser(userId: userId);
   }
 
   Future<void> _getUser({required String userId}) async {
@@ -48,5 +49,51 @@ class UserCubit extends Cubit<UserState> {
         isLoadingMorePosts: false,
       ),
     );
+  }
+
+  Future<void> checkFollowingUser({required String userId}) async {
+    emit(state.copyWith(isFollowLoading: true));
+    final isFollowing = await _repo.checkFollowingUser(userId: userId);
+    emit(
+      state.copyWith(isFollowing: isFollowing ?? false, isFollowLoading: false),
+    );
+  }
+
+  Future<void> followUser({required String userId}) async {
+    // Optimistic UI update - API beklemeden hemen güncelle
+    final bool currentIsFollowing = state.isFollowing;
+    final int currentFollowersCount = state.user.followersCount ?? 0;
+    final int newFollowersCount = currentIsFollowing
+        ? currentFollowersCount - 1
+        : currentFollowersCount + 1;
+
+    emit(
+      state.copyWith(
+        isFollowing: !currentIsFollowing,
+        user: state.user.copyWith(followersCount: newFollowersCount),
+      ),
+    );
+
+    // API isteği arka planda gönder
+    final response = await _repo.followUser(userId: userId);
+    if (response != null) {
+      final bool isFollowing = response['is_following'] ?? false;
+      final int followersCount =
+          response['followers_count'] ?? newFollowersCount;
+      emit(
+        state.copyWith(
+          isFollowing: isFollowing,
+          user: state.user.copyWith(followersCount: followersCount),
+        ),
+      );
+    } else {
+      // API başarısız olursa eski duruma geri dön
+      emit(
+        state.copyWith(
+          isFollowing: currentIsFollowing,
+          user: state.user.copyWith(followersCount: currentFollowersCount),
+        ),
+      );
+    }
   }
 }

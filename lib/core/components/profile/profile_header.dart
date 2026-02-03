@@ -18,6 +18,7 @@ class ProfileHeaderComponent extends StatelessWidget {
   final VoidCallback? onMessageTap;
   final VoidCallback? onEditPhoto;
   final bool isCanEdit;
+  final bool isFollowing;
 
   const ProfileHeaderComponent({
     super.key,
@@ -27,6 +28,7 @@ class ProfileHeaderComponent extends StatelessWidget {
     this.onEditPhoto,
     this.isCanEdit = false,
     required this.user,
+    this.isFollowing = false,
   });
 
   @override
@@ -55,6 +57,7 @@ class ProfileHeaderComponent extends StatelessWidget {
             : ProfileActionButtonsComponent(
                 onFollowTap: onFollowTap!,
                 onMessageTap: onMessageTap!,
+                isFollowing: isFollowing,
               ),
         ProfileHeaderBioComponent(text: user.bio ?? ""),
         SizedBox(height: context.height * 0.01),

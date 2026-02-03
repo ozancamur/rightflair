@@ -9,10 +9,12 @@ import 'package:rightflair/core/extensions/context.dart';
 class ProfileActionButtonsComponent extends StatelessWidget {
   final VoidCallback onFollowTap;
   final VoidCallback onMessageTap;
+  final bool isFollowing;
   const ProfileActionButtonsComponent({
     super.key,
     required this.onFollowTap,
     required this.onMessageTap,
+    this.isFollowing = false,
   });
 
   @override
@@ -30,17 +32,32 @@ class ProfileActionButtonsComponent extends StatelessWidget {
   }
 
   Widget _followButton(BuildContext context) {
-    return GradientButtonComponent(
-      onPressed: onFollowTap,
-      radius: 14,
-      height: context.height * 0.04,
-      child: TextComponent(
-        text: AppStrings.PROFILE_FOLLOW,
-        size: FontSizeConstants.NORMAL,
-        weight: FontWeight.w600,
-        color: context.colors.primary,
-      ),
-    );
+    return isFollowing
+        ? ElevatedButtonComponent(
+            onPressed: onFollowTap,
+            height: context.height * 0.04,
+            radius: 14,
+            color: context.colors.tertiaryFixed,
+            borderColor: context.colors.tertiaryFixedDim,
+            borderWidth: .5,
+            child: TextComponent(
+              text: AppStrings.PROFILE_FOLLOWING,
+              size: FontSizeConstants.NORMAL,
+              weight: FontWeight.w600,
+              color: context.colors.primary,
+            ),
+          )
+        : GradientButtonComponent(
+            onPressed: onFollowTap,
+            radius: 14,
+            height: context.height * 0.04,
+            child: TextComponent(
+              text: AppStrings.PROFILE_FOLLOW,
+              size: FontSizeConstants.NORMAL,
+              weight: FontWeight.w600,
+              color: context.colors.primary,
+            ),
+          );
   }
 
   Widget _messageButton(BuildContext context) {

@@ -30,10 +30,11 @@ enum Endpoint {
   GET_CONVERSATIONS("get-conversations"),
   GET_CONVERSATION_MESSAGES("get-conversation-messages"),
   SEND_MESSAGE_TO_CONVERSATION("send-message-to-conversation"),
-  
-  GET_ANALYSIS("get-analysis")
-  ;
-  
+
+  GET_ANALYSIS("get-analysis"),
+
+  CHECK_TO_FOLLOWING_USER("check-to-following-user"),
+  FOLLOW_TO_USER("follow-to-user");
 
   final String value;
   const Endpoint(this.value);
