@@ -103,7 +103,11 @@
         "engagementOverview": "Engagement Overview",
         "last7Days": "Last 7 days",
         "last30Days": "Last 30 days",
-        "last6Months": "Last 6 months"
+        "last6Months": "Last 6 months",
+        "last1Year": "Last 1 year",
+        "allTime": "All time",
+        "views": "Views",
+        "comments": "Comments"
     },
     "feed": {
         "trend": "Trend",

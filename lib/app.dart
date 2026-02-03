@@ -25,12 +25,12 @@ import 'package:rightflair/feature/user/repository/user_repository_impl.dart';
 import 'core/config/theme_notifier.dart';
 import 'core/constants/theme.dart';
 import 'feature/create_post/cubit/create_post_cubit.dart';
+import 'feature/navigation/page/analytics/repository/analytics_repository_impl.dart';
 import 'feature/navigation/page/feed/repository/feed_repository_impl.dart';
 import 'feature/navigation/page/inbox/repository/inbox_repository_impl.dart';
 import 'feature/location/repository/location_repository_impl.dart';
 import 'feature/navigation/cubit/navigation_cubit.dart';
 import 'feature/navigation/page/analytics/cubit/analytics_cubit.dart';
-import 'feature/navigation/page/analytics/repository/analytics_repository.dart';
 import 'feature/post_detail/repository/post_detail_repository_impl.dart';
 import 'feature/settings/repository/settings_repository_impl.dart';
 
@@ -43,28 +43,36 @@ class RightFlair extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         // AUTHENTICATION
-        BlocProvider(create: (_) => AuthenticationBloc(AuthenticationRepositoryImpl())),
-        BlocProvider(create: (_) => ChooseUsernameCubit(ChooseUsernameRepositoryImpl())),
+        BlocProvider(
+          create: (_) => AuthenticationBloc(AuthenticationRepositoryImpl()),
+        ),
+        BlocProvider(
+          create: (_) => ChooseUsernameCubit(ChooseUsernameRepositoryImpl()),
+        ),
 
         // NAVIGATION
         BlocProvider(create: (_) => NavigationCubit()),
         BlocProvider(create: (_) => FeedBloc(FeedRepositoryImpl())),
-        BlocProvider(create: (_) => AnalyticsCubit(AnalyticsRepository())),
+        BlocProvider(create: (_) => AnalyticsCubit(AnalyticsRepositoryImpl())),
         BlocProvider(create: (_) => InboxCubit(InboxRepositoryImpl())),
         BlocProvider(create: (_) => ProfileCubit(ProfileRepositoryImpl())),
 
-        
-        BlocProvider(create: (_) => ProfileEditCubit(ProfileEditRepositoryImpl())),
-        
+        BlocProvider(
+          create: (_) => ProfileEditCubit(ProfileEditRepositoryImpl()),
+        ),
+
         BlocProvider(create: (_) => UserCubit(UserRepositoryImpl())),
-        BlocProvider(create: (_) => PostDetailCubit(PostDetailRepositoryImpl())),
+        BlocProvider(
+          create: (_) => PostDetailCubit(PostDetailRepositoryImpl()),
+        ),
         BlocProvider(create: (_) => SettingsCubit(SettingsRepositoryImpl())),
-        
-        BlocProvider(create: (_) => CreatePostCubit(CreatePostRepositoryImpl())),
+
+        BlocProvider(
+          create: (_) => CreatePostCubit(CreatePostRepositoryImpl()),
+        ),
         BlocProvider(create: (_) => LocationCubit(LocationRepositoryImpl())),
 
         BlocProvider(create: (_) => CommentsCubit(CommentsRepositoryImpl())),
-
       ],
       child: MaterialApp.router(
         title: 'RightFlair',

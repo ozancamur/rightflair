@@ -1,9 +1,8 @@
-import '../model/analytics_model.dart';
+import '../model/analytics.dart';
+import '../model/date_range.dart';
 
-class AnalyticsRepository {
-  Future<AnalyticsModel> getAnalytics() async {
-    // Simulate network delay
-    await Future.delayed(Duration(seconds: 1));
-    return AnalyticsModel.mock;
-  }
+abstract class AnalyticsRepository {
+  Future<AnalyticsModel?> getAnalytics({
+    DateRange dateRange = DateRange.last7Days,
+  });
 }

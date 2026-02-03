@@ -9,7 +9,7 @@ class AnalyticsStatCardWidget extends StatelessWidget {
   final String title;
   final String icon;
   final String value;
-  final double growth;
+  final int growth;
 
   const AnalyticsStatCardWidget({
     super.key,

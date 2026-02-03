@@ -1,30 +1,31 @@
 part of 'analytics_cubit.dart';
 
-abstract class AnalyticsState extends Equatable {
-  const AnalyticsState();
+class AnalyticsState extends Equatable {
+  final bool isLoading;
+  final AnalyticsModel? data;
+  final DateRange selectedDateRange;
+  const AnalyticsState({
+    this.isLoading = false,
+    required this.data,
+    this.selectedDateRange = DateRange.last7Days,
+  });
+
+  AnalyticsState copyWith({
+    bool? isLoading,
+    AnalyticsModel? data,
+    DateRange? selectedDateRange,
+  }) {
+    return AnalyticsState(
+      isLoading: isLoading ?? this.isLoading,
+      data: data ?? this.data,
+      selectedDateRange: selectedDateRange ?? this.selectedDateRange,
+    );
+  }
 
   @override
-  List<Object> get props => [];
-}
-
-class AnalyticsInitial extends AnalyticsState {}
-
-class AnalyticsLoading extends AnalyticsState {}
-
-class AnalyticsLoaded extends AnalyticsState {
-  final AnalyticsModel data;
-
-  const AnalyticsLoaded(this.data);
-
-  @override
-  List<Object> get props => [data];
-}
-
-class AnalyticsError extends AnalyticsState {
-  final String message;
-
-  const AnalyticsError(this.message);
-
-  @override
-  List<Object> get props => [message];
+  List<Object> get props => [
+    isLoading,
+    data ?? AnalyticsModel(),
+    selectedDateRange,
+  ];
 }

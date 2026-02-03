@@ -1,4 +1,3 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:rightflair/core/components/text/text.dart';
 import 'package:rightflair/core/constants/string.dart';
@@ -7,19 +6,10 @@ import 'package:rightflair/core/extensions/context.dart';
 import '../../../../../core/constants/color/color.dart';
 import 'chart_painter.dart';
 
-class AnalyticsEngagementChartWidget extends StatefulWidget {
+class AnalyticsEngagementChartWidget extends StatelessWidget {
   final List<double> data;
 
   const AnalyticsEngagementChartWidget({super.key, required this.data});
-
-  @override
-  State<AnalyticsEngagementChartWidget> createState() =>
-      _AnalyticsEngagementChartWidgetState();
-}
-
-class _AnalyticsEngagementChartWidgetState
-    extends State<AnalyticsEngagementChartWidget> {
-  String _selectedPeriod = AppStrings.ANALYTICS_LAST_7_DAYS;
 
   @override
   Widget build(BuildContext context) {
@@ -58,57 +48,7 @@ class _AnalyticsEngagementChartWidgetState
           weight: FontWeight.w600,
           color: context.colors.primary,
         ),
-        _last(context),
       ],
-    );
-  }
-
-  Widget _last(BuildContext context) {
-    return PopupMenuButton<String>(
-      color: context.colors.secondary,
-      onSelected: (String value) {
-        setState(() {
-          _selectedPeriod = value;
-        });
-      },
-      itemBuilder: (BuildContext context) => [
-        PopupMenuItem<String>(
-          value: AppStrings.ANALYTICS_LAST_7_DAYS,
-          child: Text(
-            AppStrings.ANALYTICS_LAST_7_DAYS.tr(),
-            style: TextStyle(color: context.colors.primary),
-          ),
-        ),
-        PopupMenuItem<String>(
-          value: AppStrings.ANALYTICS_LAST_30_DAYS,
-          child: Text(
-            AppStrings.ANALYTICS_LAST_30_DAYS.tr(),
-            style: TextStyle(color: context.colors.primary),
-          ),
-        ),
-        PopupMenuItem<String>(
-          value: AppStrings.ANALYTICS_LAST_6_MONTHS,
-          child: Text(
-            AppStrings.ANALYTICS_LAST_6_MONTHS.tr(),
-            style: TextStyle(color: context.colors.primary),
-          ),
-        ),
-      ],
-      child: Row(
-        children: [
-          TextComponent(
-            text: _selectedPeriod.tr(),
-            tr: false,
-            size: [context.width * 0.03],
-            color: context.colors.tertiary,
-          ),
-          Icon(
-            Icons.keyboard_arrow_down,
-            color: context.colors.tertiary,
-            size: context.width * 0.04,
-          ),
-        ],
-      ),
     );
   }
 
@@ -125,7 +65,7 @@ class _AnalyticsEngagementChartWidgetState
       ),
       child: CustomPaint(
         painter: ChartPainter(
-          data: widget.data,
+          data: data,
           lineColor: context.colors.scrim,
           fillColor: context.colors.scrim.withOpacity(0.1),
           gridColor: context.colors.primaryFixedDim,
