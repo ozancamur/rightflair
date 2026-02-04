@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import 'package:rightflair/core/constants/route.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../../core/extensions/context.dart';
+import '../../cubit/inbox_cubit.dart';
 import '../../model/conversation.dart';
 import '../../model/last_message.dart';
 import 'message_avatar.dart';
@@ -17,17 +17,10 @@ class InboxMessageItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {
-        context.push(
-          RouteConstants.CHAT,
-          extra: {
-            'conversationId': conversation.id ?? '',
-            'otherUserName': conversation.participant?.fullName ?? 'User',
-            'otherUserPhoto': conversation.participant?.profilePhotoUrl,
-            'otherUserId': conversation.participant?.id ?? '',
-          },
-        );
-      },
+      onTap: () => context.read<InboxCubit>().toChatPage(
+        context,
+        conversation: conversation,
+      ),
       child: Container(
         padding: EdgeInsets.symmetric(
           vertical: MediaQuery.of(context).size.height * 0.015,

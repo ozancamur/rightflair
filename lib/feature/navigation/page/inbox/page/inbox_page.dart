@@ -43,7 +43,6 @@ class _InboxPageState extends State<InboxPage>
           schema: 'public',
           table: 'conversations',
           callback: (payload) {
-            // Conversation güncellendi - listeyi yenilecontext
             final StreamConversationLastMessageModel data =
                 StreamConversationLastMessageModel().fromJson(
                   payload.newRecord,
