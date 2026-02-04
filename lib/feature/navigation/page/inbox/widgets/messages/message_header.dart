@@ -4,19 +4,21 @@ import 'package:rightflair/core/constants/font/font_size.dart';
 
 import '../../../../../../core/components/text/text.dart';
 import '../../../../../../core/extensions/context.dart';
-import '../../../../../../core/constants/string.dart';
 
 class MessageHeaderWidget extends StatelessWidget {
   final String senderName;
   final DateTime timestamp;
+  final bool isRead;
   const MessageHeaderWidget({
     super.key,
     required this.senderName,
     required this.timestamp,
+    required this.isRead,
   });
 
   @override
   Widget build(BuildContext context) {
+    String date = _formatTime(context, timestamp);
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -30,10 +32,9 @@ class MessageHeaderWidget extends StatelessWidget {
             overflow: TextOverflow.ellipsis,
           ),
         ),
-        SizedBox(width: 8),
         TextComponent(
-          text: _formatTime(context, timestamp),
-          size: const [12],
+          text: date,
+          size: FontSizeConstants.X_SMALL,
           color: context.colors.scrim,
           tr: false,
         ),
@@ -42,22 +43,22 @@ class MessageHeaderWidget extends StatelessWidget {
   }
 
   String _formatTime(BuildContext context, DateTime time) {
-    final diff = DateTime.now().difference(time);
-    if (diff.inMinutes < 60) {
-      return '${diff.inMinutes}${AppStrings.TIME_MINUTES_AGO.tr()}';
+    final now = DateTime.now();
+    final diff = now.difference(time);
+
+    // Bugün mü kontrol et
+    if (now.year == time.year &&
+        now.month == time.month &&
+        now.day == time.day) {
+      return DateFormat('HH:mm').format(time);
     }
-    if (diff.inHours < 24) {
-      return '${diff.inHours}${AppStrings.TIME_HOURS_AGO.tr()}';
-    }
+
+    // Bu hafta içinde mi (son 7 gün)
     if (diff.inDays < 7) {
-      return '${diff.inDays}${AppStrings.TIME_DAYS_AGO.tr()}';
+      return DateFormat('EEEE', context.locale.toString()).format(time);
     }
-    if (diff.inDays < 30) {
-      return '${(diff.inDays / 7).floor()}${AppStrings.TIME_WEEKS_AGO.tr()}';
-    }
-    if (diff.inDays < 365) {
-      return '${(diff.inDays / 30).floor()}${AppStrings.TIME_MONTHS_AGO.tr()}';
-    }
-    return '${(diff.inDays / 365).floor()}${AppStrings.TIME_YEARS_AGO.tr()}';
+
+    // 1 haftadan fazla
+    return DateFormat('dd.MM.yyyy').format(time);
   }
 }

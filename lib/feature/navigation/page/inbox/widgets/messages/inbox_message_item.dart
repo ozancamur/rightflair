@@ -65,6 +65,7 @@ class InboxMessageItem extends StatelessWidget {
           MessageHeaderWidget(
             senderName: conversation.participant?.fullName ?? "Rightflair User",
             timestamp: conversation.lastMessage?.sentAt ?? DateTime.now(),
+            isRead: conversation.lastMessage?.isRead ?? true,
           ),
           MessageContentWidget(
             model: conversation.lastMessage ?? LastMessageModel(),

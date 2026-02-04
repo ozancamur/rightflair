@@ -22,7 +22,7 @@ class MessageContentWidget extends StatelessWidget {
             overflow: TextOverflow.ellipsis,
           ),
         ),
-        (model.isOwnMessage == false || model.isRead == false)
+        (model.isOwnMessage == false && model.isRead == false)
             ? Container(
                 width: context.width * .02,
                 height: context.width * .02,
