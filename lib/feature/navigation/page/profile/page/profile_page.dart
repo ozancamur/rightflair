@@ -95,7 +95,7 @@ class _ProfilePageState extends State<ProfilePage>
           isCanEdit: true,
           user: state.user,
           tags: state.tags?.styleTags ?? [],
-          onEditPhoto: () => context.read<ProfileCubit>().changePhotoDialog(
+          onEditPhoto: () => context.read<ProfileCubit>().dialogCreateStory(
             context,
             userId: state.user.id,
           ),
@@ -103,7 +103,7 @@ class _ProfilePageState extends State<ProfilePage>
             dialogFollowList(
               context,
               listType: FollowListType.followers,
-              userId: null, // null for current user's own profile
+              userId: null,
             );
           },
           onFollowingTap: () {

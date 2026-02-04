@@ -57,6 +57,7 @@ dependencies:
   # NAVIGATION
   go_router: ^9.0.2
   image_picker: ^1.2.1
+  video_player: ^2.9.2
   pretty_dio_logger: ^1.4.0
 
 dev_dependencies:

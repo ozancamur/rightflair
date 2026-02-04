@@ -48,9 +48,10 @@ class _FeedTabBarsState extends State<FeedTabBars>
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: context.height * .1,
+      height: context.height * .075,
       width: context.width,
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Spacer(),
           Expanded(
@@ -69,7 +70,7 @@ class _FeedTabBarsState extends State<FeedTabBars>
               labelPadding: EdgeInsets.symmetric(
                 horizontal: context.width * .025,
               ),
-              labelStyle:  TextStyle(
+              labelStyle: TextStyle(
                 color: context.colors.primary,
                 fontSize: 16,
                 fontWeight: FontWeight.w500,
@@ -89,12 +90,15 @@ class _FeedTabBarsState extends State<FeedTabBars>
             ),
           ),
           Expanded(
-            child: GestureDetector(
-              onTap: () => context.push(RouteConstants.SEARCH),
-              child: SvgPicture.asset(
-                AppIcons.SEARCH_FILLED,
-                color: context.colors.primary,
-                height: context.height * .0225,
+            child: Padding(
+              padding: EdgeInsets.symmetric(vertical: context.height * .015),
+              child: GestureDetector(
+                onTap: () => context.push(RouteConstants.SEARCH),
+                child: SvgPicture.asset(
+                  AppIcons.SEARCH_FILLED,
+                  color: context.colors.primary,
+                  height: context.height * .0225,
+                ),
               ),
             ),
           ),

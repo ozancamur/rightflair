@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:rightflair/feature/navigation/page/profile/model/create_story.dart';
 import 'package:rightflair/feature/navigation/page/profile/model/request_post.dart';
 import 'package:rightflair/feature/navigation/page/profile/model/style_tags.dart';
 
@@ -19,8 +20,9 @@ abstract class ProfileRepository {
   });
   Future<StyleTagsModel?> getUserStyleTags();
   Future<void> updateUser({String? profilePhotoUrl});
-  Future<String?> uploadProfilePhoto({
+  Future<String?> uploadStoryImage({
     required String userId,
-    required File imageFile,
+    required File file,
   });
+  Future<void> createStory({required CreateStoryModel data});
 }

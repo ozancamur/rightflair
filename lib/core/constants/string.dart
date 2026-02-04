@@ -292,6 +292,17 @@ class AppStrings {
   static const String PROFILE_EDIT_TAKE_PHOTO = 'profileEdit.takePhoto';
   static const String PROFILE_EDIT_CHOOSE_FROM_GALLERY =
       'profileEdit.chooseFromGallery';
+  static const String PROFILE_EDIT_SELECT_MEDIA_TYPE =
+      'profileEdit.selectMediaType';
+  static const String PROFILE_EDIT_PHOTO = 'profileEdit.photo';
+  static const String PROFILE_EDIT_VIDEO = 'profileEdit.video';
+  static const String PROFILE_EDIT_SELECT_SOURCE = 'profileEdit.selectSource';
+  static const String PROFILE_EDIT_CAMERA = 'profileEdit.camera';
+  static const String PROFILE_EDIT_GALLERY = 'profileEdit.gallery';
+  static const String PROFILE_EDIT_STORY_CREATED_SUCCESS =
+      'profileEdit.storyCreatedSuccess';
+  static const String PROFILE_EDIT_STORY_CREATED_ERROR =
+      'profileEdit.storyCreatedError';
 
   // SETTINGS
   static const String SETTINGS_TITLE = 'settings.title';

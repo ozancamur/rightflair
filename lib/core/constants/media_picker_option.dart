@@ -1,0 +1,1 @@
+enum MediaPickerOption { camera, gallery }

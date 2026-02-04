@@ -2,8 +2,10 @@ import 'dart:io';
 
 import 'package:flutter/widgets.dart';
 import 'package:rightflair/core/constants/endpoint.dart';
+import 'package:rightflair/core/constants/storage.dart';
 import 'package:rightflair/core/services/api.dart';
 import 'package:rightflair/feature/authentication/model/user.dart';
+import 'package:rightflair/feature/navigation/page/profile/model/create_story.dart';
 import 'package:rightflair/feature/navigation/page/profile/model/style_tags.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -72,31 +74,30 @@ class ProfileRepositoryImpl extends ProfileRepository {
   }
 
   @override
-  Future<String?> uploadProfilePhoto({
+  Future<String?> uploadStoryImage({
     required String userId,
-    required File imageFile,
+    required File file,
   }) async {
     try {
-      final String fileExtension = imageFile.path.split('.').last;
-      final String fileName =
-          'profile_${DateTime.now().millisecondsSinceEpoch}.$fileExtension';
-      final String storagePath = '$userId/profile-photos/$fileName';
+      final String extension = file.path.split('.').last;
+      final String name = StorageConstants.STORY_FILE_NAME(extension);
+      final String path = StorageConstants.STORY_STORAGE_PATH(userId, name);
 
       await _supabase.storage
-          .from('profile-photos')
+          .from(StorageConstants.STORY_STORAGE_ID)
           .upload(
-            storagePath,
-            imageFile,
+            path,
+            file,
             fileOptions: const FileOptions(cacheControl: '3600', upsert: true),
           );
 
       final String publicUrl = _supabase.storage
-          .from('profile-photos')
-          .getPublicUrl(storagePath);
+          .from(StorageConstants.STORY_STORAGE_ID)
+          .getPublicUrl(path);
 
       return publicUrl;
     } catch (e) {
-      debugPrint("ProfileRepositoryImpl ERROR in uploadProfilePhoto :> $e");
+      debugPrint("ProfileRepositoryImpl ERROR in uploadStoryImage :> $e");
       return null;
     }
   }
@@ -163,6 +164,15 @@ class ProfileRepositoryImpl extends ProfileRepository {
     } catch (e) {
       debugPrint("ProfileRepositoryImpl ERROR in getUserDrafts :> $e");
       return null;
+    }
+  }
+
+  @override
+  Future<void> createStory({required CreateStoryModel data}) async {
+    try {
+      await _api.post(Endpoint.CREATE_STORY, data: data.toJson());
+    } catch (e) {
+      debugPrint("ProfileRepositoryImpl ERROR in createStory :> $e");
     }
   }
 }

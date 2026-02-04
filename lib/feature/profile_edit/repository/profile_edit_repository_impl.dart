@@ -5,6 +5,7 @@ import 'package:rightflair/core/constants/endpoint.dart';
 import 'package:rightflair/core/services/api.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+import '../../../core/constants/storage.dart';
 import 'profile_edit_repository.dart';
 
 class ProfileEditRepositoryImpl extends ProfileEditRepository {
@@ -42,12 +43,14 @@ class ProfileEditRepositoryImpl extends ProfileEditRepository {
   }) async {
     try {
       final String fileExtension = imageFile.path.split('.').last;
-      final String fileName =
-          'profile_${DateTime.now().millisecondsSinceEpoch}.$fileExtension';
-      final String storagePath = '$userId/profile-photos/$fileName';
+      final String fileName = StorageConstants.PROFILE_FILE_NAME(fileExtension);
+      final String storagePath = StorageConstants.PROFILE_STORAGE_PATH(
+        userId,
+        fileName,
+      );
 
       await _supabase.storage
-          .from('profile-photos')
+          .from(StorageConstants.PROFILE_STORAGE_ID)
           .upload(
             storagePath,
             imageFile,
@@ -55,7 +58,7 @@ class ProfileEditRepositoryImpl extends ProfileEditRepository {
           );
 
       final String publicUrl = _supabase.storage
-          .from('profile-photos')
+          .from(StorageConstants.PROFILE_STORAGE_ID)
           .getPublicUrl(storagePath);
 
       return publicUrl;

@@ -1,13 +1,17 @@
 import 'dart:io';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:video_player/video_player.dart';
+import 'package:rightflair/feature/navigation/page/profile/model/create_story.dart';
 import 'package:rightflair/feature/navigation/page/profile/model/request_post.dart';
 import 'package:rightflair/feature/navigation/page/profile/model/style_tags.dart';
 import 'package:rightflair/feature/navigation/page/profile/repository/profile_repository_impl.dart';
 
+import '../../../../../core/constants/string.dart';
 import '../../../../../core/utils/dialogs/pick_image.dart';
 import '../../../../authentication/model/user.dart';
 import '../../../../create_post/model/post.dart';
@@ -64,68 +68,116 @@ class ProfileCubit extends Cubit<ProfileState> {
     emit(state.copyWith(tags: response));
   }
 
-  Future<void> changePhotoDialog(BuildContext context, {String? userId}) async {
+  // STORY
+
+  Future<void> dialogCreateStory(BuildContext context, {String? userId}) async {
     if (userId == null) return;
-    final option = await dialogPickImage(context);
-    if (option == null || !context.mounted) return;
 
-    switch (option) {
-      case ImagePickerOption.camera:
-        await _pickImageFromCamera(userId: userId);
-        break;
-      case ImagePickerOption.gallery:
-        await _pickImageFromGallery(userId: userId);
-        break;
-    }
-  }
+    final source = await dialogPickMedia(context);
+    if (source == null || !context.mounted) return;
 
-  Future<void> _pickImageFromCamera({required String userId}) async {
-    final XFile? image = await _picker.pickImage(
-      source: ImageSource.camera,
-      imageQuality: 85,
-      maxWidth: 800,
-      maxHeight: 800,
-    );
-    if (image != null) {
-      await _uploadAndUpdateProfilePhoto(userId: userId, imagePath: image.path);
-    }
-  }
-
-  Future<void> _pickImageFromGallery({required String userId}) async {
-    final XFile? image = await _picker.pickImage(
-      source: ImageSource.gallery,
-      imageQuality: 85,
-      maxWidth: 800,
-      maxHeight: 800,
-    );
-    if (image != null) {
-      await _uploadAndUpdateProfilePhoto(userId: userId, imagePath: image.path);
-    }
-  }
-
-  Future<void> _uploadAndUpdateProfilePhoto({
-    required String userId,
-    required String imagePath,
-  }) async {
     emit(state.copyWith(isLoading: true));
-    try {
-      final File imageFile = File(imagePath);
 
-      final String? photoUrl = await _repo.uploadProfilePhoto(
+    try {
+      // Kullanıcıya hem fotoğraf hem video seçme imkanı sunuyoruz
+      final XFile? pickedFile = await _picker.pickMedia(imageQuality: 85);
+
+      if (pickedFile == null) {
+        emit(state.copyWith(isLoading: false));
+        return;
+      }
+
+      final File mediaFile = File(pickedFile.path);
+
+      // Dosya uzantısından media type'ı belirle
+      final String extension = pickedFile.path.split('.').last.toLowerCase();
+      final bool isVideo = [
+        'mp4',
+        'mov',
+        'avi',
+        'mkv',
+        'flv',
+        'wmv',
+        'webm',
+      ].contains(extension);
+      final String mediaType = isVideo ? 'video' : 'photo';
+
+      // Storage'e yükle
+      final String? mediaUrl = await _repo.uploadStoryImage(
         userId: userId,
-        imageFile: imageFile,
+        file: mediaFile,
       );
 
-      if (photoUrl != null) {
-        await _repo.updateUser(profilePhotoUrl: photoUrl);
-        final updatedUser = state.user.copyWith(profilePhotoUrl: photoUrl);
-        emit(state.copyWith(isLoading: false, user: updatedUser));
-      } else {
+      if (mediaUrl == null) {
         emit(state.copyWith(isLoading: false));
+        return;
+      }
+
+      // Duration hesapla
+      int duration = 10; // Default fotoğraf için 10 saniye
+      if (isVideo) {
+        duration = await _getVideoDuration(pickedFile.path);
+      }
+
+      // Story oluştur
+      await createStory(
+        mediaUrl: mediaUrl,
+        mediaType: mediaType,
+        duration: duration,
+      );
+
+      emit(state.copyWith(isLoading: false));
+
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(AppStrings.PROFILE_EDIT_STORY_CREATED_SUCCESS.tr()),
+          ),
+        );
       }
     } catch (e) {
-      debugPrint("Error uploading photo: $e");
+      debugPrint("Error in dialogCreateStory: $e");
       emit(state.copyWith(isLoading: false));
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(AppStrings.PROFILE_EDIT_STORY_CREATED_ERROR.tr()),
+          ),
+        );
+      }
+    }
+  }
+
+  Future<int> _getVideoDuration(String videoPath) async {
+    try {
+      final VideoPlayerController controller = VideoPlayerController.file(
+        File(videoPath),
+      );
+      await controller.initialize();
+      final duration = controller.value.duration.inSeconds;
+      await controller.dispose();
+      return duration;
+    } catch (e) {
+      debugPrint("Error getting video duration: $e");
+      return 10; // Hata durumunda default 10 saniye
+    }
+  }
+
+  Future<void> createStory({
+    required String mediaUrl,
+    required String mediaType,
+    required int duration,
+  }) async {
+    try {
+      final CreateStoryModel data = CreateStoryModel(
+        mediaUrl: mediaUrl,
+        mediaType: mediaType,
+        duration: duration,
+      );
+      await _repo.createStory(data: data);
+    } catch (e) {
+      debugPrint("ProfileCubit ERROR in createStory :> $e");
+      rethrow;
     }
   }
 
