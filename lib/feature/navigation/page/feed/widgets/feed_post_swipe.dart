@@ -237,7 +237,7 @@ class _FeedPostItemState extends State<FeedPostItem>
       bottom: 0,
       child: SizedBox(
         height: context.height * .075,
-        width: context.width * .4,
+        width: context.width * .35,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
