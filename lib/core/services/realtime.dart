@@ -3,7 +3,7 @@
 import 'dart:async';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-class ChatRealtimeService {
+class RealtimeService {
   final SupabaseClient _supabase = Supabase.instance.client;
 
   RealtimeChannel? _messagesChannel;

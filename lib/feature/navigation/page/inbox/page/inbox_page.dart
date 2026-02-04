@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rightflair/feature/navigation/page/inbox/model/stream_message.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../../../../core/base/page/base_scaffold.dart';
 import '../../../../../core/components/loading.dart';
 import '../cubit/inbox_cubit.dart';
 import '../cubit/inbox_state.dart';
-import '../model/conversations.dart';
 import '../widgets/inbox_appbar.dart';
 import '../widgets/messages/inbox_messages_list.dart';
 import '../widgets/notifications/inbox_notifications_list.dart';
@@ -22,15 +23,41 @@ class _InboxPageState extends State<InboxPage>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
 
+  final _supabase = Supabase.instance.client;
+  RealtimeChannel? _channel;
+
   @override
   void initState() {
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
+    _setupRealtimeForConversations();
+  }
+
+  void _setupRealtimeForConversations() {
+    final userId = _supabase.auth.currentUser!.id;
+
+    _channel = _supabase
+        .channel('inbox:$userId')
+        .onPostgresChanges(
+          event: PostgresChangeEvent.update,
+          schema: 'public',
+          table: 'conversations',
+          callback: (payload) {
+            // Conversation güncellendi - listeyi yenilecontext
+            final StreamConversationLastMessageModel data =
+                StreamConversationLastMessageModel().fromJson(
+                  payload.newRecord,
+                );
+            context.read<InboxCubit>().addNewMessage(data: data);
+          },
+        )
+        .subscribe();
   }
 
   @override
   void dispose() {
     _tabController.dispose();
+    _channel?.unsubscribe();
     super.dispose();
   }
 
@@ -61,7 +88,7 @@ class _InboxPageState extends State<InboxPage>
       children: [
         state.conversations == null
             ? SizedBox.shrink()
-            : InboxMessagesListWidget(data: state.conversations ?? ConversationsModel()),
+            : InboxMessagesListWidget(list: state.conversations ?? []),
         InboxNotificationsList(notifications: []),
       ],
     );

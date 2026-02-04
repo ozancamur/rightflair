@@ -12,7 +12,7 @@ import 'package:rightflair/feature/chat/widgets/chat_messages_list.dart';
 import 'package:rightflair/feature/chat/widgets/chat_input.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-import '../../../core/services/chat_realtime.dart';
+import '../../../core/services/realtime.dart';
 
 class ChatPage extends StatefulWidget {
   final String conversationId;
@@ -34,7 +34,7 @@ class ChatPage extends StatefulWidget {
 
 class _ChatPageState extends State<ChatPage> {
   final _supabase = Supabase.instance.client;
-  final _realtime = ChatRealtimeService();
+  final _realtime = RealtimeService();
   final _scroll = ScrollController();
   StreamSubscription<Map<String, dynamic>>? _messageSubscription;
 
