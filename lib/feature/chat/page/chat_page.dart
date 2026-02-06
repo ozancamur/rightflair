@@ -86,6 +86,7 @@ class _ChatPageState extends State<ChatPage> {
     _messageSubscription?.cancel();
     _realtime.unsubscribeFromConversation();
     _realtime.dispose();
+    _scroll.dispose();
     super.dispose();
   }
 

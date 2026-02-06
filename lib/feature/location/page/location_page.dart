@@ -25,16 +25,19 @@ class LocationPage extends StatefulWidget {
 class _LocationPageState extends State<LocationPage> {
   final TextEditingController _searchController = TextEditingController();
 
+  void _onSearchChanged() {
+    context.read<LocationCubit>().searchLocation(_searchController.text);
+  }
+
   @override
   void initState() {
     super.initState();
-    _searchController.addListener(() {
-      context.read<LocationCubit>().searchLocation(_searchController.text);
-    });
+    _searchController.addListener(_onSearchChanged);
   }
 
   @override
   void dispose() {
+    _searchController.removeListener(_onSearchChanged);
     _searchController.dispose();
     super.dispose();
   }

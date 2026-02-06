@@ -31,6 +31,18 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
   late TextEditingController _usernameController;
   late TextEditingController _bioController;
 
+  void _onNameChanged() {
+    context.read<ProfileEditCubit>().updateName(_nameController.text);
+  }
+
+  void _onUsernameChanged() {
+    context.read<ProfileEditCubit>().updateUsername(_usernameController.text);
+  }
+
+  void _onBioChanged() {
+    context.read<ProfileEditCubit>().updateBio(_bioController.text);
+  }
+
   @override
   void initState() {
     super.initState();
@@ -59,19 +71,16 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
       cubit.initStyles(widget.tags);
     }
 
-    _nameController.addListener(() {
-      context.read<ProfileEditCubit>().updateName(_nameController.text);
-    });
-    _usernameController.addListener(() {
-      context.read<ProfileEditCubit>().updateUsername(_usernameController.text);
-    });
-    _bioController.addListener(() {
-      context.read<ProfileEditCubit>().updateBio(_bioController.text);
-    });
+    _nameController.addListener(_onNameChanged);
+    _usernameController.addListener(_onUsernameChanged);
+    _bioController.addListener(_onBioChanged);
   }
 
   @override
   void dispose() {
+    _nameController.removeListener(_onNameChanged);
+    _usernameController.removeListener(_onUsernameChanged);
+    _bioController.removeListener(_onBioChanged);
     _nameController.dispose();
     _usernameController.dispose();
     _bioController.dispose();

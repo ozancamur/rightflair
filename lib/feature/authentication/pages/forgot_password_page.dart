@@ -9,11 +9,28 @@ import '../widgets/authentication_text.dart';
 import '../widgets/forgot_password/forgot_password_button.dart';
 import '../widgets/forgot_password/forgot_password_text_field.dart';
 
-class ForgotPasswordPage extends StatelessWidget {
-  ForgotPasswordPage({super.key});
+class ForgotPasswordPage extends StatefulWidget {
+  const ForgotPasswordPage({super.key});
 
+  @override
+  State<ForgotPasswordPage> createState() => _ForgotPasswordPageState();
+}
+
+class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   final GlobalKey<FormState> keyForgotPassword = GlobalKey<FormState>();
-  final TextEditingController ctrlEmail = TextEditingController();
+  late TextEditingController ctrlEmail;
+
+  @override
+  void initState() {
+    super.initState();
+    ctrlEmail = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    ctrlEmail.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {

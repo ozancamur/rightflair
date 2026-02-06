@@ -15,12 +15,31 @@ import '../widgets/login/login_button.dart';
 import '../widgets/login/login_forgot_password.dart';
 import '../widgets/login/login_inputs.dart';
 
-class LoginPage extends StatelessWidget {
-  LoginPage({super.key});
+class LoginPage extends StatefulWidget {
+  const LoginPage({super.key});
 
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
   final GlobalKey<FormState> keyLogin = GlobalKey<FormState>();
-  final TextEditingController ctrlEmail = TextEditingController();
-  final TextEditingController ctrlPassword = TextEditingController();
+  late TextEditingController ctrlEmail;
+  late TextEditingController ctrlPassword;
+
+  @override
+  void initState() {
+    super.initState();
+    ctrlEmail = TextEditingController();
+    ctrlPassword = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    ctrlEmail.dispose();
+    ctrlPassword.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {

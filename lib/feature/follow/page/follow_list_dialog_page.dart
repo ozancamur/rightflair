@@ -42,6 +42,7 @@ class _FollowListDialogPageState extends State<FollowListDialogPage> {
 
   @override
   void dispose() {
+    _scrollController.removeListener(_onScroll);
     _scrollController.dispose();
     super.dispose();
   }

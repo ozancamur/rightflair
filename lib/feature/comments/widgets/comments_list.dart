@@ -3,15 +3,33 @@ import 'package:flutter/material.dart';
 import '../../navigation/page/feed/models/comment.dart';
 import 'comment.dart';
 
-class CommentsListWidget extends StatelessWidget {
+class CommentsListWidget extends StatefulWidget {
   final List<CommentModel> comments;
   final Function(String commentId) onReply;
-  CommentsListWidget({
+  const CommentsListWidget({
     super.key,
     required this.comments,
     required this.onReply,
   });
-  final ScrollController _scrollController = ScrollController();
+
+  @override
+  State<CommentsListWidget> createState() => _CommentsListWidgetState();
+}
+
+class _CommentsListWidgetState extends State<CommentsListWidget> {
+  late ScrollController _scrollController;
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController = ScrollController();
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -19,10 +37,10 @@ class CommentsListWidget extends StatelessWidget {
       child: ListView.builder(
         controller: _scrollController,
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-        itemCount: comments.length,
+        itemCount: widget.comments.length,
         itemBuilder: (context, index) {
-          final CommentModel comment = comments[index];
-          return CommentWidget(comment: comment, onReply: onReply);
+          final CommentModel comment = widget.comments[index];
+          return CommentWidget(comment: comment, onReply: widget.onReply);
         },
       ),
     );

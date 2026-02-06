@@ -81,4 +81,5 @@ class PaginationModel extends BaseModel<PaginationModel> {
       hasPrev: hasPrev,
     );
   }
+
 }

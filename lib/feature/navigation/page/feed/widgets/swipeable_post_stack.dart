@@ -23,7 +23,7 @@ class _SwipeablePostStackState extends State<SwipeablePostStack> {
     super.initState();
 
     context.read<FeedBloc>().add(
-      LoadPostInitializeEvent(currentTabIndex: widget.tabIndex),
+      FeedInitializeEvent(currentTabIndex: widget.tabIndex),
     );
   }
 

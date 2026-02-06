@@ -13,13 +13,34 @@ import '../widgets/authentication_text.dart';
 import '../widgets/register/register_button.dart';
 import '../widgets/register/register_inputs.dart';
 
-class RegisterPage extends StatelessWidget {
-  RegisterPage({super.key});
+class RegisterPage extends StatefulWidget {
+  const RegisterPage({super.key});
 
+  @override
+  State<RegisterPage> createState() => _RegisterPageState();
+}
+
+class _RegisterPageState extends State<RegisterPage> {
   final GlobalKey<FormState> keyRegister = GlobalKey<FormState>();
-  final TextEditingController ctrlEmail = TextEditingController();
-  final TextEditingController ctrlPassword = TextEditingController();
-  final TextEditingController ctrlConfirmPassword = TextEditingController();
+  late TextEditingController ctrlEmail;
+  late TextEditingController ctrlPassword;
+  late TextEditingController ctrlConfirmPassword;
+
+  @override
+  void initState() {
+    super.initState();
+    ctrlEmail = TextEditingController();
+    ctrlPassword = TextEditingController();
+    ctrlConfirmPassword = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    ctrlEmail.dispose();
+    ctrlPassword.dispose();
+    ctrlConfirmPassword.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
