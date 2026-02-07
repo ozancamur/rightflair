@@ -7,6 +7,7 @@ import 'package:rightflair/feature/follow/cubit/follow_list_state.dart';
 import 'package:rightflair/feature/follow/page/dialog_follow_list.dart';
 
 import '../../../../../core/base/page/base_scaffold.dart';
+import '../../../../create_story/page/create_story_dialog.dart';
 import '../widgets/profile_appbar.dart';
 import '../cubit/profile_cubit.dart';
 import '../widgets/profile_tab_bars.dart';
@@ -95,10 +96,7 @@ class _ProfilePageState extends State<ProfilePage>
           isCanEdit: true,
           user: state.user,
           tags: state.tags?.styleTags ?? [],
-          onEditPhoto: () => context.read<ProfileCubit>().dialogCreateStory(
-            context,
-            userId: state.user.id,
-          ),
+          onEditPhoto: () => dialogCreateStory(context, uid: state.user.id ?? ''),
           onFollowersTap: () {
             dialogFollowList(
               context,

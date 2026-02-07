@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../../../core/utils/dialogs/pick_image.dart';
+import '../../create_story/page/create_story_dialog.dart';
 import '../../authentication/model/user.dart';
 import '../repository/profile_edit_repository.dart';
 

@@ -21,10 +21,7 @@ class _SwipeablePostStackState extends State<SwipeablePostStack> {
   @override
   void initState() {
     super.initState();
-
-    context.read<FeedBloc>().add(
-      FeedInitializeEvent(currentTabIndex: widget.tabIndex),
-    );
+    // Don't re-initialize here, it's handled by FeedPage
   }
 
   void _onSwipeComplete(String postId, SwipeDirection direction) {

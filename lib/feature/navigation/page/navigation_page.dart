@@ -11,25 +11,31 @@ class NavigationPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final cubit = context.read<NavigationCubit>();
     return BlocBuilder<NavigationCubit, NavigationState>(
+      buildWhen: (previous, current) =>
+          previous.currentIndex != current.currentIndex,
       builder: (context, state) {
         return BaseScaffold(
-          body: _body(context, state),
+          body: _body(context, state, cubit.controller),
           navigation: NavigationBottomBar(currentIndex: state.currentIndex),
         );
       },
     );
   }
 
-  SizedBox _body(BuildContext context, NavigationState state) {
+  SizedBox _body(
+    BuildContext context,
+    NavigationState state,
+    PageController controller,
+  ) {
     return SizedBox(
       height: context.height,
       width: context.width,
-      child: PageView.builder(
-        physics: NeverScrollableScrollPhysics(),
-        controller: context.read<NavigationCubit>().controller,
-        itemCount: state.pages.length,
-        itemBuilder: (context, index) => state.pages[index],
+      child: PageView(
+        physics: const NeverScrollableScrollPhysics(),
+        controller: controller,
+        children: state.pages,
       ),
     );
   }

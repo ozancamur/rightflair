@@ -10,6 +10,7 @@ import 'package:rightflair/feature/choose_username/repository/choose_username_re
 import 'package:rightflair/feature/comments/cubit/comments_cubit.dart';
 import 'package:rightflair/feature/comments/repository/comments_repository_impl.dart';
 import 'package:rightflair/feature/create_post/repository/create_post_repository.dart';
+import 'package:rightflair/feature/create_story/repository/create_story_repository_impl.dart';
 import 'package:rightflair/feature/navigation/page/inbox/cubit/inbox_cubit.dart';
 import 'package:rightflair/feature/location/cubit/location_cubit.dart';
 import 'package:rightflair/feature/navigation/page/feed/bloc/feed_bloc.dart';
@@ -27,6 +28,7 @@ import 'core/constants/theme.dart';
 import 'feature/chat/cubit/chat_cubit.dart';
 import 'feature/chat/repository/chat_repository_impl.dart';
 import 'feature/create_post/cubit/create_post_cubit.dart';
+import 'feature/create_story/cubit/create_story_cubit.dart';
 import 'feature/navigation/page/analytics/repository/analytics_repository_impl.dart';
 import 'feature/navigation/page/feed/repository/feed_repository_impl.dart';
 import 'feature/navigation/page/inbox/repository/inbox_repository_impl.dart';
@@ -76,6 +78,7 @@ class RightFlair extends StatelessWidget {
 
         BlocProvider(create: (_) => CommentsCubit(CommentsRepositoryImpl())),
         BlocProvider(create: (_) => ChatCubit(ChatRepositoryImpl())),
+        BlocProvider(create: (_) => CreateStoryCubit(CreateStoryRepositoryImpl())),
 
 
       ],

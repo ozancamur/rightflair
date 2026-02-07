@@ -1,20 +1,21 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:rightflair/feature/create_story/cubit/create_story_cubit.dart';
 
-import '../../components/text/text.dart';
-import '../../constants/font/font_size.dart';
-import '../../constants/icons.dart';
-import '../../constants/media_picker_option.dart';
-import '../../constants/string.dart';
-import '../../extensions/context.dart';
+import '../../../core/components/text/text.dart';
+import '../../../core/constants/font/font_size.dart';
+import '../../../core/constants/icons.dart';
+import '../../../core/constants/media_picker_option.dart';
+import '../../../core/constants/string.dart';
+import '../../../core/extensions/context.dart';
 
-Future<MediaPickerOption?> dialogPickMedia(BuildContext context) async {
-  return await _showSourceDialog(context);
-}
-
-Future<MediaPickerOption?> _showSourceDialog(BuildContext context) async {
-  return showModalBottomSheet<MediaPickerOption>(
+Future<void> dialogCreateStory(
+  BuildContext context, {
+  required String uid,
+}) async {
+  return showModalBottomSheet<void>(
     context: context,
     backgroundColor: context.colors.secondary,
     shape: RoundedRectangleBorder(
@@ -55,7 +56,11 @@ Future<MediaPickerOption?> _showSourceDialog(BuildContext context) async {
               weight: FontWeight.w500,
               size: FontSizeConstants.NORMAL,
             ),
-            onTap: () => Navigator.pop(context, MediaPickerOption.camera),
+            onTap: () => context.read<CreateStoryCubit>().select(
+              context,
+              uid: uid,
+              option: MediaPickerOption.camera,
+            ),
           ),
           Divider(color: context.colors.tertiary, thickness: .25, height: .25),
           ListTile(
@@ -70,7 +75,11 @@ Future<MediaPickerOption?> _showSourceDialog(BuildContext context) async {
               weight: FontWeight.w500,
               size: FontSizeConstants.NORMAL,
             ),
-            onTap: () => Navigator.pop(context, MediaPickerOption.gallery),
+            onTap: () => context.read<CreateStoryCubit>().select(
+              context,
+              uid: uid,
+              option: MediaPickerOption.gallery,
+            ),
           ),
           SizedBox(height: context.height * 0.02),
         ],

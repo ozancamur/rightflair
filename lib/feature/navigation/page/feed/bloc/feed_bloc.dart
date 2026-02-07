@@ -3,6 +3,9 @@ import 'dart:async';
 import 'package:equatable/equatable.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rightflair/feature/navigation/page/feed/models/my_story.dart';
+import 'package:rightflair/feature/navigation/page/feed/models/story.dart';
+import 'package:rightflair/feature/navigation/page/feed/models/user_with_stories.dart';
 import 'package:rightflair/feature/navigation/page/feed/repository/feed_repository_impl.dart';
 import 'package:rightflair/feature/navigation/page/profile/model/request_post.dart';
 import 'package:rightflair/feature/navigation/page/profile/model/response_post.dart';
@@ -17,17 +20,18 @@ part 'feed_state.dart';
 class FeedBloc extends Bloc<FeedEvent, FeedState> {
   final FeedRepositoryImpl _repo;
   FeedBloc(this._repo) : super(const FeedState()) {
-    on<LoadPostInitializeEvent>(_onLoadPostInitializeEvent);
+    on<FeedInitializeEvent>(_onInitialize);
     on<SwipeRightEvent>(_onSwipeRight);
     on<SwipeLeftEvent>(_onSwipeLeft);
     on<LoadMorePostsEvent>(_onLoadMorePosts);
     on<ChangeTabEvent>(_onChangeTab);
     on<SendCommentToPostEvent>(_onSendComment);
     on<SavePostEvent>(_onSavePost);
+    on<LoadMoreStoriesEvent>(_onLoadMoreStories);
   }
 
-  Future<void> _onLoadPostInitializeEvent(
-    LoadPostInitializeEvent event,
+  Future<void> _onInitialize(
+    FeedInitializeEvent event,
     Emitter<FeedState> emit,
   ) async {
     try {
@@ -35,18 +39,32 @@ class FeedBloc extends Bloc<FeedEvent, FeedState> {
         state.copyWith(
           isLoading: true,
           posts: [],
-          pagination: PaginationModel().reset(),
+          postPagination: PaginationModel().reset(),
         ),
       );
-      final response = await _load(
+      final story = await _repo.fetchStories(
+        pagination: PaginationModel().forConversations(page: 1),
+      );
+      final post = await _load(
         index: event.currentTabIndex,
         request: RequestPostModel().requestSortByDateOrderDesc(page: 1),
       );
+
+      final myStory = await _repo.fetchMyStories();
+
+      // Sort and update stories
+      final sortedStories = _sortAndUpdateStories(
+        story?.usersWithStories ?? [],
+      );
+
       emit(
         state.copyWith(
           isLoading: false,
-          posts: response?.posts ?? [],
-          pagination: response?.pagination,
+          posts: post?.posts ?? [],
+          postPagination: post?.pagination,
+          myStory: myStory,
+          stories: sortedStories,
+          storyPagination: story?.pagination,
         ),
       );
     } catch (e) {
@@ -59,17 +77,17 @@ class FeedBloc extends Bloc<FeedEvent, FeedState> {
     Emitter<FeedState> emit,
   ) async {
     try {
-      if (state.isLoadingMore || state.pagination?.hasNext == false) {
+      if (state.isLoadingMore || state.postPagination?.hasNext == false) {
         emit(state.copyWith(isLoadingMore: false));
         return;
       }
       emit(state.copyWith(isLoadingMore: true));
 
-      if (state.pagination?.hasNext == true) {
+      if (state.postPagination?.hasNext == true) {
         final response = await _load(
           index: event.tabIndex,
           request: RequestPostModel().requestSortByDateOrderDesc(
-            page: (state.pagination?.page ?? 0) + 1,
+            page: (state.postPagination?.page ?? 0) + 1,
           ),
         );
         final updatedPosts = List<PostModel>.from(state.posts ?? [])
@@ -78,7 +96,44 @@ class FeedBloc extends Bloc<FeedEvent, FeedState> {
           state.copyWith(
             isLoadingMore: false,
             posts: updatedPosts,
-            pagination: response?.pagination,
+            postPagination: response?.pagination,
+          ),
+        );
+      }
+    } catch (e) {
+      emit(state.copyWith(error: "", isLoading: false, isLoadingMore: false));
+    }
+  }
+
+  Future<void> _onLoadMoreStories(
+    LoadMoreStoriesEvent event,
+    Emitter<FeedState> emit,
+  ) async {
+    try {
+      if (state.isLoadingMore || state.storyPagination?.hasNext == false) {
+        emit(state.copyWith(isLoadingMore: false));
+        return;
+      }
+      emit(state.copyWith(isLoadingMore: true));
+
+      if (state.storyPagination?.hasNext == true) {
+        final response = await _repo.fetchStories(
+          pagination: PaginationModel().forConversations(
+            page: (state.storyPagination?.page ?? 0) + 1,
+          ),
+        );
+        final updatedStories = List<UserWithStoriesModel>.from(
+          state.stories ?? [],
+        )..addAll(response?.usersWithStories ?? []);
+
+        // Sort and update stories
+        final sortedStories = _sortAndUpdateStories(updatedStories);
+
+        emit(
+          state.copyWith(
+            isLoadingMore: false,
+            stories: sortedStories,
+            storyPagination: response?.pagination,
           ),
         );
       }
@@ -140,14 +195,89 @@ class FeedBloc extends Bloc<FeedEvent, FeedState> {
     }
   }
 
+  List<UserWithStoriesModel> _sortAndUpdateStories(
+    List<UserWithStoriesModel> stories,
+  ) {
+    // Update each user's stories and hasUnseenStories flag
+    final updatedStories = stories.map((userStory) {
+      // Sort each user's stories: unviewed first (by date DESC), then viewed (by date DESC)
+      final sortedUserStories = List<StoryModel>.from(userStory.stories ?? []);
+      sortedUserStories.sort((a, b) {
+        // First, compare by isViewed (false comes before true)
+        final aViewed = a.isViewed ?? false;
+        final bViewed = b.isViewed ?? false;
+
+        if (aViewed != bViewed) {
+          return aViewed ? 1 : -1; // false first, true last
+        }
+
+        // If same viewed status, sort by createdAt DESC (newer first)
+        final aDate = a.createdAt;
+        final bDate = b.createdAt;
+
+        if (aDate == null && bDate == null) return 0;
+        if (aDate == null) return 1;
+        if (bDate == null) return -1;
+
+        return bDate.compareTo(aDate); // DESC order
+      });
+
+      // Check if all stories are viewed
+      final hasUnseenStories = sortedUserStories.any(
+        (story) => (story.isViewed ?? false) == false,
+      );
+
+      // Calculate latestStoryAt from the most recent story's createdAt
+      final latestStory = sortedUserStories.isNotEmpty
+          ? sortedUserStories.reduce((curr, next) {
+              final currDate = curr.createdAt;
+              final nextDate = next.createdAt;
+              if (currDate == null) return next;
+              if (nextDate == null) return curr;
+              return currDate.isAfter(nextDate) ? curr : next;
+            })
+          : null;
+      final latestStoryAt = latestStory?.createdAt;
+
+      return userStory.copyWith(
+        stories: sortedUserStories,
+        hasUnseenStories: hasUnseenStories,
+        latestStoryAt: latestStoryAt,
+      );
+    }).toList();
+
+    // Sort users:
+    // 1. First by latestStoryAt DESC (most recent first)
+    // 2. But users with all stories viewed go to the end
+    updatedStories.sort((a, b) {
+      final aHasUnseen = a.hasUnseenStories ?? false;
+      final bHasUnseen = b.hasUnseenStories ?? false;
+
+      // Users with all stories viewed go to the end
+      if (aHasUnseen != bHasUnseen) {
+        return aHasUnseen ? -1 : 1; // Unseen first, all viewed last
+      }
+
+      // Within the same viewed status, sort by latestStoryAt DESC (newer first)
+      final aDate = a.latestStoryAt;
+      final bDate = b.latestStoryAt;
+
+      if (aDate == null && bDate == null) return 0;
+      if (aDate == null) return 1;
+      if (bDate == null) return -1;
+
+      return bDate.compareTo(aDate); // DESC order - most recent first
+    });
+
+    return updatedStories;
+  }
+
   Future<void> _onChangeTab(
     ChangeTabEvent event,
     Emitter<FeedState> emit,
   ) async {
     emit(state.copyWith(currentTabIndex: event.tabIndex));
   }
-
-
 
   Future<void> _onSendComment(
     SendCommentToPostEvent event,

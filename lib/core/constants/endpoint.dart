@@ -39,6 +39,9 @@ enum Endpoint {
   GET_FOLLOWING_LIST("get-following-list"),
   
   CREATE_STORY('create-story'),
+  GET_STORIES('get-following-stories'),
+  GET_MY_STORIES('get-my-stories'),
+  VIEW_STORY('view-story')
   ;
 
   final String value;

@@ -1,4 +1,4 @@
-import '../../../../../core/base/model/base.dart';
+import '../../../core/base/model/base.dart';
 
 class CreateStoryModel extends BaseModel<CreateStoryModel> {
   

@@ -16,7 +16,13 @@ class AnalyticsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    context.read<AnalyticsCubit>().fetchAnalytics();
+    // Fetch analytics only if not already loading or loaded
+    final cubit = context.read<AnalyticsCubit>();
+    if (!cubit.state.isLoading && cubit.state.data?.likes == null) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        cubit.fetchAnalytics();
+      });
+    }
 
     return BlocBuilder<AnalyticsCubit, AnalyticsState>(
       builder: (context, state) {

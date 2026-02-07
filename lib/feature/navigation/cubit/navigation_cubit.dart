@@ -14,7 +14,9 @@ class NavigationCubit extends Cubit<NavigationState> {
   NavigationCubit() : super(NavigationState.initial());
 
   void route(int index) {
-    controller.jumpToPage(index);
-    emit(state.copyWith(currentIndex: index));
+    if (state.currentIndex != index) {
+      controller.jumpToPage(index);
+      emit(state.copyWith(currentIndex: index));
+    }
   }
 }

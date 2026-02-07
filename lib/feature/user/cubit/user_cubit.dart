@@ -26,37 +26,46 @@ class UserCubit extends Cubit<UserState> {
   }
 
   Future<void> _getUser({required String userId}) async {
-    emit(state.copyWith(isLoading: true));
+    if (!isClosed) emit(state.copyWith(isLoading: true));
     final UserModel? user = await _repo.getUser(userId: userId);
-    emit(state.copyWith(isLoading: false, user: user ?? UserModel()));
+    if (!isClosed) {
+      emit(state.copyWith(isLoading: false, user: user ?? UserModel()));
+    }
   }
 
   Future<void> _getUserStyleTags({required String userId}) async {
     final response = await _repo.getUserStyleTags(userId: userId);
-    emit(state.copyWith(tags: response));
+    if (!isClosed) emit(state.copyWith(tags: response));
   }
 
   Future<void> _getUserPosts({required String userId}) async {
-    emit(state.copyWith(isPostsLoading: true));
+    if (!isClosed) emit(state.copyWith(isPostsLoading: true));
     final response = await _repo.getUserPosts(
       parameters: RequestPostModel().requestWithUserId(page: 1, userId: userId),
     );
-    emit(
-      state.copyWith(
-        posts: response?.posts ?? [],
-        pagination: response?.pagination,
-        isPostsLoading: false,
-        isLoadingMorePosts: false,
-      ),
-    );
+    if (!isClosed) {
+      emit(
+        state.copyWith(
+          posts: response?.posts ?? [],
+          pagination: response?.pagination,
+          isPostsLoading: false,
+          isLoadingMorePosts: false,
+        ),
+      );
+    }
   }
 
   Future<void> checkFollowingUser({required String userId}) async {
-    emit(state.copyWith(isFollowLoading: true));
+    if (!isClosed) emit(state.copyWith(isFollowLoading: true));
     final isFollowing = await _repo.checkFollowingUser(userId: userId);
-    emit(
-      state.copyWith(isFollowing: isFollowing ?? false, isFollowLoading: false),
-    );
+    if (!isClosed) {
+      emit(
+        state.copyWith(
+          isFollowing: isFollowing ?? false,
+          isFollowLoading: false,
+        ),
+      );
+    }
   }
 
   Future<void> followUser({required String userId}) async {
@@ -67,33 +76,37 @@ class UserCubit extends Cubit<UserState> {
         ? currentFollowersCount - 1
         : currentFollowersCount + 1;
 
-    emit(
-      state.copyWith(
-        isFollowing: !currentIsFollowing,
-        user: state.user.copyWith(followersCount: newFollowersCount),
-      ),
-    );
+    if (!isClosed) {
+      emit(
+        state.copyWith(
+          isFollowing: !currentIsFollowing,
+          user: state.user.copyWith(followersCount: newFollowersCount),
+        ),
+      );
+    }
 
     // API isteği arka planda gönder
     final response = await _repo.followUser(userId: userId);
-    if (response != null) {
-      final bool isFollowing = response['is_following'] ?? false;
-      final int followersCount =
-          response['followers_count'] ?? newFollowersCount;
-      emit(
-        state.copyWith(
-          isFollowing: isFollowing,
-          user: state.user.copyWith(followersCount: followersCount),
-        ),
-      );
-    } else {
-      // API başarısız olursa eski duruma geri dön
-      emit(
-        state.copyWith(
-          isFollowing: currentIsFollowing,
-          user: state.user.copyWith(followersCount: currentFollowersCount),
-        ),
-      );
+    if (!isClosed) {
+      if (response != null) {
+        final bool isFollowing = response['is_following'] ?? false;
+        final int followersCount =
+            response['followers_count'] ?? newFollowersCount;
+        emit(
+          state.copyWith(
+            isFollowing: isFollowing,
+            user: state.user.copyWith(followersCount: followersCount),
+          ),
+        );
+      } else {
+        // API başarısız olursa eski duruma geri dön
+        emit(
+          state.copyWith(
+            isFollowing: currentIsFollowing,
+            user: state.user.copyWith(followersCount: currentFollowersCount),
+          ),
+        );
+      }
     }
   }
 }

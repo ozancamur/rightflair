@@ -1,13 +1,8 @@
-import 'dart:io';
-
 import 'package:flutter/widgets.dart';
 import 'package:rightflair/core/constants/endpoint.dart';
-import 'package:rightflair/core/constants/storage.dart';
 import 'package:rightflair/core/services/api.dart';
 import 'package:rightflair/feature/authentication/model/user.dart';
-import 'package:rightflair/feature/navigation/page/profile/model/create_story.dart';
 import 'package:rightflair/feature/navigation/page/profile/model/style_tags.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../../../../core/base/model/response.dart';
 import '../model/request_post.dart';
@@ -16,11 +11,8 @@ import 'profile_repository.dart';
 
 class ProfileRepositoryImpl extends ProfileRepository {
   final ApiService _api;
-  final SupabaseClient _supabase;
 
-  ProfileRepositoryImpl({ApiService? api})
-    : _api = api ?? ApiService(),
-      _supabase = Supabase.instance.client;
+  ProfileRepositoryImpl({ApiService? api}) : _api = api ?? ApiService();
 
   @override
   Future<UserModel?> getUser() async {
@@ -70,35 +62,6 @@ class ProfileRepositoryImpl extends ProfileRepository {
       }
     } catch (e) {
       debugPrint("ProfileRepositoryImpl ERROR in updateUser :> $e");
-    }
-  }
-
-  @override
-  Future<String?> uploadStoryImage({
-    required String userId,
-    required File file,
-  }) async {
-    try {
-      final String extension = file.path.split('.').last;
-      final String name = StorageConstants.STORY_FILE_NAME(extension);
-      final String path = StorageConstants.STORY_STORAGE_PATH(userId, name);
-
-      await _supabase.storage
-          .from(StorageConstants.STORY_STORAGE_ID)
-          .upload(
-            path,
-            file,
-            fileOptions: const FileOptions(cacheControl: '3600', upsert: true),
-          );
-
-      final String publicUrl = _supabase.storage
-          .from(StorageConstants.STORY_STORAGE_ID)
-          .getPublicUrl(path);
-
-      return publicUrl;
-    } catch (e) {
-      debugPrint("ProfileRepositoryImpl ERROR in uploadStoryImage :> $e");
-      return null;
     }
   }
 
@@ -164,15 +127,6 @@ class ProfileRepositoryImpl extends ProfileRepository {
     } catch (e) {
       debugPrint("ProfileRepositoryImpl ERROR in getUserDrafts :> $e");
       return null;
-    }
-  }
-
-  @override
-  Future<void> createStory({required CreateStoryModel data}) async {
-    try {
-      await _api.post(Endpoint.CREATE_STORY, data: data.toJson());
-    } catch (e) {
-      debugPrint("ProfileRepositoryImpl ERROR in createStory :> $e");
     }
   }
 }

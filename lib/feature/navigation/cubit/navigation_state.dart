@@ -7,15 +7,12 @@ class NavigationState extends Equatable {
 
   NavigationState.initial()
     : currentIndex = 0,
-      pages = [FeedPage(), AnalyticsPage(), InboxPage(), ProfilePage()];
+      pages = const [FeedPage(), AnalyticsPage(), InboxPage(), ProfilePage()];
 
-  NavigationState copyWith({int? currentIndex, List<Widget>? pages}) {
-    return NavigationState(
-      currentIndex ?? this.currentIndex,
-      pages ?? this.pages,
-    );
+  NavigationState copyWith({int? currentIndex}) {
+    return NavigationState(currentIndex ?? this.currentIndex, pages);
   }
 
   @override
-  List<Object> get props => [currentIndex, pages];
+  List<Object> get props => [currentIndex];
 }

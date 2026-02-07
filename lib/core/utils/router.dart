@@ -14,9 +14,11 @@ import 'package:rightflair/feature/settings/page/settings_page.dart';
 import '../../feature/authentication/pages/register_page.dart';
 import '../../feature/chat/page/chat_page.dart';
 import '../../feature/create_post/model/post.dart';
+import '../../feature/navigation/page/feed/models/user_with_stories.dart';
 import '../../feature/post_detail/page/post_detail_page.dart';
 import '../../feature/profile_edit/page/profile_edit_page.dart';
 import '../../feature/splash/page/splash_page.dart';
+import '../../feature/story_viewer/page/story_viewer_page.dart';
 import '../../feature/user/page/user_page.dart';
 
 final GoRouter router = GoRouter(
@@ -130,6 +132,17 @@ final GoRouter router = GoRouter(
       path: RouteConstants.USER,
       name: RouteConstants.USER,
       builder: (context, state) => UserPage(userId: state.extra as String),
+    ),
+    GoRoute(
+      path: RouteConstants.STORY_VIEWER,
+      name: RouteConstants.STORY_VIEWER,
+      builder: (context, state) {
+        final data = state.extra as Map<String, dynamic>;
+        return StoryViewerPage(
+          stories: data['allStories'] as List<UserWithStoriesModel>,
+          index: data['initialUserIndex'] as int,
+        );
+      },
     ),
   ],
 

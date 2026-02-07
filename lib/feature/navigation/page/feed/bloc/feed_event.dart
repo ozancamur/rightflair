@@ -7,13 +7,12 @@ abstract class FeedEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-class LoadPostInitializeEvent extends FeedEvent {
+class FeedInitializeEvent extends FeedEvent {
   final int currentTabIndex;
-  const LoadPostInitializeEvent({this.currentTabIndex = 0});
+  const FeedInitializeEvent({this.currentTabIndex = 0});
   @override
   List<Object?> get props => [currentTabIndex];
 }
-
 
 class LoadMorePostsEvent extends FeedEvent {
   final int tabIndex;
@@ -66,4 +65,8 @@ class SavePostEvent extends FeedEvent {
 
   @override
   List<Object?> get props => [postId];
+}
+
+class LoadMoreStoriesEvent extends FeedEvent {
+  const LoadMoreStoriesEvent();
 }

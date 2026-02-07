@@ -23,4 +23,6 @@ class RouteConstants {
   static const String CHAT = '/chat';
 
   static const String USER = '/user';
+
+  static const String STORY_VIEWER = '/story_viewer';
 }
