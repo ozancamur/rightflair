@@ -189,9 +189,9 @@ class _FeedPostItemState extends State<FeedPostItem>
       top: 0,
       right: 0,
       left: 0,
-      bottom: context.height * .04,
+      bottom: context.height * .035,
       child: Container(
-        height: context.height * .68,
+        height: context.height,
         width: context.width,
         decoration: BoxDecoration(
           gradient: LinearGradient(
@@ -199,7 +199,7 @@ class _FeedPostItemState extends State<FeedPostItem>
             end: Alignment.topCenter,
             colors: [
               context.colors.scrim.withOpacity(.5),
-              context.colors.scrim.withOpacity(0),
+              context.colors.scrim.withOpacity(.25),
             ],
           ),
           borderRadius: BorderRadius.circular(context.width * 0.06),
@@ -213,9 +213,9 @@ class _FeedPostItemState extends State<FeedPostItem>
       top: 0,
       right: 0,
       left: 0,
-      bottom: context.height * .04,
+      bottom: context.height * .035,
       child: Container(
-        height: context.height * .68,
+        height: context.height,
         width: context.width,
         decoration: BoxDecoration(
           gradient: LinearGradient(
@@ -223,7 +223,7 @@ class _FeedPostItemState extends State<FeedPostItem>
             end: Alignment.topCenter,
             colors: [
               context.colors.error.withOpacity(.5),
-              context.colors.error.withOpacity(0),
+              context.colors.error.withOpacity(.1),
             ],
           ),
           borderRadius: BorderRadius.circular(context.width * 0.06),

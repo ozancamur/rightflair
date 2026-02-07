@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rightflair/core/components/loading.dart';
 
 import '../../../../../core/components/profile/profile_non_post.dart';
-import '../../../../create_post/model/post.dart';
 import '../bloc/feed_bloc.dart';
 import '../models/swipe_direction.dart';
 import 'feed_post_swipe.dart';
@@ -21,7 +20,6 @@ class _SwipeablePostStackState extends State<SwipeablePostStack> {
   @override
   void initState() {
     super.initState();
-    // Don't re-initialize here, it's handled by FeedPage
   }
 
   void _onSwipeComplete(String postId, SwipeDirection direction) {
@@ -50,33 +48,19 @@ class _SwipeablePostStackState extends State<SwipeablePostStack> {
               final post = state.posts![state.posts!.length - 1 - index];
               final isTop = index == state.posts!.length - 1;
 
-              return _post(
-                post: post,
-                index: index,
-                totalCards: state.posts!.length,
-                isTop: isTop,
+              return Positioned.fill(
+                child: IgnorePointer(
+                  ignoring: !isTop,
+                  child: FeedPostItem(
+                    post: post,
+                    onSwipeComplete: isTop ? _onSwipeComplete : null,
+                  ),
+                ),
               );
             }),
           ],
         );
       },
-    );
-  }
-
-  Widget _post({
-    required PostModel post,
-    required int index,
-    required int totalCards,
-    required bool isTop,
-  }) {
-    return Positioned.fill(
-      child: IgnorePointer(
-        ignoring: !isTop,
-        child: FeedPostItem(
-          post: post,
-          onSwipeComplete: isTop ? _onSwipeComplete : null,
-        ),
-      ),
     );
   }
 }

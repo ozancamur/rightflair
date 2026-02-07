@@ -26,7 +26,7 @@ class PostComponent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: context.height * .68,
+      height: context.height * .645,
       width: context.width,
       decoration: BoxDecoration(
         color: context.colors.primary,
