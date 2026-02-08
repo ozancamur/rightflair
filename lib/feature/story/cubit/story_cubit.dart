@@ -30,6 +30,11 @@ class StoryCubit extends Cubit<StoryState> {
 
     if (currentStory == null) return;
 
+    // View story when it starts (only if not viewed)
+    if (currentStory.id != null && currentStory.isViewed == false) {
+      viewStory(sId: currentStory.id!);
+    }
+
     final duration = Duration(seconds: currentStory.duration ?? 5);
 
     emit(
