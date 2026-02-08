@@ -9,6 +9,7 @@ import '../../navigation/page/profile/model/request_post.dart';
 import '../../navigation/page/profile/model/response_post.dart';
 import '../../follow/model/follow_list_request.dart';
 import '../../follow/model/follow_list_response.dart';
+import '../model/check_to_following_user.dart';
 import 'user_repository.dart';
 
 class UserRepositoryImpl extends UserRepository {
@@ -81,7 +82,7 @@ class UserRepositoryImpl extends UserRepository {
   }
 
   @override
-  Future<bool?> checkFollowingUser({required String userId}) async {
+  Future<CheckToFollowingUserModel?> checkFollowingUser({required String userId}) async {
     try {
       final request = await _api.post(
         Endpoint.CHECK_TO_FOLLOWING_USER,
@@ -92,9 +93,10 @@ class UserRepositoryImpl extends UserRepository {
         request.data as Map<String, dynamic>,
       );
       if (response.data == null) return null;
-      final data = response.data as Map<String, dynamic>;
-      final bool isFollowing = data['is_following'] ?? false;
-      return isFollowing;
+      final CheckToFollowingUserModel data = CheckToFollowingUserModel().fromJson(
+        response.data as Map<String, dynamic>,
+      );
+      return data;
     } catch (e) {
       debugPrint("UserRepositoryImpl ERROR in checkFollowingUser :> $e");
       return null;
@@ -165,6 +167,22 @@ class UserRepositoryImpl extends UserRepository {
     } catch (e) {
       debugPrint("UserRepositoryImpl ERROR in getFollowingList :> $e");
       return null;
+    }
+  }
+
+  @override
+  Future<void> udateUserNotificationSettings({
+    required String uid,
+    required bool notification,
+  }) async {
+    try {
+      final request = await _api.put(
+        Endpoint.UPDATE_FOLLOW_NOTIFICATION,
+        data: {'following_id': uid, 'notify_new_post': notification},
+      );
+      if (request == null) return;
+    } catch (e) {
+      debugPrint("UserRepositoryImpl ERROR in udateUserNotificationSettings :> $e");
     }
   }
 }

@@ -312,9 +312,11 @@ class FeedBloc extends Bloc<FeedEvent, FeedState> {
           return story;
         }).toList();
 
-        final hasUnseenStories = updatedUserStories?.any(
-          (story) => (story.isViewed ?? false) == false,
-        ) ?? false;
+        final hasUnseenStories =
+            updatedUserStories?.any(
+              (story) => (story.isViewed ?? false) == false,
+            ) ??
+            false;
 
         return userStory.copyWith(
           stories: updatedUserStories,
@@ -329,6 +331,4 @@ class FeedBloc extends Bloc<FeedEvent, FeedState> {
 
     emit(state.copyWith(stories: sortedStories));
   }
-
-  
 }

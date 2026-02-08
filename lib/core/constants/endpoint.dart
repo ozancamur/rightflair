@@ -35,6 +35,7 @@ enum Endpoint {
 
   CHECK_TO_FOLLOWING_USER("check-to-following-user"),
   FOLLOW_TO_USER("follow-to-user"),
+  UPDATE_FOLLOW_NOTIFICATION('update-follow-notification'),
   GET_FOLLOWERS_LIST("get-followers-list"),
   GET_FOLLOWING_LIST("get-following-list"),
   

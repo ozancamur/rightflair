@@ -26,7 +26,12 @@ class UserPage extends StatelessWidget {
       child: BlocBuilder<UserCubit, UserState>(
         builder: (context, state) {
           return BaseScaffold(
-            appBar: const UserAppbarWidget(),
+            appBar: UserAppbarWidget(
+              userId: userId,
+              fullname: state.user.fullName ?? '',
+              isFollowing: state.isFollowing,
+              isNotificationEnabled: state.isNotificationEnabled,
+            ),
             body: SingleChildScrollView(
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: context.width * 0.05),

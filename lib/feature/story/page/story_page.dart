@@ -50,18 +50,14 @@ class _StoryPageState extends State<StoryPage>
   @override
   Widget build(BuildContext context) {
     final feedBloc = context.read<FeedBloc>();
-    
+
     return BlocProvider(
-      create: (context) =>
-          StoryCubit(
-            StoryRepositoryImpl(),
-            onStoryViewed: (storyId, userId) {
-              feedBloc.add(StoryViewedEvent(
-                storyId: storyId,
-                userId: userId,
-              ));
-            },
-          )..init(stories: widget.stories, initialIndex: widget.index),
+      create: (context) => StoryCubit(
+        StoryRepositoryImpl(),
+        onStoryViewed: (storyId, userId) {
+          feedBloc.add(StoryViewedEvent(storyId: storyId, userId: userId));
+        },
+      )..init(stories: widget.stories, initialIndex: widget.index),
       child: BlocConsumer<StoryCubit, StoryState>(
         listener: (context, state) {
           if (state.shouldClose) {

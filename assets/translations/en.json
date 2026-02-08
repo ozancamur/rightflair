@@ -317,6 +317,12 @@
         "shareText": "Share the Rightflair App with your friends!",
         "rateUs": "Rate Us"
     },
+    "notificationSettings": {
+        "title": "Notification Settings",
+        "description": "Here you can manage your notification settings for {}.",
+        "optionAll": "All",
+        "optionNone": "None"
+    },
     "time": {
         "minutesAgo": "m ago",
         "hoursAgo": "h ago",

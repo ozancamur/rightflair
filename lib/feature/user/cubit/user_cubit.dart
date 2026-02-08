@@ -57,11 +57,12 @@ class UserCubit extends Cubit<UserState> {
 
   Future<void> checkFollowingUser({required String userId}) async {
     if (!isClosed) emit(state.copyWith(isFollowLoading: true));
-    final isFollowing = await _repo.checkFollowingUser(userId: userId);
+    final response = await _repo.checkFollowingUser(userId: userId);
     if (!isClosed) {
       emit(
         state.copyWith(
-          isFollowing: isFollowing ?? false,
+          isFollowing: response?.isFollowing ?? false,
+          isNotificationEnabled: response?.notifyNewPost ?? false,
           isFollowLoading: false,
         ),
       );
@@ -108,5 +109,16 @@ class UserCubit extends Cubit<UserState> {
         );
       }
     }
+  }
+
+  Future<void> updateUserNotification({
+    required String uid,
+    required bool notification,
+  }) async {
+    emit(state.copyWith(isNotificationEnabled: notification));
+    await _repo.udateUserNotificationSettings(
+      uid: uid,
+      notification: notification,
+    );
   }
 }

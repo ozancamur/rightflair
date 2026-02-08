@@ -5,10 +5,20 @@ import '../../../../../../../core/components/appbar.dart';
 import '../../../core/components/button/icon_button.dart';
 import '../../../../../../../core/constants/icons.dart';
 import '../../../../../../../core/extensions/context.dart';
-import '../../../core/components/button/settings_button.dart';
+import '../../../core/components/button/user_notification_button.dart';
 
 class UserAppbarWidget extends StatelessWidget implements PreferredSizeWidget {
-  const UserAppbarWidget({super.key});
+  final String userId;
+  final String fullname;
+  final bool isNotificationEnabled;
+  final bool isFollowing;
+  const UserAppbarWidget({
+    super.key,
+    required this.userId,
+    required this.fullname,
+    required this.isFollowing,
+    required this.isNotificationEnabled,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +27,12 @@ class UserAppbarWidget extends StatelessWidget implements PreferredSizeWidget {
       actions: [
         IconButtonComponent(onTap: () {}, icon: AppIcons.SHARE),
         SizedBox(width: context.width * 0.03),
-        SettingsButtonComponent(),
+        UserNotificationButton(
+          userId: userId,
+          fullname: fullname,
+          isFollowing: isFollowing,
+          isNotificationEnabled: isNotificationEnabled,
+        ),
         SizedBox(width: context.width * .04),
       ],
     );

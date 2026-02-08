@@ -18,6 +18,7 @@ class UserState extends Equatable {
 
   final bool isFollowing;
   final bool isFollowLoading;
+  final bool isNotificationEnabled;
 
   const UserState({
     this.isLoading = false,
@@ -29,6 +30,7 @@ class UserState extends Equatable {
     this.isLoadingMorePosts = false,
     this.isFollowing = false,
     this.isFollowLoading = false,
+    this.isNotificationEnabled = false,
   });
 
   UserState copyWith({
@@ -41,6 +43,7 @@ class UserState extends Equatable {
     bool? isLoadingMorePosts,
     bool? isFollowing,
     bool? isFollowLoading,
+    bool? isNotificationEnabled,
   }) {
     return UserState(
       isLoading: isLoading ?? this.isLoading,
@@ -52,6 +55,8 @@ class UserState extends Equatable {
       isLoadingMorePosts: isLoadingMorePosts ?? this.isLoadingMorePosts,
       isFollowing: isFollowing ?? this.isFollowing,
       isFollowLoading: isFollowLoading ?? this.isFollowLoading,
+      isNotificationEnabled:
+          isNotificationEnabled ?? this.isNotificationEnabled,
     );
   }
 
@@ -66,5 +71,6 @@ class UserState extends Equatable {
     isLoadingMorePosts,
     isFollowing,
     isFollowLoading,
+    isNotificationEnabled,
   ];
 }

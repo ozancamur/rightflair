@@ -61,6 +61,7 @@ class AppIcons {
   static const String MESSAGE_FILLED = '${_path}message_filled.svg';
 
   static const String NEW_FOLLOWERS = '${_path}new_followers.svg';
+  static const String NOTIFICATION = '${_path}notification.svg';
   static const String NON_PROFILE_PHOTO = '${_path}non_profile_photo.svg';
   static const String NON_POST = '${_path}non_post.svg';
 

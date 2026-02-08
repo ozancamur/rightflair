@@ -371,4 +371,14 @@ class AppStrings {
   // AUTH EXTENSION
   static const String AUTHENTICATION_REGISTER_ERROR =
       'authentication.registerError';
+
+  // NOTIFICATION SETTINGS
+  static const String NOTIFICATION_SETTINGS_TITLE =
+      'notificationSettings.title';
+  static const String NOTIFICATION_SETTINGS_DESCRIPTION =
+      'notificationSettings.description';
+  static const String NOTIFICATION_SETTINGS_OPTION_ALL =
+      'notificationSettings.optionAll';
+  static const String NOTIFICATION_SETTINGS_OPTION_NONE =
+      'notificationSettings.optionNone';
 }

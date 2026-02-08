@@ -1,4 +1,5 @@
 import 'package:rightflair/feature/navigation/page/profile/model/style_tags.dart';
+import 'package:rightflair/feature/user/model/check_to_following_user.dart';
 
 import '../../authentication/model/user.dart';
 import '../../navigation/page/profile/model/request_post.dart';
@@ -14,7 +15,7 @@ abstract class UserRepository {
     required RequestPostModel parameters,
   });
 
-  Future<bool?> checkFollowingUser({required String userId});
+  Future<CheckToFollowingUserModel?> checkFollowingUser({required String userId});
   Future<Map<String, dynamic>?> followUser({required String userId});
 
   Future<FollowListResponseModel?> getFollowersList({
@@ -23,5 +24,10 @@ abstract class UserRepository {
 
   Future<FollowListResponseModel?> getFollowingList({
     required FollowListRequestModel parameters,
+  });
+
+  Future<void> udateUserNotificationSettings({
+    required String uid,
+    required bool notification,
   });
 }
