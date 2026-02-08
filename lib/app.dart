@@ -20,6 +20,7 @@ import 'package:rightflair/feature/post_detail/cubit/post_detail_cubit.dart';
 import 'package:rightflair/feature/profile_edit/cubit/profile_edit_cubit.dart';
 import 'package:rightflair/feature/profile_edit/repository/profile_edit_repository_impl.dart';
 import 'package:rightflair/feature/settings/cubit/settings_cubit.dart';
+import 'package:rightflair/feature/story/repository/story_repository_impl.dart';
 import 'package:rightflair/feature/user/cubit/user_cubit.dart';
 import 'package:rightflair/feature/user/repository/user_repository_impl.dart';
 
@@ -37,6 +38,7 @@ import 'feature/navigation/cubit/navigation_cubit.dart';
 import 'feature/navigation/page/analytics/cubit/analytics_cubit.dart';
 import 'feature/post_detail/repository/post_detail_repository_impl.dart';
 import 'feature/settings/repository/settings_repository_impl.dart';
+import 'feature/story/cubit/story_cubit.dart';
 
 class RightFlair extends StatelessWidget {
   const RightFlair({super.key});
@@ -78,9 +80,10 @@ class RightFlair extends StatelessWidget {
 
         BlocProvider(create: (_) => CommentsCubit(CommentsRepositoryImpl())),
         BlocProvider(create: (_) => ChatCubit(ChatRepositoryImpl())),
-        BlocProvider(create: (_) => CreateStoryCubit(CreateStoryRepositoryImpl())),
-
-
+        BlocProvider(
+          create: (_) => CreateStoryCubit(CreateStoryRepositoryImpl()),
+        ),
+        BlocProvider(create: (_) => StoryCubit(StoryRepositoryImpl())),
       ],
       child: MaterialApp.router(
         title: 'RightFlair',

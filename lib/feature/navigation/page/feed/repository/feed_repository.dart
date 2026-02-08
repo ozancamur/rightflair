@@ -8,7 +8,6 @@ import '../models/comment.dart';
 import '../models/my_story.dart';
 
 abstract class FeedRepository {
-
   // POSTS
   Future<ResponsePostModel?> fetchDiscoverFeed({
     required RequestPostModel body,

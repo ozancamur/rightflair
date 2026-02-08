@@ -198,20 +198,16 @@ class FeedBloc extends Bloc<FeedEvent, FeedState> {
   List<UserWithStoriesModel> _sortAndUpdateStories(
     List<UserWithStoriesModel> stories,
   ) {
-    // Update each user's stories and hasUnseenStories flag
     final updatedStories = stories.map((userStory) {
-      // Sort each user's stories: unviewed first (by date DESC), then viewed (by date DESC)
       final sortedUserStories = List<StoryModel>.from(userStory.stories ?? []);
       sortedUserStories.sort((a, b) {
-        // First, compare by isViewed (false comes before true)
         final aViewed = a.isViewed ?? false;
         final bViewed = b.isViewed ?? false;
 
         if (aViewed != bViewed) {
-          return aViewed ? 1 : -1; // false first, true last
+          return aViewed ? 1 : -1;
         }
 
-        // If same viewed status, sort by createdAt DESC (newer first)
         final aDate = a.createdAt;
         final bDate = b.createdAt;
 
@@ -219,15 +215,13 @@ class FeedBloc extends Bloc<FeedEvent, FeedState> {
         if (aDate == null) return 1;
         if (bDate == null) return -1;
 
-        return bDate.compareTo(aDate); // DESC order
+        return bDate.compareTo(aDate);
       });
 
-      // Check if all stories are viewed
       final hasUnseenStories = sortedUserStories.any(
         (story) => (story.isViewed ?? false) == false,
       );
 
-      // Calculate latestStoryAt from the most recent story's createdAt
       final latestStory = sortedUserStories.isNotEmpty
           ? sortedUserStories.reduce((curr, next) {
               final currDate = curr.createdAt;
@@ -246,19 +240,14 @@ class FeedBloc extends Bloc<FeedEvent, FeedState> {
       );
     }).toList();
 
-    // Sort users:
-    // 1. First by latestStoryAt DESC (most recent first)
-    // 2. But users with all stories viewed go to the end
     updatedStories.sort((a, b) {
       final aHasUnseen = a.hasUnseenStories ?? false;
       final bHasUnseen = b.hasUnseenStories ?? false;
 
-      // Users with all stories viewed go to the end
       if (aHasUnseen != bHasUnseen) {
-        return aHasUnseen ? -1 : 1; // Unseen first, all viewed last
+        return aHasUnseen ? -1 : 1;
       }
 
-      // Within the same viewed status, sort by latestStoryAt DESC (newer first)
       final aDate = a.latestStoryAt;
       final bDate = b.latestStoryAt;
 
@@ -266,7 +255,7 @@ class FeedBloc extends Bloc<FeedEvent, FeedState> {
       if (aDate == null) return 1;
       if (bDate == null) return -1;
 
-      return bDate.compareTo(aDate); // DESC order - most recent first
+      return bDate.compareTo(aDate);
     });
 
     return updatedStories;
@@ -308,4 +297,6 @@ class FeedBloc extends Bloc<FeedEvent, FeedState> {
     emit(state.copyWith(posts: updatedPosts));
     await _repo.savePost(pId: event.postId!);
   }
+
+  
 }

@@ -75,10 +75,7 @@ class FeedMyStoryBoxWidget extends StatelessWidget {
                       )
                     : BoxDecoration(
                         shape: BoxShape.circle,
-                        border: Border.all(
-                          color: Colors.grey.shade300,
-                          width: 2,
-                        ),
+                        border: Border.all(color: Colors.transparent, width: 0),
                       ),
                 padding: const EdgeInsets.all(2),
                 child: Container(
