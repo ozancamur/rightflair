@@ -28,6 +28,7 @@ class FeedBloc extends Bloc<FeedEvent, FeedState> {
     on<SendCommentToPostEvent>(_onSendComment);
     on<SavePostEvent>(_onSavePost);
     on<LoadMoreStoriesEvent>(_onLoadMoreStories);
+    on<StoryViewedEvent>(_onStoryViewed);
   }
 
   Future<void> _onInitialize(
@@ -296,6 +297,37 @@ class FeedBloc extends Bloc<FeedEvent, FeedState> {
     }).toList();
     emit(state.copyWith(posts: updatedPosts));
     await _repo.savePost(pId: event.postId!);
+  }
+
+  Future<void> _onStoryViewed(
+    StoryViewedEvent event,
+    Emitter<FeedState> emit,
+  ) async {
+    final updatedStories = state.stories?.map((userStory) {
+      if (userStory.user?.id == event.userId) {
+        final updatedUserStories = userStory.stories?.map((story) {
+          if (story.id == event.storyId) {
+            return story.copyWith(isViewed: true);
+          }
+          return story;
+        }).toList();
+
+        final hasUnseenStories = updatedUserStories?.any(
+          (story) => (story.isViewed ?? false) == false,
+        ) ?? false;
+
+        return userStory.copyWith(
+          stories: updatedUserStories,
+          hasUnseenStories: hasUnseenStories,
+        );
+      }
+      return userStory;
+    }).toList();
+
+    // Re-sort stories after updating
+    final sortedStories = _sortAndUpdateStories(updatedStories ?? []);
+
+    emit(state.copyWith(stories: sortedStories));
   }
 
   

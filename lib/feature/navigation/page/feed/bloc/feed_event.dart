@@ -70,3 +70,16 @@ class SavePostEvent extends FeedEvent {
 class LoadMoreStoriesEvent extends FeedEvent {
   const LoadMoreStoriesEvent();
 }
+
+class StoryViewedEvent extends FeedEvent {
+  final String storyId;
+  final String userId;
+
+  const StoryViewedEvent({
+    required this.storyId,
+    required this.userId,
+  });
+
+  @override
+  List<Object?> get props => [storyId, userId];
+}

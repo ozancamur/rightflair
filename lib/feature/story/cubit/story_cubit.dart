@@ -11,8 +11,9 @@ part 'story_state.dart';
 class StoryCubit extends Cubit<StoryState> {
   Timer? _storyTimer;
   final StoryRepositoryImpl _repo;
+  final Function(String storyId, String userId)? onStoryViewed;
 
-  StoryCubit(this._repo) : super(StoryState()) {
+  StoryCubit(this._repo, {this.onStoryViewed}) : super(StoryState()) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       startStoryTimer();
     });
@@ -32,7 +33,8 @@ class StoryCubit extends Cubit<StoryState> {
 
     // View story when it starts (only if not viewed)
     if (currentStory.id != null && currentStory.isViewed == false) {
-      viewStory(sId: currentStory.id!);
+      final userId = currentUser.user?.id;
+      viewStory(sId: currentStory.id!, userId: userId);
     }
 
     final duration = Duration(seconds: currentStory.duration ?? 5);
@@ -138,6 +140,10 @@ class StoryCubit extends Cubit<StoryState> {
     return super.close();
   }
 
-  Future<void> viewStory({required String sId}) async =>
-      await _repo.viewStory(sId: sId);
+  Future<void> viewStory({required String sId, String? userId}) async {
+    await _repo.viewStory(sId: sId);
+    if (onStoryViewed != null && userId != null) {
+      onStoryViewed!(sId, userId);
+    }
+  }
 }

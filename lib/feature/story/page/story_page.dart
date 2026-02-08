@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:rightflair/feature/navigation/page/feed/bloc/feed_bloc.dart';
 import 'package:rightflair/feature/navigation/page/feed/models/user_with_stories.dart';
 import 'package:rightflair/feature/story/cubit/story_cubit.dart';
 import 'package:rightflair/feature/story/repository/story_repository_impl.dart';
@@ -48,10 +49,19 @@ class _StoryPageState extends State<StoryPage>
 
   @override
   Widget build(BuildContext context) {
+    final feedBloc = context.read<FeedBloc>();
+    
     return BlocProvider(
       create: (context) =>
-          StoryCubit(StoryRepositoryImpl())
-            ..init(stories: widget.stories, initialIndex: widget.index),
+          StoryCubit(
+            StoryRepositoryImpl(),
+            onStoryViewed: (storyId, userId) {
+              feedBloc.add(StoryViewedEvent(
+                storyId: storyId,
+                userId: userId,
+              ));
+            },
+          )..init(stories: widget.stories, initialIndex: widget.index),
       child: BlocConsumer<StoryCubit, StoryState>(
         listener: (context, state) {
           if (state.shouldClose) {
