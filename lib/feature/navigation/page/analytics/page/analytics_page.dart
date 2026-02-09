@@ -52,9 +52,10 @@ class AnalyticsPage extends StatelessWidget {
           ? LoadingComponent()
           : SingleChildScrollView(
               child: Column(
-                spacing: context.height * 0.03,
                 children: [
+                  SizedBox(height: context.height * 0.02),
                   AnalyticsGridWidget(data: state.data),
+                  SizedBox(height: context.height * 0.03),
                   AnalyticsEngagementChartWidget(
                     data: state.data?.engagementChart ?? [],
                     dateRange: state.selectedDateRange,
