@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../core/constants/endpoint.dart';
+import '../../../core/constants/enums/endpoint.dart';
 import '../../../core/services/api.dart';
 import 'story_repository.dart';
 
