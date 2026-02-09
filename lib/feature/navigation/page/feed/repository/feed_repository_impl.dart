@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rightflair/core/base/model/response.dart';
-import 'package:rightflair/core/constants/endpoint.dart';
+import 'package:rightflair/core/constants/enums/endpoint.dart';
 import 'package:rightflair/feature/navigation/page/feed/models/request_comment.dart';
 import 'package:rightflair/feature/navigation/page/profile/model/pagination.dart';
 

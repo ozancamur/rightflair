@@ -13,19 +13,35 @@ import '../../../../../core/constants/route.dart';
 class InboxCubit extends Cubit<InboxState> {
   final InboxRepositoryImpl _repo;
   InboxCubit(this._repo) : super(InboxState()) {
-    _loadConversations();
+    _initConversations();
+    _initNotifications();
   }
 
-  Future<void> _loadConversations() async {
-    emit(state.copyWith(isLoading: true));
-    final response = await _repo.fetchConversations(
+  Future<void> _initConversations() async {
+    emit(state.copyWith(isConversationsLoading: true));
+    final chats = await _repo.getConversations(
       pagination: PaginationModel().forConversations(page: 1),
     );
+
     emit(
       state.copyWith(
-        isLoading: false,
-        conversations: response?.conversations ?? [],
-        pagination: response?.pagination,
+        isConversationsLoading: false,
+        conversations: chats?.conversations ?? [],
+        conversationsPagination: chats?.pagination,
+      ),
+    );
+  }
+
+  Future<void> _initNotifications() async {
+    emit(state.copyWith(isNotificationsLoading: true));
+
+    final responseAcitivityNotifications = await _repo
+        .getActivityNotifications();
+
+    emit(
+      state.copyWith(
+        isNotificationsLoading: false,
+        activityNotifications: responseAcitivityNotifications?.notifications,
       ),
     );
   }

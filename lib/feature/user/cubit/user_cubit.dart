@@ -90,9 +90,9 @@ class UserCubit extends Cubit<UserState> {
     final response = await _repo.followUser(userId: userId);
     if (!isClosed) {
       if (response != null) {
-        final bool isFollowing = response['is_following'] ?? false;
+        final bool isFollowing = response.isFollowing ?? false;
         final int followersCount =
-            response['followers_count'] ?? newFollowersCount;
+            response.followersCount ?? newFollowersCount;
         emit(
           state.copyWith(
             isFollowing: isFollowing,

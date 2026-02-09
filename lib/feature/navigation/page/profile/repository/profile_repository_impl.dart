@@ -1,5 +1,5 @@
 import 'package:flutter/widgets.dart';
-import 'package:rightflair/core/constants/endpoint.dart';
+import 'package:rightflair/core/constants/enums/endpoint.dart';
 import 'package:rightflair/core/services/api.dart';
 import 'package:rightflair/feature/authentication/model/user.dart';
 import 'package:rightflair/feature/navigation/page/profile/model/style_tags.dart';

@@ -9,6 +9,7 @@ import '../../navigation/page/profile/model/request_post.dart';
 import '../../navigation/page/profile/model/response_post.dart';
 import '../../follow/model/follow_list_request.dart';
 import '../../follow/model/follow_list_response.dart';
+import '../../new_followers/model/follow_response.dart';
 import '../model/check_to_following_user.dart';
 import 'user_repository.dart';
 
@@ -104,7 +105,7 @@ class UserRepositoryImpl extends UserRepository {
   }
 
   @override
-  Future<Map<String, dynamic>?> followUser({required String userId}) async {
+  Future<FollowResponseModel?> followUser({required String userId}) async {
     try {
       final request = await _api.post(
         Endpoint.FOLLOW_TO_USER,
@@ -115,7 +116,10 @@ class UserRepositoryImpl extends UserRepository {
         request.data as Map<String, dynamic>,
       );
       if (response.data == null) return null;
-      return response.data as Map<String, dynamic>;
+      final FollowResponseModel data = FollowResponseModel().fromJson(
+        response.data as Map<String, dynamic>,
+      );
+      return data;
     } catch (e) {
       debugPrint("UserRepositoryImpl ERROR in followUser :> $e");
       return null;

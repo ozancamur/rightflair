@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:rightflair/feature/navigation/page/inbox/model/notification_type.dart';
+import 'package:rightflair/core/constants/enums/notification_type.dart';
 
 import '../../../../../../core/extensions/context.dart';
 import '../../model/notification_config.dart';
 
 class NotificationItemWidget extends StatelessWidget {
-  final NotificationType type;
+  final NotificationType? type;
   const NotificationItemWidget({super.key, required this.type});
 
   @override

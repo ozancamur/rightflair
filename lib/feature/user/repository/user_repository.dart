@@ -6,6 +6,7 @@ import '../../navigation/page/profile/model/request_post.dart';
 import '../../navigation/page/profile/model/response_post.dart';
 import '../../follow/model/follow_list_request.dart';
 import '../../follow/model/follow_list_response.dart';
+import '../../new_followers/model/follow_response.dart';
 
 abstract class UserRepository {
   Future<UserModel?> getUser({required String userId});
@@ -16,7 +17,7 @@ abstract class UserRepository {
   });
 
   Future<CheckToFollowingUserModel?> checkFollowingUser({required String userId});
-  Future<Map<String, dynamic>?> followUser({required String userId});
+  Future<FollowResponseModel?> followUser({required String userId});
 
   Future<FollowListResponseModel?> getFollowersList({
     required FollowListRequestModel parameters,

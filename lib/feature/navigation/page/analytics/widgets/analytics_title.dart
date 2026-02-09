@@ -6,7 +6,7 @@ import 'package:rightflair/core/constants/icons.dart';
 
 import '../../../../../core/extensions/context.dart';
 import '../cubit/analytics_cubit.dart';
-import '../model/date_range.dart';
+import '../../../../../core/constants/enums/date_range.dart';
 
 class DateRangeButton extends StatelessWidget {
   final DateRange selectedRange;

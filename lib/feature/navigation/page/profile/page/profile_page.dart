@@ -3,10 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rightflair/core/components/loading.dart';
 import 'package:rightflair/core/extensions/context.dart';
 import 'package:rightflair/core/components/profile/profile_header.dart';
-import 'package:rightflair/feature/follow/cubit/follow_list_state.dart';
 import 'package:rightflair/feature/follow/page/dialog_follow_list.dart';
 
 import '../../../../../core/base/page/base_scaffold.dart';
+import '../../../../../core/constants/enums/follow_list_type.dart';
 import '../../../../create_story/page/create_story_dialog.dart';
 import '../widgets/profile_appbar.dart';
 import '../cubit/profile_cubit.dart';
@@ -96,7 +96,8 @@ class _ProfilePageState extends State<ProfilePage>
           isCanEdit: true,
           user: state.user,
           tags: state.tags?.styleTags ?? [],
-          onEditPhoto: () => dialogCreateStory(context, uid: state.user.id ?? ''),
+          onEditPhoto: () =>
+              dialogCreateStory(context, uid: state.user.id ?? ''),
           onFollowersTap: () {
             dialogFollowList(
               context,
@@ -108,7 +109,7 @@ class _ProfilePageState extends State<ProfilePage>
             dialogFollowList(
               context,
               listType: FollowListType.following,
-              userId: null, // null for current user's own profile
+              userId: null,
             );
           },
         ),

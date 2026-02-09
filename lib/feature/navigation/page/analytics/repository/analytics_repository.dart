@@ -1,5 +1,5 @@
 import '../model/analytics.dart';
-import '../model/date_range.dart';
+import '../../../../../core/constants/enums/date_range.dart';
 
 abstract class AnalyticsRepository {
   Future<AnalyticsModel?> getAnalytics({

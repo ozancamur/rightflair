@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:rightflair/core/constants/endpoint.dart';
+import 'package:rightflair/core/constants/enums/endpoint.dart';
 import 'package:rightflair/feature/navigation/page/inbox/model/conversations.dart';
 
 import '../../../../../core/base/model/response.dart';
 import '../../../../../core/services/api.dart';
 import '../../profile/model/pagination.dart';
+import '../model/response_notifications.dart';
 import 'inbox_repository.dart';
 
 class InboxRepositoryImpl implements InboxRepository {
@@ -12,7 +13,7 @@ class InboxRepositoryImpl implements InboxRepository {
   InboxRepositoryImpl({ApiService? api}) : _api = api ?? ApiService();
 
   @override
-  Future<ConversationsModel?> fetchConversations({
+  Future<ConversationsModel?> getConversations({
     required PaginationModel pagination,
   }) async {
     try {
@@ -29,6 +30,44 @@ class InboxRepositoryImpl implements InboxRepository {
       return conversations;
     } catch (e) {
       debugPrint("InboxRepositoryImpl ERROR in fetchConversations: $e");
+      return null;
+    }
+  }
+
+  @override
+  Future<ResponseNotificationsModel?> getActivityNotifications() async {
+    try {
+      final request = await _api.post(Endpoint.GET_ACTIVITY_NOTIFICATIONS);
+      final response = ResponseModel().fromJson(
+        request?.data as Map<String, dynamic>,
+      );
+      final ResponseNotificationsModel notifications =
+          ResponseNotificationsModel().fromJson(
+            response.data as Map<String, dynamic>,
+          );
+      return notifications;
+    } catch (e) {
+      debugPrint("InboxRepositoryImpl ERROR in fetchNotifications: $e");
+      return null;
+    }
+  }
+
+ 
+
+  @override
+  Future<ResponseNotificationsModel?> getSystemNotifications() async {
+    try {
+      final request = await _api.post(Endpoint.GET_SYSTEM_NOTIFICATIONS);
+      final response = ResponseModel().fromJson(
+        request?.data as Map<String, dynamic>,
+      );
+      final ResponseNotificationsModel notifications =
+          ResponseNotificationsModel().fromJson(
+            response.data as Map<String, dynamic>,
+          );
+      return notifications;
+    } catch (e) {
+      debugPrint("InboxRepositoryImpl ERROR in fetchNotifications: $e");
       return null;
     }
   }

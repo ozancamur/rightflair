@@ -5,7 +5,7 @@ import 'package:rightflair/core/constants/string.dart';
 import 'package:rightflair/core/extensions/context.dart';
 
 import '../../../../../core/constants/color/color.dart';
-import '../model/date_range.dart';
+import '../../../../../core/constants/enums/date_range.dart';
 import '../model/engagement_chart.dart';
 import 'chart_painter.dart';
 

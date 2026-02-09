@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../../../../../../core/components/text/text.dart';
-import '../../../../../../core/constants/font/font_size.dart';
-import '../../../../../../core/extensions/context.dart';
+import '../../../../core/components/text/text.dart';
+import '../../../../core/constants/font/font_size.dart';
+import '../../../../core/extensions/context.dart';
 
 class FollowerInformationWidget extends StatelessWidget {
   final String username;
@@ -36,7 +36,6 @@ class FollowerInformationWidget extends StatelessWidget {
                   text: subtitle,
                   size: FontSizeConstants.XX_SMALL,
                   color: context.colors.primary.withOpacity(.65),
-                  tr: false,
                 ),
               ),
               TextComponent(

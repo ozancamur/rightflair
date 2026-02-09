@@ -3,10 +3,11 @@ import 'package:go_router/go_router.dart';
 import 'package:rightflair/core/components/text/text.dart';
 import 'package:rightflair/core/constants/font/font_size.dart';
 import 'package:rightflair/core/constants/route.dart';
-import 'package:rightflair/feature/navigation/page/inbox/model/notification_model.dart';
+import 'package:rightflair/core/helpers/date.dart';
 
 import '../../../../../../core/extensions/context.dart';
-import '../../model/notification_type.dart';
+import '../../model/notification.dart';
+import '../../../../../../core/constants/enums/notification_type.dart';
 import 'notification_item.dart';
 
 class InboxNotificationItem extends StatelessWidget {
@@ -18,19 +19,21 @@ class InboxNotificationItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        if (notification.type == NotificationType.system) {
+        if (notification.type == NotificationType.SYSTEM_UPDATE) {
           context.push(RouteConstants.SYSTEM_NOTIFICATIONS);
-        } else if (notification.type == NotificationType.newFollower) {
+        } else if (notification.type == NotificationType.NEW_FOLLOWER) {
           context.push(RouteConstants.NEW_FOLLOWERS);
         }
       },
       child: Container(
-        margin: EdgeInsets.symmetric(vertical: context.height * 0.01),
-        padding: EdgeInsets.all(context.width * 0.04),
+        margin: EdgeInsets.symmetric(vertical: context.height * 0.006),
+        padding: EdgeInsets.symmetric(
+          horizontal: context.width * .04,
+          vertical: context.width * 0.02,
+        ),
         decoration: BoxDecoration(
           color: context.colors.onBackground,
           borderRadius: BorderRadius.circular(context.width * 0.04),
-          border: Border.all(color: context.colors.onTertiary.withOpacity(0.5)),
         ),
         child: Row(
           spacing: context.width * 0.04,
@@ -41,17 +44,17 @@ class InboxNotificationItem extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   TextComponent(
-                    text: notification.title,
+                    text: notification.title ?? '',
                     size: FontSizeConstants.SMALL,
                     weight: FontWeight.w500,
                     maxLine: 2,
                     tr: false,
                     color: context.colors.primary,
                   ),
-                  if (notification.subtitle != null) ...[
+                  if (notification.content != null) ...[
                     SizedBox(height: context.height * 0.005),
                     TextComponent(
-                      text: notification.subtitle!,
+                      text: notification.content ?? '',
                       size: FontSizeConstants.XX_SMALL,
                       color: context.colors.primary,
                       overflow: TextOverflow.ellipsis,
@@ -62,7 +65,7 @@ class InboxNotificationItem extends StatelessWidget {
                 ],
               ),
             ),
-            if (notification.timeAgo.isNotEmpty) ...[
+            if (notification.createdAt != null) ...[
               SizedBox(width: context.width * 0.02),
               Container(
                 padding: EdgeInsets.symmetric(
@@ -74,7 +77,7 @@ class InboxNotificationItem extends StatelessWidget {
                   borderRadius: BorderRadius.circular(context.width * 0.02),
                 ),
                 child: TextComponent(
-                  text: notification.timeAgo,
+                  text: DateHelper.timeAgo(notification.createdAt),
                   size: FontSizeConstants.XX_SMALL,
                   color: context.colors.primary,
                   tr: false,

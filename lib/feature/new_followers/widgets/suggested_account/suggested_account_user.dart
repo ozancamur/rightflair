@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 
-import '../../../../../../core/components/text/text.dart';
-import '../../../../../../core/constants/font/font_size.dart';
-import '../../../../../../core/extensions/context.dart';
+import '../../../../core/components/text/text.dart';
+import '../../../../core/constants/font/font_size.dart';
+import '../../../../core/extensions/context.dart';
 
 class SuggestedAccountUserWidget extends StatelessWidget {
-  final String username;
-  final String handle;
+  final String? fullname;
+  final String? username;
   const SuggestedAccountUserWidget({
     super.key,
+    required this.fullname,
     required this.username,
-    required this.handle,
   });
 
   @override
@@ -21,14 +21,14 @@ class SuggestedAccountUserWidget extends StatelessWidget {
         spacing: context.height * 0.003,
         children: [
           TextComponent(
-            text: username,
+            text: fullname ?? "Rightflair User",
             size: FontSizeConstants.SMALL,
             weight: FontWeight.w600,
             tr: false,
             color: context.colors.primary,
           ),
           TextComponent(
-            text: handle,
+            text: username ?? "@rightflair_user",
             size: FontSizeConstants.XX_SMALL,
             color: context.colors.tertiary,
             tr: false,

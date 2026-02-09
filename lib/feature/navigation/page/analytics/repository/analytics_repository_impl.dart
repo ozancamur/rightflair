@@ -1,10 +1,10 @@
 import 'package:flutter/widgets.dart';
 import 'package:rightflair/core/base/model/response.dart';
-import 'package:rightflair/core/constants/endpoint.dart';
+import 'package:rightflair/core/constants/enums/endpoint.dart';
 import 'package:rightflair/core/services/api.dart';
 
 import '../model/analytics.dart';
-import '../model/date_range.dart';
+import '../../../../../core/constants/enums/date_range.dart';
 import 'analytics_repository.dart';
 
 class AnalyticsRepositoryImpl extends AnalyticsRepository {

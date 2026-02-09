@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../../../../core/extensions/context.dart';
+import '../../../../core/extensions/context.dart';
 
 class SuggestedAccountMoreButtonWidget extends StatelessWidget {
   const SuggestedAccountMoreButtonWidget({super.key});

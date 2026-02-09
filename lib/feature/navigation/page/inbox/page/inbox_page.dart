@@ -78,18 +78,34 @@ class _InboxPageState extends State<InboxPage>
   }
 
   Widget _check(InboxState state) {
-    return state.isLoading ? LoadingComponent() : _body(state);
+    return state.isConversationsLoading ? LoadingComponent() : _body(state);
   }
 
   TabBarView _body(InboxState state) {
     return TabBarView(
       controller: _tabController,
       children: [
-        state.conversations == null
-            ? SizedBox.shrink()
-            : InboxMessagesListWidget(list: state.conversations ?? []),
-        InboxNotificationsList(notifications: []),
+        _conversations(context, state),
+        _notifications(context, state),
       ],
     );
+  }
+
+  Widget _conversations(BuildContext context, InboxState state) {
+    return state.isConversationsLoading
+        ? LoadingComponent()
+        : state.conversations == null
+        ? SizedBox.shrink()
+        : InboxMessagesListWidget(list: state.conversations ?? []);
+  }
+
+  Widget _notifications(BuildContext context, InboxState state) {
+    return state.isNotificationsLoading
+        ? LoadingComponent()
+        : state.activityNotifications == null
+        ? SizedBox.shrink()
+        : InboxNotificationsList(
+            notifications: state.activityNotifications ?? [],
+          );
   }
 }

@@ -49,6 +49,8 @@ enum Endpoint {
   GET_ACTIVITY_NOTIFICATIONS('get-activity-notifications'),
   GET_FOLLOWER_NOTIFICATIONS('get-follower-notifications'),
   GET_SYSTEM_NOTIFICATIONS('get-system-notifications'),
+
+  GET_SUGGESTED_USERS('get-suggested-users')
   ;
 
   final String value;

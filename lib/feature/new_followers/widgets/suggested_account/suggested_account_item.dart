@@ -5,22 +5,16 @@ import 'package:rightflair/core/components/text/text.dart';
 import 'package:rightflair/core/constants/font/font_size.dart';
 
 import 'package:rightflair/core/constants/string.dart';
+import 'package:rightflair/feature/navigation/page/inbox/model/notification_sender.dart';
 
-import '../../../../../../core/extensions/context.dart';
-import 'suggested_account_image.dart';
+import '../../../../core/extensions/context.dart';
+import '../user_image.dart';
 import 'suggested_account_user.dart';
 
 class SuggestedAccountItemWidget extends StatelessWidget {
-  final String username;
-  final String handle;
-  final String profileImage;
+  final NotificationSenderModel user;
 
-  const SuggestedAccountItemWidget({
-    super.key,
-    required this.username,
-    required this.handle,
-    required this.profileImage,
-  });
+  const SuggestedAccountItemWidget({super.key, required this.user});
 
   @override
   Widget build(BuildContext context) {
@@ -41,11 +35,14 @@ class SuggestedAccountItemWidget extends StatelessWidget {
     return Row(
       children: [
         // Profile image
-        SuggestedAccountImageWidget(image: profileImage),
+        UserImageWidget(id: user.id, url: user.profilePhotoUrl),
         SizedBox(width: context.width * 0.03),
 
         // Username and handle
-        SuggestedAccountUserWidget(username: username, handle: handle),
+        SuggestedAccountUserWidget(
+          fullname: user.fullName,
+          username: user.username,
+        ),
 
         // More button
       ],

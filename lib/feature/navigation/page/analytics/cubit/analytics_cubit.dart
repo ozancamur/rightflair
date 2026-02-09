@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../model/analytics.dart';
-import '../model/date_range.dart';
+import '../../../../../core/constants/enums/date_range.dart';
 import '../repository/analytics_repository_impl.dart';
 
 part 'analytics_state.dart';

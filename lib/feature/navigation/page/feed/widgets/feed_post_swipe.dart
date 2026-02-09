@@ -7,7 +7,7 @@ import '../../../../../core/extensions/context.dart';
 import '../../../../comments/page/dialog_comments.dart';
 import '../../../../create_post/model/post.dart';
 import '../bloc/feed_bloc.dart';
-import '../models/swipe_direction.dart';
+import '../../../../../core/constants/enums/swipe_direction.dart';
 import 'post_dislike_button.dart';
 
 class FeedPostItem extends StatefulWidget {
