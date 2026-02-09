@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
+import 'package:rightflair/core/constants/app.dart';
 import 'package:rightflair/core/utils/router.dart';
 import 'package:rightflair/feature/authentication/bloc/authentication_bloc.dart';
 import 'package:rightflair/feature/authentication/repository/authentication_repository_impl.dart';
@@ -16,6 +17,7 @@ import 'package:rightflair/feature/location/cubit/location_cubit.dart';
 import 'package:rightflair/feature/navigation/page/feed/bloc/feed_bloc.dart';
 import 'package:rightflair/feature/navigation/page/profile/cubit/profile_cubit.dart';
 import 'package:rightflair/feature/navigation/page/profile/repository/profile_repository_impl.dart';
+import 'package:rightflair/feature/new_followers/cubit/new_followers_cubit.dart';
 import 'package:rightflair/feature/post_detail/cubit/post_detail_cubit.dart';
 import 'package:rightflair/feature/profile_edit/cubit/profile_edit_cubit.dart';
 import 'package:rightflair/feature/profile_edit/repository/profile_edit_repository_impl.dart';
@@ -37,6 +39,7 @@ import 'feature/navigation/page/inbox/repository/inbox_repository_impl.dart';
 import 'feature/location/repository/location_repository_impl.dart';
 import 'feature/navigation/cubit/navigation_cubit.dart';
 import 'feature/navigation/page/analytics/cubit/analytics_cubit.dart';
+import 'feature/new_followers/repository/new_followers_repository_impl.dart';
 import 'feature/post_detail/repository/post_detail_repository_impl.dart';
 import 'feature/search/repository/search_repository_impl.dart';
 import 'feature/settings/repository/settings_repository_impl.dart';
@@ -50,46 +53,28 @@ class RightFlair extends StatelessWidget {
     final themeNotifier = Provider.of<ThemeNotifier>(context);
     return MultiBlocProvider(
       providers: [
-        // AUTHENTICATION
-        BlocProvider(
-          create: (_) => AuthenticationBloc(AuthenticationRepositoryImpl()),
-        ),
-        BlocProvider(
-          create: (_) => ChooseUsernameCubit(ChooseUsernameRepositoryImpl()),
-        ),
-
-        // NAVIGATION
+        BlocProvider(create: (_) => AuthenticationBloc(AuthenticationRepositoryImpl())),
+        BlocProvider(create: (_) => ChooseUsernameCubit(ChooseUsernameRepositoryImpl())),
         BlocProvider(create: (_) => NavigationCubit()),
         BlocProvider(create: (_) => FeedBloc(FeedRepositoryImpl())),
         BlocProvider(create: (_) => AnalyticsCubit(AnalyticsRepositoryImpl())),
         BlocProvider(create: (_) => InboxCubit(InboxRepositoryImpl())),
         BlocProvider(create: (_) => ProfileCubit(ProfileRepositoryImpl())),
-
-        BlocProvider(
-          create: (_) => ProfileEditCubit(ProfileEditRepositoryImpl()),
-        ),
-
+        BlocProvider(create: (_) => ProfileEditCubit(ProfileEditRepositoryImpl())),
         BlocProvider(create: (_) => UserCubit(UserRepositoryImpl())),
-        BlocProvider(
-          create: (_) => PostDetailCubit(PostDetailRepositoryImpl()),
-        ),
+        BlocProvider(create: (_) => PostDetailCubit(PostDetailRepositoryImpl())),
         BlocProvider(create: (_) => SettingsCubit(SettingsRepositoryImpl())),
-
-        BlocProvider(
-          create: (_) => CreatePostCubit(CreatePostRepositoryImpl()),
-        ),
+        BlocProvider(create: (_) => CreatePostCubit(CreatePostRepositoryImpl())),
         BlocProvider(create: (_) => LocationCubit(LocationRepositoryImpl())),
-
         BlocProvider(create: (_) => CommentsCubit(CommentsRepositoryImpl())),
         BlocProvider(create: (_) => ChatCubit(ChatRepositoryImpl())),
-        BlocProvider(
-          create: (_) => CreateStoryCubit(CreateStoryRepositoryImpl()),
-        ),
+        BlocProvider(create: (_) => CreateStoryCubit(CreateStoryRepositoryImpl())),
         BlocProvider(create: (_) => StoryCubit(StoryRepositoryImpl())),
         BlocProvider(create: (_) => SearchCubit(SearchRepositoryImpl())),
+        BlocProvider(create: (_) => NewFollowersCubit(NewFollowersRepositoryImpl())),
       ],
       child: MaterialApp.router(
-        title: 'RightFlair',
+        title: AppConstants.APP_NAME,
         debugShowCheckedModeBanner: false,
         themeMode: themeNotifier.themeMode,
         localizationsDelegates: context.localizationDelegates,
