@@ -14,6 +14,7 @@ class PostComponent extends StatelessWidget {
   final VoidCallback onSave;
   final VoidCallback onShare;
   final bool isDraft;
+  final double? height;
   const PostComponent({
     super.key,
     required this.post,
@@ -21,12 +22,13 @@ class PostComponent extends StatelessWidget {
     required this.onSave,
     required this.onShare,
     this.isDraft = false,
+    this.height,
   });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: context.height * .645,
+      height: height ?? context.height,
       width: context.width,
       decoration: BoxDecoration(
         color: context.colors.primary,

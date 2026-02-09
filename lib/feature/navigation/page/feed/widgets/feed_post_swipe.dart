@@ -169,6 +169,7 @@ class _FeedPostItemState extends State<FeedPostItem>
       right: 0,
       left: 0,
       child: PostComponent(
+        height: context.height * .645,
         post: widget.post,
         onComment: () => dialogComments(
           context,
