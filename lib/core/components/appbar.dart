@@ -8,6 +8,7 @@ class AppBarComponent extends StatelessWidget implements PreferredSizeWidget {
   final Widget? title;
   final List<Widget>? actions;
   final PreferredSizeWidget? bottom;
+  final bool? centerTitle;
   const AppBarComponent({
     super.key,
     this.leading,
@@ -15,6 +16,7 @@ class AppBarComponent extends StatelessWidget implements PreferredSizeWidget {
     this.title,
     this.actions,
     this.bottom,
+    this.centerTitle,
   });
 
   @override
@@ -32,6 +34,7 @@ class AppBarComponent extends StatelessWidget implements PreferredSizeWidget {
       actions: actions,
       title: title,
       bottom: bottom,
+      centerTitle: centerTitle,
     );
   }
 

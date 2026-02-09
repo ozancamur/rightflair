@@ -1,6 +1,8 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:rightflair/core/constants/icons.dart';
 
 import '../../../../../core/extensions/context.dart';
 import '../cubit/analytics_cubit.dart';
@@ -21,7 +23,6 @@ class DateRangeButton extends StatelessWidget {
         return 'analytics.last6Months'.tr();
       case DateRange.last1Year:
         return 'analytics.last1Year'.tr();
-      
     }
   }
 
@@ -39,10 +40,14 @@ class DateRangeButton extends StatelessWidget {
           child: Row(
             children: [
               if (selectedRange == range)
-                Icon(Icons.check, size: 18, color: context.colors.primary)
+                SvgPicture.asset(
+                  AppIcons.ARROW_DOWN,
+                  height: context.height * .01,
+                  color: context.colors.primary,
+                )
               else
-                const SizedBox(width: 18),
-              const SizedBox(width: 8),
+              SizedBox(width: context.height * .01),
+              SizedBox(width: context.height * .005),
               Text(
                 _getDateRangeLabel(range),
                 style: TextStyle(

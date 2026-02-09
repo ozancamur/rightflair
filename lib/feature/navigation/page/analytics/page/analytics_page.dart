@@ -17,7 +17,6 @@ class AnalyticsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Fetch analytics only if not already loading or loaded
     final cubit = context.read<AnalyticsCubit>();
     if (!cubit.state.isLoading && cubit.state.data?.likes == null) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -28,33 +27,41 @@ class AnalyticsPage extends StatelessWidget {
     return BlocBuilder<AnalyticsCubit, AnalyticsState>(
       builder: (context, state) {
         return BaseScaffold(
-          appBar: _appbar(state),
-          body: Padding(
-            padding: EdgeInsets.symmetric(horizontal: context.width * 0.05),
-            child: state.isLoading
-                ? LoadingComponent()
-                : SingleChildScrollView(
-                    child: Column(
-                      spacing: context.height * 0.03,
-                      children: [
-                        AnalyticsGridWidget(data: state.data),
-                        AnalyticsEngagementChartWidget(
-                          data: state.data?.engagementChart ?? [],
-                          dateRange: state.selectedDateRange,
-                        ),
-                      ],
-                    ),
-                  ),
-          ),
+          appBar: _appbar(context, state),
+          body: _body(context, state),
         );
       },
     );
   }
 
-  AppBarComponent _appbar(AnalyticsState state) {
+  AppBarComponent _appbar(BuildContext context, AnalyticsState state) {
     return AppBarComponent(
       title: AppbarTitleComponent(title: AppStrings.ANALYTICS_TITLE),
-      actions: [DateRangeButton(selectedRange: state.selectedDateRange)],
+      centerTitle: true,
+      actions: [
+        DateRangeButton(selectedRange: state.selectedDateRange),
+        SizedBox(width: context.width * 0.02),
+      ],
+    );
+  }
+
+  Padding _body(BuildContext context, AnalyticsState state) {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: context.width * 0.05),
+      child: state.isLoading
+          ? LoadingComponent()
+          : SingleChildScrollView(
+              child: Column(
+                spacing: context.height * 0.03,
+                children: [
+                  AnalyticsGridWidget(data: state.data),
+                  AnalyticsEngagementChartWidget(
+                    data: state.data?.engagementChart ?? [],
+                    dateRange: state.selectedDateRange,
+                  ),
+                ],
+              ),
+            ),
     );
   }
 }
