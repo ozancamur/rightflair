@@ -152,7 +152,8 @@
             "title": "New Followers",
             "suggestedAccounts": "Suggested Accounts",
             "hide": "hide",
-            "viewMore": "view more"
+            "viewMore": "view more",
+            "startedFollowingYou": "started following you."
         },
         "followBack": "Follow back",
         "remove": "Remove",
