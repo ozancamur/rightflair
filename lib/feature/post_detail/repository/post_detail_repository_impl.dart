@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rightflair/core/base/model/response.dart';
 
-import '../../../core/constants/endpoint.dart';
+import '../../../core/constants/enums/endpoint.dart';
 import '../../../core/services/api.dart';
 import 'post_detail_repository.dart';
 
