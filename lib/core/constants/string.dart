@@ -353,6 +353,8 @@ class AppStrings {
   static const String INBOX_FOLLOW_BACK = 'inbox.followBack';
   static const String INBOX_REMOVE = 'inbox.remove';
   static const String INBOX_FOLLOW = 'inbox.follow';
+  static const String INBOX_STARTED_FOLLOWING_YOU =
+      'inbox.newFollowers.startedFollowingYou';
 
   // TIME
   static const String TIME_MINUTES_AGO = 'time.minutesAgo';

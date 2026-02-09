@@ -8,7 +8,7 @@ import 'package:rightflair/feature/create_post/page/create_post_page.dart';
 import 'package:rightflair/feature/navigation/page/navigation_page.dart';
 import 'package:rightflair/feature/search/page/search_page.dart';
 import 'package:rightflair/feature/navigation/page/inbox/page/system_notifications_page.dart';
-import 'package:rightflair/feature/navigation/page/inbox/page/new_followers_page.dart';
+import 'package:rightflair/feature/new_followers/page/new_followers_page.dart';
 import 'package:rightflair/feature/settings/page/settings_page.dart';
 
 import '../../feature/authentication/pages/register_page.dart';

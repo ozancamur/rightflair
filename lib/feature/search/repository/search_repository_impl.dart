@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:rightflair/core/base/model/response.dart';
-import 'package:rightflair/core/constants/endpoint.dart';
+import 'package:rightflair/core/constants/enums/endpoint.dart';
 import 'package:rightflair/core/services/api.dart';
 import 'package:rightflair/feature/search/model/request_search.dart';
 import 'package:rightflair/feature/search/model/response_search.dart';
