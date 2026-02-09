@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../core/base/model/response.dart';
-import '../../../core/constants/endpoint.dart';
+import '../../../core/constants/enums/endpoint.dart';
 import '../../../core/services/api.dart';
 import '../../navigation/page/feed/models/comment.dart';
 import '../../navigation/page/feed/models/request_comment.dart';
