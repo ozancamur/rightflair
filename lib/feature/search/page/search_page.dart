@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rightflair/core/components/button/back_button.dart';
+import 'package:rightflair/core/components/post/post.dart';
 import 'package:rightflair/core/components/text/text.dart';
 import 'package:rightflair/core/constants/font/font_size.dart';
 import 'package:rightflair/core/constants/string.dart';
 import 'package:rightflair/core/extensions/context.dart';
+import 'package:rightflair/core/utils/dialogs/error.dart';
 import 'package:rightflair/feature/search/cubit/search_cubit.dart';
+import 'package:rightflair/feature/search/repository/search_repository_impl.dart';
 import 'package:rightflair/feature/search/widgets/recent_search_chip.dart';
 import 'package:rightflair/feature/search/widgets/search_text_field.dart';
 
@@ -17,35 +20,92 @@ class SearchPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => SearchCubit(),
+      create: (context) => SearchCubit(SearchRepositoryImpl()),
       child: const _SearchPageView(),
     );
   }
 }
 
-class _SearchPageView extends StatelessWidget {
+class _SearchPageView extends StatefulWidget {
   const _SearchPageView();
 
   @override
+  State<_SearchPageView> createState() => _SearchPageViewState();
+}
+
+class _SearchPageViewState extends State<_SearchPageView> {
+  final ScrollController _scrollController = ScrollController();
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController.addListener(_onScroll);
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  void _onScroll() {
+    if (_scrollController.position.pixels >=
+        _scrollController.position.maxScrollExtent * 0.8) {
+      final cubit = context.read<SearchCubit>();
+      final query = cubit.searchController.text;
+      if (query.isNotEmpty) {
+        cubit.loadMore(query);
+      }
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return BaseScaffold(
-      body: SafeArea(
-        child: Padding(
-          padding: EdgeInsets.symmetric(
-            horizontal: context.width * 0.04,
-            vertical: context.height * 0.01,
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(height: context.height * 0.01),
-              _searchField(context),
-              SizedBox(height: context.height * 0.03),
-              _recentSearches(context),
-            ],
+    return BlocListener<SearchCubit, SearchState>(
+      listener: (context, state) {
+        if (state.errorMessage != null && state.errorMessage!.isNotEmpty) {
+          dialogError(
+            context,
+            message: state.errorMessage!,
+            title: 'Search Error',
+          );
+        }
+      },
+      child: BaseScaffold(
+        body: SafeArea(
+          child: Padding(
+            padding: EdgeInsets.symmetric(
+              horizontal: context.width * 0.04,
+              vertical: context.height * 0.01,
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(height: context.height * 0.01),
+                _searchField(context),
+                SizedBox(height: context.height * 0.03),
+                Expanded(child: _content(context)),
+              ],
+            ),
           ),
         ),
       ),
+    );
+  }
+
+  Widget _content(BuildContext context) {
+    return BlocBuilder<SearchCubit, SearchState>(
+      builder: (context, state) {
+        if (state.searchResults.isNotEmpty) {
+          return _searchResults(context, state);
+        } else if (state.isLoading && state.searchResults.isEmpty) {
+          return const Center(child: CircularProgressIndicator());
+        } else if (state.errorMessage != null) {
+          return _errorWidget(context, state.errorMessage!);
+        } else {
+          return _recentSearches(context);
+        }
+      },
     );
   }
 
@@ -63,6 +123,54 @@ class _SearchPageView extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+
+  Widget _searchResults(BuildContext context, SearchState state) {
+    return ListView.builder(
+      controller: _scrollController,
+      itemCount: state.searchResults.length + (state.hasMoreResults ? 1 : 0),
+      itemBuilder: (context, index) {
+        if (index == state.searchResults.length) {
+          return const Padding(
+            padding: EdgeInsets.all(16.0),
+            child: Center(child: CircularProgressIndicator()),
+          );
+        }
+        return Padding(
+          padding: EdgeInsets.only(bottom: context.height * 0.02),
+          child: PostComponent(
+            post: state.searchResults[index],
+            onComment: () {
+              // TODO: Navigate to post detail page
+            },
+            onSave: () {
+              // TODO: Implement save post
+            },
+            onShare: () {
+              // TODO: Implement share post
+            },
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _errorWidget(BuildContext context, String message) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(Icons.error_outline, size: 64, color: context.colors.error),
+          SizedBox(height: context.height * 0.02),
+          TextComponent(
+            text: message,
+            color: context.colors.error,
+            size: FontSizeConstants.NORMAL,
+            align: TextAlign.center,
+          ),
+        ],
+      ),
     );
   }
 
