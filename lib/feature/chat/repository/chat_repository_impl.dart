@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:rightflair/core/constants/endpoint.dart';
+import 'package:rightflair/core/constants/enums/endpoint.dart';
 import 'package:rightflair/core/services/api.dart';
 import 'package:rightflair/feature/chat/model/chat_messages.dart';
 import 'package:rightflair/feature/chat/model/chat_request.dart';

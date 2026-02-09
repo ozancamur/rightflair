@@ -1,4 +1,4 @@
-import 'package:rightflair/feature/chat/model/message_send_status.dart';
+import 'package:rightflair/core/constants/enums/message_send_status.dart';
 import 'package:rightflair/feature/chat/model/message_sender.dart';
 
 import '../../../core/base/model/base.dart';

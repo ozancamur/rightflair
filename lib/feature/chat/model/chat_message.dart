@@ -1,5 +1,5 @@
 import '../../../core/base/model/base.dart';
-import 'message_send_status.dart';
+import '../../../core/constants/enums/message_send_status.dart';
 import 'message_sender.dart';
 
 class ChatMessageModel extends BaseModel<ChatMessageModel> {

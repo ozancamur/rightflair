@@ -7,7 +7,7 @@ import 'package:rightflair/feature/chat/model/message_sender.dart';
 import 'package:rightflair/feature/chat/model/send_message_request.dart';
 import 'package:rightflair/feature/chat/repository/chat_repository_impl.dart';
 
-import '../model/message_send_status.dart';
+import '../../../core/constants/enums/message_send_status.dart';
 import '../model/new_message.dart';
 
 part 'chat_state.dart';
