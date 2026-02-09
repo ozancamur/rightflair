@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../core/constants/enums/follow_list_type.dart';
 import '../model/follow_list_request.dart';
 import '../model/follow_list_response.dart';
 import '../../user/repository/user_repository_impl.dart';

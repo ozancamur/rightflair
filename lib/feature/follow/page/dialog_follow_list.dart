@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../core/constants/enums/follow_list_type.dart';
 import '../cubit/follow_list_cubit.dart';
-import '../cubit/follow_list_state.dart';
 import '../../user/repository/user_repository_impl.dart';
 import 'follow_list_dialog_page.dart';
 

@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import '../../../core/components/drag_handle.dart';
 import '../../../core/components/loading.dart';
 import '../../../core/components/text/text.dart';
+import '../../../core/constants/enums/follow_list_type.dart';
 import '../../../core/constants/font/font_size.dart';
 import '../../../core/constants/route.dart';
 import '../../../core/constants/string.dart';

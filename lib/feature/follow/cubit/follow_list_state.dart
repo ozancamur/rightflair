@@ -1,9 +1,9 @@
 import 'package:equatable/equatable.dart';
 
+import '../../../core/constants/enums/follow_list_type.dart';
 import '../../authentication/model/user.dart';
 import '../../navigation/page/profile/model/pagination.dart';
 
-enum FollowListType { followers, following }
 
 class FollowListState extends Equatable {
   final bool isLoading;
