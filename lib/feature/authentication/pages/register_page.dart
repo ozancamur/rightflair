@@ -6,6 +6,7 @@ import 'package:rightflair/core/constants/string.dart';
 import 'package:rightflair/feature/authentication/bloc/authentication_bloc.dart';
 
 import '../../../core/base/page/base_scaffold.dart';
+import '../../../core/components/text/appbar_title.dart';
 import '../../../core/extensions/context.dart';
 import '../../../core/utils/dialogs/error.dart';
 import '../widgets/authentication_have_account.dart';
@@ -54,7 +55,7 @@ class _RegisterPageState extends State<RegisterPage> {
         return BaseScaffold(
           appBar: AppBarComponent(
             leading: BackButtonComponent(),
-            title: AppStrings.REGISTER_APPBAR,
+            title: AppbarTitleComponent(title: AppStrings.REGISTER_APPBAR),
           ),
           body: SizedBox(
             height: context.height,

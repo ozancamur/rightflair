@@ -7,6 +7,7 @@ import 'package:rightflair/core/components/button/back_button.dart';
 import 'package:rightflair/core/constants/string.dart';
 
 import '../../../core/base/page/base_scaffold.dart';
+import '../../../core/components/text/appbar_title.dart';
 import '../../../core/constants/route.dart';
 import '../../../core/extensions/context.dart';
 import '../bloc/authentication_bloc.dart';
@@ -59,7 +60,7 @@ class _LoginPageState extends State<LoginPage> {
         return BaseScaffold(
           appBar: AppBarComponent(
             leading: BackButtonComponent(),
-            title: AppStrings.LOGIN,
+            title: AppbarTitleComponent(title: AppStrings.LOGIN),
           ),
           body: SizedBox(
             height: context.height,

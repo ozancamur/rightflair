@@ -9,6 +9,7 @@ class SearchTextField extends StatelessWidget {
   final FocusNode focusNode;
   final String hintText;
   final Function(String)? onSubmitted;
+  final Function(String)? onChanged;
   final double borderRadius;
 
   const SearchTextField({
@@ -17,6 +18,7 @@ class SearchTextField extends StatelessWidget {
     required this.focusNode,
     required this.hintText,
     this.onSubmitted,
+    this.onChanged,
     this.borderRadius = 12,
   });
 
@@ -28,7 +30,7 @@ class SearchTextField extends StatelessWidget {
     );
 
     return Container(
-      height: context.height * 0.06,
+      height: context.height * 0.055,
       decoration: BoxDecoration(
         color: context.colors.shadow,
         borderRadius: BorderRadius.circular(borderRadius),
@@ -39,6 +41,7 @@ class SearchTextField extends StatelessWidget {
         style: _textStyle(context),
         cursorColor: context.colors.primary,
         onSubmitted: onSubmitted,
+        onChanged: onChanged,
         decoration: InputDecoration(
           fillColor: context.colors.onSecondary,
           filled: true,
@@ -61,12 +64,12 @@ class SearchTextField extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.only(
         left: context.width * 0.04,
-        right: context.width * 0.02,
+        right: context.width * 0.035,
       ),
       child: SvgPicture.asset(
         AppIcons.SEARCH_FILLED,
-        width: context.width * 0.055,
-        height: context.width * 0.055,
+        width: context.width * 0.01,
+        height: context.width * 0.01,
         colorFilter: ColorFilter.mode(
           context.colors.primaryContainer,
           BlendMode.srcIn,
@@ -78,7 +81,7 @@ class SearchTextField extends StatelessWidget {
   TextStyle _textStyle(BuildContext context) {
     return TextStyle(
       color: context.colors.primary,
-      fontSize: 15,
+      fontSize: 13,
       fontWeight: FontWeight.w400,
     );
   }
@@ -86,7 +89,7 @@ class SearchTextField extends StatelessWidget {
   TextStyle _hintStyle(BuildContext context) {
     return TextStyle(
       color: context.colors.onPrimary,
-      fontSize: 15,
+      fontSize: 13,
       fontWeight: FontWeight.w400,
     );
   }

@@ -5,6 +5,7 @@ import 'package:rightflair/core/components/loading.dart';
 import 'package:rightflair/core/extensions/context.dart';
 
 import '../../../../../core/base/page/base_scaffold.dart';
+import '../../../../../core/components/text/appbar_title.dart';
 import '../../../../../core/constants/string.dart';
 import '../cubit/analytics_cubit.dart';
 import '../widgets/analytics_engagement_chart.dart';
@@ -52,7 +53,7 @@ class AnalyticsPage extends StatelessWidget {
 
   AppBarComponent _appbar(AnalyticsState state) {
     return AppBarComponent(
-      title: AppStrings.ANALYTICS_TITLE,
+      title: AppbarTitleComponent(title: AppStrings.ANALYTICS_TITLE),
       actions: [DateRangeButton(selectedRange: state.selectedDateRange)],
     );
   }

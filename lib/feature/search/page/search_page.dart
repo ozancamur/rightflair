@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:rightflair/core/components/button/back_button.dart';
-import 'package:rightflair/core/components/post/post.dart';
-import 'package:rightflair/core/components/text/text.dart';
-import 'package:rightflair/core/constants/font/font_size.dart';
+import 'package:rightflair/core/components/loading.dart';
 import 'package:rightflair/core/constants/string.dart';
 import 'package:rightflair/core/extensions/context.dart';
 import 'package:rightflair/core/utils/dialogs/error.dart';
 import 'package:rightflair/feature/search/cubit/search_cubit.dart';
 import 'package:rightflair/feature/search/repository/search_repository_impl.dart';
-import 'package:rightflair/feature/search/widgets/recent_search_chip.dart';
-import 'package:rightflair/feature/search/widgets/search_text_field.dart';
+import 'package:rightflair/feature/search/widgets/search_appbar.dart';
+import 'package:rightflair/feature/search/widgets/search_post_widget.dart';
 
 import '../../../core/base/page/base_scaffold.dart';
+import '../widgets/recent_searches.dart';
+import '../widgets/search_error.dart';
 
 class SearchPage extends StatelessWidget {
   const SearchPage({super.key});
@@ -61,167 +60,69 @@ class _SearchPageViewState extends State<_SearchPageView> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<SearchCubit, SearchState>(
+    return BlocConsumer<SearchCubit, SearchState>(
       listener: (context, state) {
         if (state.errorMessage != null && state.errorMessage!.isNotEmpty) {
           dialogError(
             context,
             message: state.errorMessage!,
-            title: 'Search Error',
+            title: AppStrings.ERROR_DEFAULT,
           );
         }
       },
-      child: BaseScaffold(
-        body: SafeArea(
-          child: Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: context.width * 0.04,
-              vertical: context.height * 0.01,
-            ),
+      builder: (context, state) {
+        return BaseScaffold(
+          appBar: SearchAppBarWidget(),
+          body: Padding(
+            padding: EdgeInsets.symmetric(horizontal: context.width * 0.04),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(height: context.height * 0.01),
-                _searchField(context),
-                SizedBox(height: context.height * 0.03),
-                Expanded(child: _content(context)),
+                SizedBox(height: context.height * 0.02),
+                RecentSearchesWidget(searches: state.recentSearches),
+                SizedBox(height: context.height * 0.02),
+                Expanded(child: _content(context, state))
               ],
             ),
           ),
-        ),
-      ),
-    );
-  }
-
-  Widget _content(BuildContext context) {
-    return BlocBuilder<SearchCubit, SearchState>(
-      builder: (context, state) {
-        if (state.searchResults.isNotEmpty) {
-          return _searchResults(context, state);
-        } else if (state.isLoading && state.searchResults.isEmpty) {
-          return const Center(child: CircularProgressIndicator());
-        } else if (state.errorMessage != null) {
-          return _errorWidget(context, state.errorMessage!);
-        } else {
-          return _recentSearches(context);
-        }
+        );
       },
     );
   }
 
-  Widget _searchField(BuildContext context) {
-    return Row(
-      spacing: context.width * 0.03,
-      children: [
-        BackButtonComponent(),
-        Expanded(
-          child: SearchTextField(
-            controller: context.read<SearchCubit>().searchController,
-            focusNode: context.read<SearchCubit>().searchFocusNode,
-            hintText: AppStrings.SEARCH_PLACEHOLDER,
-            onSubmitted: (query) => context.read<SearchCubit>().search(query),
-          ),
-        ),
-      ],
-    );
+  Widget _content(BuildContext context, SearchState state) {
+    return state.searchResults.isNotEmpty
+        ? _posts(context, state)
+        : (state.isLoading && state.searchResults.isEmpty)
+        ? LoadingComponent()
+        : (state.errorMessage != null)
+        ? SearchErrorWidget(
+            message: state.errorMessage ?? AppStrings.ERROR_DEFAULT,
+          )
+        : const SizedBox.shrink();
   }
 
-  Widget _searchResults(BuildContext context, SearchState state) {
-    return ListView.builder(
+  Widget _posts(BuildContext context, SearchState state) {
+    return GridView.builder(
       controller: _scrollController,
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        crossAxisSpacing: context.width * 0.02,
+        mainAxisSpacing: context.height * 0.02,
+        childAspectRatio: 0.75,
+      ),
       itemCount: state.searchResults.length + (state.hasMoreResults ? 1 : 0),
       itemBuilder: (context, index) {
         if (index == state.searchResults.length) {
-          return const Padding(
-            padding: EdgeInsets.all(16.0),
-            child: Center(child: CircularProgressIndicator()),
+          return const Center(
+            child: Padding(
+              padding: EdgeInsets.all(16.0),
+              child: CircularProgressIndicator(),
+            ),
           );
         }
-        return Padding(
-          padding: EdgeInsets.only(bottom: context.height * 0.02),
-          child: PostComponent(
-            post: state.searchResults[index],
-            onComment: () {
-              // TODO: Navigate to post detail page
-            },
-            onSave: () {
-              // TODO: Implement save post
-            },
-            onShare: () {
-              // TODO: Implement share post
-            },
-          ),
-        );
+        return SearchPostWidget(post: state.searchResults[index]);
       },
-    );
-  }
-
-  Widget _errorWidget(BuildContext context, String message) {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(Icons.error_outline, size: 64, color: context.colors.error),
-          SizedBox(height: context.height * 0.02),
-          TextComponent(
-            text: message,
-            color: context.colors.error,
-            size: FontSizeConstants.NORMAL,
-            align: TextAlign.center,
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _recentSearches(BuildContext context) {
-    return BlocBuilder<SearchCubit, SearchState>(
-      builder: (context, state) {
-        if (state.recentSearches.isEmpty) {
-          return const SizedBox.shrink();
-        }
-
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          spacing: context.height * 0.015,
-          children: [
-            _recentSearchesLabel(context),
-            _recentSearchesList(context, state.recentSearches),
-          ],
-        );
-      },
-    );
-  }
-
-  Widget _recentSearchesLabel(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: context.width * 0.01),
-      child: TextComponent(
-        text: AppStrings.SEARCH_RECENT_SEARCHES,
-        color: context.colors.primaryContainer,
-        size: FontSizeConstants.SMALL,
-        weight: FontWeight.w600,
-        spacing: 0.5,
-      ),
-    );
-  }
-
-  Widget _recentSearchesList(BuildContext context, List<String> searches) {
-    return Wrap(
-      spacing: context.width * 0.02,
-      runSpacing: context.height * 0.01,
-      children: searches.map((search) {
-        return RecentSearchChip(
-          label: search,
-          onTap: () {
-            context.read<SearchCubit>().searchController.text = search;
-            context.read<SearchCubit>().search(search);
-          },
-          onDelete: () {
-            context.read<SearchCubit>().removeRecentSearch(search);
-          },
-        );
-      }).toList(),
     );
   }
 }

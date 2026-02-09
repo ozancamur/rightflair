@@ -9,6 +9,7 @@ import 'package:rightflair/core/extensions/context.dart';
 import 'package:rightflair/feature/location/widgets/location_list.dart';
 
 import '../../../core/base/page/base_scaffold.dart';
+import '../../../core/components/text/appbar_title.dart';
 import '../cubit/location_cubit.dart';
 import '../cubit/location_state.dart';
 import '../widgets/location_empty.dart';
@@ -53,7 +54,7 @@ class _LocationPageState extends State<LocationPage> {
   AppBarComponent _appbar(BuildContext context) {
     return AppBarComponent(
       leading: BackButtonComponent(onBack: () => context.pop()),
-      title: AppStrings.CREATE_POST_SELECT_LOCATION,
+      title: AppbarTitleComponent(title: AppStrings.CREATE_POST_SELECT_LOCATION),
     );
   }
 

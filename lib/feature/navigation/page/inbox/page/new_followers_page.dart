@@ -8,6 +8,7 @@ import '../../../../../core/base/page/base_scaffold.dart';
 import '../../../../../core/components/appbar.dart';
 import '../../../../../core/components/button/back_button.dart';
 import '../../../../../core/components/button/settings_button.dart';
+import '../../../../../core/components/text/appbar_title.dart';
 import '../../../../../core/constants/icons.dart';
 import '../../../../../core/constants/string.dart';
 import '../widgets/follower/follower_item.dart';
@@ -30,7 +31,7 @@ class _NewFollowersPageState extends State<NewFollowersPage> {
   AppBarComponent _appbar(BuildContext context) {
     return AppBarComponent(
       leading: BackButtonComponent(),
-      title: AppStrings.INBOX_NEW_FOLLOWERS_TITLE,
+      title: AppbarTitleComponent(title: AppStrings.INBOX_NEW_FOLLOWERS_TITLE),
       actions: [
         Padding(
           padding: EdgeInsets.only(right: context.width * .04),

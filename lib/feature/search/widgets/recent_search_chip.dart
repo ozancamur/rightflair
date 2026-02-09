@@ -27,13 +27,29 @@ class RecentSearchChip extends StatelessWidget {
           border: Border.all(color: context.colors.onPrimaryFixed, width: .5),
           borderRadius: BorderRadius.circular(8),
         ),
-        child: Text(
-          label,
-          style: TextStyle(
-            color: context.colors.primary,
-            fontSize: 15,
-            fontWeight: FontWeight.w400,
-          ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              label,
+              style: TextStyle(
+                color: context.colors.primary,
+                fontSize: 15,
+                fontWeight: FontWeight.w400,
+              ),
+            ),
+            if (onDelete != null) ...[
+              SizedBox(width: context.width * 0.02),
+              GestureDetector(
+                onTap: onDelete,
+                child: Icon(
+                  Icons.close,
+                  size: 16,
+                  color: context.colors.onPrimary,
+                ),
+              ),
+            ],
+          ],
         ),
       ),
     );

@@ -6,6 +6,7 @@ import 'package:rightflair/core/constants/string.dart';
 
 import '../../../core/base/page/base_scaffold.dart';
 import '../../../core/components/button/back_button.dart';
+import '../../../core/components/text/appbar_title.dart';
 import '../../../core/extensions/context.dart';
 import '../cubit/choose_username_cubit.dart';
 import '../../authentication/widgets/authentication_text.dart';
@@ -32,7 +33,7 @@ class ChooseUsernamePage extends StatelessWidget {
             leading: canPop
                 ? BackButtonComponent(onBack: () => context.pop())
                 : null,
-            title: AppStrings.CHOOSE_USERNAME_APPBAR,
+            title: AppbarTitleComponent(title: AppStrings.CHOOSE_USERNAME_APPBAR),
           ),
           body: SizedBox(
             height: context.height,

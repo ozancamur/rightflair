@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:rightflair/core/components/appbar.dart';
 import 'package:rightflair/core/components/button/back_button.dart';
 
+import '../../../core/components/text/appbar_title.dart';
 import '../../../core/constants/string.dart';
 
 class SettingsAppbarWidget extends StatelessWidget
@@ -13,7 +14,7 @@ class SettingsAppbarWidget extends StatelessWidget
   Widget build(BuildContext context) {
     return AppBarComponent(
       leading: BackButtonComponent(onBack: () => context.pop('refresh')),
-      title: AppStrings.SETTINGS_TITLE,
+      title: AppbarTitleComponent(title: AppStrings.SETTINGS_TITLE),
     );
   }
 

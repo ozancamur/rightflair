@@ -8,6 +8,7 @@ import 'package:rightflair/core/extensions/context.dart';
 import '../../../core/base/page/base_scaffold.dart';
 import '../../../core/components/appbar.dart';
 import '../../../core/components/button/back_button.dart';
+import '../../../core/components/text/appbar_title.dart';
 import '../cubit/create_post_cubit.dart';
 import '../widgets/create_post_options.dart';
 import '../widgets/create_post_bottom_buttons.dart';
@@ -46,7 +47,7 @@ class _CreatePostPageState extends State<CreatePostPage> {
   AppBarComponent _appbar() {
     return AppBarComponent(
       leading: BackButtonComponent(),
-      title: AppStrings.CREATE_POST_APPBAR,
+      title: AppbarTitleComponent(title: AppStrings.CREATE_POST_APPBAR),
     );
   }
 

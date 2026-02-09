@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rightflair/core/cache/cache_service.dart';
 import 'package:rightflair/feature/create_post/model/post.dart';
 import 'package:rightflair/feature/search/model/request_search.dart';
 import 'package:rightflair/feature/search/repository/search_repository.dart';
@@ -11,11 +12,19 @@ class SearchCubit extends Cubit<SearchState> {
   final TextEditingController searchController = TextEditingController();
   final FocusNode searchFocusNode = FocusNode();
   final SearchRepository _repo;
+  final CacheService _cacheService = CacheService();
 
-  SearchCubit(this._repo) :
-      super(SearchState.initial());
+  SearchCubit(this._repo) : super(SearchState.initial()) {
+    loadRecentSearches();
+  }
 
-  void addRecentSearch(String query) {
+  /// Load recent searches from cache on initialization
+  Future<void> loadRecentSearches() async {
+    final searches = await _cacheService.getRecentSearches();
+    emit(state.copyWith(recentSearches: searches));
+  }
+
+  Future<void> addRecentSearch(String query) async {
     if (query.trim().isEmpty) return;
 
     final updatedSearches = List<String>.from(state.recentSearches);
@@ -26,26 +35,46 @@ class SearchCubit extends Cubit<SearchState> {
     // Add to beginning
     updatedSearches.insert(0, query);
 
-    // Keep only last 10 searches
-    if (updatedSearches.length > 10) {
-      updatedSearches.removeLast();
+    // Keep only last 3 searches
+    if (updatedSearches.length > 3) {
+      updatedSearches.removeRange(3, updatedSearches.length);
     }
 
     emit(state.copyWith(recentSearches: updatedSearches));
+
+    // Save to cache
+    await _cacheService.saveRecentSearches(updatedSearches);
   }
 
-  void removeRecentSearch(String query) {
+  Future<void> removeRecentSearch(String query) async {
     final updatedSearches = List<String>.from(state.recentSearches);
     updatedSearches.remove(query);
     emit(state.copyWith(recentSearches: updatedSearches));
+
+    // Update cache
+    await _cacheService.saveRecentSearches(updatedSearches);
   }
 
-  void clearRecentSearches() {
+  Future<void> clearRecentSearches() async {
     emit(state.copyWith(recentSearches: []));
+
+    // Clear cache
+    await _cacheService.clearRecentSearches();
   }
 
   Future<void> search(String query, {bool isNewSearch = true}) async {
     if (query.trim().isEmpty) return;
+
+    // Minimum 2 character validation
+    if (query.trim().length < 2) {
+      emit(
+        state.copyWith(
+          errorMessage: 'Lütfen en az 2 karakter girin',
+          searchResults: [],
+        ),
+      );
+      return;
+    }
 
     if (isNewSearch) {
       addRecentSearch(query);

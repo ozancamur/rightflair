@@ -4,6 +4,7 @@ import 'package:rightflair/core/constants/string.dart';
 
 import '../../../core/base/page/base_scaffold.dart';
 import '../../../core/components/button/back_button.dart';
+import '../../../core/components/text/appbar_title.dart';
 import '../../../core/extensions/context.dart';
 import '../widgets/authentication_text.dart';
 import '../widgets/forgot_password/forgot_password_button.dart';
@@ -37,7 +38,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
     return BaseScaffold(
       appBar: AppBarComponent(
         leading: BackButtonComponent(),
-        title: AppStrings.FORGOT_PASSWORD_APPBAR,
+        title: AppbarTitleComponent( title: AppStrings.FORGOT_PASSWORD_APPBAR),
       ),
       body: SizedBox(
         height: context.height,

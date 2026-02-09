@@ -19,7 +19,7 @@ class SearchState extends Equatable {
 
   factory SearchState.initial() {
     return const SearchState(
-      recentSearches: ['Leather jackets', 'Streetwear'],
+      recentSearches: [],
       isLoading: false,
       searchResults: [],
       errorMessage: null,
