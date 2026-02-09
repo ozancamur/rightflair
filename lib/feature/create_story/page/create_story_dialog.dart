@@ -5,9 +5,10 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:rightflair/feature/create_story/cubit/create_story_cubit.dart';
 
 import '../../../core/components/text/text.dart';
+import '../../../core/constants/enums/image_picker_option.dart';
 import '../../../core/constants/font/font_size.dart';
 import '../../../core/constants/icons.dart';
-import '../../../core/constants/media_picker_option.dart';
+import '../../../core/constants/enums/media_picker_option.dart';
 import '../../../core/constants/string.dart';
 import '../../../core/extensions/context.dart';
 
@@ -88,8 +89,6 @@ Future<void> dialogCreateStory(
   );
 }
 
-// Eski fonksiyon - geriye dönük uyumluluk için
-enum ImagePickerOption { camera, gallery }
 
 Future<ImagePickerOption?> dialogPickImage(BuildContext context) async {
   return showModalBottomSheet<ImagePickerOption>(

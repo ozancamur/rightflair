@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-import '../../../core/constants/endpoint.dart';
+import '../../../core/constants/enums/endpoint.dart';
 import '../../../core/constants/storage.dart';
 import '../../../core/services/api.dart';
 import '../model/create_story.dart';

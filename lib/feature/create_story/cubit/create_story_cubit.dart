@@ -8,7 +8,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:rightflair/feature/create_story/repository/create_story_repository_impl.dart';
 import 'package:video_player/video_player.dart';
 
-import '../../../core/constants/media_picker_option.dart';
+import '../../../core/constants/enums/media_picker_option.dart';
 import '../../../core/constants/string.dart';
 import '../model/create_story.dart';
 
