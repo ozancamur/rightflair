@@ -1,0 +1,1 @@
+enum FollowListType { followers, following }
