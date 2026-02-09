@@ -30,7 +30,10 @@ class AppBarComponent extends StatelessWidget implements PreferredSizeWidget {
         child: leading,
       ),
       leadingWidth: leadingWidth,
-      actionsPadding: EdgeInsets.symmetric(vertical: context.height * .01),
+      actionsPadding: EdgeInsets.symmetric(
+        vertical: context.height * .01,
+        horizontal: context.width * .02,
+      ),
       actions: actions,
       title: title,
       bottom: bottom,

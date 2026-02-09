@@ -38,10 +38,7 @@ class AnalyticsPage extends StatelessWidget {
     return AppBarComponent(
       title: AppbarTitleComponent(title: AppStrings.ANALYTICS_TITLE),
       centerTitle: true,
-      actions: [
-        DateRangeButton(selectedRange: state.selectedDateRange),
-        SizedBox(width: context.width * 0.02),
-      ],
+      actions: [DateRangeButton(selectedRange: state.selectedDateRange)],
     );
   }
 
