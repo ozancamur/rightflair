@@ -48,6 +48,7 @@ class PostComponent extends StatelessWidget {
                   onComment: onComment,
                   onSave: onSave,
                   onShare: onShare,
+                  isSaved: post.isSaved ?? false,
                 ),
         ],
       ),

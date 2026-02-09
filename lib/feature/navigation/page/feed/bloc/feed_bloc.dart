@@ -285,6 +285,11 @@ class FeedBloc extends Bloc<FeedEvent, FeedState> {
 
   Future<void> _onSavePost(SavePostEvent event, Emitter<FeedState> emit) async {
     if (event.postId == null) return;
+
+    // Önceki state'i sakla (hata durumunda geri almak için)
+    final previousPosts = state.posts;
+
+    // Optimistic update: UI'ı hemen güncelle
     final updatedPosts = state.posts?.map((post) {
       if (post.id == event.postId) {
         final isSaved = post.isSaved ?? false;
@@ -295,8 +300,15 @@ class FeedBloc extends Bloc<FeedEvent, FeedState> {
       }
       return post;
     }).toList();
+
     emit(state.copyWith(posts: updatedPosts));
-    await _repo.savePost(pId: event.postId!);
+
+    try {
+      await _repo.savePost(pId: event.postId!);
+    } catch (e) {
+      // Hata durumunda optimistic update'i geri al
+      emit(state.copyWith(posts: previousPosts));
+    }
   }
 
   Future<void> _onStoryViewed(

@@ -38,12 +38,13 @@ enum Endpoint {
   UPDATE_FOLLOW_NOTIFICATION('update-follow-notification'),
   GET_FOLLOWERS_LIST("get-followers-list"),
   GET_FOLLOWING_LIST("get-following-list"),
-  
+
   CREATE_STORY('create-story'),
   GET_STORIES('get-following-stories'),
   GET_MY_STORIES('get-my-stories'),
-  VIEW_STORY('view-story')
-  ;
+  VIEW_STORY('view-story'),
+
+  SEARCH_POSTS('search-post');
 
   final String value;
   const Endpoint(this.value);
