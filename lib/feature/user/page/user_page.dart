@@ -8,7 +8,7 @@ import 'package:rightflair/feature/user/repository/user_repository_impl.dart';
 import '../../../core/base/page/base_scaffold.dart';
 import '../../../core/components/profile/profile_post_grid.dart';
 import '../../../core/components/profile/profile_tab_item.dart';
-import '../../follow/cubit/follow_list_state.dart';
+import '../../../core/constants/enums/follow_list_type.dart';
 import '../cubit/user_cubit.dart';
 import '../cubit/user_state.dart';
 import '../../follow/page/dialog_follow_list.dart';
