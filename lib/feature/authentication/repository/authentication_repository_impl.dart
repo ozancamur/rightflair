@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:rightflair/core/constants/endpoint.dart';
+import 'package:rightflair/core/constants/enums/endpoint.dart';
 import 'package:rightflair/core/services/api.dart';
 
 import '../model/user.dart';
