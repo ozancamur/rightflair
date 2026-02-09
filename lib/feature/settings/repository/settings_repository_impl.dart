@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:rightflair/core/services/api.dart';
 
 import '../../../core/base/model/response.dart';
-import '../../../core/constants/endpoint.dart';
+import '../../../core/constants/enums/endpoint.dart';
 import '../model/notifications.dart';
 import '../model/settings.dart';
 import 'settings_repository.dart';
