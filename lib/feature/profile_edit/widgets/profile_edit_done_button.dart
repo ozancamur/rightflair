@@ -23,7 +23,7 @@ class ProfileEditDoneButtonWidget extends StatelessWidget {
         context.pop("refresh");
       },
       child: Container(
-        margin: EdgeInsets.symmetric(vertical: context.height * 0.0125),
+        margin: EdgeInsets.symmetric(vertical: context.height * 0.0025),
         padding: EdgeInsets.symmetric(horizontal: context.width * 0.04),
         decoration: BoxDecoration(
           color: context.colors.onPrimaryContainer,
