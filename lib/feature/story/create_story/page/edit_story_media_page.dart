@@ -1,8 +1,12 @@
 import 'dart:io';
+import 'dart:typed_data';
+import 'dart:ui' as ui;
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:video_player/video_player.dart';
 
 import '../../../../core/components/text/text.dart';
@@ -34,6 +38,7 @@ class _EditStoryMediaPageState extends State<EditStoryMediaPage> {
   bool _isDrawing = false;
   Color _selectedColor = Colors.white;
   final double _strokeWidth = 5.0;
+  final GlobalKey _repaintKey = GlobalKey();
 
   @override
   void initState() {
@@ -159,7 +164,7 @@ class _EditStoryMediaPageState extends State<EditStoryMediaPage> {
                             'İptal',
                             style: TextStyle(
                               color: context.colors.primary,
-                              fontSize:14,
+                              fontSize: 14,
                             ),
                           ),
                         ),
@@ -268,13 +273,47 @@ class _EditStoryMediaPageState extends State<EditStoryMediaPage> {
     );
   }
 
+  Future<File?> _createCompositeImage() async {
+    try {
+      // RepaintBoundary'den resmi al
+      final boundary =
+          _repaintKey.currentContext!.findRenderObject()
+              as RenderRepaintBoundary;
+      final image = await boundary.toImage(pixelRatio: 3.0);
+      final byteData = await image.toByteData(format: ui.ImageByteFormat.png);
+      final pngBytes = byteData!.buffer.asUint8List();
+
+      // Geçici dosya oluştur
+      final tempDir = await getTemporaryDirectory();
+      final timestamp = DateTime.now().millisecondsSinceEpoch;
+      final file = File('${tempDir.path}/story_$timestamp.png');
+      await file.writeAsBytes(pngBytes);
+
+      return file;
+    } catch (e) {
+      debugPrint('Error creating composite image: $e');
+      return null;
+    }
+  }
+
   Future<void> _uploadStory() async {
     // Story'yi upload et
     if (mounted) {
+      File fileToUpload = widget.mediaFile;
+
+      // Eğer text overlay veya çizim varsa, composite image oluştur
+      if (!widget.isVideo &&
+          (_textOverlays.isNotEmpty || _drawingPoints.isNotEmpty)) {
+        final compositeFile = await _createCompositeImage();
+        if (compositeFile != null) {
+          fileToUpload = compositeFile;
+        }
+      }
+
       context.read<CreateStoryCubit>().uploadStoryMedia(
         context: context,
         uid: widget.uid,
-        mediaFile: widget.mediaFile,
+        mediaFile: fileToUpload,
         isVideo: widget.isVideo,
       );
 
@@ -311,26 +350,66 @@ class _EditStoryMediaPageState extends State<EditStoryMediaPage> {
         },
         child: Stack(
           children: [
-            // Medya Önizleme
-            if (widget.isVideo && _videoController != null)
-              Center(
-                child: AspectRatio(
-                  aspectRatio: _videoController!.value.aspectRatio,
-                  child: VideoPlayer(_videoController!),
-                ),
-              )
-            else
-              Center(
-                child: InteractiveViewer(
-                  minScale: 0.5,
-                  maxScale: 4.0,
-                  panEnabled: true,
-                  scaleEnabled: true,
-                  child: Image.file(widget.mediaFile, fit: BoxFit.contain),
-                ),
-              ),
+            // RepaintBoundary ile medya, çizimler ve text'leri sarmalıyoruz
+            RepaintBoundary(
+              key: _repaintKey,
+              child: Stack(
+                children: [
+                  // Medya Önizleme
+                  if (widget.isVideo && _videoController != null)
+                    Center(
+                      child: AspectRatio(
+                        aspectRatio: _videoController!.value.aspectRatio,
+                        child: VideoPlayer(_videoController!),
+                      ),
+                    )
+                  else
+                    Center(
+                      child: InteractiveViewer(
+                        minScale: 0.5,
+                        maxScale: 4.0,
+                        panEnabled: true,
+                        scaleEnabled: true,
+                        child: Image.file(
+                          widget.mediaFile,
+                          fit: BoxFit.contain,
+                        ),
+                      ),
+                    ),
 
-            // Çizim Katmanı
+                  // Çizim Katmanı
+                  if (!widget.isVideo)
+                    Positioned.fill(
+                      child: CustomPaint(
+                        painter: DrawingPainter(_drawingPoints),
+                      ),
+                    ),
+
+                  // Metin Overlay'leri
+                  ..._textOverlays.map((textOverlay) {
+                    return Positioned(
+                      left: textOverlay.position.dx,
+                      top: textOverlay.position.dy,
+                      child: Container(
+                        padding: const EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          color: Colors.black.withOpacity(0.5),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: TextComponent(
+                          text: textOverlay.text,
+                          color: textOverlay.color,
+                          size: FontSizeConstants.X_LARGE,
+                          weight: FontWeight.bold,
+                        ),
+                      ),
+                    );
+                  }),
+                ],
+              ),
+            ),
+
+            // Çizim Input Katmanı (RepaintBoundary dışında)
             if (_isDrawing)
               GestureDetector(
                 onPanStart: (details) {
@@ -362,13 +441,10 @@ class _EditStoryMediaPageState extends State<EditStoryMediaPage> {
                 onPanEnd: (details) {
                   _drawingPoints.add(DrawingPoint(offset: null, paint: null));
                 },
-                child: CustomPaint(
-                  painter: DrawingPainter(_drawingPoints),
-                  child: Container(),
-                ),
+                child: Container(color: Colors.transparent),
               ),
 
-            // Metin Overlay'leri
+            // Metin Overlay'leri - Hareket Edilebilir (RepaintBoundary dışında)
             ..._textOverlays.map((textOverlay) {
               return Positioned(
                 left: textOverlay.position.dx,
@@ -385,8 +461,12 @@ class _EditStoryMediaPageState extends State<EditStoryMediaPage> {
                   child: Container(
                     padding: const EdgeInsets.all(8),
                     decoration: BoxDecoration(
-                      color: Colors.black.withOpacity(0.5),
+                      color: Colors.black.withOpacity(0.3),
                       borderRadius: BorderRadius.circular(8),
+                      border: Border.all(
+                        color: Colors.white.withOpacity(0.5),
+                        width: 1,
+                      ),
                     ),
                     child: TextComponent(
                       text: textOverlay.text,
