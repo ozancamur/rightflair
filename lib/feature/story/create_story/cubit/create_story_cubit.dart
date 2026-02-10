@@ -139,4 +139,58 @@ class CreateStoryCubit extends Cubit<CreateStoryState> {
       rethrow;
     }
   }
+
+  Future<void> uploadStoryMedia({
+    required BuildContext context,
+    required String uid,
+    required File mediaFile,
+    required bool isVideo,
+  }) async {
+    emit(state.copyWith(isLoading: true, uploadSuccess: false, error: null));
+
+    try {
+      // Medya türünü belirle
+      final String mediaType = isVideo ? 'video' : 'image';
+
+      // Storage'e yükle
+      final String? mediaUrl = await _repo.uploadStoryImage(
+        userId: uid,
+        file: mediaFile,
+      );
+
+      if (mediaUrl == null) {
+        emit(
+          state.copyWith(
+            isLoading: false,
+            error: AppStrings.PROFILE_EDIT_STORY_CREATED_ERROR.tr(),
+          ),
+        );
+        return;
+      }
+
+      // Duration hesapla
+      int duration = 10; // Default fotoğraf için 10 saniye
+      if (isVideo) {
+        duration = await _getVideoDuration(mediaFile.path);
+      }
+
+      // Story oluştur
+      await createStory(
+        context,
+        mediaUrl: mediaUrl,
+        mediaType: mediaType,
+        duration: duration,
+      );
+
+      emit(state.copyWith(isLoading: false, uploadSuccess: true));
+    } catch (e) {
+      debugPrint("Error in uploadStoryMedia: $e");
+      emit(
+        state.copyWith(
+          isLoading: false,
+          error: AppStrings.PROFILE_EDIT_STORY_CREATED_ERROR.tr(),
+        ),
+      );
+    }
+  }
 }

@@ -1,0 +1,564 @@
+import 'dart:io';
+
+import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:video_player/video_player.dart';
+
+import '../../../../core/components/text/text.dart';
+import '../../../../core/constants/font/font_size.dart';
+import '../../../../core/constants/string.dart';
+import '../../../../core/extensions/context.dart';
+import '../cubit/create_story_cubit.dart';
+
+class EditStoryMediaPage extends StatefulWidget {
+  final File mediaFile;
+  final bool isVideo;
+  final String uid;
+
+  const EditStoryMediaPage({
+    super.key,
+    required this.mediaFile,
+    required this.isVideo,
+    required this.uid,
+  });
+
+  @override
+  State<EditStoryMediaPage> createState() => _EditStoryMediaPageState();
+}
+
+class _EditStoryMediaPageState extends State<EditStoryMediaPage> {
+  VideoPlayerController? _videoController;
+  final List<TextOverlay> _textOverlays = [];
+  final List<DrawingPoint> _drawingPoints = [];
+  bool _isDrawing = false;
+  Color _selectedColor = Colors.white;
+  final double _strokeWidth = 5.0;
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.isVideo) {
+      _initializeVideo();
+    }
+  }
+
+  @override
+  void dispose() {
+    _videoController?.dispose();
+    super.dispose();
+  }
+
+  Future<void> _initializeVideo() async {
+    _videoController = VideoPlayerController.file(widget.mediaFile);
+    await _videoController!.initialize();
+    await _videoController!.setLooping(true);
+    await _videoController!.play();
+    if (mounted) {
+      setState(() {});
+    }
+  }
+
+  void _addText() {
+    showDialog(
+      context: context,
+      builder: (BuildContext dialogContext) {
+        String text = '';
+        Color textColor = Colors.white;
+
+        return StatefulBuilder(
+          builder: (context, setDialogState) {
+            return AlertDialog(
+              backgroundColor: context.colors.secondary,
+              title: TextComponent(
+                text: 'Metin Ekle',
+                color: context.colors.primary,
+                size: FontSizeConstants.LARGE,
+                weight: FontWeight.bold,
+              ),
+              content: SizedBox(
+                width: MediaQuery.of(context).size.width * 0.8,
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      TextField(
+                        autofocus: true,
+                        style: TextStyle(color: context.colors.primary),
+                        decoration: InputDecoration(
+                          hintText: 'Metni yazın...',
+                          hintStyle: TextStyle(
+                            color: context.colors.primary.withOpacity(0.5),
+                          ),
+                          enabledBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(
+                              color: context.colors.primary,
+                            ),
+                          ),
+                          focusedBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(
+                              color: context.colors.primary,
+                            ),
+                          ),
+                        ),
+                        onChanged: (value) {
+                          text = value;
+                        },
+                      ),
+                      const SizedBox(height: 20),
+                      // Renk Seçici
+                      Wrap(
+                        spacing: 10,
+                        runSpacing: 10,
+                        children:
+                            [
+                              Colors.white,
+                              Colors.black,
+                              Colors.red,
+                              Colors.blue,
+                              Colors.green,
+                              Colors.yellow,
+                              Colors.purple,
+                              Colors.orange,
+                            ].map((color) {
+                              return GestureDetector(
+                                onTap: () {
+                                  setDialogState(() {
+                                    textColor = color;
+                                  });
+                                },
+                                child: Container(
+                                  width: 40,
+                                  height: 40,
+                                  decoration: BoxDecoration(
+                                    color: color,
+                                    shape: BoxShape.circle,
+                                    border: Border.all(
+                                      color: textColor == color
+                                          ? context.colors.primary
+                                          : Colors.transparent,
+                                      width: 3,
+                                    ),
+                                  ),
+                                ),
+                              );
+                            }).toList(),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.pop(dialogContext),
+                  child: TextComponent(
+                    text: 'İptal',
+                    color: context.colors.primary,
+                    size: FontSizeConstants.NORMAL,
+                  ),
+                ),
+                TextButton(
+                  onPressed: () {
+                    if (text.isNotEmpty) {
+                      setState(() {
+                        _textOverlays.add(
+                          TextOverlay(
+                            text: text,
+                            color: textColor,
+                            position: Offset(
+                              MediaQuery.of(context).size.width / 2,
+                              MediaQuery.of(context).size.height / 2,
+                            ),
+                          ),
+                        );
+                      });
+                    }
+                    Navigator.pop(dialogContext);
+                  },
+                  child: TextComponent(
+                    text: 'Ekle',
+                    color: context.colors.primary,
+                    size: FontSizeConstants.NORMAL,
+                    weight: FontWeight.bold,
+                  ),
+                ),
+              ],
+            );
+          },
+        );
+      },
+    );
+  }
+
+  void _showColorPicker() {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: context.colors.secondary,
+      builder: (BuildContext context) {
+        return Container(
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextComponent(
+                text: 'Renk Seç',
+                color: context.colors.primary,
+                size: FontSizeConstants.LARGE,
+                weight: FontWeight.bold,
+              ),
+              const SizedBox(height: 20),
+              Wrap(
+                spacing: 15,
+                runSpacing: 15,
+                children:
+                    [
+                      Colors.white,
+                      Colors.black,
+                      Colors.red,
+                      Colors.blue,
+                      Colors.green,
+                      Colors.yellow,
+                      Colors.purple,
+                      Colors.orange,
+                      Colors.pink,
+                      Colors.teal,
+                    ].map((color) {
+                      return GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            _selectedColor = color;
+                          });
+                          Navigator.pop(context);
+                        },
+                        child: Container(
+                          width: 50,
+                          height: 50,
+                          decoration: BoxDecoration(
+                            color: color,
+                            shape: BoxShape.circle,
+                            border: Border.all(
+                              color: _selectedColor == color
+                                  ? context.colors.primary
+                                  : Colors.transparent,
+                              width: 3,
+                            ),
+                          ),
+                        ),
+                      );
+                    }).toList(),
+              ),
+              const SizedBox(height: 20),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  Future<void> _uploadStory() async {
+    // Story'yi upload et
+    if (mounted) {
+      context.read<CreateStoryCubit>().uploadStoryMedia(
+        context: context,
+        uid: widget.uid,
+        mediaFile: widget.mediaFile,
+        isVideo: widget.isVideo,
+      );
+
+      // Kamera sayfasını ve edit sayfasını kapat
+      Navigator.pop(context); // Edit page
+      Navigator.pop(context); // Camera page
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.black,
+      body: BlocListener<CreateStoryCubit, CreateStoryState>(
+        listener: (context, state) {
+          if (state.isLoading == false && state.uploadSuccess == true) {
+            // Upload başarılı, sayfaları kapat
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(
+                  AppStrings.PROFILE_EDIT_STORY_CREATED_SUCCESS.tr(),
+                ),
+                backgroundColor: Colors.green,
+              ),
+            );
+          } else if (state.error != null) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(state.error!),
+                backgroundColor: Colors.red,
+              ),
+            );
+          }
+        },
+        child: Stack(
+          children: [
+            // Medya Önizleme
+            if (widget.isVideo && _videoController != null)
+              Center(
+                child: AspectRatio(
+                  aspectRatio: _videoController!.value.aspectRatio,
+                  child: VideoPlayer(_videoController!),
+                ),
+              )
+            else
+              Center(
+                child: InteractiveViewer(
+                  minScale: 0.5,
+                  maxScale: 4.0,
+                  panEnabled: true,
+                  scaleEnabled: true,
+                  child: Image.file(widget.mediaFile, fit: BoxFit.contain),
+                ),
+              ),
+
+            // Çizim Katmanı
+            if (_isDrawing)
+              GestureDetector(
+                onPanStart: (details) {
+                  setState(() {
+                    _drawingPoints.add(
+                      DrawingPoint(
+                        offset: details.localPosition,
+                        paint: Paint()
+                          ..color = _selectedColor
+                          ..strokeWidth = _strokeWidth
+                          ..strokeCap = StrokeCap.round,
+                      ),
+                    );
+                  });
+                },
+                onPanUpdate: (details) {
+                  setState(() {
+                    _drawingPoints.add(
+                      DrawingPoint(
+                        offset: details.localPosition,
+                        paint: Paint()
+                          ..color = _selectedColor
+                          ..strokeWidth = _strokeWidth
+                          ..strokeCap = StrokeCap.round,
+                      ),
+                    );
+                  });
+                },
+                onPanEnd: (details) {
+                  _drawingPoints.add(DrawingPoint(offset: null, paint: null));
+                },
+                child: CustomPaint(
+                  painter: DrawingPainter(_drawingPoints),
+                  child: Container(),
+                ),
+              ),
+
+            // Metin Overlay'leri
+            ..._textOverlays.map((textOverlay) {
+              return Positioned(
+                left: textOverlay.position.dx,
+                top: textOverlay.position.dy,
+                child: GestureDetector(
+                  onPanUpdate: (details) {
+                    setState(() {
+                      textOverlay.position = Offset(
+                        textOverlay.position.dx + details.delta.dx,
+                        textOverlay.position.dy + details.delta.dy,
+                      );
+                    });
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      color: Colors.black.withOpacity(0.5),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: TextComponent(
+                      text: textOverlay.text,
+                      color: textOverlay.color,
+                      size: FontSizeConstants.X_LARGE,
+                      weight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              );
+            }),
+
+            // Üst Bar
+            SafeArea(
+              child: Container(
+                padding: EdgeInsets.symmetric(
+                  horizontal: context.width * 0.04,
+                  vertical: context.height * 0.02,
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    IconButton(
+                      onPressed: () => Navigator.pop(context),
+                      icon: const Icon(
+                        Icons.close,
+                        color: Colors.white,
+                        size: 30,
+                      ),
+                    ),
+                    Row(
+                      children: [
+                        // Metin Ekle
+                        IconButton(
+                          onPressed: _addText,
+                          icon: const Icon(
+                            Icons.text_fields,
+                            color: Colors.white,
+                            size: 30,
+                          ),
+                        ),
+                        // Çizim Modu
+                        IconButton(
+                          onPressed: () {
+                            setState(() {
+                              _isDrawing = !_isDrawing;
+                            });
+                          },
+                          icon: Icon(
+                            Icons.draw,
+                            color: _isDrawing ? Colors.yellow : Colors.white,
+                            size: 30,
+                          ),
+                        ),
+                        // Renk Seçici (Çizim için)
+                        if (_isDrawing)
+                          IconButton(
+                            onPressed: _showColorPicker,
+                            icon: Icon(
+                              Icons.color_lens,
+                              color: _selectedColor,
+                              size: 30,
+                            ),
+                          ),
+                        // Çizimi Temizle
+                        if (_drawingPoints.isNotEmpty)
+                          IconButton(
+                            onPressed: () {
+                              setState(() {
+                                _drawingPoints.clear();
+                              });
+                            },
+                            icon: const Icon(
+                              Icons.delete,
+                              color: Colors.white,
+                              size: 30,
+                            ),
+                          ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+
+            // Alt Buton - Paylaş
+            Positioned(
+              bottom: 0,
+              left: 0,
+              right: 0,
+              child: SafeArea(
+                child: Container(
+                  margin: EdgeInsets.all(context.width * 0.05),
+                  child: BlocBuilder<CreateStoryCubit, CreateStoryState>(
+                    builder: (context, state) {
+                      if (state.isLoading == true) {
+                        return Container(
+                          padding: const EdgeInsets.symmetric(vertical: 15),
+                          decoration: BoxDecoration(
+                            color: context.colors.primary,
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                          child: const Center(
+                            child: CircularProgressIndicator(
+                              color: Colors.white,
+                            ),
+                          ),
+                        );
+                      }
+
+                      return ElevatedButton(
+                        onPressed: _uploadStory,
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: context.colors.primary,
+                          padding: const EdgeInsets.symmetric(vertical: 15),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Icon(Icons.send, color: Colors.white),
+                            const SizedBox(width: 10),
+                            TextComponent(
+                              text: 'Hikayeni Paylaş',
+                              color: Colors.white,
+                              size: FontSizeConstants.LARGE,
+                              weight: FontWeight.bold,
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+// Metin Overlay Model
+class TextOverlay {
+  String text;
+  Color color;
+  Offset position;
+
+  TextOverlay({
+    required this.text,
+    required this.color,
+    required this.position,
+  });
+}
+
+// Çizim Noktası Model
+class DrawingPoint {
+  Offset? offset;
+  Paint? paint;
+
+  DrawingPoint({this.offset, this.paint});
+}
+
+// Çizim Painter
+class DrawingPainter extends CustomPainter {
+  final List<DrawingPoint> points;
+
+  DrawingPainter(this.points);
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    for (int i = 0; i < points.length - 1; i++) {
+      if (points[i].offset != null && points[i + 1].offset != null) {
+        canvas.drawLine(
+          points[i].offset!,
+          points[i + 1].offset!,
+          points[i].paint!,
+        );
+      }
+    }
+  }
+
+  @override
+  bool shouldRepaint(DrawingPainter oldDelegate) => true;
+}
