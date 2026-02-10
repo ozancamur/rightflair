@@ -7,8 +7,8 @@ import 'package:rightflair/core/constants/font/font_size.dart';
 import 'package:rightflair/core/constants/icons.dart';
 import 'package:rightflair/core/constants/route.dart';
 import 'package:rightflair/core/extensions/context.dart';
-import 'package:rightflair/feature/create_post/model/post.dart';
-import 'package:rightflair/feature/create_post/model/post_user.dart';
+import 'package:rightflair/feature/post/create_post/model/post.dart';
+import 'package:rightflair/feature/post/create_post/model/post_user.dart';
 
 class SearchPostWidget extends StatelessWidget {
   final PostModel post;

@@ -10,7 +10,7 @@ import 'package:rightflair/feature/navigation/page/feed/repository/feed_reposito
 import 'package:rightflair/feature/navigation/page/profile/model/request_post.dart';
 import 'package:rightflair/feature/navigation/page/profile/model/response_post.dart';
 
-import '../../../../create_post/model/post.dart';
+import '../../../../post/create_post/model/post.dart';
 import '../../profile/model/pagination.dart';
 import '../models/comment.dart';
 

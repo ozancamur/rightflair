@@ -172,7 +172,6 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
           _usernameController.text = result as String;
           context.read<ProfileEditCubit>().updateUsername(result);
         }
-        print("Result from ChooseUsernamePage: $result");
       },
     );
   }

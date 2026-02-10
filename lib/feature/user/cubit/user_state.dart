@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 
 import '../../authentication/model/user.dart';
-import '../../create_post/model/post.dart';
+import '../../post/create_post/model/post.dart';
 import '../../navigation/page/profile/model/pagination.dart';
 import '../../navigation/page/profile/model/style_tags.dart';
 

@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:rightflair/core/constants/icons.dart';
 import 'package:rightflair/core/constants/route.dart';
 
-import '../../../feature/create_post/model/post_user.dart';
+import '../../../feature/post/create_post/model/post_user.dart';
 import '../text/text.dart';
 import '../../constants/font/font_size.dart';
 import '../../extensions/context.dart';

@@ -6,7 +6,7 @@ import 'package:rightflair/feature/navigation/page/profile/model/style_tags.dart
 import 'package:rightflair/feature/navigation/page/profile/repository/profile_repository_impl.dart';
 
 import '../../../../authentication/model/user.dart';
-import '../../../../create_post/model/post.dart';
+import '../../../../post/create_post/model/post.dart';
 import '../model/pagination.dart';
 
 part 'profile_state.dart';

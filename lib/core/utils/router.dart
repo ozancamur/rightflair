@@ -4,21 +4,21 @@ import 'package:rightflair/feature/choose_username/page/choose_username_page.dar
 import 'package:rightflair/feature/authentication/pages/forgot_password_page.dart';
 import 'package:rightflair/feature/authentication/pages/login_page.dart';
 import 'package:rightflair/feature/authentication/pages/welcome_page.dart';
-import 'package:rightflair/feature/create_post/page/create_post_page.dart';
+import 'package:rightflair/feature/post/create_post/page/create_post_page.dart';
 import 'package:rightflair/feature/navigation/page/navigation_page.dart';
 import 'package:rightflair/feature/search/page/search_page.dart';
 import 'package:rightflair/feature/navigation/page/inbox/page/system_notifications_page.dart';
-import 'package:rightflair/feature/new_followers/page/new_followers_page.dart';
+import 'package:rightflair/feature/notifications/new_followers/page/new_followers_page.dart';
 import 'package:rightflair/feature/settings/page/settings_page.dart';
 
 import '../../feature/authentication/pages/register_page.dart';
 import '../../feature/chat/page/chat_page.dart';
-import '../../feature/create_post/model/post.dart';
+import '../../feature/post/create_post/model/post.dart';
 import '../../feature/navigation/page/feed/models/user_with_stories.dart';
-import '../../feature/post_detail/page/post_detail_page.dart';
+import '../../feature/post/post_detail/page/post_detail_page.dart';
 import '../../feature/profile_edit/page/profile_edit_page.dart';
 import '../../feature/splash/page/splash_page.dart';
-import '../../feature/story/page/story_page.dart';
+import '../../feature/story/story_view/page/story_view_page.dart';
 import '../../feature/user/page/user_page.dart';
 
 final GoRouter router = GoRouter(
@@ -138,7 +138,7 @@ final GoRouter router = GoRouter(
       name: RouteConstants.STORY_VIEWER,
       builder: (context, state) {
         final data = state.extra as Map<String, dynamic>;
-        return StoryPage(
+        return StoryViewPage(
           stories: data['allStories'] as List<UserWithStoriesModel>,
           index: data['initialUserIndex'] as int,
         );

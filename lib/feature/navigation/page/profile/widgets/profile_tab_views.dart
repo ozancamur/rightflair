@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../../core/components/profile/profile_post_grid.dart';
-import '../../../../create_post/model/post.dart';
+import '../../../../post/create_post/model/post.dart';
 
 class ProfileTabViewsWidget extends StatefulWidget {
   final TabController? tabController;

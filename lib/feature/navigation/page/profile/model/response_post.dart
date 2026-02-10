@@ -1,5 +1,5 @@
 import '../../../../../core/base/model/base.dart';
-import '../../../../create_post/model/post.dart';
+import '../../../../post/create_post/model/post.dart';
 import 'pagination.dart';
 
 class ResponsePostModel extends BaseModel<ResponsePostModel> {

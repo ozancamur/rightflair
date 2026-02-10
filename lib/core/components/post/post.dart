@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../../feature/create_post/model/post.dart';
-import '../../../feature/create_post/model/post_user.dart';
+import '../../../feature/post/create_post/model/post.dart';
+import '../../../feature/post/create_post/model/post_user.dart';
 import '../../extensions/context.dart';
 import 'post_actions.dart';
 import 'post_image.dart';

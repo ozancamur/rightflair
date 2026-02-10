@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:rightflair/core/components/loading.dart';
 import 'package:rightflair/core/extensions/context.dart';
 
-import '../../../feature/create_post/model/post.dart';
+import '../../../feature/post/create_post/model/post.dart';
 import 'profile_non_post.dart';
 import 'profile_post_grid_item.dart';
 

@@ -7,7 +7,7 @@ import 'package:rightflair/core/constants/route.dart';
 import 'package:rightflair/feature/navigation/page/profile/cubit/profile_cubit.dart';
 
 import '../text/text.dart';
-import '../../../feature/create_post/model/post.dart';
+import '../../../feature/post/create_post/model/post.dart';
 import '../../constants/font/font_size.dart';
 import '../../../../../core/extensions/context.dart';
 

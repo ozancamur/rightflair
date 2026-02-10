@@ -2,7 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rightflair/core/services/cache.dart';
-import 'package:rightflair/feature/create_post/model/post.dart';
+import 'package:rightflair/feature/post/create_post/model/post.dart';
 import 'package:rightflair/feature/search/model/request_search.dart';
 import 'package:rightflair/feature/search/repository/search_repository.dart';
 

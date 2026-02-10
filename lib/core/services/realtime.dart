@@ -37,13 +37,11 @@ class RealtimeService {
             value: conversationId,
           ),
           callback: (payload) {
-            print('🔔 Yeni mesaj geldi: ${payload.newRecord}');
             _newMessageController.add(payload.newRecord);
           },
         )
         .subscribe();
 
-    print('✅ Conversation $conversationId için realtime aktif');
   }
 
   /// Kullanıcının tüm conversation'larını dinle (son mesaj güncellemeleri için)
@@ -57,20 +55,17 @@ class RealtimeService {
           schema: 'public',
           table: 'conversations',
           callback: (payload) {
-            print('🔔 Conversation güncellendi: ${payload.newRecord}');
             _conversationUpdateController.add(payload.newRecord);
           },
         )
         .subscribe();
 
-    print('✅ User conversations için realtime aktif');
   }
 
   /// Subscription'ları temizle
   void unsubscribeFromConversation() {
     _messagesChannel?.unsubscribe();
     _messagesChannel = null;
-    print('🔴 Conversation subscription kapatıldı');
   }
 
   void unsubscribeFromUserConversations() {

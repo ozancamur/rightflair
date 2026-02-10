@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rightflair/core/constants/color/color.dart';
 import 'package:rightflair/core/constants/route.dart';
-import 'package:rightflair/feature/create_story/page/create_story_dialog.dart';
+import 'package:rightflair/feature/story/create_story/page/create_story_dialog.dart';
 import 'package:rightflair/feature/navigation/page/feed/models/my_story.dart';
 import 'package:rightflair/feature/navigation/page/feed/models/story.dart';
 import 'package:rightflair/feature/navigation/page/feed/models/user_with_stories.dart';

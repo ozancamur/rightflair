@@ -7,7 +7,7 @@ import 'package:rightflair/feature/follow/page/dialog_follow_list.dart';
 
 import '../../../../../core/base/page/base_scaffold.dart';
 import '../../../../../core/constants/enums/follow_list_type.dart';
-import '../../../../create_story/page/create_story_dialog.dart';
+import '../../../../story/create_story/page/create_story_dialog.dart';
 import '../widgets/profile_appbar.dart';
 import '../cubit/profile_cubit.dart';
 import '../widgets/profile_tab_bars.dart';

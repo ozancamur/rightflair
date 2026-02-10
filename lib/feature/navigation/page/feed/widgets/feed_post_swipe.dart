@@ -5,7 +5,7 @@ import 'package:rightflair/feature/navigation/page/feed/widgets/post_like_button
 
 import '../../../../../core/extensions/context.dart';
 import '../../../../comments/page/dialog_comments.dart';
-import '../../../../create_post/model/post.dart';
+import '../../../../post/create_post/model/post.dart';
 import '../bloc/feed_bloc.dart';
 import '../../../../../core/constants/enums/swipe_direction.dart';
 import 'post_dislike_button.dart';

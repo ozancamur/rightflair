@@ -6,7 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../../core/constants/enums/image_picker_option.dart';
-import '../../create_story/page/create_story_dialog.dart';
+import '../../story/create_story/page/create_story_dialog.dart';
 import '../../authentication/model/user.dart';
 import '../repository/profile_edit_repository.dart';
 
@@ -19,7 +19,6 @@ class ProfileEditCubit extends Cubit<ProfileEditState> {
   ProfileEditCubit(this._repo) : super(const ProfileEditState());
 
   void initStyles(List<String> styles) {
-    print("INIT STYLES: $styles");
     emit(state.copyWith(selectedStyles: styles));
   }
 

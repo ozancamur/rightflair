@@ -5,7 +5,7 @@ class NavigationState extends Equatable {
   final List<Widget> pages;
   const NavigationState(this.currentIndex, this.pages);
 
-  NavigationState.initial()
+  const NavigationState.initial()
     : currentIndex = 0,
       pages = const [FeedPage(), AnalyticsPage(), InboxPage(), ProfilePage()];
 
