@@ -2,8 +2,8 @@ import 'package:equatable/equatable.dart';
 
 import '../../authentication/model/user.dart';
 import '../../post/create_post/model/post.dart';
-import '../../navigation/page/profile/model/pagination.dart';
-import '../../navigation/page/profile/model/style_tags.dart';
+import '../../main/profile/model/pagination.dart';
+import '../../main/profile/model/style_tags.dart';
 
 class UserState extends Equatable {
   final bool isLoading;

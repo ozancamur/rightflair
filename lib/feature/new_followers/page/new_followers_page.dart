@@ -4,7 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:rightflair/core/components/text/text.dart';
 import 'package:rightflair/core/constants/font/font_size.dart';
 import 'package:rightflair/core/extensions/context.dart';
-import 'package:rightflair/feature/navigation/page/inbox/model/notification_sender.dart';
+import 'package:rightflair/feature/main/inbox/model/notification_sender.dart';
 
 import '../../../../core/base/page/base_scaffold.dart';
 import '../../../../core/components/appbar.dart';

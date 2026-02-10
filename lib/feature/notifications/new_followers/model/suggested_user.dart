@@ -1,6 +1,6 @@
 import '../../../../core/base/model/base.dart';
-import '../../../navigation/page/inbox/model/notification_sender.dart';
-import '../../../navigation/page/inbox/model/pagination_notification.dart';
+import '../../../main/inbox/model/notification_sender.dart';
+import '../../../main/inbox/model/pagination_notification.dart';
 
 class SuggestedUserModel extends BaseModel<SuggestedUserModel> {
   List<NotificationSenderModel>? suggestedUsers;

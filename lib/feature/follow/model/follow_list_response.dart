@@ -1,6 +1,6 @@
 import '../../../core/base/model/base.dart';
 import '../../authentication/model/user.dart';
-import '../../navigation/page/profile/model/pagination.dart';
+import '../../main/profile/model/pagination.dart';
 
 class FollowListResponseModel extends BaseModel<FollowListResponseModel> {
   final List<UserModel>? users;

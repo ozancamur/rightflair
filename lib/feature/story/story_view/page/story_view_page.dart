@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:rightflair/feature/navigation/page/feed/bloc/feed_bloc.dart';
-import 'package:rightflair/feature/navigation/page/feed/models/user_with_stories.dart';
+import 'package:rightflair/feature/main/feed/bloc/feed_bloc.dart';
+import 'package:rightflair/feature/main/feed/models/user_with_stories.dart';
 import 'package:rightflair/feature/story/story_view/cubit/story_view_cubit.dart';
 import 'package:rightflair/feature/story/story_view/repository/story_view_repository_impl.dart';
 import '../widgets/story_content.dart';

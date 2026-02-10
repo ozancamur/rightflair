@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:rightflair/feature/navigation/page/profile/model/request_post.dart';
+import 'package:rightflair/feature/main/profile/model/request_post.dart';
 import 'package:rightflair/feature/user/repository/user_repository_impl.dart';
 
 import '../../authentication/model/user.dart';

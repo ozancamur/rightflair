@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import '../../../core/base/model/response.dart';
 import '../../../core/constants/enums/endpoint.dart';
 import '../../../core/services/api.dart';
-import '../../navigation/page/feed/models/comment.dart';
-import '../../navigation/page/feed/models/request_comment.dart';
+import '../../main/feed/models/comment.dart';
+import '../../main/feed/models/request_comment.dart';
 import 'comment_repository.dart';
 
 class CommentsRepositoryImpl extends CommentsRepository {

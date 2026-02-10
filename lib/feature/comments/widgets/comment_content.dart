@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../core/extensions/context.dart';
-import '../../navigation/page/feed/models/comment.dart';
+import '../../main/feed/models/comment.dart';
 import 'comment.dart';
 import 'comment_replies_button.dart';
 import 'comment_text.dart';

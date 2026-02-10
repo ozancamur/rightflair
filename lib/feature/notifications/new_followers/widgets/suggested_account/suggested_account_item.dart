@@ -5,7 +5,7 @@ import 'package:rightflair/core/components/text/text.dart';
 import 'package:rightflair/core/constants/font/font_size.dart';
 
 import 'package:rightflair/core/constants/string.dart';
-import 'package:rightflair/feature/navigation/page/inbox/model/notification_sender.dart';
+import 'package:rightflair/feature/main/inbox/model/notification_sender.dart';
 
 import '../../../../../core/extensions/context.dart';
 import '../user_image.dart';

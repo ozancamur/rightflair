@@ -4,7 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rightflair/core/constants/icons.dart';
 import 'package:rightflair/core/constants/route.dart';
-import 'package:rightflair/feature/navigation/page/profile/cubit/profile_cubit.dart';
+import 'package:rightflair/feature/main/profile/cubit/profile_cubit.dart';
 
 import '../text/text.dart';
 import '../../../feature/post/create_post/model/post.dart';

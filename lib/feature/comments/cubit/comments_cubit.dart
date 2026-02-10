@@ -1,8 +1,8 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../navigation/page/feed/models/comment.dart';
-import '../../navigation/page/feed/models/request_comment.dart';
+import '../../main/feed/models/comment.dart';
+import '../../main/feed/models/request_comment.dart';
 import '../repository/comments_repository_impl.dart';
 
 part 'comments_state.dart';

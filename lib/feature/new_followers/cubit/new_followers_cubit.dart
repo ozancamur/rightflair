@@ -1,9 +1,9 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:rightflair/feature/navigation/page/inbox/model/pagination_notification.dart';
+import 'package:rightflair/feature/main/inbox/model/pagination_notification.dart';
 import 'package:rightflair/feature/notifications/new_followers/repository/new_followers_repository_impl.dart';
 
-import '../../navigation/page/inbox/model/notification_sender.dart';
+import '../../main/inbox/model/notification_sender.dart';
 import '../../notifications/new_followers/model/new_follower.dart';
 
 

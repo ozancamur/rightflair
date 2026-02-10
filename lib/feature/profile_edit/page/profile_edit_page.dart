@@ -6,7 +6,7 @@ import 'package:rightflair/core/components/button/back_button.dart';
 import 'package:rightflair/core/constants/route.dart';
 import 'package:rightflair/core/constants/string.dart';
 import 'package:rightflair/core/extensions/context.dart';
-import 'package:rightflair/feature/navigation/widgets/navigation_bottom_bar.dart';
+import 'package:rightflair/feature/main/navigation/widgets/navigation_bottom_bar.dart';
 
 import '../../../core/base/page/base_scaffold.dart';
 import '../../../core/utils/dialogs/style_tags.dart';

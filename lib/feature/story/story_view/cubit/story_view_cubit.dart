@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:rightflair/feature/navigation/page/feed/models/user_with_stories.dart';
+import 'package:rightflair/feature/main/feed/models/user_with_stories.dart';
 import 'package:rightflair/feature/story/story_view/repository/story_view_repository_impl.dart';
 
 part 'story_view_state.dart';

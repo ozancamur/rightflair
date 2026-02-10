@@ -1,4 +1,4 @@
-import 'package:rightflair/feature/navigation/page/inbox/model/pagination_notification.dart';
+import 'package:rightflair/feature/main/inbox/model/pagination_notification.dart';
 
 import '../../../../core/base/model/base.dart';
 import 'new_follower.dart';

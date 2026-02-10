@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:rightflair/feature/navigation/page/feed/models/story.dart';
+import 'package:rightflair/feature/main/feed/models/story.dart';
 
 class StoryContent extends StatelessWidget {
   final StoryModel? story;

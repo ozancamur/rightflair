@@ -2,11 +2,11 @@ import 'package:flutter/widgets.dart';
 import 'package:rightflair/core/constants/enums/endpoint.dart';
 import 'package:rightflair/core/services/api.dart';
 import 'package:rightflair/feature/authentication/model/user.dart';
-import 'package:rightflair/feature/navigation/page/profile/model/style_tags.dart';
+import 'package:rightflair/feature/main/profile/model/style_tags.dart';
 
 import '../../../../../core/base/model/response.dart';
-import '../../navigation/page/profile/model/request_post.dart';
-import '../../navigation/page/profile/model/response_post.dart';
+import '../../main/profile/model/request_post.dart';
+import '../../main/profile/model/response_post.dart';
 import '../../follow/model/follow_list_request.dart';
 import '../../follow/model/follow_list_response.dart';
 import '../../notifications/new_followers/model/follow_response.dart';

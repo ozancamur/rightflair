@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../navigation/page/feed/models/comment.dart';
+import '../../main/feed/models/comment.dart';
 import 'comment.dart';
 
 class CommentsListWidget extends StatefulWidget {

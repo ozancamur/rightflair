@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:rightflair/feature/navigation/page/feed/models/story_user.dart';
+import 'package:rightflair/feature/main/feed/models/story_user.dart';
 
 class StoryUserInfo extends StatelessWidget {
   final StoryUserModel? user;
