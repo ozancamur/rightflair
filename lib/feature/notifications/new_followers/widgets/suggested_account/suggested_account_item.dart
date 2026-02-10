@@ -8,7 +8,7 @@ import 'package:rightflair/core/constants/string.dart';
 import 'package:rightflair/feature/main/inbox/model/notification_sender.dart';
 
 import '../../../../../core/extensions/context.dart';
-import '../user_image.dart';
+import '../../../../main/inbox/widgets/messages/message_avatar.dart';
 import 'suggested_account_user.dart';
 
 class SuggestedAccountItemWidget extends StatelessWidget {
@@ -35,7 +35,7 @@ class SuggestedAccountItemWidget extends StatelessWidget {
     return Row(
       children: [
         // Profile image
-        UserImageWidget(id: user.id, url: user.profilePhotoUrl),
+        MessageAvatarWidget(id: user.id, url: user.profilePhotoUrl),
         SizedBox(width: context.width * 0.03),
 
         // Username and handle

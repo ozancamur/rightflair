@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:rightflair/core/constants/string.dart';
 import 'package:rightflair/core/helpers/date.dart';
-import 'package:rightflair/feature/notifications/new_followers/widgets/user_image.dart';
 
 import '../../../../../core/extensions/context.dart';
+import '../../../../main/inbox/widgets/messages/message_avatar.dart';
 import '../../model/new_follower.dart';
 import 'follow_back_button.dart';
 import 'follower_information.dart';
@@ -25,7 +25,7 @@ class FollowerItemWidget extends StatelessWidget {
         spacing: context.width * 0.03,
         children: [
           // Profile image
-          UserImageWidget(
+          MessageAvatarWidget(
             url: follower.profilePhotoUrl,
             id: follower.id ?? "",
           ),
@@ -38,7 +38,9 @@ class FollowerItemWidget extends StatelessWidget {
           ),
 
           // Follow back button
-          FollowBackButtonWidget(isFollowing: follower.isFollowingBack ?? false),
+          FollowBackButtonWidget(
+            isFollowing: follower.isFollowingBack ?? false,
+          ),
         ],
       ),
     );
