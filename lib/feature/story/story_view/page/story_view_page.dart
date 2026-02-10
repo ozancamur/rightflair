@@ -108,6 +108,10 @@ class _StoryViewPageState extends State<StoryViewPage>
                 },
                 itemBuilder: (context, userIndex) {
                   final userStories = state.stories[userIndex];
+                  final currentUserId = feedBloc.state.myStory?.user?.id;
+                  final isMyStory =
+                      currentUserId != null &&
+                      currentUserId == userStories.user?.id;
 
                   if (userIndex != state.currentUserIndex) {
                     return const SizedBox.shrink();
@@ -169,6 +173,53 @@ class _StoryViewPageState extends State<StoryViewPage>
                                     .stories?[state.currentStoryIndex]
                                     .createdAt,
                                 onClose: () => Navigator.of(context).pop(),
+                                isMyStory: isMyStory,
+                                onDelete: isMyStory
+                                    ? () {
+                                        final currentStory = userStories
+                                            .stories?[state.currentStoryIndex];
+                                        if (currentStory?.id != null) {
+                                          showDialog(
+                                            context: context,
+                                            builder: (dialogContext) => AlertDialog(
+                                              title: const Text('Hikayeyi Sil'),
+                                              content: const Text(
+                                                'Bu hikayeyi silmek istediğinize emin misiniz?',
+                                              ),
+                                              actions: [
+                                                TextButton(
+                                                  onPressed: () =>
+                                                      Navigator.pop(
+                                                        dialogContext,
+                                                      ),
+                                                  child: const Text('İptal'),
+                                                ),
+                                                TextButton(
+                                                  onPressed: () {
+                                                    feedBloc.add(
+                                                      DeleteStoryEvent(
+                                                        storyId:
+                                                            currentStory!.id!,
+                                                      ),
+                                                    );
+                                                    Navigator.pop(
+                                                      dialogContext,
+                                                    );
+                                                    Navigator.of(context).pop();
+                                                  },
+                                                  child: const Text(
+                                                    'Sil',
+                                                    style: TextStyle(
+                                                      color: Colors.red,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          );
+                                        }
+                                      }
+                                    : null,
                               ),
                             ),
                           ],

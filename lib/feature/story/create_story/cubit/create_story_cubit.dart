@@ -10,7 +10,6 @@ import 'package:video_player/video_player.dart';
 
 import '../../../../core/constants/enums/media_picker_option.dart';
 import '../../../../core/constants/string.dart';
-import '../../../main/feed/bloc/feed_bloc.dart';
 import '../model/create_story.dart';
 
 part 'create_story_state.dart';
@@ -125,15 +124,6 @@ class CreateStoryCubit extends Cubit<CreateStoryState> {
       );
 
       await _repo.createStory(data: data);
-
-      // Refresh stories after story is created
-      if (context.mounted) {
-        try {
-          context.read<FeedBloc>().add(FeedRefreshStoryEvent());
-        } catch (e) {
-          debugPrint("Could not refresh stories: $e");
-        }
-      }
     } catch (e) {
       debugPrint("ProfileCubit ERROR in createStory :> $e");
       rethrow;
@@ -182,7 +172,20 @@ class CreateStoryCubit extends Cubit<CreateStoryState> {
         duration: duration,
       );
 
-      emit(state.copyWith(isLoading: false, uploadSuccess: true));
+      debugPrint('=== Story created successfully ===');
+      debugPrint('Media URL: $mediaUrl');
+      debugPrint('Media Type: $mediaType');
+      debugPrint('Duration: $duration');
+
+      emit(
+        state.copyWith(
+          isLoading: false,
+          uploadSuccess: true,
+          uploadedMediaUrl: mediaUrl,
+          mediaType: mediaType,
+          duration: duration,
+        ),
+      );
     } catch (e) {
       debugPrint("Error in uploadStoryMedia: $e");
       emit(

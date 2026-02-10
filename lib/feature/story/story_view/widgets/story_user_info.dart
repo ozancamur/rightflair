@@ -5,12 +5,16 @@ class StoryUserInfo extends StatelessWidget {
   final StoryUserModel? user;
   final DateTime? createdAt;
   final VoidCallback onClose;
+  final bool isMyStory;
+  final VoidCallback? onDelete;
 
   const StoryUserInfo({
     super.key,
     required this.user,
     this.createdAt,
     required this.onClose,
+    this.isMyStory = false,
+    this.onDelete,
   });
 
   String _getTimeAgo(DateTime dateTime) {
@@ -70,6 +74,13 @@ class StoryUserInfo extends StatelessWidget {
             ],
           ),
         ),
+
+        // Delete button (only for my stories)
+        if (isMyStory && onDelete != null)
+          IconButton(
+            onPressed: onDelete,
+            icon: const Icon(Icons.delete, color: Colors.red, size: 24),
+          ),
 
         // Close button
         IconButton(

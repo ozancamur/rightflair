@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'dart:typed_data';
 import 'dart:ui' as ui;
 
 import 'package:easy_localization/easy_localization.dart';
@@ -13,6 +12,7 @@ import '../../../../core/components/text/text.dart';
 import '../../../../core/constants/font/font_size.dart';
 import '../../../../core/constants/string.dart';
 import '../../../../core/extensions/context.dart';
+import '../../../main/feed/bloc/feed_bloc.dart';
 import '../cubit/create_story_cubit.dart';
 
 class EditStoryMediaPage extends StatefulWidget {
@@ -330,7 +330,28 @@ class _EditStoryMediaPageState extends State<EditStoryMediaPage> {
       body: BlocListener<CreateStoryCubit, CreateStoryState>(
         listener: (context, state) {
           if (state.isLoading == false && state.uploadSuccess == true) {
-            // Upload başarılı, sayfaları kapat
+            debugPrint('=== Story upload successful ===');
+            debugPrint('Uploaded Media URL: ${state.uploadedMediaUrl}');
+            debugPrint('Media Type: ${state.mediaType}');
+            debugPrint('Duration: ${state.duration}');
+
+
+            if (state.uploadedMediaUrl != null &&
+                state.mediaType != null &&
+                state.duration != null) {
+              debugPrint('Adding story to feed...');
+              context.read<FeedBloc>().add(
+                AddNewStoryEvent(
+                  mediaUrl: state.uploadedMediaUrl!,
+                  mediaType: state.mediaType!,
+                  duration: state.duration!,
+                ),
+              );
+            } else {
+              debugPrint('WARNING: Missing story data - cannot add to feed');
+            }
+
+            // Başarı mesajı göster
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                 content: Text(

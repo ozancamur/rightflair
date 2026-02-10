@@ -2,8 +2,10 @@ import 'dart:async';
 
 import 'package:equatable/equatable.dart';
 
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rightflair/feature/main/feed/models/my_story.dart';
+import 'package:rightflair/feature/main/feed/models/my_story_item.dart';
 import 'package:rightflair/feature/main/feed/models/story.dart';
 import 'package:rightflair/feature/main/feed/models/user_with_stories.dart';
 import 'package:rightflair/feature/main/feed/repository/feed_repository_impl.dart';
@@ -30,6 +32,8 @@ class FeedBloc extends Bloc<FeedEvent, FeedState> {
     on<LoadMoreStoriesEvent>(_onLoadMoreStories);
     on<StoryViewedEvent>(_onStoryViewed);
     on<FeedRefreshStoryEvent>(_fetchStory);
+    on<AddNewStoryEvent>(_addNewStory);
+    on<DeleteStoryEvent>(_deleteStory);
   }
 
   Future<void> _onInitialize(
@@ -93,6 +97,92 @@ class FeedBloc extends Bloc<FeedEvent, FeedState> {
         storyPagination: story?.pagination,
       ),
     );
+  }
+
+  Future<void> _addNewStory(
+    AddNewStoryEvent event,
+    Emitter<FeedState> emit,
+  ) async {
+    try {
+      debugPrint('=== Adding new story to feed ===');
+      debugPrint('Media URL: ${event.mediaUrl}');
+      debugPrint('Media Type: ${event.mediaType}');
+      debugPrint('Duration: ${event.duration}');
+      debugPrint('Current myStory: ${state.myStory}');
+      debugPrint('Current myStory user: ${state.myStory?.user}');
+      debugPrint(
+        'Current stories count: ${state.myStory?.stories?.length ?? 0}',
+      );
+
+      // Create new story item
+      final newStoryItem = MyStoryItemModel(
+        mediaUrl: event.mediaUrl,
+        mediaType: event.mediaType,
+        duration: event.duration,
+        viewCount: 0,
+        createdAt: DateTime.now(),
+        expiresAt: DateTime.now().add(const Duration(hours: 24)),
+        isExpired: false,
+        timeRemainingSeconds: 86400, // 24 hours
+        viewers: [],
+        totalViewers: 0,
+      );
+
+      // Update myStory with new story item
+      final currentStories = state.myStory?.stories ?? [];
+      final updatedStories = [newStoryItem, ...currentStories];
+
+      // Preserve user information
+      final updatedMyStory = MyStoryModel(
+        user: state.myStory?.user,
+        stories: updatedStories,
+      );
+
+      debugPrint(
+        'Updated stories count: ${updatedMyStory.stories?.length ?? 0}',
+      );
+
+      emit(state.copyWith(myStory: updatedMyStory));
+
+      debugPrint('=== Story added successfully ===');
+    } catch (e) {
+      debugPrint('Error adding new story: $e');
+    }
+  }
+
+  Future<void> _deleteStory(
+    DeleteStoryEvent event,
+    Emitter<FeedState> emit,
+  ) async {
+    try {
+      final success = await _repo.deleteStory(storyId: event.storyId);
+
+      if (success) {
+        debugPrint('Story deleted from API successfully');
+
+        // State'den story'yi çıkar
+        final currentStories = state.myStory?.stories ?? [];
+        final updatedStories = currentStories
+            .where((story) => story.id != event.storyId)
+            .toList();
+
+        debugPrint('Stories count before: ${currentStories.length}');
+        debugPrint('Stories count after: ${updatedStories.length}');
+
+        // Yeni myStory oluştur
+        final updatedMyStory = MyStoryModel(
+          user: state.myStory?.user,
+          stories: updatedStories,
+        );
+
+        emit(state.copyWith(myStory: updatedMyStory));
+        debugPrint('=== Story deleted successfully ===');
+      } else {
+        debugPrint('Failed to delete story from API');
+      }
+    } catch (e) {
+      debugPrint('Error deleting story: $e');
+    }
   }
 
   Future<void> _onLoadMorePosts(

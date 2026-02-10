@@ -84,3 +84,27 @@ class StoryViewedEvent extends FeedEvent {
 class FeedRefreshStoryEvent extends FeedEvent {
   const FeedRefreshStoryEvent();
 }
+
+class AddNewStoryEvent extends FeedEvent {
+  final String mediaUrl;
+  final String mediaType;
+  final int duration;
+
+  const AddNewStoryEvent({
+    required this.mediaUrl,
+    required this.mediaType,
+    required this.duration,
+  });
+
+  @override
+  List<Object?> get props => [mediaUrl, mediaType, duration];
+}
+
+class DeleteStoryEvent extends FeedEvent {
+  final String storyId;
+
+  const DeleteStoryEvent({required this.storyId});
+
+  @override
+  List<Object?> get props => [storyId];
+}

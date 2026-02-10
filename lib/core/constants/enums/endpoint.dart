@@ -43,15 +43,15 @@ enum Endpoint {
   GET_STORIES('get-following-stories'),
   GET_MY_STORIES('get-my-stories'),
   VIEW_STORY('view-story'),
+  DELETE_STORY('delete-story'),
 
   SEARCH_POSTS('search-post'),
-  
+
   GET_ACTIVITY_NOTIFICATIONS('get-activity-notifications'),
   GET_FOLLOWER_NOTIFICATIONS('get-follower-notifications'),
   GET_SYSTEM_NOTIFICATIONS('get-system-notifications'),
 
-  GET_SUGGESTED_USERS('get-suggested-users')
-  ;
+  GET_SUGGESTED_USERS('get-suggested-users');
 
   final String value;
   const Endpoint(this.value);

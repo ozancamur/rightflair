@@ -33,4 +33,5 @@ abstract class FeedRepository {
     required PaginationModel pagination,
   });
   Future<MyStoryModel?> fetchMyStories();
+  Future<bool> deleteStory({required String storyId});
 }

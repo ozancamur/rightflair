@@ -226,5 +226,21 @@ class FeedRepositoryImpl extends FeedRepository {
     }
   }
 
-
+  @override
+  Future<bool> deleteStory({required String storyId}) async {
+    try {
+      final request = await _api.post(
+        Endpoint.DELETE_STORY,
+        data: {'story_id': storyId},
+      );
+      if (request == null) return false;
+      final ResponseModel response = ResponseModel().fromJson(
+        request.data as Map<String, dynamic>,
+      );
+      return response.success ?? false;
+    } catch (e) {
+      debugPrint("FeedRepositoryImpl ERROR in deleteStory :> $e");
+      return false;
+    }
+  }
 }
