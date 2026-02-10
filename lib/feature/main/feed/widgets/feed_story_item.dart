@@ -31,8 +31,8 @@ class FeedStoryItemWidget extends StatelessWidget {
         );
       },
       child: Container(
-        height: context.height * .055,
-        width: context.height * .055,
+        height: context.height * .065,
+        width: context.height * .065,
         margin: EdgeInsets.symmetric(horizontal: context.width * .01),
         padding: EdgeInsets.all(2),
         decoration: hasUnseenStories

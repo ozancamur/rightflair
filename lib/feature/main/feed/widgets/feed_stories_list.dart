@@ -16,7 +16,7 @@ class FeedStoriesListWidget extends StatelessWidget {
 
     return Expanded(
       child: SizedBox(
-        height: context.height * .055,
+        height: context.height * .07,
         child: ListView.builder(
           scrollDirection: Axis.horizontal,
           physics: const BouncingScrollPhysics(),

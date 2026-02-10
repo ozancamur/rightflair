@@ -54,81 +54,80 @@ class FeedMyStoryBoxWidget extends StatelessWidget {
     return GestureDetector(
       onTap: () => _openMyStories(context),
       child: SizedBox(
-        height: context.height * .055,
-        width: context.height * .055,
-        child: Stack(
-          children: [
-            Positioned(
-              top: 0,
-              left: 0,
-              child: Container(
-                height: context.height * .055,
-                width: context.height * .055,
-                decoration: hasStories
-                    ? BoxDecoration(
-                        shape: BoxShape.circle,
-                        gradient: LinearGradient(
-                          begin: Alignment.topRight,
-                          end: Alignment.bottomLeft,
-                          colors: [AppColors.YELLOW, AppColors.ORANGE],
-                        ),
-                      )
-                    : BoxDecoration(
-                        shape: BoxShape.circle,
-                        border: Border.all(color: Colors.transparent, width: 0),
-                      ),
-                padding: const EdgeInsets.all(2),
-                child: Container(
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: context.colors.primary,
-                  ),
-                  child: myStory?.user?.profilePhotoUrl != null
-                      ? ClipRRect(
-                          borderRadius: BorderRadius.circular(100),
-                          child: CachedNetworkImage(
-                            imageUrl: myStory!.user!.profilePhotoUrl!,
-                            fit: BoxFit.cover,
-                            memCacheWidth: 100,
-                            memCacheHeight: 100,
-                            maxWidthDiskCache: 100,
-                            maxHeightDiskCache: 100,
-                            placeholder: (context, url) =>
-                                Icon(Icons.person, color: Colors.grey),
-                            errorWidget: (context, url, error) =>
-                                Icon(Icons.person, color: Colors.grey),
-                          ),
-                        )
-                      : Icon(Icons.person, color: Colors.grey),
+        height: context.height * .07,
+        width: context.height * .07,
+        child: Stack(children: [_box(context, hasStories), _add(context)]),
+      ),
+    );
+  }
+
+  Positioned _box(BuildContext context, bool hasStories) {
+    return Positioned(
+      top: context.height * .002,
+      left: 0,
+      child: Container(
+        height: context.height * .065,
+        width: context.height * .065,
+        decoration: hasStories
+            ? BoxDecoration(
+                shape: BoxShape.circle,
+                gradient: LinearGradient(
+                  begin: Alignment.topRight,
+                  end: Alignment.bottomLeft,
+                  colors: [AppColors.YELLOW, AppColors.ORANGE],
                 ),
+              )
+            : BoxDecoration(
+                shape: BoxShape.circle,
+                border: Border.all(color: Colors.transparent, width: 0),
               ),
-            ),
-            Positioned(
-              bottom: 0,
-              right: 0,
-              child: GestureDetector(
-                onTap: () =>
-                    dialogCreateStory(context, uid: myStory?.user?.id ?? ""),
-                child: Container(
-                  height: context.height * .02,
-                  width: context.height * .02,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: context.colors.primary,
-                    border: Border.all(
-                      color: context.colors.secondary,
-                      width: 1,
-                    ),
+        padding: const EdgeInsets.all(2),
+        child: Container(
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: context.colors.primary,
+          ),
+          child: myStory?.user?.profilePhotoUrl != null
+              ? ClipRRect(
+                  borderRadius: BorderRadius.circular(100),
+                  child: CachedNetworkImage(
+                    imageUrl: myStory!.user!.profilePhotoUrl!,
+                    fit: BoxFit.cover,
+                    memCacheWidth: 100,
+                    memCacheHeight: 100,
+                    maxWidthDiskCache: 100,
+                    maxHeightDiskCache: 100,
+                    placeholder: (context, url) =>
+                        Icon(Icons.person, color: Colors.grey),
+                    errorWidget: (context, url, error) =>
+                        Icon(Icons.person, color: Colors.grey),
                   ),
-                  child: Icon(
-                    Icons.add,
-                    size: context.height * .0175,
-                    color: context.colors.secondary,
-                  ),
-                ),
-              ),
-            ),
-          ],
+                )
+              : Icon(Icons.person, color: Colors.grey),
+        ),
+      ),
+    );
+  }
+
+  Positioned _add(BuildContext context) {
+    return Positioned(
+      bottom: context.height * .002,
+      right: 0,
+      child: GestureDetector(
+        onTap: () => dialogCreateStory(context, uid: myStory?.user?.id ?? ""),
+        child: Container(
+          height: context.height * .03,
+          width: context.height * .03,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: context.colors.primary,
+            border: Border.all(color: context.colors.secondary, width: 1),
+          ),
+          child: Icon(
+            Icons.add,
+            size: context.height * .0175,
+            color: context.colors.secondary,
+          ),
         ),
       ),
     );
