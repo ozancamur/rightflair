@@ -53,39 +53,25 @@ class RightFlair extends StatelessWidget {
     final themeNotifier = Provider.of<ThemeNotifier>(context);
     return MultiBlocProvider(
       providers: [
-        BlocProvider(
-          create: (_) => AuthenticationBloc(AuthenticationRepositoryImpl()),
-        ),
-        BlocProvider(
-          create: (_) => ChooseUsernameCubit(ChooseUsernameRepositoryImpl()),
-        ),
+        BlocProvider(create: (_) => AuthenticationBloc(AuthenticationRepositoryImpl())),
+        BlocProvider(create: (_) => ChooseUsernameCubit(ChooseUsernameRepositoryImpl())),
         BlocProvider(create: (_) => NavigationCubit()),
         BlocProvider(create: (_) => FeedBloc(FeedRepositoryImpl())),
         BlocProvider(create: (_) => AnalyticsCubit(AnalyticsRepositoryImpl())),
         BlocProvider(create: (_) => InboxCubit(InboxRepositoryImpl())),
         BlocProvider(create: (_) => ProfileCubit(ProfileRepositoryImpl())),
-        BlocProvider(
-          create: (_) => ProfileEditCubit(ProfileEditRepositoryImpl()),
-        ),
+        BlocProvider(create: (_) => ProfileEditCubit(ProfileEditRepositoryImpl())),
         BlocProvider(create: (_) => UserCubit(UserRepositoryImpl())),
-        BlocProvider(
-          create: (_) => PostDetailCubit(PostDetailRepositoryImpl()),
-        ),
+        BlocProvider(create: (_) => PostDetailCubit(PostDetailRepositoryImpl())),
         BlocProvider(create: (_) => SettingsCubit(SettingsRepositoryImpl())),
-        BlocProvider(
-          create: (_) => CreatePostCubit(CreatePostRepositoryImpl()),
-        ),
+        BlocProvider(create: (_) => CreatePostCubit(CreatePostRepositoryImpl())),
         BlocProvider(create: (_) => LocationCubit(LocationRepositoryImpl())),
         BlocProvider(create: (_) => CommentsCubit(CommentsRepositoryImpl())),
         BlocProvider(create: (_) => ChatCubit(ChatRepositoryImpl())),
-        BlocProvider(
-          create: (_) => CreateStoryCubit(CreateStoryRepositoryImpl()),
-        ),
+        BlocProvider(create: (_) => CreateStoryCubit(CreateStoryRepositoryImpl())),
         BlocProvider(create: (_) => StoryViewCubit(StoryViewRepositoryImpl())),
         BlocProvider(create: (_) => SearchCubit(SearchRepositoryImpl())),
-        BlocProvider(
-          create: (_) => NewFollowersCubit(NewFollowersRepositoryImpl()),
-        ),
+        BlocProvider(create: (_) => NewFollowersCubit(NewFollowersRepositoryImpl())),
       ],
       child: MaterialApp.router(
         title: AppConstants.APP_NAME,
