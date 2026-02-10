@@ -61,10 +61,17 @@ class CreatePostRepositoryImpl implements CreatePostRepository {
         request.data as Map<String, dynamic>,
       );
       if (response.success == true && response.data != null) {
-        final List<MentionUserModel> users = (response.data as List<dynamic>)
-            .map((e) => MentionUserModel().fromJson(e as Map<String, dynamic>))
-            .toList();
-        return users;
+        final data = response.data as Map<String, dynamic>;
+        final list = data['users'] as List<dynamic>?;
+        if (list != null) {
+          final List<MentionUserModel> users = list
+              .map(
+                (e) => MentionUserModel().fromJson(e as Map<String, dynamic>),
+              )
+              .toList();
+          return users;
+        }
+        return [];
       } else {
         return [];
       }
