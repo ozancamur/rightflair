@@ -1,6 +1,7 @@
 import '../../../../core/base/model/base.dart';
 import 'my_story_viewers.dart';
 
+// ignore: must_be_immutable
 class MyStoryItemModel extends BaseModel<MyStoryItemModel> {
   String? id;
   String? mediaUrl;
@@ -27,6 +28,29 @@ class MyStoryItemModel extends BaseModel<MyStoryItemModel> {
     this.viewers,
     this.totalViewers,
   });
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is MyStoryItemModel &&
+          runtimeType == other.runtimeType &&
+          id == other.id &&
+          mediaUrl == other.mediaUrl &&
+          mediaType == other.mediaType &&
+          duration == other.duration &&
+          viewCount == other.viewCount &&
+          createdAt == other.createdAt &&
+          expiresAt == other.expiresAt &&
+          isExpired == other.isExpired &&
+          timeRemainingSeconds == other.timeRemainingSeconds;
+
+  @override
+  int get hashCode =>
+      id.hashCode ^
+      mediaUrl.hashCode ^
+      mediaType.hashCode ^
+      duration.hashCode ^
+      viewCount.hashCode;
 
   @override
   MyStoryItemModel copyWith({

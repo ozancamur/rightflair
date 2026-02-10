@@ -1,5 +1,6 @@
 import '../../../../core/base/model/base.dart';
 
+// ignore: must_be_immutable
 class StoryUserModel extends BaseModel<StoryUserModel> {
   String? id;
   String? username;
@@ -7,6 +8,23 @@ class StoryUserModel extends BaseModel<StoryUserModel> {
   String? profilePhotoUrl;
 
   StoryUserModel({this.id, this.username, this.fullName, this.profilePhotoUrl});
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is StoryUserModel &&
+          runtimeType == other.runtimeType &&
+          id == other.id &&
+          username == other.username &&
+          fullName == other.fullName &&
+          profilePhotoUrl == other.profilePhotoUrl;
+
+  @override
+  int get hashCode =>
+      id.hashCode ^
+      username.hashCode ^
+      fullName.hashCode ^
+      profilePhotoUrl.hashCode;
 
   @override
   StoryUserModel copyWith({

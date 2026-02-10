@@ -1,5 +1,6 @@
 import '../../../../core/base/model/base.dart';
 
+// ignore: must_be_immutable
 class MyStoryViewersModel extends BaseModel<MyStoryViewersModel> {
   String? id;
   String? username;
@@ -14,6 +15,25 @@ class MyStoryViewersModel extends BaseModel<MyStoryViewersModel> {
     this.profilePhotoUrl,
     this.viewedAt,
   });
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is MyStoryViewersModel &&
+          runtimeType == other.runtimeType &&
+          id == other.id &&
+          username == other.username &&
+          fullName == other.fullName &&
+          profilePhotoUrl == other.profilePhotoUrl &&
+          viewedAt == other.viewedAt;
+
+  @override
+  int get hashCode =>
+      id.hashCode ^
+      username.hashCode ^
+      fullName.hashCode ^
+      profilePhotoUrl.hashCode ^
+      viewedAt.hashCode;
 
   @override
   MyStoryViewersModel copyWith({

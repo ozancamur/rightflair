@@ -316,10 +316,6 @@ class _EditStoryMediaPageState extends State<EditStoryMediaPage> {
         mediaFile: fileToUpload,
         isVideo: widget.isVideo,
       );
-
-      // Kamera sayfasını ve edit sayfasını kapat
-      Navigator.pop(context); // Edit page
-      Navigator.pop(context); // Camera page
     }
   }
 
@@ -335,7 +331,6 @@ class _EditStoryMediaPageState extends State<EditStoryMediaPage> {
             debugPrint('Media Type: ${state.mediaType}');
             debugPrint('Duration: ${state.duration}');
 
-
             if (state.uploadedMediaUrl != null &&
                 state.mediaType != null &&
                 state.duration != null) {
@@ -347,6 +342,7 @@ class _EditStoryMediaPageState extends State<EditStoryMediaPage> {
                   duration: state.duration!,
                 ),
               );
+              debugPrint('Story event added to FeedBloc');
             } else {
               debugPrint('WARNING: Missing story data - cannot add to feed');
             }
@@ -360,6 +356,14 @@ class _EditStoryMediaPageState extends State<EditStoryMediaPage> {
                 backgroundColor: Colors.green,
               ),
             );
+
+            // Upload başarılı olduktan sonra sayfaları kapat
+            Future.delayed(const Duration(milliseconds: 500), () {
+              if (context.mounted) {
+                Navigator.pop(context); // Edit page
+                Navigator.pop(context); // Camera page
+              }
+            });
           } else if (state.error != null) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
