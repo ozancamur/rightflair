@@ -35,29 +35,21 @@ class InboxRepositoryImpl implements InboxRepository {
   }
 
   @override
-  Future<ResponseNotificationsModel?> getActivityNotifications() async {
+  Future<ResponseNotificationsModel?> getActivityNotifications({
+    int page = 1,
+    int limit = 10,
+    bool? markAsRead,
+  }) async {
     try {
-      final request = await _api.post(Endpoint.GET_ACTIVITY_NOTIFICATIONS);
-      final response = ResponseModel().fromJson(
-        request?.data as Map<String, dynamic>,
+      final data = {
+        'page': page,
+        'limit': limit,
+        if (markAsRead != null) 'mark_as_read': markAsRead,
+      };
+      final request = await _api.post(
+        Endpoint.GET_ACTIVITY_NOTIFICATIONS,
+        data: data,
       );
-      final ResponseNotificationsModel notifications =
-          ResponseNotificationsModel().fromJson(
-            response.data as Map<String, dynamic>,
-          );
-      return notifications;
-    } catch (e) {
-      debugPrint("InboxRepositoryImpl ERROR in fetchNotifications: $e");
-      return null;
-    }
-  }
-
- 
-
-  @override
-  Future<ResponseNotificationsModel?> getSystemNotifications() async {
-    try {
-      final request = await _api.post(Endpoint.GET_SYSTEM_NOTIFICATIONS);
       final response = ResponseModel().fromJson(
         request?.data as Map<String, dynamic>,
       );

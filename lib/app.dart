@@ -8,8 +8,9 @@ import 'package:rightflair/feature/authentication/bloc/authentication_bloc.dart'
 import 'package:rightflair/feature/authentication/repository/authentication_repository_impl.dart';
 import 'package:rightflair/feature/choose_username/cubit/choose_username_cubit.dart';
 import 'package:rightflair/feature/choose_username/repository/choose_username_repository_impl.dart';
-import 'package:rightflair/feature/comments/cubit/comments_cubit.dart';
-import 'package:rightflair/feature/comments/repository/comments_repository_impl.dart';
+import 'package:rightflair/feature/post/comments/cubit/comments_cubit.dart';
+import 'package:rightflair/feature/post/comments/repository/comments_repository_impl.dart';
+import 'package:rightflair/feature/notifications/system_notifications/cubit/system_notifications_cubit.dart';
 import 'package:rightflair/feature/post/create_post/repository/create_post_repository.dart';
 import 'package:rightflair/feature/story/create_story/repository/create_story_repository_impl.dart';
 import 'package:rightflair/feature/main/inbox/cubit/inbox_cubit.dart';
@@ -31,6 +32,7 @@ import 'core/config/theme_notifier.dart';
 import 'core/constants/theme.dart';
 import 'feature/chat/cubit/chat_cubit.dart';
 import 'feature/chat/repository/chat_repository_impl.dart';
+import 'feature/notifications/system_notifications/repository/system_notifications_repository_impl.dart';
 import 'feature/post/create_post/cubit/create_post_cubit.dart';
 import 'feature/story/create_story/cubit/create_story_cubit.dart';
 import 'feature/main/analytics/repository/analytics_repository_impl.dart';
@@ -72,6 +74,7 @@ class RightFlair extends StatelessWidget {
         BlocProvider(create: (_) => StoryViewCubit(StoryViewRepositoryImpl())),
         BlocProvider(create: (_) => SearchCubit(SearchRepositoryImpl())),
         BlocProvider(create: (_) => NewFollowersCubit(NewFollowersRepositoryImpl())),
+        BlocProvider(create: (_) => SystemNotificationsCubit(SystemNotificationsRepositoryImpl())),
       ],
       child: MaterialApp.router(
         title: AppConstants.APP_NAME,

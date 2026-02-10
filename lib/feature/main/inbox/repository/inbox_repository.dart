@@ -7,6 +7,9 @@ abstract class InboxRepository {
   Future<ConversationsModel?> getConversations({
     required PaginationModel pagination,
   });
-  Future<ResponseNotificationsModel?> getActivityNotifications();
-  Future<ResponseNotificationsModel?> getSystemNotifications();
+  Future<ResponseNotificationsModel?> getActivityNotifications({
+    int page = 1,
+    int limit = 10,
+    bool? markAsRead,
+  });
 }

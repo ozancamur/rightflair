@@ -20,10 +20,12 @@ class AppIcons {
   static const String ARROW_UP = '${_path}arrow_up.svg';
   static const String ARROW_DOWN = '${_path}arrow_down.svg';
   static const String ARROW_RIGHT = '${_path}arrow_right.svg';
+  static const String AT = '${_path}at.svg';
 
   static const String BACK = '${_path}back.svg';
 
   static const String CAMERA = '${_path}camera.svg';
+  static const String CHAT = '${_path}chat.svg';
   static const String CHANGE_PASSWORD = '${_path}change_password.svg';
   static const String CHANGE_PHOTO = '${_path}change_photo.svg';
   static const String CHECK = '${_path}check.svg';
@@ -46,6 +48,7 @@ class AppIcons {
   static const String GOOGLE = '${_path}google.svg';
 
   static const String HASHTAG = '${_path}hashtag.svg';
+  static const String HEART = '${_path}heart.svg';
   static const String HOME = '${_path}home.svg';
 
   static const String INBOX = '${_path}inbox.svg';

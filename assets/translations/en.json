@@ -146,14 +146,16 @@
         "keepPosting": "Keep posting outfits to get more reactions",
         "systemNotifications": {
             "title": "System Notifications",
-            "accountUpdates": "Account Updates"
+            "accountUpdates": "Account Updates",
+            "info": "Application and account updates"
         },
         "newFollowers": {
             "title": "New Followers",
             "suggestedAccounts": "Suggested Accounts",
             "hide": "hide",
             "viewMore": "view more",
-            "startedFollowingYou": "started following you."
+            "startedFollowingYou": "started following you.",
+            "info": "Recent followers and suggestions"
         },
         "followBack": "Follow back",
         "remove": "Remove",

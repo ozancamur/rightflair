@@ -7,7 +7,7 @@ import 'package:rightflair/feature/authentication/pages/welcome_page.dart';
 import 'package:rightflair/feature/post/create_post/page/create_post_page.dart';
 import 'package:rightflair/feature/main/navigation/page/navigation_page.dart';
 import 'package:rightflair/feature/search/page/search_page.dart';
-import 'package:rightflair/feature/main/inbox/page/system_notifications_page.dart';
+import 'package:rightflair/feature/notifications/system_notifications/page/system_notifications_page.dart';
 import 'package:rightflair/feature/notifications/new_followers/page/new_followers_page.dart';
 import 'package:rightflair/feature/settings/page/settings_page.dart';
 
@@ -17,7 +17,7 @@ import '../../feature/post/create_post/model/post.dart';
 import '../../feature/main/feed/models/user_with_stories.dart';
 import '../../feature/post/post_detail/page/post_detail_page.dart';
 import '../../feature/profile_edit/page/profile_edit_page.dart';
-import '../../feature/splash/page/splash_page.dart';
+import '../../feature/authentication/pages/splash_page.dart';
 import '../../feature/story/story_view/page/story_view_page.dart';
 import '../../feature/user/page/user_page.dart';
 

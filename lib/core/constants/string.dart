@@ -342,6 +342,8 @@ class AppStrings {
   // INBOX
   static const String INBOX_SYSTEM_NOTIFICATIONS_TITLE =
       'inbox.systemNotifications.title';
+  static const String INBOX_SYSTEM_NOTIFICATIONS_INFO =
+      'inbox.systemNotifications.info';
   static const String INBOX_SYSTEM_NOTIFICATIONS_ACCOUNT_UPDATES =
       'inbox.systemNotifications.accountUpdates';
   static const String INBOX_NEW_FOLLOWERS_TITLE = 'inbox.newFollowers.title';
@@ -355,6 +357,7 @@ class AppStrings {
   static const String INBOX_FOLLOW = 'inbox.follow';
   static const String INBOX_STARTED_FOLLOWING_YOU =
       'inbox.newFollowers.startedFollowingYou';
+  static const String INBOX_NEW_FOLLOWERS_INFO = "inbox.newFollowers.info";
 
   // TIME
   static const String TIME_MINUTES_AGO = 'time.minutesAgo';

@@ -73,7 +73,7 @@ class PaginationModel extends BaseModel<PaginationModel> {
 
   PaginationModel forConversations({required int page}) {
     return PaginationModel(
-      page: 1,
+      page: page,
       limit: 10,
       totalCount: totalCount,
       totalPages: totalPages,
@@ -81,5 +81,4 @@ class PaginationModel extends BaseModel<PaginationModel> {
       hasPrev: hasPrev,
     );
   }
-
 }

@@ -4,7 +4,7 @@ import 'package:rightflair/core/components/post/post.dart';
 import 'package:rightflair/feature/main/feed/widgets/post_like_button.dart';
 
 import '../../../../core/extensions/context.dart';
-import '../../../comments/page/dialog_comments.dart';
+import '../../../post/comments/page/dialog_comments.dart';
 import '../../../post/create_post/model/post.dart';
 import '../bloc/feed_bloc.dart';
 import '../../../../core/constants/enums/swipe_direction.dart';

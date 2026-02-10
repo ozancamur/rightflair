@@ -29,6 +29,19 @@ class NewFollowersCubit extends Cubit<NewFollowersState> {
     );
   }
 
+  Future<void> refresh() async {
+    final notifications = await _repo.getNewFollowers(page: 1, limit: 6);
+    final suggested = await _repo.getSuggestedUsers(page: 1, limit: 10);
+    emit(
+      state.copyWith(
+        notifications: notifications?.followers,
+        pagination: notifications?.pagination,
+        suggestedUsers: suggested?.suggestedUsers,
+        paginationSuggested: suggested?.pagination,
+      ),
+    );
+  }
+
   Future<void> loadMoreFollowers() async {
     if (state.isLoadingMoreFollowers || state.pagination?.hasNext != true) {
       return;

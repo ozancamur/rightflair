@@ -64,13 +64,13 @@ class NotificationConfig {
         );
 
       case NotificationType.LIKE:
-        return defaultConfig(context);
+        return defaultConfig(context, icon: AppIcons.HEART);
       case NotificationType.COMMENT:
-        return defaultConfig(context);
+        return defaultConfig(context, icon: AppIcons.CHAT);
       case NotificationType.MENTION:
-        return defaultConfig(context);
+        return defaultConfig(context, icon: AppIcons.AT);
       case NotificationType.SHARE:
-        return defaultConfig(context);
+        return defaultConfig(context, icon: AppIcons.SHARE_FILLED);
       case NotificationType.RECOMMENDED_USER:
         return defaultConfig(context);
       case NotificationType.ACCOUNT_ALERT:
@@ -82,9 +82,9 @@ class NotificationConfig {
     }
   }
 
-  static NotificationConfig defaultConfig(BuildContext context) {
+  static NotificationConfig defaultConfig(BuildContext context,{String icon = AppIcons.NOTIFICATION }) {
     return NotificationConfig(
-      icon: AppIcons.NOTIFICATION,
+      icon: icon,
       iconColor: context.colors.primary,
       bgColor: context.colors.secondary,
     );

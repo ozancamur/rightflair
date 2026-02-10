@@ -14,7 +14,7 @@ import 'package:rightflair/feature/post/post_detail/cubit/post_detail_cubit.dart
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../../../core/base/page/base_scaffold.dart';
-import '../../../comments/page/dialog_comments.dart';
+import '../../comments/page/dialog_comments.dart';
 import '../../create_post/model/post.dart';
 import '../repository/post_detail_repository_impl.dart';
 

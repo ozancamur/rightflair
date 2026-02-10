@@ -7,7 +7,6 @@ import '../../../../core/base/page/base_scaffold.dart';
 import '../../../../core/components/loading.dart';
 import '../cubit/inbox_cubit.dart';
 import '../cubit/inbox_state.dart';
-import '../widgets/inbox_appbar.dart';
 import '../widgets/messages/inbox_messages_list.dart';
 import '../widgets/notifications/inbox_notifications_list.dart';
 import '../widgets/inbox_tab_bars.dart';
@@ -65,20 +64,17 @@ class _InboxPageState extends State<InboxPage>
     return BlocBuilder<InboxCubit, InboxState>(
       builder: (context, state) {
         return BaseScaffold(
-          appBar: const InboxAppBarWidget(),
-          body: Column(
-            children: [
-              InboxTabBarsWidget(controller: _tabController),
-              Expanded(child: _check(state)),
-            ],
+          body: SafeArea(
+            child: Column(
+              children: [
+                InboxTabBarsWidget(controller: _tabController),
+                Expanded(child: _body(state)),
+              ],
+            ),
           ),
         );
       },
     );
-  }
-
-  Widget _check(InboxState state) {
-    return state.isConversationsLoading ? LoadingComponent() : _body(state);
   }
 
   TabBarView _body(InboxState state) {
@@ -96,7 +92,10 @@ class _InboxPageState extends State<InboxPage>
         ? LoadingComponent()
         : state.conversations == null
         ? SizedBox.shrink()
-        : InboxMessagesListWidget(list: state.conversations ?? []);
+        : InboxMessagesListWidget(
+            list: state.conversations ?? [],
+            isLoadingMore: state.isLoadingMoreConversations,
+          );
   }
 
   Widget _notifications(BuildContext context, InboxState state) {
@@ -106,6 +105,7 @@ class _InboxPageState extends State<InboxPage>
         ? SizedBox.shrink()
         : InboxNotificationsList(
             notifications: state.activityNotifications ?? [],
+            isLoadingMore: state.isLoadingMoreNotifications,
           );
   }
 }
