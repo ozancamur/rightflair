@@ -32,12 +32,25 @@ class CreateStoryRepositoryImpl extends CreateStoryRepository {
     required File file,
   }) async {
     try {
+      // Get the authenticated user's ID from Supabase
+      final String? authenticatedUserId = _supabase.auth.currentUser?.id;
+
+      if (authenticatedUserId == null) {
+        debugPrint(
+          "CreateStoryRepositoryImpl ERROR in uploadStoryImage: User not authenticated",
+        );
+        return null;
+      }
+
       final String extension = file.path.split('.').last;
-      final String name = StorageConstants.STORY_FILE_NAME(extension);
-      final String path = StorageConstants.STORY_STORAGE_PATH(userId, name);
+      final String name = StorageConstants.FILE_NAME(extension);
+      final String path = StorageConstants.STORY_PHOTO_PATH(
+        authenticatedUserId,
+        name,
+      );
 
       await _supabase.storage
-          .from(StorageConstants.STORY_STORAGE_ID)
+          .from(StorageConstants.STORAGE_ID)
           .upload(
             path,
             file,
@@ -45,12 +58,12 @@ class CreateStoryRepositoryImpl extends CreateStoryRepository {
           );
 
       final String publicUrl = _supabase.storage
-          .from(StorageConstants.STORY_STORAGE_ID)
+          .from(StorageConstants.STORAGE_ID)
           .getPublicUrl(path);
 
       return publicUrl;
     } catch (e) {
-      debugPrint("ProfileRepositoryImpl ERROR in uploadStoryImage :> $e");
+      debugPrint("CreateStoryRepositoryImpl ERROR in uploadStoryImage :> $e");
       return null;
     }
   }

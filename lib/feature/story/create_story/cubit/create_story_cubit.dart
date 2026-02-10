@@ -56,7 +56,7 @@ class CreateStoryCubit extends Cubit<CreateStoryState> {
         'wmv',
         'webm',
       ].contains(extension);
-      final String mediaType = isVideo ? 'video' : 'photo';
+      final String mediaType = isVideo ? 'video' : 'image';
 
       // Storage'e yükle
       final String? mediaUrl = await _repo.uploadStoryImage(

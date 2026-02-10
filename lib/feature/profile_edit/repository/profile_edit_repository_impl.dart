@@ -43,14 +43,14 @@ class ProfileEditRepositoryImpl extends ProfileEditRepository {
   }) async {
     try {
       final String fileExtension = imageFile.path.split('.').last;
-      final String fileName = StorageConstants.PROFILE_FILE_NAME(fileExtension);
-      final String storagePath = StorageConstants.PROFILE_STORAGE_PATH(
+      final String fileName = StorageConstants.FILE_NAME(fileExtension);
+      final String storagePath = StorageConstants.PROFILE_PHOTO_PATH(
         userId,
         fileName,
       );
 
       await _supabase.storage
-          .from(StorageConstants.PROFILE_STORAGE_ID)
+          .from(StorageConstants.STORAGE_ID)
           .upload(
             storagePath,
             imageFile,
@@ -58,7 +58,7 @@ class ProfileEditRepositoryImpl extends ProfileEditRepository {
           );
 
       final String publicUrl = _supabase.storage
-          .from(StorageConstants.PROFILE_STORAGE_ID)
+          .from(StorageConstants.STORAGE_ID)
           .getPublicUrl(storagePath);
 
       return publicUrl;

@@ -1,7 +1,6 @@
 import '../../../../core/base/model/base.dart';
 
 class CreateStoryModel extends BaseModel<CreateStoryModel> {
-  
   String? mediaUrl;
   String? mediaType;
   int? duration;
@@ -32,10 +31,16 @@ class CreateStoryModel extends BaseModel<CreateStoryModel> {
 
   @override
   Map<String, dynamic> toJson() {
-    return {
-      'media_url': mediaUrl,
-      'media_type': mediaType,
-      'duration': duration,
-    };
+    final Map<String, dynamic> json = {'media_url': mediaUrl};
+
+    if (mediaType != null) {
+      json['media_type'] = mediaType;
+    }
+
+    if (duration != null) {
+      json['duration'] = duration;
+    }
+
+    return json;
   }
 }
