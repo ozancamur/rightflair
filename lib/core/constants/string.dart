@@ -160,6 +160,8 @@ class AppStrings {
   static const String CREATE_POST_POST = 'createPost.post';
   static const String CREATE_POST_SELECT_LOCATION = 'createPost.selectLocation';
   static const String CREATE_POST_SEARCH_LOCATION = 'createPost.searchLocation';
+  static const String CREATE_POST_CAMERA_RETAKE = 'createPost.cameraRetake';
+  static const String CREATE_POST_CAMERA_CONTINUE = 'createPost.cameraContinue';
 
   // INBOX
   static const String INBOX_TITLE = 'inbox.title';

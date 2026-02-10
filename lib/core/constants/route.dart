@@ -13,6 +13,7 @@ class RouteConstants {
   static const String NAVIGATION = '/navigation';
 
   static const String SEARCH = '/search';
+  static const String CAMERA = '/camera';
   static const String CREATE_POST = '/create_post';
   static const String POST_DETAIL = '/post_detail';
   static const String EDIT_PROFILE = '/edit_profile';

@@ -5,7 +5,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rightflair/core/constants/color/color.dart';
 import 'package:rightflair/core/constants/route.dart';
-import 'package:rightflair/feature/post/create_post/cubit/create_post_cubit.dart';
 
 import '../../../../core/constants/icons.dart';
 import '../../../../core/constants/string.dart';
@@ -50,11 +49,8 @@ class NavigationBottomBar extends StatelessWidget {
 
   Widget _add(BuildContext context) {
     return InkWell(
-      onTap: () async {
-        await context.read<CreatePostCubit>().pickImageFromCamera();
-        if (context.mounted) {
-          context.push(RouteConstants.CREATE_POST);
-        }
+      onTap: () {
+        context.push(RouteConstants.CAMERA);
       },
       borderRadius: BorderRadius.circular(100),
       child: Container(

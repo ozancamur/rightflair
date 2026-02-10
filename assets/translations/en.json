@@ -135,7 +135,9 @@
         "draft": "Draft",
         "post": "Post Outfit",
         "selectLocation": "Location Selection",
-        "searchLocation": "Search location..."
+        "searchLocation": "Search location...",
+        "cameraRetake": "Retake",
+        "cameraContinue": "Continue"
     },
     "inbox": {
         "title": "InBox",

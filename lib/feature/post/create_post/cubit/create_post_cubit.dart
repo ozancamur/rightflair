@@ -42,6 +42,10 @@ class CreatePostCubit extends Cubit<CreatePostState> {
     }
   }
 
+  void setImagePath(String path) {
+    emit(state.copyWith(imagePath: path));
+  }
+
   Future<void> createPost() async {
     await _repo.createPost();
   }
