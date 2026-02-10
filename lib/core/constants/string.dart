@@ -303,6 +303,17 @@ class AppStrings {
       'profileEdit.storyCreatedSuccess';
   static const String PROFILE_EDIT_STORY_CREATED_ERROR =
       'profileEdit.storyCreatedError';
+  static const String PROFILE_EDIT_STORY_ADD_TEXT = 'profileEdit.storyAddText';
+  static const String PROFILE_EDIT_STORY_WRITE_TEXT_PLACEHOLDER =
+      'profileEdit.storyWriteTextPlaceholder';
+  static const String PROFILE_EDIT_STORY_SELECT_COLOR =
+      'profileEdit.storySelectColor';
+  static const String PROFILE_EDIT_STORY_SHARE = 'profileEdit.storyShare';
+  static const String PROFILE_EDIT_STORY_PHOTO = 'profileEdit.storyPhoto';
+  static const String PROFILE_EDIT_STORY_VIDEO = 'profileEdit.storyVideo';
+  static const String PROFILE_EDIT_STORY_GALLERY = 'profileEdit.storyGallery';
+  static const String PROFILE_EDIT_STORY_GALLERY_EMPTY =
+      'profileEdit.storyGalleryEmpty';
 
   // SETTINGS
   static const String SETTINGS_TITLE = 'settings.title';

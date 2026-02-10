@@ -1,12 +1,14 @@
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:photo_manager/photo_manager.dart';
 import 'package:rightflair/core/extensions/context.dart';
 
 import '../../../../core/components/text/text.dart';
 import '../../../../core/constants/font/font_size.dart';
+import '../../../../core/constants/string.dart';
 import 'edit_story_media_page.dart';
 
 class GalleryPickerPage extends StatefulWidget {
@@ -93,16 +95,16 @@ class _GalleryPickerPageState extends State<GalleryPickerPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: context.colors.surface,
       appBar: AppBar(
-        backgroundColor: Colors.black,
+        backgroundColor: context.colors.surface,
         leading: IconButton(
           onPressed: () => Navigator.pop(context),
-          icon: const Icon(Icons.close, color: Colors.white),
+          icon: Icon(Icons.close, color: context.colors.onSurface),
         ),
         title: TextComponent(
-          text: 'Galeri',
-          color: Colors.white,
+          text: AppStrings.PROFILE_EDIT_STORY_GALLERY.tr(),
+          color: context.colors.onSurface,
           size: FontSizeConstants.LARGE,
           weight: FontWeight.bold,
         ),
@@ -115,8 +117,8 @@ class _GalleryPickerPageState extends State<GalleryPickerPage> {
           : _mediaList.isEmpty
           ? Center(
               child: TextComponent(
-                text: 'Galeri boş',
-                color: Colors.white,
+                text: AppStrings.PROFILE_EDIT_STORY_GALLERY_EMPTY.tr(),
+                color: context.colors.onSurface,
                 size: FontSizeConstants.NORMAL,
               ),
             )
@@ -131,11 +133,11 @@ class _GalleryPickerPageState extends State<GalleryPickerPage> {
                 return false;
               },
               child: GridView.builder(
-                padding: const EdgeInsets.all(2),
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                padding: EdgeInsets.all(context.width * 0.005),
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 3,
-                  mainAxisSpacing: 2,
-                  crossAxisSpacing: 2,
+                  mainAxisSpacing: context.width * 0.005,
+                  crossAxisSpacing: context.width * 0.005,
                 ),
                 itemCount: _mediaList.length + (_hasMoreToLoad ? 1 : 0),
                 itemBuilder: (context, index) {
@@ -164,34 +166,38 @@ class _GalleryPickerPageState extends State<GalleryPickerPage> {
                                 fit: BoxFit.cover,
                               );
                             }
-                            return Container(color: Colors.grey[900]);
+                            return Container(
+                              color: context.colors.surfaceContainerHighest,
+                            );
                           },
                         ),
                         if (asset.type == AssetType.video)
                           Positioned(
-                            bottom: 4,
-                            right: 4,
+                            bottom: context.width * 0.01,
+                            right: context.width * 0.01,
                             child: Container(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 6,
-                                vertical: 2,
+                              padding: EdgeInsets.symmetric(
+                                horizontal: context.width * 0.015,
+                                vertical: context.height * 0.0025,
                               ),
                               decoration: BoxDecoration(
-                                color: Colors.black.withOpacity(0.7),
-                                borderRadius: BorderRadius.circular(4),
+                                color: context.colors.surface.withOpacity(0.7),
+                                borderRadius: BorderRadius.circular(
+                                  context.width * 0.01,
+                                ),
                               ),
                               child: Row(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
-                                  const Icon(
+                                  Icon(
                                     Icons.play_arrow,
-                                    color: Colors.white,
-                                    size: 12,
+                                    color: context.colors.onSurface,
+                                    size: context.width * 0.03,
                                   ),
-                                  const SizedBox(width: 2),
+                                  SizedBox(width: context.width * 0.005),
                                   TextComponent(
                                     text: _formatDuration(asset.duration),
-                                    color: Colors.white,
+                                    color: context.colors.onSurface,
                                     size: FontSizeConstants.XXX_SMALL,
                                   ),
                                 ],

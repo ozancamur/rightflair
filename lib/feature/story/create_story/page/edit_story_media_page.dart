@@ -76,30 +76,30 @@ class _EditStoryMediaPageState extends State<EditStoryMediaPage> {
             return Dialog(
               backgroundColor: context.colors.secondary,
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(context.width * 0.03),
               ),
               child: Padding(
-                padding: const EdgeInsets.all(20),
+                padding: EdgeInsets.all(context.width * 0.05),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     // Title
-                    Text(
-                      'Metin Ekle',
-                      style: TextStyle(
-                        color: context.colors.primary,
-                        fontSize: 17,
-                        fontWeight: FontWeight.bold,
-                      ),
+                    TextComponent(
+                      text: AppStrings.PROFILE_EDIT_STORY_ADD_TEXT.tr(),
+                      color: context.colors.primary,
+                      size: FontSizeConstants.LARGE,
+                      weight: FontWeight.bold,
                     ),
-                    const SizedBox(height: 20),
+                    SizedBox(height: context.height * 0.025),
                     // TextField
                     TextField(
                       autofocus: true,
                       style: TextStyle(color: context.colors.primary),
                       decoration: InputDecoration(
-                        hintText: 'Metni yazın...',
+                        hintText: AppStrings
+                            .PROFILE_EDIT_STORY_WRITE_TEXT_PLACEHOLDER
+                            .tr(),
                         hintStyle: TextStyle(
                           color: context.colors.primary.withOpacity(0.5),
                         ),
@@ -114,11 +114,11 @@ class _EditStoryMediaPageState extends State<EditStoryMediaPage> {
                         text = value;
                       },
                     ),
-                    const SizedBox(height: 20),
+                    SizedBox(height: context.height * 0.025),
                     // Renk Seçici
                     Wrap(
-                      spacing: 10,
-                      runSpacing: 10,
+                      spacing: context.width * 0.025,
+                      runSpacing: context.height * 0.015,
                       children:
                           [
                             Colors.white,
@@ -137,8 +137,8 @@ class _EditStoryMediaPageState extends State<EditStoryMediaPage> {
                                 });
                               },
                               child: Container(
-                                width: 40,
-                                height: 40,
+                                width: context.width * 0.1,
+                                height: context.width * 0.1,
                                 decoration: BoxDecoration(
                                   color: color,
                                   shape: BoxShape.circle,
@@ -146,29 +146,27 @@ class _EditStoryMediaPageState extends State<EditStoryMediaPage> {
                                     color: textColor == color
                                         ? context.colors.primary
                                         : Colors.transparent,
-                                    width: 3,
+                                    width: context.width * 0.0075,
                                   ),
                                 ),
                               ),
                             );
                           }).toList(),
                     ),
-                    const SizedBox(height: 20),
+                    SizedBox(height: context.height * 0.025),
                     // Buttons
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         TextButton(
                           onPressed: () => Navigator.pop(dialogContext),
-                          child: Text(
-                            'İptal',
-                            style: TextStyle(
-                              color: context.colors.primary,
-                              fontSize: 14,
-                            ),
+                          child: TextComponent(
+                            text: AppStrings.DIALOG_CANCEL.tr(),
+                            color: context.colors.primary,
+                            size: FontSizeConstants.NORMAL,
                           ),
                         ),
-                        const SizedBox(width: 8),
+                        SizedBox(width: context.width * 0.02),
                         TextButton(
                           onPressed: () {
                             if (text.isNotEmpty) {
@@ -178,8 +176,8 @@ class _EditStoryMediaPageState extends State<EditStoryMediaPage> {
                                     text: text,
                                     color: textColor,
                                     position: Offset(
-                                      MediaQuery.of(context).size.width / 2,
-                                      MediaQuery.of(context).size.height / 2,
+                                      context.width / 2,
+                                      context.height / 2,
                                     ),
                                   ),
                                 );
@@ -187,13 +185,11 @@ class _EditStoryMediaPageState extends State<EditStoryMediaPage> {
                             }
                             Navigator.pop(dialogContext);
                           },
-                          child: Text(
-                            'Ekle',
-                            style: TextStyle(
-                              color: context.colors.primary,
-                              fontSize: 14,
-                              fontWeight: FontWeight.bold,
-                            ),
+                          child: TextComponent(
+                            text: AppStrings.PROFILE_EDIT_ADD_NEW.tr(),
+                            color: context.colors.primary,
+                            size: FontSizeConstants.NORMAL,
+                            weight: FontWeight.bold,
                           ),
                         ),
                       ],
@@ -214,20 +210,20 @@ class _EditStoryMediaPageState extends State<EditStoryMediaPage> {
       backgroundColor: context.colors.secondary,
       builder: (BuildContext context) {
         return Container(
-          padding: const EdgeInsets.all(20),
+          padding: EdgeInsets.all(context.width * 0.05),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               TextComponent(
-                text: 'Renk Seç',
+                text: AppStrings.PROFILE_EDIT_STORY_SELECT_COLOR.tr(),
                 color: context.colors.primary,
                 size: FontSizeConstants.LARGE,
                 weight: FontWeight.bold,
               ),
-              const SizedBox(height: 20),
+              SizedBox(height: context.height * 0.025),
               Wrap(
-                spacing: 15,
-                runSpacing: 15,
+                spacing: context.width * 0.0375,
+                runSpacing: context.height * 0.02,
                 children:
                     [
                       Colors.white,
@@ -249,8 +245,8 @@ class _EditStoryMediaPageState extends State<EditStoryMediaPage> {
                           Navigator.pop(context);
                         },
                         child: Container(
-                          width: 50,
-                          height: 50,
+                          width: context.width * 0.125,
+                          height: context.width * 0.125,
                           decoration: BoxDecoration(
                             color: color,
                             shape: BoxShape.circle,
@@ -258,14 +254,14 @@ class _EditStoryMediaPageState extends State<EditStoryMediaPage> {
                               color: _selectedColor == color
                                   ? context.colors.primary
                                   : Colors.transparent,
-                              width: 3,
+                              width: context.width * 0.0075,
                             ),
                           ),
                         ),
                       );
                     }).toList(),
               ),
-              const SizedBox(height: 20),
+              SizedBox(height: context.height * 0.025),
             ],
           ),
         );
@@ -322,7 +318,7 @@ class _EditStoryMediaPageState extends State<EditStoryMediaPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: context.colors.surface,
       body: BlocListener<CreateStoryCubit, CreateStoryState>(
         listener: (context, state) {
           if (state.isLoading == false && state.uploadSuccess == true) {
@@ -353,7 +349,7 @@ class _EditStoryMediaPageState extends State<EditStoryMediaPage> {
                 content: Text(
                   AppStrings.PROFILE_EDIT_STORY_CREATED_SUCCESS.tr(),
                 ),
-                backgroundColor: Colors.green,
+                backgroundColor: context.colors.tertiary,
               ),
             );
 
@@ -368,7 +364,7 @@ class _EditStoryMediaPageState extends State<EditStoryMediaPage> {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                 content: Text(state.error!),
-                backgroundColor: Colors.red,
+                backgroundColor: context.colors.error,
               ),
             );
           }
@@ -416,10 +412,12 @@ class _EditStoryMediaPageState extends State<EditStoryMediaPage> {
                       left: textOverlay.position.dx,
                       top: textOverlay.position.dy,
                       child: Container(
-                        padding: const EdgeInsets.all(8),
+                        padding: EdgeInsets.all(context.width * 0.02),
                         decoration: BoxDecoration(
-                          color: Colors.black.withOpacity(0.5),
-                          borderRadius: BorderRadius.circular(8),
+                          color: context.colors.surface.withOpacity(0.5),
+                          borderRadius: BorderRadius.circular(
+                            context.width * 0.02,
+                          ),
                         ),
                         child: TextComponent(
                           text: textOverlay.text,
@@ -484,12 +482,12 @@ class _EditStoryMediaPageState extends State<EditStoryMediaPage> {
                     });
                   },
                   child: Container(
-                    padding: const EdgeInsets.all(8),
+                    padding: EdgeInsets.all(context.width * 0.02),
                     decoration: BoxDecoration(
-                      color: Colors.black.withOpacity(0.3),
-                      borderRadius: BorderRadius.circular(8),
+                      color: context.colors.surface.withOpacity(0.3),
+                      borderRadius: BorderRadius.circular(context.width * 0.02),
                       border: Border.all(
-                        color: Colors.white.withOpacity(0.5),
+                        color: context.colors.onSurface.withOpacity(0.5),
                         width: 1,
                       ),
                     ),
@@ -516,10 +514,10 @@ class _EditStoryMediaPageState extends State<EditStoryMediaPage> {
                   children: [
                     IconButton(
                       onPressed: () => Navigator.pop(context),
-                      icon: const Icon(
+                      icon: Icon(
                         Icons.close,
-                        color: Colors.white,
-                        size: 30,
+                        color: context.colors.onSurface,
+                        size: context.width * 0.075,
                       ),
                     ),
                     Row(
@@ -527,10 +525,10 @@ class _EditStoryMediaPageState extends State<EditStoryMediaPage> {
                         // Metin Ekle
                         IconButton(
                           onPressed: _addText,
-                          icon: const Icon(
+                          icon: Icon(
                             Icons.text_fields,
-                            color: Colors.white,
-                            size: 30,
+                            color: context.colors.onSurface,
+                            size: context.width * 0.075,
                           ),
                         ),
                         // Çizim Modu
@@ -542,8 +540,10 @@ class _EditStoryMediaPageState extends State<EditStoryMediaPage> {
                           },
                           icon: Icon(
                             Icons.draw,
-                            color: _isDrawing ? Colors.yellow : Colors.white,
-                            size: 30,
+                            color: _isDrawing
+                                ? context.colors.tertiary
+                                : context.colors.onSurface,
+                            size: context.width * 0.075,
                           ),
                         ),
                         // Renk Seçici (Çizim için)
@@ -553,7 +553,7 @@ class _EditStoryMediaPageState extends State<EditStoryMediaPage> {
                             icon: Icon(
                               Icons.color_lens,
                               color: _selectedColor,
-                              size: 30,
+                              size: context.width * 0.075,
                             ),
                           ),
                         // Çizimi Temizle
@@ -564,10 +564,10 @@ class _EditStoryMediaPageState extends State<EditStoryMediaPage> {
                                 _drawingPoints.clear();
                               });
                             },
-                            icon: const Icon(
+                            icon: Icon(
                               Icons.delete,
-                              color: Colors.white,
-                              size: 30,
+                              color: context.colors.onSurface,
+                              size: context.width * 0.075,
                             ),
                           ),
                       ],
@@ -589,14 +589,18 @@ class _EditStoryMediaPageState extends State<EditStoryMediaPage> {
                     builder: (context, state) {
                       if (state.isLoading == true) {
                         return Container(
-                          padding: const EdgeInsets.symmetric(vertical: 15),
+                          padding: EdgeInsets.symmetric(
+                            vertical: context.height * 0.02,
+                          ),
                           decoration: BoxDecoration(
                             color: context.colors.primary,
-                            borderRadius: BorderRadius.circular(30),
+                            borderRadius: BorderRadius.circular(
+                              context.width * 0.075,
+                            ),
                           ),
-                          child: const Center(
+                          child: Center(
                             child: CircularProgressIndicator(
-                              color: Colors.white,
+                              color: context.colors.onPrimary,
                             ),
                           ),
                         );
@@ -606,19 +610,23 @@ class _EditStoryMediaPageState extends State<EditStoryMediaPage> {
                         onPressed: _uploadStory,
                         style: ElevatedButton.styleFrom(
                           backgroundColor: context.colors.primary,
-                          padding: const EdgeInsets.symmetric(vertical: 15),
+                          padding: EdgeInsets.symmetric(
+                            vertical: context.height * 0.02,
+                          ),
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30),
+                            borderRadius: BorderRadius.circular(
+                              context.width * 0.075,
+                            ),
                           ),
                         ),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            const Icon(Icons.send, color: Colors.white),
-                            const SizedBox(width: 10),
+                            Icon(Icons.send, color: context.colors.onPrimary),
+                            SizedBox(width: context.width * 0.025),
                             TextComponent(
-                              text: 'Hikayeni Paylaş',
-                              color: Colors.white,
+                              text: AppStrings.PROFILE_EDIT_STORY_SHARE.tr(),
+                              color: context.colors.onPrimary,
                               size: FontSizeConstants.LARGE,
                               weight: FontWeight.bold,
                             ),

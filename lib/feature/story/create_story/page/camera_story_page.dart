@@ -2,13 +2,14 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:camera/camera.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:photo_manager/photo_manager.dart';
 import 'package:rightflair/core/extensions/context.dart';
 
 import '../../../../core/components/text/text.dart';
-import '../../../../core/constants/color/color.dart';
 import '../../../../core/constants/font/font_size.dart';
+import '../../../../core/constants/string.dart';
 import 'edit_story_media_page.dart';
 import 'gallery_picker_page.dart';
 
@@ -178,7 +179,7 @@ class _CameraStoryPageState extends State<CameraStoryPage>
         _isRecording) {
       return;
     }
- 
+
     setState(() {
       _isRecording = true;
       _recordingSeconds = 0;
@@ -255,7 +256,7 @@ class _CameraStoryPageState extends State<CameraStoryPage>
   Widget build(BuildContext context) {
     if (_cameraController == null || !_cameraController!.value.isInitialized) {
       return Scaffold(
-        backgroundColor: Colors.black,
+        backgroundColor: context.colors.surface,
         body: Center(
           child: CircularProgressIndicator(color: context.colors.primary),
         ),
@@ -263,7 +264,7 @@ class _CameraStoryPageState extends State<CameraStoryPage>
     }
 
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: context.colors.surface,
       body: Stack(
         children: [
           // Kamera Preview
@@ -282,10 +283,10 @@ class _CameraStoryPageState extends State<CameraStoryPage>
                   // Close Button
                   IconButton(
                     onPressed: () => Navigator.pop(context),
-                    icon: const Icon(
+                    icon: Icon(
                       Icons.close,
                       color: Colors.white,
-                      size: 30,
+                      size: context.width * 0.075,
                     ),
                   ),
 
@@ -307,7 +308,7 @@ class _CameraStoryPageState extends State<CameraStoryPage>
                           ? Icons.flash_on
                           : Icons.flash_off,
                       color: Colors.white,
-                      size: 30,
+                      size: context.width * 0.075,
                     ),
                   ),
                 ],
@@ -325,29 +326,29 @@ class _CameraStoryPageState extends State<CameraStoryPage>
                 child: Center(
                   child: Container(
                     margin: EdgeInsets.only(top: context.height * 0.02),
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 16,
-                      vertical: 8,
+                    padding: EdgeInsets.symmetric(
+                      horizontal: context.width * 0.04,
+                      vertical: context.height * 0.01,
                     ),
                     decoration: BoxDecoration(
-                      color: Colors.red,
-                      borderRadius: BorderRadius.circular(20),
+                      color: context.colors.error,
+                      borderRadius: BorderRadius.circular(context.width * 0.05),
                     ),
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Container(
-                          width: 8,
-                          height: 8,
-                          decoration: const BoxDecoration(
-                            color: Colors.white,
+                          width: context.width * 0.02,
+                          height: context.width * 0.02,
+                          decoration: BoxDecoration(
+                            color: context.colors.onError,
                             shape: BoxShape.circle,
                           ),
                         ),
-                        const SizedBox(width: 8),
+                        SizedBox(width: context.width * 0.02),
                         TextComponent(
                           text: _formatRecordingTime(),
-                          color: Colors.white,
+                          color: context.colors.onError,
                           size: FontSizeConstants.NORMAL,
                           weight: FontWeight.bold,
                         ),
@@ -372,7 +373,10 @@ class _CameraStoryPageState extends State<CameraStoryPage>
                 gradient: LinearGradient(
                   begin: Alignment.bottomCenter,
                   end: Alignment.topCenter,
-                  colors: [Colors.black.withOpacity(0.7), Colors.transparent],
+                  colors: [
+                    context.colors.surface.withOpacity(0.7),
+                    Colors.transparent,
+                  ],
                 ),
               ),
               child: Column(
@@ -385,9 +389,9 @@ class _CameraStoryPageState extends State<CameraStoryPage>
                       GestureDetector(
                         onTap: () => setState(() => _isVideoMode = false),
                         child: TextComponent(
-                          text: 'FOTO',
+                          text: AppStrings.PROFILE_EDIT_STORY_PHOTO.tr(),
                           color: !_isVideoMode
-                              ? AppColors.ORANGE
+                              ? context.colors.surface
                               : Colors.white.withOpacity(0.5),
                           size: FontSizeConstants.NORMAL,
                           weight: !_isVideoMode
@@ -395,13 +399,13 @@ class _CameraStoryPageState extends State<CameraStoryPage>
                               : FontWeight.normal,
                         ),
                       ),
-                      const SizedBox(width: 40),
+                      SizedBox(width: context.width * 0.1),
                       GestureDetector(
                         onTap: () => setState(() => _isVideoMode = true),
                         child: TextComponent(
-                          text: 'VİDEO',
+                          text: AppStrings.PROFILE_EDIT_STORY_VIDEO.tr(),
                           color: _isVideoMode
-                              ? AppColors.ORANGE
+                              ? context.colors.surface
                               : Colors.white.withOpacity(0.5),
                           size: FontSizeConstants.NORMAL,
                           weight: _isVideoMode
@@ -422,25 +426,32 @@ class _CameraStoryPageState extends State<CameraStoryPage>
                       GestureDetector(
                         onTap: _openGallery,
                         child: Container(
-                          width: 50,
-                          height: 50,
+                          width: context.width * 0.125,
+                          height: context.width * 0.125,
                           decoration: BoxDecoration(
                             color: Colors.white.withOpacity(0.3),
-                            borderRadius: BorderRadius.circular(8),
-                            border: Border.all(color: Colors.white, width: 2),
+                            borderRadius: BorderRadius.circular(
+                              context.width * 0.02,
+                            ),
+                            border: Border.all(
+                              color: Colors.white,
+                              width: context.width * 0.005,
+                            ),
                           ),
                           child: _lastGalleryImage != null
                               ? ClipRRect(
-                                  borderRadius: BorderRadius.circular(6),
+                                  borderRadius: BorderRadius.circular(
+                                    context.width * 0.015,
+                                  ),
                                   child: Image.file(
                                     _lastGalleryImage!,
                                     fit: BoxFit.cover,
                                   ),
                                 )
-                              : const Icon(
+                              : Icon(
                                   Icons.photo_library,
                                   color: Colors.white,
-                                  size: 24,
+                                  size: context.width * 0.06,
                                 ),
                         ),
                       ),
@@ -459,28 +470,35 @@ class _CameraStoryPageState extends State<CameraStoryPage>
                           }
                         },
                         child: Container(
-                          width: 70,
-                          height: 70,
+                          width: context.width * 0.175,
+                          height: context.width * 0.175,
                           decoration: BoxDecoration(
                             shape: _isVideoMode
                                 ? BoxShape.circle
                                 : BoxShape.rectangle,
                             borderRadius: !_isVideoMode
-                                ? BorderRadius.circular(12)
+                                ? BorderRadius.circular(context.width * 0.03)
                                 : null,
-                            border: Border.all(color: Colors.white, width: 4),
+                            border: Border.all(
+                              color: Colors.white,
+                              width: context.width * 0.01,
+                            ),
                           ),
                           child: Center(
                             child: Container(
-                              width: 56,
-                              height: 56,
+                              width: context.width * 0.14,
+                              height: context.width * 0.14,
                               decoration: BoxDecoration(
-                                color: _isRecording ? Colors.red : Colors.white,
+                                color: _isRecording
+                                    ? context.colors.error
+                                    : Colors.white,
                                 shape: _isVideoMode
                                     ? BoxShape.circle
                                     : BoxShape.rectangle,
                                 borderRadius: !_isVideoMode
-                                    ? BorderRadius.circular(8)
+                                    ? BorderRadius.circular(
+                                        context.width * 0.02,
+                                      )
                                     : null,
                               ),
                             ),
@@ -491,10 +509,10 @@ class _CameraStoryPageState extends State<CameraStoryPage>
                       // Kamera Değiştirme Butonu
                       IconButton(
                         onPressed: _switchCamera,
-                        icon: const Icon(
+                        icon: Icon(
                           Icons.flip_camera_ios,
                           color: Colors.white,
-                          size: 36,
+                          size: context.width * 0.09,
                         ),
                       ),
                     ],
