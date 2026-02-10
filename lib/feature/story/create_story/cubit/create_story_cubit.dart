@@ -10,6 +10,7 @@ import 'package:video_player/video_player.dart';
 
 import '../../../../core/constants/enums/media_picker_option.dart';
 import '../../../../core/constants/string.dart';
+import '../../../main/feed/bloc/feed_bloc.dart';
 import '../model/create_story.dart';
 
 part 'create_story_state.dart';
@@ -35,7 +36,6 @@ class CreateStoryCubit extends Cubit<CreateStoryState> {
     emit(state.copyWith(isLoading: true));
 
     try {
-      // Kullanıcıya hem fotoğraf hem video seçme imkanı sunuyoruz
       final XFile? pickedFile = await _picker.pickMedia(imageQuality: 85);
 
       if (pickedFile == null) {
@@ -45,7 +45,6 @@ class CreateStoryCubit extends Cubit<CreateStoryState> {
 
       final File mediaFile = File(pickedFile.path);
 
-      // Dosya uzantısından media type'ı belirle
       final String extension = pickedFile.path.split('.').last.toLowerCase();
       final bool isVideo = [
         'mp4',
@@ -77,20 +76,13 @@ class CreateStoryCubit extends Cubit<CreateStoryState> {
 
       // Story oluştur
       await createStory(
+        context,
         mediaUrl: mediaUrl,
         mediaType: mediaType,
         duration: duration,
       );
 
       emit(state.copyWith(isLoading: false));
-
-      if (context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(AppStrings.PROFILE_EDIT_STORY_CREATED_SUCCESS.tr()),
-          ),
-        );
-      }
     } catch (e) {
       debugPrint("Error in dialogCreateStory: $e");
       emit(state.copyWith(isLoading: false));
@@ -119,7 +111,8 @@ class CreateStoryCubit extends Cubit<CreateStoryState> {
     }
   }
 
-  Future<void> createStory({
+  Future<void> createStory(
+    BuildContext context, {
     required String mediaUrl,
     required String mediaType,
     required int duration,
@@ -130,7 +123,17 @@ class CreateStoryCubit extends Cubit<CreateStoryState> {
         mediaType: mediaType,
         duration: duration,
       );
+
       await _repo.createStory(data: data);
+
+      // Refresh stories after story is created
+      if (context.mounted) {
+        try {
+          context.read<FeedBloc>().add(FeedRefreshStoryEvent());
+        } catch (e) {
+          debugPrint("Could not refresh stories: $e");
+        }
+      }
     } catch (e) {
       debugPrint("ProfileCubit ERROR in createStory :> $e");
       rethrow;

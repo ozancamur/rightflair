@@ -29,6 +29,7 @@ class FeedBloc extends Bloc<FeedEvent, FeedState> {
     on<SavePostEvent>(_onSavePost);
     on<LoadMoreStoriesEvent>(_onLoadMoreStories);
     on<StoryViewedEvent>(_onStoryViewed);
+    on<FeedRefreshStoryEvent>(_fetchStory);
   }
 
   Future<void> _onInitialize(
@@ -71,6 +72,27 @@ class FeedBloc extends Bloc<FeedEvent, FeedState> {
     } catch (e) {
       emit(state.copyWith(error: "", isLoading: false, isLoadingMore: false));
     }
+  }
+
+  Future<void> _fetchStory(
+    FeedRefreshStoryEvent event,
+    Emitter<FeedState> emit,
+  ) async {
+    final story = await _repo.fetchStories(
+      pagination: PaginationModel().forConversations(page: 1),
+    );
+    final myStory = await _repo.fetchMyStories();
+
+    // Sort and update stories
+    final sortedStories = _sortAndUpdateStories(story?.usersWithStories ?? []);
+    emit(
+      state.copyWith(
+        isLoading: false,
+        myStory: myStory,
+        stories: sortedStories,
+        storyPagination: story?.pagination,
+      ),
+    );
   }
 
   Future<void> _onLoadMorePosts(

@@ -80,3 +80,7 @@ class StoryViewedEvent extends FeedEvent {
   @override
   List<Object?> get props => [storyId, userId];
 }
+
+class FeedRefreshStoryEvent extends FeedEvent {
+  const FeedRefreshStoryEvent();
+}
