@@ -26,6 +26,9 @@ enum Endpoint {
   CREATE_COMMENT("create-comment"),
   SAVE_POST("save-post"),
   DELETE_POST("delete-post"),
+  CREATE_POST("create-post"),
+  CREATE_DRAFT("create-draft"),
+  SEARCH_USER_FOR_MENTION('search-users-for-mention'),
 
   GET_CONVERSATIONS("get-conversations"),
   GET_CONVERSATION_MESSAGES("get-conversation-messages"),

@@ -1,13 +1,14 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:rightflair/feature/post/create_post/model/create_post.dart';
 import '../repository/create_post_repository.dart';
 
 part 'create_post_state.dart';
 
 class CreatePostCubit extends Cubit<CreatePostState> {
-  final CreatePostRepository _repo;
   final ImagePicker _picker = ImagePicker();
 
+  final CreatePostRepository _repo;
   CreatePostCubit(this._repo) : super(const CreatePostState());
 
   void toggleAnonymous(bool value) {
@@ -20,16 +21,6 @@ class CreatePostCubit extends Cubit<CreatePostState> {
 
   void updateLocation(String? location) {
     emit(state.copyWith(selectedLocation: location));
-  }
-
-  Future<void> pickImageFromCamera() async {
-    final XFile? image = await _picker.pickImage(
-      source: ImageSource.camera,
-      imageQuality: 85,
-    );
-    if (image != null) {
-      emit(state.copyWith(imagePath: image.path));
-    }
   }
 
   Future<void> pickImageFromGallery() async {
@@ -46,7 +37,37 @@ class CreatePostCubit extends Cubit<CreatePostState> {
     emit(state.copyWith(imagePath: path));
   }
 
-  Future<void> createPost() async {
-    await _repo.createPost();
+  Future<void> createPost({
+    String? description,
+    List<String>? styleTags,
+    List<String>? mentionedUserIds,
+  }) async {
+    final CreatePostModel post = CreatePostModel(
+      postImageUrl: state.imagePath,
+      description: description,
+      location: state.selectedLocation,
+      isAnonymous: state.isAnonymous,
+      allowComments: state.allowComments,
+      styleTags: styleTags,
+      mentionedUserIds: mentionedUserIds,
+    );
+    await _repo.createPost(post: post);
+  }
+
+  Future<void> createDraft({
+    String? description,
+    List<String>? styleTags,
+    List<String>? mentionedUserIds,
+  }) async {
+    final CreatePostModel post = CreatePostModel(
+      postImageUrl: state.imagePath,
+      description: description,
+      location: state.selectedLocation,
+      isAnonymous: state.isAnonymous,
+      allowComments: state.allowComments,
+      styleTags: styleTags,
+      mentionedUserIds: mentionedUserIds,
+    );
+    await _repo.createDraft(post: post);
   }
 }

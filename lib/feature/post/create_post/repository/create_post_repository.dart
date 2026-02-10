@@ -1,10 +1,9 @@
+import '../model/create_post.dart';
+import '../model/mention_user.dart';
+
 abstract class CreatePostRepository {
-  Future<void> createPost();
+  Future<bool> createPost({required CreatePostModel post});
+  Future<bool> createDraft({required CreatePostModel post});
+  Future<List<MentionUserModel>?> searchUsersForMention({required String query});
 }
 
-class CreatePostRepositoryImpl implements CreatePostRepository {
-  @override
-  Future<void> createPost() async {
-    await Future.delayed(const Duration(seconds: 1));
-  }
-}

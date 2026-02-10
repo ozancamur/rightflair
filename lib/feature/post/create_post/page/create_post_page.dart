@@ -16,7 +16,6 @@ import '../widgets/create_post_description.dart';
 import '../widgets/create_post_image_picker.dart';
 
 class CreatePostPage extends StatefulWidget {
-  
   const CreatePostPage({super.key});
 
   @override
@@ -36,10 +35,7 @@ class _CreatePostPageState extends State<CreatePostPage> {
   Widget build(BuildContext context) {
     return BlocBuilder<CreatePostCubit, CreatePostState>(
       builder: (context, state) {
-        return BaseScaffold(
-          appBar: _appbar(),
-          body: _body(context, state),
-        );
+        return BaseScaffold(appBar: _appbar(), body: _body(context, state));
       },
     );
   }
@@ -61,7 +57,6 @@ class _CreatePostPageState extends State<CreatePostPage> {
             CreatePostImageWidget(),
             SizedBox(height: context.height * 0.03),
 
-            // About your outfit section
             TextComponent(
               text: AppStrings.CREATE_POST_ABOUT_OUTFIT,
               size: FontSizeConstants.LARGE,
@@ -81,10 +76,12 @@ class _CreatePostPageState extends State<CreatePostPage> {
 
             // Buttons
             CreatePostBottomButtons(
-              onDraft: () {},
-              onPost: () {
-                context.read<CreatePostCubit>().createPost();
-              },
+              onDraft: () => context.read<CreatePostCubit>().createDraft(
+                description: _descriptionController.text,
+              ),
+              onPost: () => context.read<CreatePostCubit>().createPost(
+                description: _descriptionController.text,
+              ),
             ),
             SizedBox(height: context.height * 0.02),
           ],

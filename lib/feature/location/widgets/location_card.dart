@@ -15,6 +15,7 @@ class LocationCardWidget extends StatelessWidget {
       title: TextComponent(
         text: location.fullDisplayName,
         size: FontSizeConstants.LARGE,
+        tr: false,
       ),
       onTap: () => Navigator.pop(context, location.fullDisplayName),
     );
