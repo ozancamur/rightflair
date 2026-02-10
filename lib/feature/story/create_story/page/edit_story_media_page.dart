@@ -68,121 +68,134 @@ class _EditStoryMediaPageState extends State<EditStoryMediaPage> {
 
         return StatefulBuilder(
           builder: (context, setDialogState) {
-            return AlertDialog(
+            return Dialog(
               backgroundColor: context.colors.secondary,
-              title: TextComponent(
-                text: 'Metin Ekle',
-                color: context.colors.primary,
-                size: FontSizeConstants.LARGE,
-                weight: FontWeight.bold,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
               ),
-              content: SizedBox(
-                width: MediaQuery.of(context).size.width * 0.8,
-                child: SingleChildScrollView(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      TextField(
-                        autofocus: true,
-                        style: TextStyle(color: context.colors.primary),
-                        decoration: InputDecoration(
-                          hintText: 'Metni yazın...',
-                          hintStyle: TextStyle(
-                            color: context.colors.primary.withOpacity(0.5),
-                          ),
-                          enabledBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(
+              child: Padding(
+                padding: const EdgeInsets.all(20),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Title
+                    Text(
+                      'Metin Ekle',
+                      style: TextStyle(
+                        color: context.colors.primary,
+                        fontSize: 17,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    // TextField
+                    TextField(
+                      autofocus: true,
+                      style: TextStyle(color: context.colors.primary),
+                      decoration: InputDecoration(
+                        hintText: 'Metni yazın...',
+                        hintStyle: TextStyle(
+                          color: context.colors.primary.withOpacity(0.5),
+                        ),
+                        enabledBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: context.colors.primary),
+                        ),
+                        focusedBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: context.colors.primary),
+                        ),
+                      ),
+                      onChanged: (value) {
+                        text = value;
+                      },
+                    ),
+                    const SizedBox(height: 20),
+                    // Renk Seçici
+                    Wrap(
+                      spacing: 10,
+                      runSpacing: 10,
+                      children:
+                          [
+                            Colors.white,
+                            Colors.black,
+                            Colors.red,
+                            Colors.blue,
+                            Colors.green,
+                            Colors.yellow,
+                            Colors.purple,
+                            Colors.orange,
+                          ].map((color) {
+                            return GestureDetector(
+                              onTap: () {
+                                setDialogState(() {
+                                  textColor = color;
+                                });
+                              },
+                              child: Container(
+                                width: 40,
+                                height: 40,
+                                decoration: BoxDecoration(
+                                  color: color,
+                                  shape: BoxShape.circle,
+                                  border: Border.all(
+                                    color: textColor == color
+                                        ? context.colors.primary
+                                        : Colors.transparent,
+                                    width: 3,
+                                  ),
+                                ),
+                              ),
+                            );
+                          }).toList(),
+                    ),
+                    const SizedBox(height: 20),
+                    // Buttons
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        TextButton(
+                          onPressed: () => Navigator.pop(dialogContext),
+                          child: Text(
+                            'İptal',
+                            style: TextStyle(
                               color: context.colors.primary,
-                            ),
-                          ),
-                          focusedBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(
-                              color: context.colors.primary,
+                              fontSize:14,
                             ),
                           ),
                         ),
-                        onChanged: (value) {
-                          text = value;
-                        },
-                      ),
-                      const SizedBox(height: 20),
-                      // Renk Seçici
-                      Wrap(
-                        spacing: 10,
-                        runSpacing: 10,
-                        children:
-                            [
-                              Colors.white,
-                              Colors.black,
-                              Colors.red,
-                              Colors.blue,
-                              Colors.green,
-                              Colors.yellow,
-                              Colors.purple,
-                              Colors.orange,
-                            ].map((color) {
-                              return GestureDetector(
-                                onTap: () {
-                                  setDialogState(() {
-                                    textColor = color;
-                                  });
-                                },
-                                child: Container(
-                                  width: 40,
-                                  height: 40,
-                                  decoration: BoxDecoration(
-                                    color: color,
-                                    shape: BoxShape.circle,
-                                    border: Border.all(
-                                      color: textColor == color
-                                          ? context.colors.primary
-                                          : Colors.transparent,
-                                      width: 3,
+                        const SizedBox(width: 8),
+                        TextButton(
+                          onPressed: () {
+                            if (text.isNotEmpty) {
+                              setState(() {
+                                _textOverlays.add(
+                                  TextOverlay(
+                                    text: text,
+                                    color: textColor,
+                                    position: Offset(
+                                      MediaQuery.of(context).size.width / 2,
+                                      MediaQuery.of(context).size.height / 2,
                                     ),
                                   ),
-                                ),
-                              );
-                            }).toList(),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              actions: [
-                TextButton(
-                  onPressed: () => Navigator.pop(dialogContext),
-                  child: TextComponent(
-                    text: 'İptal',
-                    color: context.colors.primary,
-                    size: FontSizeConstants.NORMAL,
-                  ),
-                ),
-                TextButton(
-                  onPressed: () {
-                    if (text.isNotEmpty) {
-                      setState(() {
-                        _textOverlays.add(
-                          TextOverlay(
-                            text: text,
-                            color: textColor,
-                            position: Offset(
-                              MediaQuery.of(context).size.width / 2,
-                              MediaQuery.of(context).size.height / 2,
+                                );
+                              });
+                            }
+                            Navigator.pop(dialogContext);
+                          },
+                          child: Text(
+                            'Ekle',
+                            style: TextStyle(
+                              color: context.colors.primary,
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
                             ),
                           ),
-                        );
-                      });
-                    }
-                    Navigator.pop(dialogContext);
-                  },
-                  child: TextComponent(
-                    text: 'Ekle',
-                    color: context.colors.primary,
-                    size: FontSizeConstants.NORMAL,
-                    weight: FontWeight.bold,
-                  ),
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
-              ],
+              ),
             );
           },
         );
