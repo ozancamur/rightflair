@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:rightflair/core/components/text/text.dart';
 import 'package:rightflair/core/constants/font/font_size.dart';
+import 'package:rightflair/core/constants/route.dart';
 import 'package:rightflair/core/constants/string.dart';
 import 'package:rightflair/core/extensions/context.dart';
 
@@ -43,7 +45,7 @@ class _CreatePostPageState extends State<CreatePostPage> {
 
   AppBarComponent _appbar() {
     return AppBarComponent(
-      leading: BackButtonComponent(),
+      leading: BackButtonComponent(onBack: () => context.go(RouteConstants.NAVIGATION),),
       title: AppbarTitleComponent(title: AppStrings.CREATE_POST_APPBAR),
     );
   }
