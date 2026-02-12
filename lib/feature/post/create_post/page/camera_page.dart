@@ -158,10 +158,30 @@ class _CameraPageState extends State<CameraPage> with WidgetsBindingObserver {
     });
   }
 
-  void _continueToPost() {
+  Future<void> _continueToPost() async {
     if (_capturedImagePath != null) {
-      context.read<CreatePostCubit>().setImagePath(_capturedImagePath!);
-      context.go(RouteConstants.CREATE_POST);
+      // Show loading if anonymous mode is enabled
+      final isAnonymous = context.read<CreatePostCubit>().state.isAnonymous;
+      if (isAnonymous && mounted) {
+        // Show a simple loading indicator
+        showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (context) => const Center(
+            child: CircularProgressIndicator(color: Colors.white),
+          ),
+        );
+      }
+
+      await context.read<CreatePostCubit>().setImagePath(_capturedImagePath!);
+
+      if (isAnonymous && mounted) {
+        Navigator.of(context).pop(); // Close loading dialog
+      }
+
+      if (mounted) {
+        context.go(RouteConstants.CREATE_POST);
+      }
     }
   }
 
