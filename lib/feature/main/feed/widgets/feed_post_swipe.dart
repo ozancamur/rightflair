@@ -168,8 +168,8 @@ class _FeedPostItemState extends State<FeedPostItem>
       top: 0,
       right: 0,
       left: 0,
+      bottom: context.height * .035,
       child: PostComponent(
-        height: context.height * .645,
         post: widget.post,
         onComment: () => dialogComments(
           context,
@@ -237,7 +237,7 @@ class _FeedPostItemState extends State<FeedPostItem>
     return Positioned(
       bottom: 0,
       child: SizedBox(
-        height: context.height * .075,
+        height: context.height * .07,
         width: context.width * .35,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,

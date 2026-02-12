@@ -19,7 +19,6 @@ class _FeedPageState extends State<FeedPage> {
   @override
   void initState() {
     super.initState();
-    // Initialize feed only once when page is first created
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final feedBloc = context.read<FeedBloc>();
       if (feedBloc.state.posts == null || feedBloc.state.posts!.isEmpty) {
