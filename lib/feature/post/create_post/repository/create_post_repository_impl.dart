@@ -1,7 +1,9 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:rightflair/feature/post/create_post/model/mention_user.dart';
 
 import '../../../../core/base/model/response.dart';
+import '../../../../core/constants/api.dart';
 import '../../../../core/constants/enums/endpoint.dart';
 import '../../../../core/services/api.dart';
 import '../model/create_post.dart';
@@ -9,7 +11,10 @@ import 'create_post_repository.dart';
 
 class CreatePostRepositoryImpl implements CreatePostRepository {
   final ApiService _api;
-  CreatePostRepositoryImpl({ApiService? api}) : _api = api ?? ApiService();
+  final Dio _dio;
+  CreatePostRepositoryImpl({ApiService? api, Dio? dio})
+    : _api = api ?? ApiService(),
+      _dio = dio ?? Dio();
 
   @override
   Future<bool> createPost({required CreatePostModel post}) async {
@@ -79,6 +84,23 @@ class CreatePostRepositoryImpl implements CreatePostRepository {
       debugPrint(
         "CreatePostRepositoryImpl ERROR in searchUsersForMention :> $e",
       );
+      return [];
+    }
+  }
+
+  @override
+  Future<List<String>?> searchSong({required String query}) async {
+    if (query.trim().isEmpty) return [];
+
+    try {
+      final response = await _dio.get(ApiConstants.MUSIC(query: query));
+
+      if (response.statusCode == 200) {
+        final data = response.data;
+        print("Deezer API response: $data");
+      }
+      return [];
+    } catch (e) {
       return [];
     }
   }

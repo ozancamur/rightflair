@@ -4,6 +4,8 @@ import '../model/mention_user.dart';
 abstract class CreatePostRepository {
   Future<bool> createPost({required CreatePostModel post});
   Future<bool> createDraft({required CreatePostModel post});
-  Future<List<MentionUserModel>?> searchUsersForMention({required String query});
+  Future<List<MentionUserModel>?> searchUsersForMention({
+    required String query,
+  });
+  Future<List<String>?> searchSong({required String query});
 }
-

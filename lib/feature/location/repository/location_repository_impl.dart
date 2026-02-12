@@ -13,7 +13,7 @@ class LocationRepositoryImpl extends LocationRepository {
 
     try {
       final response = await _dio.get(
-        ApiConstants.LOCATION_BASE_URL + ApiConstants.SEARCH,
+        ApiConstants.LOCATION,
         queryParameters: {
           'name': query,
           'count': 10,
