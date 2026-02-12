@@ -67,7 +67,7 @@ class CreatePostOptionsWidget extends StatelessWidget {
         value: isAnonymous,
         activeColor: context.colors.inverseSurface,
         onChanged: (value) async =>
-            await context.read<CreatePostCubit>().toggleAnonymous(value),
+            await context.read<CreatePostCubit>().toggleAnonymous(context, value),
       ),
     );
   }
