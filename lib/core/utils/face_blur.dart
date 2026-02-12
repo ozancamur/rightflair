@@ -5,6 +5,8 @@ import 'package:image/image.dart' as img;
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as path;
 
+import '../../feature/post/create_post/model/blur.dart';
+
 /// Yüz tespit edilen bölgeleri bulanıklaştırır
 ///
 /// [imageFile]: İşlenecek orijinal fotoğraf
@@ -15,7 +17,10 @@ import 'package:path/path.dart' as path;
 ///
 /// Returns: Yüzleri bulanıklaştırılmış yeni dosya.
 /// Yüz bulunamazsa orijinal dosyayı döndürür.
-Future<File> blurFacesInImage(File imageFile, {int blurRadius = 100}) async {
+Future<BlurModel> blurFacesInImage(
+  File imageFile, {
+  int blurRadius = 100,
+}) async {
   debugPrint('🎭 [Face Blur] Başlıyor: ${imageFile.path}');
   debugPrint('⚙️ [Face Blur] Blur Radius: $blurRadius');
   try {
@@ -46,7 +51,7 @@ Future<File> blurFacesInImage(File imageFile, {int blurRadius = 100}) async {
     // 5. Yüz bulunamadıysa orijinal dosyayı döndür
     if (faces.isEmpty) {
       debugPrint('⚠️ [Face Blur] Yüz bulunamadı, orijinal dosya döndürülüyor');
-      return imageFile;
+      return BlurModel(file: imageFile, isBlurred: false);
     }
 
     // Log face details
@@ -98,12 +103,12 @@ Future<File> blurFacesInImage(File imageFile, {int blurRadius = 100}) async {
     debugPrint('💾 [Face Blur] Dosya kaydedildi: $newFilePath');
     debugPrint('✅ [Face Blur] Tamamlandı!');
 
-    return blurredFile;
+    return BlurModel(file: blurredFile, isBlurred: true);
   } catch (e, stackTrace) {
     debugPrint('❌ [Face Blur] HATA: $e');
     debugPrint('Stack trace: $stackTrace');
     // Hata durumunda orijinal dosyayı döndür
-    return imageFile;
+    return BlurModel(file: imageFile, isBlurred: false);
   }
 }
 
