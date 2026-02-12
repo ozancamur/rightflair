@@ -79,12 +79,14 @@ class FirebaseMessagingManager {
   /// FCM token al
   Future<String?> getToken() async {
     try {
+      String? token = "";
       // iOS için APNS token'ını bekle
       if (Platform.isIOS) {
-        await _waitForAPNsToken();
+        token = await _messaging.getAPNSToken();
+      } else {
+        token = await _messaging.getToken();
       }
 
-      final token = await _messaging.getToken();
       if (token != null) {
         _tokenStreamController.add(token);
       }
@@ -93,39 +95,6 @@ class FirebaseMessagingManager {
       throw Exception('Token alınırken hata: $e');
     }
   }
-
-  /// iOS için APNS token'ını bekle
-  Future<void> _waitForAPNsToken() async {
-    if (!Platform.isIOS) return;
-
-    try {
-      // APNS token'ı mevcut mu kontrol et
-      String? apnsToken = await _messaging.getAPNSToken();
-
-      // Token yoksa, maksimum 10 saniye bekle
-      if (apnsToken == null) {
-        debugPrint('APNS token bekleniyor...');
-        int attempts = 0;
-        const maxAttempts = 20; // 20 * 500ms = 10 saniye
-
-        while (apnsToken == null && attempts < maxAttempts) {
-          await Future.delayed(const Duration(milliseconds: 500));
-          apnsToken = await _messaging.getAPNSToken();
-          attempts++;
-        }
-
-        if (apnsToken != null) {
-          debugPrint('APNS token alındı: $apnsToken');
-        } else {
-          debugPrint('APNS token alınamadı, FCM token alınmaya devam edilecek');
-        }
-      }
-    } catch (e) {
-      debugPrint('APNS token beklenirken hata: $e');
-      // Hata olsa bile devam et
-    }
-  }
-
 
   /// Token'ı sil
   Future<void> deleteToken() async {
