@@ -14,6 +14,7 @@ class FeedAppbarWidget extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
       backgroundColor: context.colors.secondary,
       foregroundColor: context.colors.primary,
+      automaticallyImplyLeading: false,
       elevation: 0,
       leadingWidth: 0,
       title: _title(context),
