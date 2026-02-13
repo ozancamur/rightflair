@@ -6,7 +6,8 @@ import 'package:rightflair/core/extensions/context.dart';
 class CreatePostOptionTile extends StatelessWidget {
   final String title;
   final String? subtitle;
-  final String iconPath;
+  final String? iconPath;
+  final Widget? icon;
   final Widget trailing;
   final VoidCallback? onTap;
 
@@ -14,10 +15,14 @@ class CreatePostOptionTile extends StatelessWidget {
     super.key,
     required this.title,
     this.subtitle,
-    required this.iconPath,
+    this.iconPath,
+    this.icon,
     required this.trailing,
     this.onTap,
-  });
+  }) : assert(
+         iconPath != null || icon != null,
+         'Either iconPath or icon must be provided',
+       );
 
   @override
   Widget build(BuildContext context) {
@@ -33,14 +38,17 @@ class CreatePostOptionTile extends StatelessWidget {
         ),
         child: Row(
           children: [
-            SvgPicture.asset(
-              iconPath,
-              width: context.width * 0.06,
-              colorFilter:  ColorFilter.mode(
-                context.colors.primary,
-                BlendMode.srcIn,
-              ),
-            ),
+            if (iconPath != null)
+              SvgPicture.asset(
+                iconPath!,
+                width: context.width * 0.06,
+                colorFilter: ColorFilter.mode(
+                  context.colors.primary,
+                  BlendMode.srcIn,
+                ),
+              )
+            else if (icon != null)
+              SizedBox(width: context.width * 0.06, child: icon),
             SizedBox(width: context.width * 0.04),
             Expanded(
               child: Column(

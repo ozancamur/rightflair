@@ -9,17 +9,21 @@ import '../cubit/create_post_cubit.dart';
 import 'create_post_option_tile.dart';
 
 import '../../../location/page/location_page.dart';
+import '../model/music.dart';
+import 'dialog_add_music.dart';
 
 class CreatePostOptionsWidget extends StatelessWidget {
   final bool isAnonymous;
   final bool allowComments;
   final String? selectedLocation;
+  final MusicModel? selectedMusic;
 
   const CreatePostOptionsWidget({
     super.key,
     required this.isAnonymous,
     required this.allowComments,
     this.selectedLocation,
+    this.selectedMusic,
   });
 
   @override
@@ -27,6 +31,7 @@ class CreatePostOptionsWidget extends StatelessWidget {
     return Column(
       children: [
         _buildLocationTile(context),
+        _buildMusicTile(context),
         _buildAnonymousTile(context),
         _buildCommentsTile(context),
       ],
@@ -58,6 +63,86 @@ class CreatePostOptionsWidget extends StatelessWidget {
     );
   }
 
+  Widget _buildMusicTile(BuildContext context) {
+    return BlocBuilder<CreatePostCubit, CreatePostState>(
+      builder: (context, state) {
+        return CreatePostOptionTile(
+          title: 'Müzik Ekle',
+          subtitle: selectedMusic?.displayName,
+          iconPath: null,
+          icon: Icon(Icons.music_note, color: Colors.white),
+          trailing: selectedMusic != null
+              ? Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    // Play/Pause Button
+                    IconButton(
+                      padding: EdgeInsets.zero,
+                      constraints: const BoxConstraints(),
+                      icon: Icon(
+                        state.isPlayingMusic ? Icons.pause : Icons.play_arrow,
+                        color: context.colors.onPrimary,
+                        size: 24,
+                      ),
+                      onPressed: () {
+                        context.read<CreatePostCubit>().togglePlayPause();
+                      },
+                    ),
+                    SizedBox(width: context.width * 0.02),
+                    // Change Music Button
+                    GestureDetector(
+                      onTap: () async {
+                        final result = await showModalBottomSheet<MusicModel>(
+                          context: context,
+                          isScrollControlled: true,
+                          useSafeArea: true,
+                          backgroundColor: Colors.transparent,
+                          builder: (context) => const AddMusicBottomSheet(),
+                        );
+                        if (result != null && context.mounted) {
+                          context.read<CreatePostCubit>().setSelectedMusic(
+                            result,
+                          );
+                        }
+                      },
+                      child: SvgPicture.asset(
+                        AppIcons.ARROW_RIGHT,
+                        colorFilter: ColorFilter.mode(
+                          context.colors.onPrimary,
+                          BlendMode.srcIn,
+                        ),
+                        height: context.height * 0.015,
+                      ),
+                    ),
+                  ],
+                )
+              : SvgPicture.asset(
+                  AppIcons.ARROW_RIGHT,
+                  colorFilter: ColorFilter.mode(
+                    context.colors.onPrimary,
+                    BlendMode.srcIn,
+                  ),
+                  height: context.height * 0.015,
+                ),
+          onTap: selectedMusic == null
+              ? () async {
+                  final result = await showModalBottomSheet<MusicModel>(
+                    context: context,
+                    isScrollControlled: true,
+                    useSafeArea: true,
+                    backgroundColor: Colors.transparent,
+                    builder: (context) => const AddMusicBottomSheet(),
+                  );
+                  if (result != null && context.mounted) {
+                    context.read<CreatePostCubit>().setSelectedMusic(result);
+                  }
+                }
+              : null,
+        );
+      },
+    );
+  }
+
   Widget _buildAnonymousTile(BuildContext context) {
     return CreatePostOptionTile(
       title: AppStrings.CREATE_POST_ANONYMOUSLY,
@@ -66,8 +151,9 @@ class CreatePostOptionsWidget extends StatelessWidget {
       trailing: Switch.adaptive(
         value: isAnonymous,
         activeColor: context.colors.inverseSurface,
-        onChanged: (value) async =>
-            await context.read<CreatePostCubit>().toggleAnonymous(context, value),
+        onChanged: (value) async => await context
+            .read<CreatePostCubit>()
+            .toggleAnonymous(context, value),
       ),
     );
   }

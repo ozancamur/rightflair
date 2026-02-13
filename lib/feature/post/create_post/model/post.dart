@@ -19,6 +19,9 @@ class PostModel extends BaseModel<PostModel> {
   List<String>? tags;
   List<String>? mentionedUsers;
   PostUserModel? user;
+  String? musicTitle;
+  String? musicArtist;
+  String? musicAudioUrl;
 
   PostModel({
     this.id,
@@ -38,6 +41,9 @@ class PostModel extends BaseModel<PostModel> {
     this.tags,
     this.mentionedUsers,
     this.user,
+    this.musicTitle,
+    this.musicArtist,
+    this.musicAudioUrl,
   });
 
   @override
@@ -59,6 +65,9 @@ class PostModel extends BaseModel<PostModel> {
     List<String>? tags,
     List<String>? mentionedUsers,
     PostUserModel? user,
+    String? musicTitle,
+    String? musicArtist,
+    String? musicAudioUrl,
   }) {
     return PostModel(
       id: id ?? this.id,
@@ -78,6 +87,9 @@ class PostModel extends BaseModel<PostModel> {
       tags: tags ?? this.tags,
       mentionedUsers: mentionedUsers ?? this.mentionedUsers,
       user: user ?? this.user,
+      musicTitle: musicTitle ?? this.musicTitle,
+      musicArtist: musicArtist ?? this.musicArtist,
+      musicAudioUrl: musicAudioUrl ?? this.musicAudioUrl,
     );
   }
 
@@ -109,6 +121,9 @@ class PostModel extends BaseModel<PostModel> {
       user: json['user'] != null
           ? PostUserModel().fromJson(json['user'] as Map<String, dynamic>)
           : null,
+      musicTitle: json['music_title'] as String?,
+      musicArtist: json['music_artist'] as String?,
+      musicAudioUrl: json['music_audio_url'] as String?,
     );
   }
 
@@ -132,6 +147,9 @@ class PostModel extends BaseModel<PostModel> {
       'tags': tags,
       'mentioned_users': mentionedUsers,
       'user': user?.toJson(),
+      'music_title': musicTitle,
+      'music_artist': musicArtist,
+      'music_audio_url': musicAudioUrl,
     };
   }
 }

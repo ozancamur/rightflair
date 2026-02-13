@@ -1,21 +1,35 @@
 import 'dart:io';
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:rightflair/core/constants/route.dart';
+import 'package:rightflair/core/constants/string.dart';
 import 'package:rightflair/core/utils/dialogs/error.dart';
 import 'package:rightflair/feature/post/create_post/model/create_post.dart';
 import '../model/blur.dart';
 import '../model/mention_user.dart';
+import '../model/music.dart';
 import '../repository/create_post_repository.dart';
 import '../../../../core/utils/face_blur.dart';
 
-part 'create_post_state.dart';
+part '../widgets/create_post_state.dart';
 
 class CreatePostCubit extends Cubit<CreatePostState> {
   final ImagePicker _picker = ImagePicker();
+  final AudioPlayer _audioPlayer = AudioPlayer();
 
   final CreatePostRepository _repo;
-  CreatePostCubit(this._repo) : super(const CreatePostState());
+  CreatePostCubit(this._repo) : super(const CreatePostState()) {
+    _audioPlayer.onPlayerStateChanged.listen((state) {
+      emit(this.state.copyWith(isPlayingMusic: state == PlayerState.playing));
+    });
+
+    _audioPlayer.onPlayerComplete.listen((_) {
+      emit(state.copyWith(isPlayingMusic: false));
+    });
+  }
 
   Future<void> toggleAnonymous(BuildContext context, bool value) async {
     if (state.originalImagePath != null) {
@@ -92,6 +106,16 @@ class CreatePostCubit extends Cubit<CreatePostState> {
     return users ?? [];
   }
 
+  Future<List<MusicModel>> searchSongs(String query) async {
+    if (query.isEmpty) return [];
+    final songs = await _repo.searchSong(query: query);
+    return songs ?? [];
+  }
+
+  void setSelectedMusic(MusicModel? music) {
+    emit(state.copyWith(selectedMusic: music));
+  }
+
   Future<void> pickImageFromGallery() async {
     final XFile? image = await _picker.pickImage(
       source: ImageSource.gallery,
@@ -128,11 +152,13 @@ class CreatePostCubit extends Cubit<CreatePostState> {
     );
   }
 
-  Future<void> createPost({
+  Future<void> createPost(
+    BuildContext context, {
     String? description,
     List<String>? styleTags,
     List<String>? mentionedUserIds,
   }) async {
+    emit(state.copyWith(isLoading: true));
     final CreatePostModel post = CreatePostModel(
       postImageUrl: state.imagePath,
       description: description,
@@ -141,11 +167,24 @@ class CreatePostCubit extends Cubit<CreatePostState> {
       allowComments: state.allowComments,
       styleTags: styleTags ?? state.tags,
       mentionedUserIds: mentionedUserIds ?? state.mentionedUserIds,
+      musicArtist: state.selectedMusic?.artist,
+      musicTitle: state.selectedMusic?.title,
+      musicAudioUrl: state.selectedMusic?.url,
     );
-    print("Creating post with data: ${post.toJson()}");
+    final response = await _repo.createPost(post: post);
+    if (response == null || response.success != true) {
+      dialogError(
+        context,
+        message: response?.message ?? AppStrings.ERROR_DEFAULT,
+      );
+    } else {
+      context.go(RouteConstants.NAVIGATION);
+    }
+    emit(state.copyWith(isLoading: false));
   }
 
-  Future<void> createDraft({
+  Future<void> createDraft(
+    BuildContext context, {
     String? description,
     List<String>? styleTags,
     List<String>? mentionedUserIds,
@@ -158,7 +197,71 @@ class CreatePostCubit extends Cubit<CreatePostState> {
       allowComments: state.allowComments,
       styleTags: styleTags ?? state.tags,
       mentionedUserIds: mentionedUserIds ?? state.mentionedUserIds,
+      musicArtist: state.selectedMusic?.artist,
+      musicTitle: state.selectedMusic?.title,
+      musicAudioUrl: state.selectedMusic?.url,
     );
-    print("Creating draft with data: ${post.toJson()}");
+    final response = await _repo.createDraft(post: post);
+    if (response == null || response.success != true) {
+      dialogError(
+        context,
+        message: response?.message ?? AppStrings.ERROR_DEFAULT,
+      );
+    } else {
+      context.go(RouteConstants.NAVIGATION);
+    }
+  }
+
+  Future<void> playMusic() async {
+    if (state.selectedMusic != null) {
+      final url = state.selectedMusic!.url;
+      if (url == null || url.isEmpty) return;
+      await _audioPlayer.play(UrlSource(url));
+      emit(state.copyWith(currentPlayingMusicUrl: url));
+    }
+  }
+
+  Future<void> pauseMusic() async {
+    await _audioPlayer.pause();
+  }
+
+  Future<void> stopMusic() async {
+    await _audioPlayer.stop();
+    emit(state.copyWith(isPlayingMusic: false));
+  }
+
+  Future<void> togglePlayPause() async {
+    if (state.isPlayingMusic) {
+      await pauseMusic();
+    } else {
+      await playMusic();
+    }
+  }
+
+  Future<void> toggleMusicPreview(MusicModel music) async {
+    final url = music.url;
+    if (url == null || url.isEmpty) return;
+
+    final isSameTrack = state.currentPlayingMusicUrl == url;
+
+    if (isSameTrack && state.isPlayingMusic) {
+      await pauseMusic();
+      return;
+    }
+
+    if (isSameTrack && !state.isPlayingMusic) {
+      await _audioPlayer.resume();
+      emit(state.copyWith(isPlayingMusic: true));
+      return;
+    }
+
+    await _audioPlayer.play(UrlSource(url));
+    emit(state.copyWith(currentPlayingMusicUrl: url, isPlayingMusic: true));
+  }
+
+  @override
+  Future<void> close() {
+    _audioPlayer.dispose();
+    return super.close();
   }
 }

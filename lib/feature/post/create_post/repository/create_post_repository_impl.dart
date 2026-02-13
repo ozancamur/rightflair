@@ -7,6 +7,7 @@ import '../../../../core/constants/api.dart';
 import '../../../../core/constants/enums/endpoint.dart';
 import '../../../../core/services/api.dart';
 import '../model/create_post.dart';
+import '../model/music.dart';
 import 'create_post_repository.dart';
 
 class CreatePostRepositoryImpl implements CreatePostRepository {
@@ -17,38 +18,38 @@ class CreatePostRepositoryImpl implements CreatePostRepository {
       _dio = dio ?? Dio();
 
   @override
-  Future<bool> createPost({required CreatePostModel post}) async {
+  Future<ResponseModel?> createPost({required CreatePostModel post}) async {
     try {
       final request = await _api.post(
         Endpoint.CREATE_POST,
         data: post.toJson(),
       );
-      if (request == null) return false;
+      if (request == null) return null;
       final ResponseModel response = ResponseModel().fromJson(
         request.data as Map<String, dynamic>,
       );
-      return response.success == true;
+      return response;
     } catch (e) {
       debugPrint("CreatePostRepositoryImpl ERROR in createPost :> $e");
-      return false;
+      return null;
     }
   }
 
   @override
-  Future<bool> createDraft({required CreatePostModel post}) async {
+  Future<ResponseModel?> createDraft({required CreatePostModel post}) async {
     try {
       final request = await _api.post(
         Endpoint.CREATE_DRAFT,
         data: post.toJson(),
       );
-      if (request == null) return false;
+      if (request == null) return null;
       final ResponseModel response = ResponseModel().fromJson(
         request.data as Map<String, dynamic>,
       );
-      return response.success == true;
+      return response;
     } catch (e) {
-      debugPrint("CreatePostRepositoryImpl ERROR in createPost :> $e");
-      return false;
+      debugPrint("CreatePostRepositoryImpl ERROR in createDraft :> $e");
+      return null;
     }
   }
 
@@ -89,7 +90,7 @@ class CreatePostRepositoryImpl implements CreatePostRepository {
   }
 
   @override
-  Future<List<String>?> searchSong({required String query}) async {
+  Future<List<MusicModel>?> searchSong({required String query}) async {
     if (query.trim().isEmpty) return [];
 
     try {
@@ -97,10 +98,15 @@ class CreatePostRepositoryImpl implements CreatePostRepository {
 
       if (response.statusCode == 200) {
         final data = response.data;
-        print("Deezer API response: $data");
+
+        if (data is Map<String, dynamic> && data['data'] != null) {
+          final List<dynamic> tracks = data['data'] as List<dynamic>;
+          return tracks.map((track) => MusicModel().fromJson(track)).toList();
+        }
       }
       return [];
     } catch (e) {
+      debugPrint("CreatePostRepositoryImpl ERROR in searchSong: $e");
       return [];
     }
   }

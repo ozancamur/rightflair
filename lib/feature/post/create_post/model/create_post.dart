@@ -8,6 +8,9 @@ class CreatePostModel extends BaseModel<CreatePostModel> {
   bool? allowComments;
   List<String>? styleTags;
   List<String>? mentionedUserIds;
+  String? musicTitle;
+  String? musicArtist;
+  String? musicAudioUrl;
 
   CreatePostModel({
     this.postImageUrl,
@@ -17,6 +20,9 @@ class CreatePostModel extends BaseModel<CreatePostModel> {
     this.allowComments,
     this.styleTags,
     this.mentionedUserIds,
+    this.musicTitle,
+    this.musicArtist,
+    this.musicAudioUrl,
   });
 
   @override
@@ -28,6 +34,9 @@ class CreatePostModel extends BaseModel<CreatePostModel> {
     bool? allowComments,
     List<String>? styleTags,
     List<String>? mentionedUserIds,
+    String? musicTitle,
+    String? musicArtist,
+    String? musicAudioUrl,
   }) {
     return CreatePostModel(
       postImageUrl: postImageUrl ?? this.postImageUrl,
@@ -37,6 +46,9 @@ class CreatePostModel extends BaseModel<CreatePostModel> {
       allowComments: allowComments ?? this.allowComments,
       styleTags: styleTags ?? this.styleTags,
       mentionedUserIds: mentionedUserIds ?? this.mentionedUserIds,
+      musicTitle: musicTitle ?? this.musicTitle,
+      musicArtist: musicArtist ?? this.musicArtist,
+      musicAudioUrl: musicAudioUrl ?? this.musicAudioUrl,
     );
   }
 
@@ -54,6 +66,9 @@ class CreatePostModel extends BaseModel<CreatePostModel> {
       mentionedUserIds: (json['mentioned_user_ids'] as List<dynamic>?)
           ?.map((e) => e as String)
           .toList(),
+      musicTitle: json['music_title'] as String?,
+      musicArtist: json['music_artist'] as String?,
+      musicAudioUrl: json['music_audio_url'] as String?,
     );
   }
 
@@ -67,6 +82,9 @@ class CreatePostModel extends BaseModel<CreatePostModel> {
       'allow_comments': allowComments,
       'style_tags': styleTags,
       'mentioned_user_ids': mentionedUserIds,
+      'music_title': musicTitle,
+      'music_artist': musicArtist,
+      'music_audio_url': musicAudioUrl,
     };
   }
 }

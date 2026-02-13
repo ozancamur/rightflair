@@ -45,7 +45,9 @@ class _CreatePostPageState extends State<CreatePostPage> {
 
   AppBarComponent _appbar() {
     return AppBarComponent(
-      leading: BackButtonComponent(onBack: () => context.go(RouteConstants.NAVIGATION),),
+      leading: BackButtonComponent(
+        onBack: () => context.go(RouteConstants.NAVIGATION),
+      ),
       title: AppbarTitleComponent(title: AppStrings.CREATE_POST_APPBAR),
     );
   }
@@ -85,13 +87,20 @@ class _CreatePostPageState extends State<CreatePostPage> {
                     label: Text('#$tag'),
                     backgroundColor: context.colors.primaryFixedDim,
                     labelStyle: TextStyle(color: context.colors.primary),
-                    deleteIcon: Icon(Icons.close, size: 16, color: context.colors.primary),
+                    deleteIcon: Icon(
+                      Icons.close,
+                      size: 16,
+                      color: context.colors.primary,
+                    ),
                     onDeleted: () {
                       // Remove from cubit
                       context.read<CreatePostCubit>().removeTag(tag);
                       // Remove from description text
                       final currentText = _descriptionController.text;
-                      final updatedText = currentText.replaceAll('#$tag', '').replaceAll(RegExp(r'\s+'), ' ').trim();
+                      final updatedText = currentText
+                          .replaceAll('#$tag', '')
+                          .replaceAll(RegExp(r'\s+'), ' ')
+                          .trim();
                       _descriptionController.text = updatedText;
                     },
                   );
@@ -105,6 +114,7 @@ class _CreatePostPageState extends State<CreatePostPage> {
               isAnonymous: state.isAnonymous,
               allowComments: state.allowComments,
               selectedLocation: state.selectedLocation,
+              selectedMusic: state.selectedMusic,
             ),
             SizedBox(height: context.height * 0.02),
 
@@ -115,6 +125,7 @@ class _CreatePostPageState extends State<CreatePostPage> {
                 final tags = TextParser.parseTags(rawDescription);
                 final cleanDescription = TextParser.cleanText(rawDescription);
                 context.read<CreatePostCubit>().createDraft(
+                  context,
                   description: cleanDescription,
                   styleTags: tags,
                   mentionedUserIds: state.mentionedUserIds,
@@ -125,6 +136,7 @@ class _CreatePostPageState extends State<CreatePostPage> {
                 final tags = TextParser.parseTags(rawDescription);
                 final cleanDescription = TextParser.cleanText(rawDescription);
                 context.read<CreatePostCubit>().createPost(
+                  context,
                   description: cleanDescription,
                   styleTags: tags,
                   mentionedUserIds: state.mentionedUserIds,
