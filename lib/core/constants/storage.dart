@@ -11,5 +11,8 @@ class StorageConstants {
   static String STORY_PHOTO_PATH(String userId, String fileName) =>
       '$userId/stories/$fileName';
 
+  static String POST_PHOTO_PATH(String userId, String fileName) =>
+      '$userId/posts/$fileName';
+
   static const String STORAGE_ID = "profile-photos";
 }

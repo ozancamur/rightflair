@@ -137,7 +137,12 @@
         "selectLocation": "Location Selection",
         "searchLocation": "Search location...",
         "cameraRetake": "Retake",
-        "cameraContinue": "Continue"
+        "cameraContinue": "Continue",
+        "tags": "Tags",
+        "addMusic": "Add Music",
+        "searchMusic": "Use the field above to search for music",
+        "searchMusicPlaceholder": "Search song or artist...",
+        "noResults": "No results found"
     },
     "inbox": {
         "title": "InBox",

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import '../../../../core/base/model/response.dart';
 import '../model/create_post.dart';
 import '../model/mention_user.dart';
@@ -10,4 +12,8 @@ abstract class CreatePostRepository {
     required String query,
   });
   Future<List<MusicModel>?> searchSong({required String query});
+    Future<String?> uploadStoryImage({
+    required String userId,
+    required File file,
+  });
 }

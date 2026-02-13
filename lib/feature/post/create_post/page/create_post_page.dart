@@ -74,7 +74,7 @@ class _CreatePostPageState extends State<CreatePostPage> {
             // Display selected tags
             if (state.tags.isNotEmpty) ...[
               TextComponent(
-                text: 'Tags',
+                text: AppStrings.CREATE_POST_TAGS,
                 size: FontSizeConstants.NORMAL,
                 weight: FontWeight.w500,
               ),

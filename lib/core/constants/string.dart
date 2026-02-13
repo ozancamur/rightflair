@@ -162,6 +162,12 @@ class AppStrings {
   static const String CREATE_POST_SEARCH_LOCATION = 'createPost.searchLocation';
   static const String CREATE_POST_CAMERA_RETAKE = 'createPost.cameraRetake';
   static const String CREATE_POST_CAMERA_CONTINUE = 'createPost.cameraContinue';
+  static const String CREATE_POST_TAGS = 'createPost.tags';
+  static const String CREATE_POST_ADD_MUSIC = 'createPost.addMusic';
+  static const String CREATE_POST_SEARCH_MUSIC = 'createPost.searchMusic';
+  static const String CREATE_POST_SEARCH_MUSIC_PLACEHOLDER =
+      'createPost.searchMusicPlaceholder';
+  static const String CREATE_POST_NO_RESULTS = 'createPost.noResults';
 
   // INBOX
   static const String INBOX_TITLE = 'inbox.title';

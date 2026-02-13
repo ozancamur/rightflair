@@ -4,6 +4,7 @@ import 'package:rightflair/core/extensions/context.dart';
 
 import '../../../../core/components/text/text.dart';
 import '../../../../core/constants/font/font_size.dart';
+import '../../../../core/constants/string.dart';
 import '../cubit/create_post_cubit.dart';
 import '../model/music.dart';
 
@@ -107,7 +108,7 @@ class _AddMusicBottomSheetState extends State<AddMusicBottomSheet> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           TextComponent(
-            text: 'Müzik Ekle',
+            text: AppStrings.CREATE_POST_ADD_MUSIC,
             size: FontSizeConstants.X_LARGE,
             weight: FontWeight.w600,
           ),
@@ -134,7 +135,7 @@ class _AddMusicBottomSheetState extends State<AddMusicBottomSheet> {
           });
         },
         decoration: InputDecoration(
-          hintText: 'Şarkı veya sanatçı ara...',
+          hintText: AppStrings.CREATE_POST_SEARCH_MUSIC_PLACEHOLDER,
           hintStyle: TextStyle(color: context.colors.primaryContainer),
           prefixIcon: Icon(
             Icons.search,
@@ -165,8 +166,8 @@ class _AddMusicBottomSheetState extends State<AddMusicBottomSheet> {
           ? Center(
               child: TextComponent(
                 text: _searchController.text.isEmpty
-                    ? 'Müzik aramak için yukarıdaki alanı kullanın'
-                    : 'Sonuç bulunamadı',
+                    ? AppStrings.CREATE_POST_SEARCH_MUSIC
+                    : AppStrings.CREATE_POST_NO_RESULTS,
                 size: FontSizeConstants.NORMAL,
                 color: context.colors.onSurface.withOpacity(0.6),
               ),

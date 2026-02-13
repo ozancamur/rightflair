@@ -8,6 +8,7 @@ import 'package:rightflair/core/constants/route.dart';
 import 'package:rightflair/core/constants/string.dart';
 import 'package:rightflair/core/utils/dialogs/error.dart';
 import 'package:rightflair/feature/post/create_post/model/create_post.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import '../model/blur.dart';
 import '../model/mention_user.dart';
 import '../model/music.dart';
@@ -158,9 +159,23 @@ class CreatePostCubit extends Cubit<CreatePostState> {
     List<String>? styleTags,
     List<String>? mentionedUserIds,
   }) async {
+    final String? uid = Supabase.instance.client.auth.currentUser?.id;
+    if (uid == null || uid == "") {
+      dialogError(context, message: AppStrings.ERROR_DEFAULT);
+      return;
+    }
     emit(state.copyWith(isLoading: true));
+    final String? postPhotoUrl = await _repo.uploadStoryImage(
+      userId: uid,
+      file: File(state.imagePath!),
+    );
+    if (postPhotoUrl == "" || postPhotoUrl == null) {
+      dialogError(context, message: AppStrings.ERROR_DEFAULT);
+      emit(state.copyWith(isLoading: false));
+      return;
+    }
     final CreatePostModel post = CreatePostModel(
-      postImageUrl: state.imagePath,
+      postImageUrl: postPhotoUrl,
       description: description,
       location: state.selectedLocation,
       isAnonymous: state.isAnonymous,
@@ -189,8 +204,23 @@ class CreatePostCubit extends Cubit<CreatePostState> {
     List<String>? styleTags,
     List<String>? mentionedUserIds,
   }) async {
+    final String? uid = Supabase.instance.client.auth.currentUser?.id;
+    if (uid == null || uid == "") {
+      dialogError(context, message: AppStrings.ERROR_DEFAULT);
+      return;
+    }
+    emit(state.copyWith(isLoading: true));
+    final String? postPhotoUrl = await _repo.uploadStoryImage(
+      userId: uid,
+      file: File(state.imagePath!),
+    );
+    if (postPhotoUrl == "" || postPhotoUrl == null) {
+      dialogError(context, message: AppStrings.ERROR_DEFAULT);
+      emit(state.copyWith(isLoading: false));
+      return;
+    }
     final CreatePostModel post = CreatePostModel(
-      postImageUrl: state.imagePath,
+      postImageUrl: postPhotoUrl,
       description: description,
       location: state.selectedLocation,
       isAnonymous: state.isAnonymous,

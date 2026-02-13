@@ -1,10 +1,15 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:rightflair/feature/post/create_post/model/mention_user.dart';
+import 'package:supabase/supabase.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../../../core/base/model/response.dart';
 import '../../../../core/constants/api.dart';
 import '../../../../core/constants/enums/endpoint.dart';
+import '../../../../core/constants/storage.dart';
 import '../../../../core/services/api.dart';
 import '../model/create_post.dart';
 import '../model/music.dart';
@@ -13,9 +18,11 @@ import 'create_post_repository.dart';
 class CreatePostRepositoryImpl implements CreatePostRepository {
   final ApiService _api;
   final Dio _dio;
-  CreatePostRepositoryImpl({ApiService? api, Dio? dio})
+  final SupabaseClient _supabase;
+  CreatePostRepositoryImpl({ApiService? api, Dio? dio, SupabaseClient? supabase})
     : _api = api ?? ApiService(),
-      _dio = dio ?? Dio();
+      _dio = dio ?? Dio(),
+      _supabase = Supabase.instance.client;
 
   @override
   Future<ResponseModel?> createPost({required CreatePostModel post}) async {
@@ -108,6 +115,47 @@ class CreatePostRepositoryImpl implements CreatePostRepository {
     } catch (e) {
       debugPrint("CreatePostRepositoryImpl ERROR in searchSong: $e");
       return [];
+    }
+  }
+
+  @override
+  Future<String?> uploadStoryImage({
+    required String userId,
+    required File file,
+  }) async {
+  try {
+      final String? authenticatedUserId = _supabase.auth.currentUser?.id;
+
+      if (authenticatedUserId == null) {
+        debugPrint(
+          "CreatePostRepositoryImpl ERROR in uploadStoryImage: User not authenticated",
+        );
+        return null;
+      }
+
+      final String extension = file.path.split('.').last;
+      final String name = StorageConstants.FILE_NAME(extension);
+      final String path = StorageConstants.POST_PHOTO_PATH(
+        authenticatedUserId,
+        name,
+      );
+
+      await _supabase.storage
+          .from(StorageConstants.STORAGE_ID)
+          .upload(
+            path,
+            file,
+            fileOptions: const FileOptions(cacheControl: '3600', upsert: true),
+          );
+
+      final String publicUrl = _supabase.storage
+          .from(StorageConstants.STORAGE_ID)
+          .getPublicUrl(path);
+
+      return publicUrl;
+    } catch (e) {
+      debugPrint("CreateStoryRepositoryImpl ERROR in uploadStoryImage :> $e");
+      return null;
     }
   }
 }
