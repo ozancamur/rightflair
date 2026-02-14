@@ -9,11 +9,9 @@ import 'package:rightflair/core/constants/string.dart';
 import 'package:rightflair/core/utils/dialogs/error.dart';
 import 'package:rightflair/feature/post/create_post/model/create_post.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import '../model/blur.dart';
 import '../model/mention_user.dart';
 import '../model/music.dart';
 import '../repository/create_post_repository.dart';
-import '../../../../core/utils/face_blur.dart';
 
 part '../widgets/create_post_state.dart';
 
@@ -35,38 +33,8 @@ class CreatePostCubit extends Cubit<CreatePostState> {
   Future<void> toggleAnonymous(BuildContext context, bool value) async {
     if (state.originalImagePath != null) {
       emit(state.copyWith(isProcessingImage: true));
-      final response = await _processImageWithBlur(
-        state.originalImagePath!,
-        isAnonymous: value,
-      );
-      if (response.isBlurred == false) {
-        dialogError(context, message: "Yüz algılama başarısız oldu.");
-      }
-      emit(
-        state.copyWith(
-          isAnonymous: response.isBlurred,
-          imagePath: response.file.path,
-          isProcessingImage: false,
-        ),
-      );
+      emit(state.copyWith(isProcessingImage: false));
     }
-  }
-
-  Future<BlurModel> _processImageWithBlur(
-    String imagePath, {
-    required bool isAnonymous,
-    int blurRadius = 100,
-  }) async {
-    if (!isAnonymous) {
-      return BlurModel(file: File(imagePath), isBlurred: false);
-    }
-
-    final originalFile = File(imagePath);
-    final blurredFile = await blurFacesInImage(
-      originalFile,
-      blurRadius: blurRadius,
-    );
-    return blurredFile;
   }
 
   void toggleAllowComments(bool value) =>
@@ -124,33 +92,16 @@ class CreatePostCubit extends Cubit<CreatePostState> {
     );
     if (image != null) {
       emit(state.copyWith(isProcessingImage: true));
-      final response = await _processImageWithBlur(
-        image.path,
-        isAnonymous: state.isAnonymous,
-      );
       emit(
-        state.copyWith(
-          imagePath: response.file.path,
-          originalImagePath: image.path,
-          isProcessingImage: false,
-        ),
+        state.copyWith(originalImagePath: image.path, isProcessingImage: false),
       );
     }
   }
 
   Future<void> setImagePath(String path) async {
     emit(state.copyWith(isProcessingImage: true));
-    final response = await _processImageWithBlur(
-      path,
-      isAnonymous: state.isAnonymous,
-    );
-    emit(
-      state.copyWith(
-        imagePath: response.file.path,
-        originalImagePath: path,
-        isProcessingImage: false,
-      ),
-    );
+
+    emit(state.copyWith(originalImagePath: path, isProcessingImage: false));
   }
 
   Future<void> createPost(
