@@ -56,76 +56,76 @@ class _InboxNotificationsListState extends State<InboxNotificationsList> {
     return SizedBox(
       height: context.height,
       width: context.width,
-      child: Stack(
-        children: [
-          Positioned.fill(
-            child: RefreshIndicator(
-              onRefresh: () async {
-                await context.read<InboxCubit>().refreshNotifications();
-              },
-              child: ListView.builder(
-                controller: _scrollController,
-                padding: EdgeInsets.only(
-                  right: context.width * 0.04,
-                  left: context.width * 0.04,
-                  bottom: context.height * .3,
+      child: Stack(children: [_list(context), _bottom(context)]),
+    );
+  }
+
+  Positioned _list(BuildContext context) {
+    return Positioned.fill(
+      child: RefreshIndicator(
+        onRefresh: () async {
+          await context.read<InboxCubit>().refreshNotifications();
+        },
+        child: ListView.builder(
+          controller: _scrollController,
+          padding: EdgeInsets.only(
+            right: context.width * 0.04,
+            left: context.width * 0.04,
+            bottom: context.height * .3,
+          ),
+          itemCount:
+              widget.notifications.length + 1 + (widget.isLoadingMore ? 1 : 0),
+          itemBuilder: (context, index) {
+            if (index == 0) return _zero(context);
+            if (index == widget.notifications.length + 1) {
+              return Center(
+                child: Padding(
+                  padding: EdgeInsets.symmetric(
+                    vertical: context.height * 0.02,
+                  ),
+                  child: CircularProgressIndicator(
+                    strokeWidth: 2,
+                    color: context.colors.primary,
+                  ),
                 ),
-                itemCount:
-                    widget.notifications.length +
-                    1 +
-                    (widget.isLoadingMore ? 1 : 0),
-                itemBuilder: (context, index) {
-                  if (index == 0) return _zero(context);
-                  if (index == widget.notifications.length + 1) {
-                    return Center(
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(
-                          vertical: context.height * 0.02,
-                        ),
-                        child: CircularProgressIndicator(
-                          strokeWidth: 2,
-                          color: context.colors.primary,
-                        ),
-                      ),
-                    );
-                  }
-                  return InboxNotificationItem(
-                    notification: widget.notifications[index - 1],
-                  );
-                },
-              ),
+              );
+            }
+            return InboxNotificationItem(
+              notification: widget.notifications[index - 1],
+            );
+          },
+        ),
+      ),
+    );
+  }
+
+  Positioned _bottom(BuildContext context) {
+    return Positioned(
+      bottom: 0,
+      right: 0,
+      left: 0,
+      child: Container(
+        height: context.height * .3,
+        width: context.width,
+        padding: EdgeInsets.symmetric(horizontal: context.width * 0.04),
+        decoration: BoxDecoration(color: context.colors.secondary),
+        child: Column(
+          children: [
+            InboxNotificationButtonWidget(
+              onTap: () => context.push(RouteConstants.NEW_FOLLOWERS),
+              type: NotificationType.NEW_FOLLOWER,
+              title: AppStrings.INBOX_NEW_FOLLOWERS_TITLE,
+              content: AppStrings.INBOX_NEW_FOLLOWERS_INFO,
             ),
-          ),
-          Positioned(
-            bottom: 0,
-            right: 0,
-            left: 0,
-            child: Container(
-              height: context.height * .3,
-              width: context.width,
-              padding: EdgeInsets.symmetric(horizontal: context.width * 0.04),
-              decoration: BoxDecoration(color: context.colors.secondary),
-              child: Column(
-                children: [
-                  InboxNotificationButtonWidget(
-                    onTap: () => context.push(RouteConstants.NEW_FOLLOWERS),
-                    type: NotificationType.NEW_FOLLOWER,
-                    title: AppStrings.INBOX_NEW_FOLLOWERS_TITLE,
-                    content: AppStrings.INBOX_NEW_FOLLOWERS_INFO,
-                  ),
-                  InboxNotificationButtonWidget(
-                    onTap: () =>
-                        context.push(RouteConstants.SYSTEM_NOTIFICATIONS),
-                    type: NotificationType.SYSTEM_UPDATE,
-                    title: AppStrings.INBOX_SYSTEM_NOTIFICATIONS_TITLE,
-                    content: AppStrings.INBOX_SYSTEM_NOTIFICATIONS_INFO,
-                  ),
-                  const InboxNotificationKeep(),
-                ],
-              ),
+            InboxNotificationButtonWidget(
+              onTap: () => context.push(RouteConstants.SYSTEM_NOTIFICATIONS),
+              type: NotificationType.SYSTEM_UPDATE,
+              title: AppStrings.INBOX_SYSTEM_NOTIFICATIONS_TITLE,
+              content: AppStrings.INBOX_SYSTEM_NOTIFICATIONS_INFO,
             ),
-          ),
-        ],
+            const InboxNotificationKeep(),
+          ],
+        ),
       ),
     );
   }

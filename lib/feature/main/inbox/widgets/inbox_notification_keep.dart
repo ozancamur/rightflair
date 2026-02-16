@@ -11,7 +11,7 @@ class InboxNotificationKeep extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(vertical: context.height * 0.02),
+      margin: EdgeInsets.symmetric(vertical: context.height * 0.015),
       padding: EdgeInsets.symmetric(vertical: context.height * 0.02),
       width: double.infinity,
       decoration: BoxDecoration(
