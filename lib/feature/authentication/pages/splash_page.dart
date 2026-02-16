@@ -7,6 +7,8 @@ import 'package:rightflair/core/constants/route.dart';
 import 'package:rightflair/core/extensions/context.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+import '../../../core/config/config.dart';
+
 class SplashPage extends StatefulWidget {
   const SplashPage({super.key});
 
@@ -18,9 +20,11 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-
-    _checkAuthAndNavigate();
+    _config();
   }
+
+  Future<void> _config() async =>
+      await Config().init().then((_) => _checkAuthAndNavigate());
 
   Future<void> _checkAuthAndNavigate() async {
     await Future.delayed(const Duration(milliseconds: 2500));

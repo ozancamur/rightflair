@@ -3,12 +3,14 @@ import 'package:rightflair/core/constants/enums/endpoint.dart';
 import 'package:rightflair/core/services/api.dart';
 
 import '../model/user.dart';
+import 'authentication_repository.dart';
 
-class AuthenticationRepositoryImpl {
+class AuthenticationRepositoryImpl extends AuthenticationRepository {
   final ApiService _api;
 
   AuthenticationRepositoryImpl({ApiService? api}) : _api = api ?? ApiService();
 
+  @override
   Future<UserModel?> createUser({required UserModel user}) async {
     try {
       final request = await _api.post(

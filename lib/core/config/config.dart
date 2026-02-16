@@ -4,6 +4,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../base/model/supabase.dart';
 import '../services/api.dart';
+import '../services/firebase/messaging.dart';
 
 class Config {
   static const String COLLECTION = "ENVIRONMENT";
@@ -11,6 +12,7 @@ class Config {
 
   Future<void> init() async {
     await Firebase.initializeApp();
+    await FirebaseMessagingManager().initialize();
     final SupabaseModel? client = await _fetchSupabaseEnv();
     if (client != null &&
         client.URL != null &&
