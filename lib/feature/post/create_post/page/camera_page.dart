@@ -128,12 +128,15 @@ class _CameraPageState extends State<CameraPage> with WidgetsBindingObserver {
   }
 
   Future<void> _pickFromGallery() async {
-    await context.read<CreatePostCubit>().pickImageFromGallery();
-    if (mounted) {
-      final state = context.read<CreatePostCubit>().state;
-      if (state.imagePath != null) {
-        context.go(RouteConstants.CREATE_POST);
-      }
+    try {
+      await context.read<CreatePostCubit>().pickImageFromGallery();
+    } catch (e) {
+      debugPrint('Error picking from gallery: $e');
+    }
+    if (!mounted) return;
+    final state = context.read<CreatePostCubit>().state;
+    if (state.imagePath != null) {
+      context.go(RouteConstants.CREATE_POST);
     }
   }
 

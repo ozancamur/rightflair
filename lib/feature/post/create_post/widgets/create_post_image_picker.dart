@@ -1,6 +1,8 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
+import 'package:rightflair/core/constants/route.dart';
 import 'package:rightflair/core/extensions/context.dart';
 import '../cubit/create_post_cubit.dart';
 
@@ -43,9 +45,11 @@ class CreatePostImageWidget extends StatelessWidget {
       builder: (context, state) {
         return Center(
           child: GestureDetector(
-            onTap: state.imagePath != null && !state.isProcessingImage
+            onTap: state.isProcessingImage
+                ? null
+                : state.imagePath != null
                 ? () => _showFullScreenImage(context, state.imagePath!)
-                : null,
+                : () => context.push(RouteConstants.CAMERA),
             child: Stack(
               alignment: Alignment.center,
               children: [
