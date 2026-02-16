@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rightflair/core/extensions/context.dart';
@@ -135,7 +136,7 @@ class _AddMusicBottomSheetState extends State<AddMusicBottomSheet> {
           });
         },
         decoration: InputDecoration(
-          hintText: AppStrings.CREATE_POST_SEARCH_MUSIC_PLACEHOLDER,
+          hintText: AppStrings.CREATE_POST_SEARCH_MUSIC_PLACEHOLDER.tr(),
           hintStyle: TextStyle(color: context.colors.primaryContainer),
           prefixIcon: Icon(
             Icons.search,
@@ -166,8 +167,8 @@ class _AddMusicBottomSheetState extends State<AddMusicBottomSheet> {
           ? Center(
               child: TextComponent(
                 text: _searchController.text.isEmpty
-                    ? AppStrings.CREATE_POST_SEARCH_MUSIC
-                    : AppStrings.CREATE_POST_NO_RESULTS,
+                    ? AppStrings.CREATE_POST_SEARCH_MUSIC.tr()
+                    : AppStrings.CREATE_POST_NO_RESULTS.tr(),
                 size: FontSizeConstants.NORMAL,
                 color: context.colors.onSurface.withOpacity(0.6),
               ),
@@ -184,44 +185,53 @@ class _AddMusicBottomSheetState extends State<AddMusicBottomSheet> {
                     final isPlayingCurrentTrack =
                         isCurrentTrack && state.isPlayingMusic;
 
-                    return ListTile(
-                      contentPadding: EdgeInsets.zero,
-                      leading: Icon(
-                        Icons.music_note,
-                        color: context.colors.primary,
-                        size: context.height * 0.05,
-                      ),
-                      title: TextComponent(
-                        text: music.title ?? '',
-                        size: FontSizeConstants.NORMAL,
-                        weight: FontWeight.w500,
-                      ),
-                      subtitle: TextComponent(
-                        text: music.artist ?? '',
-                        size: FontSizeConstants.SMALL,
-                        color: context.colors.primaryContainer,
-                      ),
-                      trailing: IconButton(
-                        onPressed: () {
-                          context.read<CreatePostCubit>().toggleMusicPreview(
-                            music,
-                          );
-                        },
-                        icon: Icon(
-                          isPlayingCurrentTrack
-                              ? Icons.pause_circle_filled
-                              : Icons.play_circle_fill,
-                          color: context.colors.primary,
-                        ),
-                      ),
-                      onTap: () {
-                        Navigator.pop(context, music);
-                      },
-                    );
+                    return _song(context, music, isPlayingCurrentTrack);
                   },
                 );
               },
             ),
+    );
+  }
+
+  ListTile _song(
+    BuildContext context,
+    MusicModel music,
+    bool isPlayingCurrentTrack,
+  ) {
+    print(
+      "Rendering song: ${music.title}, url: ${music.url}, isPlayingCurrentTrack: $isPlayingCurrentTrack",
+    );
+    return ListTile(
+      contentPadding: EdgeInsets.zero,
+      leading: Icon(
+        Icons.music_note,
+        color: context.colors.primary,
+        size: context.height * 0.05,
+      ),
+      title: TextComponent(
+        text: music.title ?? '',
+        size: FontSizeConstants.NORMAL,
+        weight: FontWeight.w500,
+        tr: false,
+      ),
+      subtitle: TextComponent(
+        text: music.artist ?? '',
+        size: FontSizeConstants.SMALL,
+        color: context.colors.primaryContainer,
+        tr: false,
+      ),
+      trailing: IconButton(
+        onPressed: () {
+          context.read<CreatePostCubit>().toggleMusicPreview(music);
+        },
+        icon: Icon(
+          isPlayingCurrentTrack
+              ? Icons.pause_circle_filled
+              : Icons.play_circle_fill,
+          color: context.colors.primary,
+        ),
+      ),
+      onTap: () => Navigator.pop(context, music),
     );
   }
 }

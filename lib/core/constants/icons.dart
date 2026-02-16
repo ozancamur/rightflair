@@ -84,7 +84,8 @@ class AppIcons {
   static const String SHARE = '${_path}share.svg';
   static const String SHARE_FILLED = '${_path}share_filled.svg';
   static const String SHARED = '${_path}shared.svg';
-  static const String SUPPORT = '${_path}support.svg';
+  static const String SOUND_ON = '${_path}sound_on.svg';
+  static const String SOUND_OFF = '${_path}sound_off.svg';
   static const String SYSTEM = '${_path}system.svg';
 
   static const String TAG = '${_path}tag.svg';

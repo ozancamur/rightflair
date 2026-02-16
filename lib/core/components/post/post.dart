@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rightflair/core/components/post/post_music.dart';
 
 import '../../../feature/post/create_post/model/post.dart';
 import '../../../feature/post/create_post/model/post_user.dart';
@@ -40,6 +41,11 @@ class PostComponent extends StatelessWidget {
           PostImageComponent(url: post.postImageUrl),
           const PostShadowComponent(),
           PostUserInfoComponent(user: post.user ?? PostUserModel()),
+          PostMusicComponent(
+            musicAudioUrl: post.musicAudioUrl,
+            musicArtist: post.musicArtist,
+            musicTitle: post.musicTitle,
+          ),
           isDraft
               ? SizedBox.shrink()
               : PostActionsComponent(
