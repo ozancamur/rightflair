@@ -348,5 +348,10 @@
         "weeksAgo": "w ago",
         "monthsAgo": "mo ago",
         "yearsAgo": "y ago"
+    },
+    "postMusic": {
+        "error": "Music could not be played",
+        "defaultSong": "Song",
+        "defaultArtist": "Artist"
     }
 }

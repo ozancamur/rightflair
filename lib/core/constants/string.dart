@@ -169,6 +169,11 @@ class AppStrings {
       'createPost.searchMusicPlaceholder';
   static const String CREATE_POST_NO_RESULTS = 'createPost.noResults';
 
+  // POST MUSIC
+  static const String POST_MUSIC_ERROR = 'postMusic.error';
+  static const String POST_MUSIC_DEFAULT_SONG = 'postMusic.defaultSong';
+  static const String POST_MUSIC_DEFAULT_ARTIST = 'postMusic.defaultArtist';
+
   // INBOX
   static const String INBOX_TITLE = 'inbox.title';
   static const String INBOX_MESSAGES = 'inbox.messages';
