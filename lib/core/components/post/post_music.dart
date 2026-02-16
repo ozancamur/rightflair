@@ -38,7 +38,7 @@ class _PostMusicComponentState extends State<PostMusicComponent> {
     final url = widget.musicAudioUrl;
     if (url == null || url.isEmpty) return;
     try {
-      await _audioPlayer.play(UrlSource("url"));
+      await _audioPlayer.play(UrlSource(url));
       if (mounted) setState(() => _isPlaying = true);
     } catch (e) {
       debugPrint('Audio play error: $e');
