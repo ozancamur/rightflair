@@ -2,14 +2,31 @@ import 'dart:async';
 import 'dart:io';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
+import 'package:rightflair/core/constants/app.dart';
 
 /// Background message handler - Top-level function required
 @pragma('vm:entry-point')
 Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  debugPrint('Background message alındı: ${message.messageId}');
-  debugPrint('Title: ${message.notification?.title}');
-  debugPrint('Body: ${message.notification?.body}');
-  debugPrint('Data: ${message.data}');
+  final timestamp = DateTime.now().toIso8601String();
+  final notification = message.notification;
+  final buffer = StringBuffer()
+    ..writeln('┌──────────────────────────────────────────')
+    ..writeln('│ 🔔 FCM Notification [BACKGROUND]')
+    ..writeln('│ ⏰ $timestamp')
+    ..writeln('│ 📌 Message ID : ${message.messageId ?? 'N/A'}')
+    ..writeln('│ 📝 Title      : ${notification?.title ?? 'N/A'}')
+    ..writeln('│ 💬 Body       : ${notification?.body ?? 'N/A'}')
+    ..writeln('│ 📤 Sent Time  : ${message.sentTime ?? 'N/A'}');
+  if (message.data.isNotEmpty) {
+    buffer.writeln('│ 📦 Data       :');
+    message.data.forEach((key, value) {
+      buffer.writeln('│    $key: $value');
+    });
+  } else {
+    buffer.writeln('│ 📦 Data       : (empty)');
+  }
+  buffer.writeln('└──────────────────────────────────────────');
+  debugPrint(buffer.toString());
 }
 
 class FirebaseMessagingManager {
@@ -48,7 +65,7 @@ class FirebaseMessagingManager {
 
       // İlk token'ı al
       await getToken();
-
+      subscribeToTopic(AppConstants.APP_NAME);
       debugPrint('Firebase Messaging başarıyla başlatıldı');
     } catch (e) {
       debugPrint('Firebase Messaging başlatma hatası: $e');
@@ -87,6 +104,9 @@ class FirebaseMessagingManager {
         token = await _messaging.getToken();
       }
 
+      if (kDebugMode) {
+        debugPrint("USER FCM TOKEN :> $token");
+      }
       if (token != null) {
         _tokenStreamController.add(token);
       }
@@ -178,23 +198,57 @@ class FirebaseMessagingManager {
     _handleInitialMessage();
   }
 
+  /// Gelen bildirimi detaylı logla
+  void _logMessage(RemoteMessage message, String source) {
+    final timestamp = DateTime.now().toIso8601String();
+    final notification = message.notification;
+    final buffer = StringBuffer()
+      ..writeln('┌──────────────────────────────────────────')
+      ..writeln('│ 🔔 FCM Notification [$source]')
+      ..writeln('│ ⏰ $timestamp')
+      ..writeln('│ 📌 Message ID : ${message.messageId ?? 'N/A'}')
+      ..writeln('│ 📝 Title      : ${notification?.title ?? 'N/A'}')
+      ..writeln('│ 💬 Body       : ${notification?.body ?? 'N/A'}')
+      ..writeln('│ 🏷️ Category   : ${message.category ?? 'N/A'}')
+      ..writeln('│ 📤 Sent Time  : ${message.sentTime ?? 'N/A'}')
+      ..writeln('│ 🔢 TTL        : ${message.ttl ?? 'N/A'}')
+      ..writeln('│ 📱 From       : ${message.from ?? 'N/A'}');
+    if (notification?.android != null) {
+      buffer
+        ..writeln(
+          '│ 🤖 Android Ch : ${notification!.android!.channelId ?? 'N/A'}',
+        )
+        ..writeln(
+          '│ 🤖 Android Img: ${notification.android!.imageUrl ?? 'N/A'}',
+        );
+    }
+    if (notification?.apple != null) {
+      buffer.writeln(
+        '│ 🍎 Apple Badge: ${notification!.apple!.badge ?? 'N/A'}',
+      );
+    }
+    if (message.data.isNotEmpty) {
+      buffer.writeln('│ 📦 Data       :');
+      message.data.forEach((key, value) {
+        buffer.writeln('│    $key: $value');
+      });
+    } else {
+      buffer.writeln('│ 📦 Data       : (empty)');
+    }
+    buffer.writeln('└──────────────────────────────────────────');
+    debugPrint(buffer.toString());
+  }
+
   /// Foreground message handler
   void _handleForegroundMessage(RemoteMessage message) {
-    debugPrint('Foreground message alındı: ${message.messageId}');
-    debugPrint('Title: ${message.notification?.title}');
-    debugPrint('Body: ${message.notification?.body}');
-    debugPrint('Data: ${message.data}');
-
+    print("object ${message.category}");
+    _logMessage(message, 'FOREGROUND');
     _messageStreamController.add(message);
   }
 
   /// App background'dayken notification'a tıklanınca
   void _handleMessageOpenedApp(RemoteMessage message) {
-    debugPrint('Background notification\'a tıklandı: ${message.messageId}');
-    debugPrint('Title: ${message.notification?.title}');
-    debugPrint('Body: ${message.notification?.body}');
-    debugPrint('Data: ${message.data}');
-
+    _logMessage(message, 'OPENED_APP');
     _messageStreamController.add(message);
   }
 
@@ -202,13 +256,7 @@ class FirebaseMessagingManager {
   Future<void> _handleInitialMessage() async {
     final initialMessage = await _messaging.getInitialMessage();
     if (initialMessage != null) {
-      debugPrint(
-        'Terminated notification\'a tıklandı: ${initialMessage.messageId}',
-      );
-      debugPrint('Title: ${initialMessage.notification?.title}');
-      debugPrint('Body: ${initialMessage.notification?.body}');
-      debugPrint('Data: ${initialMessage.data}');
-
+      _logMessage(initialMessage, 'TERMINATED');
       _messageStreamController.add(initialMessage);
     }
   }
