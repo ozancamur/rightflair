@@ -78,11 +78,13 @@ class InboxCubit extends Cubit<InboxState> {
   }
 
   void addNewMessage({required StreamConversationLastMessageModel data}) {
-    ConversationModel? conversation = state.conversations?.firstWhere(
+    final matches = state.conversations?.where(
       (conv) =>
           ((conv.id == data.id) &&
           conv.participant?.id == data.lastMessageSenderId),
     );
+    final ConversationModel? conversation =
+        (matches != null && matches.isNotEmpty) ? matches.first : null;
     if (conversation == null) {
       debugPrint("Not Found Conversation: ${data.toJson()}");
       return;

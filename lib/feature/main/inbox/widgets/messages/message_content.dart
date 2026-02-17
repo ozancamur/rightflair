@@ -20,6 +20,7 @@ class MessageContentWidget extends StatelessWidget {
             color: context.colors.tertiary,
             maxLine: 1,
             overflow: TextOverflow.ellipsis,
+            tr: false,
           ),
         ),
         (model.isOwnMessage == false && model.isRead == false)
