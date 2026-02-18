@@ -4,7 +4,9 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:rightflair/core/constants/app.dart';
+import 'package:rightflair/core/constants/color/color.dart';
 import 'package:rightflair/core/constants/enums/endpoint.dart';
+import 'package:rightflair/core/constants/image.dart';
 import 'package:rightflair/core/services/api.dart';
 import 'package:rightflair/core/services/cache.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -106,8 +108,7 @@ class FirebaseMessagingManager {
   Future<String?> getToken() async {
     final String key = "user-fcm-token";
     try {
-      final String cachedToken =
-          await CacheService().get(key) ?? "";
+      final String cachedToken = await CacheService().get(key) ?? "";
       String? token;
 
       if (Platform.isIOS) {
@@ -130,15 +131,6 @@ class FirebaseMessagingManager {
       return token;
     } catch (e) {
       throw Exception('Token alınırken hata: $e');
-    }
-  }
-
-  /// Token'ı sil
-  Future<void> deleteToken() async {
-    try {
-      await _messaging.deleteToken();
-    } catch (e) {
-      throw Exception('Token silinirken hata: $e');
     }
   }
 
@@ -285,37 +277,62 @@ class FirebaseMessagingManager {
     messenger.showSnackBar(
       SnackBar(
         behavior: SnackBarBehavior.floating,
-        margin: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+        margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        padding: EdgeInsets.zero,
         duration: const Duration(seconds: 4),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            if (notification.title != null)
-              Text(
-                notification.title!,
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 14,
+        content: Container(
+          padding: const EdgeInsets.all(8),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(12),
+            gradient: LinearGradient(
+              colors: [AppColors.YELLOW, AppColors.ORANGE],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+          ),
+          child: Row(
+            children: [
+              Image.asset(AppImages.LOGOW, width: 50, height: 50),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    if (notification.title != null)
+                      Text(
+                        notification.title!,
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 14,
+                          color: Colors.white,
+                        ),
+                      ),
+                    if (notification.body != null) ...[
+                      const SizedBox(height: 4),
+                      Text(
+                        notification.body!,
+                        style: const TextStyle(
+                          fontSize: 13,
+                          color: Colors.white70,
+                        ),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ],
+                  ],
                 ),
               ),
-            if (notification.body != null) ...[
-              const SizedBox(height: 4),
-              Text(
-                notification.body!,
-                style: const TextStyle(fontSize: 13),
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-              ),
             ],
-          ],
+          ),
         ),
       ),
     );
   }
 
-  /// Temizlik
   void dispose() {
     _messageStreamController.close();
   }
