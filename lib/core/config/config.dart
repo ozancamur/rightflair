@@ -12,7 +12,6 @@ class Config {
 
   Future<void> init() async {
     await Firebase.initializeApp();
-    await FirebaseMessagingManager().initialize();
     final SupabaseModel? client = await _fetchSupabaseEnv();
     if (client != null &&
         client.URL != null &&
@@ -23,6 +22,7 @@ class Config {
         anonKey: client.ANON_KEY!,
       ).then((_) => ApiService().init(BASE_URL: client.BASE_URL!));
     }
+    await FirebaseMessagingManager().initialize();
   }
 
   Future<SupabaseModel?> _fetchSupabaseEnv() async {

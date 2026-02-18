@@ -2,6 +2,7 @@ enum Endpoint {
   CREATE_USER("create-user"),
   CHECK_USERNAME("check-username"),
   UPDATE_USER("update-user"),
+  UPDATE_FCM_TOKEN("update-user-fcm-token"),
 
   GET_USER("get-user"),
   GET_USER_POSTS("get-user-posts"),

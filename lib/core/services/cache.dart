@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:shared_preferences/shared_preferences.dart';
 
 class CacheService {
@@ -62,6 +64,60 @@ class CacheService {
       await prefs.remove(_recentSearchesKey);
     } catch (e) {
       // Handle error silently
+    }
+  }
+
+  // ==================== Generic Cache (Dynamic) ====================
+
+  /// Read: Get cached JSON string by key
+  Future<dynamic> get(String key) async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final raw = prefs.getString(key);
+      if (raw == null) return null;
+      return jsonDecode(raw);
+    } catch (e) {
+      return null;
+    }
+  }
+
+  /// Create / Update: Save any value as JSON by key
+  Future<bool> set(String key, dynamic value) async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      return await prefs.setString(key, jsonEncode(value));
+    } catch (e) {
+      return false;
+    }
+  }
+
+  /// Delete: Remove a cached value by key
+  Future<bool> remove(String key) async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      return await prefs.remove(key);
+    } catch (e) {
+      return false;
+    }
+  }
+
+  /// Check if a key exists in cache
+  Future<bool> has(String key) async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      return prefs.containsKey(key);
+    } catch (e) {
+      return false;
+    }
+  }
+
+  /// Clear all cache
+  Future<bool> clearAll() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      return await prefs.clear();
+    } catch (e) {
+      return false;
     }
   }
 }

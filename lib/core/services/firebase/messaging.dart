@@ -2,40 +2,47 @@ import 'dart:async';
 import 'dart:io';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:rightflair/core/constants/app.dart';
+import 'package:rightflair/core/constants/enums/endpoint.dart';
+import 'package:rightflair/core/services/api.dart';
+import 'package:rightflair/core/services/cache.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 /// Background message handler - Top-level function required
 @pragma('vm:entry-point')
 Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  final timestamp = DateTime.now().toIso8601String();
-  final notification = message.notification;
-  final buffer = StringBuffer()
-    ..writeln('┌──────────────────────────────────────────')
-    ..writeln('│ 🔔 FCM Notification [BACKGROUND]')
-    ..writeln('│ ⏰ $timestamp')
-    ..writeln('│ 📌 Message ID : ${message.messageId ?? 'N/A'}')
-    ..writeln('│ 📝 Title      : ${notification?.title ?? 'N/A'}')
-    ..writeln('│ 💬 Body       : ${notification?.body ?? 'N/A'}')
-    ..writeln('│ 📤 Sent Time  : ${message.sentTime ?? 'N/A'}');
-  if (message.data.isNotEmpty) {
-    buffer.writeln('│ 📦 Data       :');
-    message.data.forEach((key, value) {
-      buffer.writeln('│    $key: $value');
-    });
-  } else {
-    buffer.writeln('│ 📦 Data       : (empty)');
+  if (kDebugMode) {
+    final timestamp = DateTime.now().toIso8601String();
+    final notification = message.notification;
+    final buffer = StringBuffer()
+      ..writeln('┌──────────────────────────────────────────')
+      ..writeln('│ 🔔 FCM Notification [BACKGROUND]')
+      ..writeln('│ ⏰ $timestamp')
+      ..writeln('│ 📌 Message ID : ${message.messageId ?? 'N/A'}')
+      ..writeln('│ 📝 Title      : ${notification?.title ?? 'N/A'}')
+      ..writeln('│ 💬 Body       : ${notification?.body ?? 'N/A'}')
+      ..writeln('│ 📤 Sent Time  : ${message.sentTime ?? 'N/A'}');
+    if (message.data.isNotEmpty) {
+      buffer.writeln('│ 📦 Data       :');
+      message.data.forEach((key, value) {
+        buffer.writeln('│    $key: $value');
+      });
+    } else {
+      buffer.writeln('│ 📦 Data       : (empty)');
+    }
+    buffer.writeln('└──────────────────────────────────────────');
+    debugPrint(buffer.toString());
   }
-  buffer.writeln('└──────────────────────────────────────────');
-  debugPrint(buffer.toString());
 }
 
 class FirebaseMessagingManager {
   final FirebaseMessaging _messaging = FirebaseMessaging.instance;
+  final SupabaseClient client = Supabase.instance.client;
 
-  // Token değişikliği için stream controller
-  final StreamController<String> _tokenStreamController =
-      StreamController<String>.broadcast();
-  Stream<String> get tokenStream => _tokenStreamController.stream;
+  /// Global key for showing snackbars from anywhere
+  static final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey =
+      GlobalKey<ScaffoldMessengerState>();
 
   // Message stream controller
   final StreamController<RemoteMessage> _messageStreamController =
@@ -57,18 +64,19 @@ class FirebaseMessagingManager {
       // Background handler'ı kaydet
       FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
 
-      // Token dinle
-      _setupTokenListener();
+      // Foreground notification ayarları (iOS'ta bildirimlerin foreground'da gösterilmesi için)
+      await setForegroundNotificationPresentationOptions();
 
       // Message listener'ları kur
-      _setupMessageListeners();
+      setupMessageListeners();
 
       // İlk token'ı al
       await getToken();
       subscribeToTopic(AppConstants.APP_NAME);
-      debugPrint('Firebase Messaging başarıyla başlatıldı');
     } catch (e) {
-      debugPrint('Firebase Messaging başlatma hatası: $e');
+      if (kDebugMode) {
+        debugPrint('FirebaseMessagingService ERROR initialize $e');
+      }
       rethrow;
     }
   }
@@ -86,18 +94,22 @@ class FirebaseMessagingManager {
         sound: true,
       );
 
-      debugPrint('İzin durumu: ${settings.authorizationStatus}');
+      if (kDebugMode) {
+        debugPrint('İzin durumu: ${settings.authorizationStatus}');
+      }
       return settings;
     } catch (e) {
       throw Exception('İzin isteği sırasında hata: $e');
     }
   }
 
-  /// FCM token al
   Future<String?> getToken() async {
+    final String key = "user-fcm-token";
     try {
-      String? token = "";
-      // iOS için APNS token'ını bekle
+      final String cachedToken =
+          await CacheService().get(key) ?? "";
+      String? token;
+
       if (Platform.isIOS) {
         token = await _messaging.getAPNSToken();
       } else {
@@ -107,9 +119,14 @@ class FirebaseMessagingManager {
       if (kDebugMode) {
         debugPrint("USER FCM TOKEN :> $token");
       }
-      if (token != null) {
-        _tokenStreamController.add(token);
+      if (client.auth.currentUser != null && (token != cachedToken)) {
+        await ApiService().post(
+          Endpoint.UPDATE_FCM_TOKEN,
+          data: {'fcm_token': token},
+        );
       }
+      await CacheService().set(key, token);
+      if (token != null) {}
       return token;
     } catch (e) {
       throw Exception('Token alınırken hata: $e');
@@ -125,35 +142,11 @@ class FirebaseMessagingManager {
     }
   }
 
-  /// Topic'e abone ol
-  Future<void> subscribeToTopic(String topic) async {
-    try {
+  Future<void> subscribeToTopic(String topic) async =>
       await _messaging.subscribeToTopic(topic);
-      debugPrint('Topic\'e abone olundu: $topic');
-    } catch (e) {
-      throw Exception('Topic aboneliği sırasında hata: $e');
-    }
-  }
 
-  /// Topic aboneliğinden çık
-  Future<void> unsubscribeFromTopic(String topic) async {
-    try {
+  Future<void> unsubscribeFromTopic(String topic) async =>
       await _messaging.unsubscribeFromTopic(topic);
-      debugPrint('Topic aboneliğinden çıkıldı: $topic');
-    } catch (e) {
-      throw Exception('Topic aboneliği iptal edilirken hata: $e');
-    }
-  }
-
-  /// Otomatik başlatmayı ayarla (Android)
-  Future<void> setAutoInitEnabled(bool enabled) async {
-    try {
-      await _messaging.setAutoInitEnabled(enabled);
-      debugPrint('Auto init enabled: $enabled');
-    } catch (e) {
-      throw Exception('Auto init ayarlanırken hata: $e');
-    }
-  }
 
   /// Foreground notification ayarları (Android)
   Future<void> setForegroundNotificationPresentationOptions({
@@ -167,27 +160,16 @@ class FirebaseMessagingManager {
         badge: badge,
         sound: sound,
       );
-      debugPrint('Foreground notification ayarlandı');
+      if (kDebugMode) {
+        debugPrint('Foreground notification ayarlandı');
+      }
     } catch (e) {
       throw Exception('Foreground notification ayarlanırken hata: $e');
     }
   }
 
-  /// Token değişikliklerini dinle
-  void _setupTokenListener() {
-    _messaging.onTokenRefresh.listen(
-      (token) {
-        debugPrint('Token yenilendi: $token');
-        _tokenStreamController.add(token);
-      },
-      onError: (error) {
-        debugPrint('Token refresh hatası: $error');
-      },
-    );
-  }
-
   /// Message listener'ları kur
-  void _setupMessageListeners() {
+  void setupMessageListeners() {
     // Foreground messages
     FirebaseMessaging.onMessage.listen(_handleForegroundMessage);
 
@@ -200,6 +182,7 @@ class FirebaseMessagingManager {
 
   /// Gelen bildirimi detaylı logla
   void _logMessage(RemoteMessage message, String source) {
+    if (!kDebugMode) return;
     final timestamp = DateTime.now().toIso8601String();
     final notification = message.notification;
     final buffer = StringBuffer()
@@ -241,8 +224,8 @@ class FirebaseMessagingManager {
 
   /// Foreground message handler
   void _handleForegroundMessage(RemoteMessage message) {
-    print("object ${message.category}");
     _logMessage(message, 'FOREGROUND');
+    _showNotificationSnackBar(message);
     _messageStreamController.add(message);
   }
 
@@ -291,9 +274,49 @@ class FirebaseMessagingManager {
     }
   }
 
+  /// Foreground'da gelen bildirimi snackbar ile göster
+  void _showNotificationSnackBar(RemoteMessage message) {
+    final notification = message.notification;
+    if (notification == null) return;
+
+    final messenger = scaffoldMessengerKey.currentState;
+    if (messenger == null) return;
+
+    messenger.showSnackBar(
+      SnackBar(
+        behavior: SnackBarBehavior.floating,
+        margin: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        duration: const Duration(seconds: 4),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            if (notification.title != null)
+              Text(
+                notification.title!,
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 14,
+                ),
+              ),
+            if (notification.body != null) ...[
+              const SizedBox(height: 4),
+              Text(
+                notification.body!,
+                style: const TextStyle(fontSize: 13),
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ],
+          ],
+        ),
+      ),
+    );
+  }
+
   /// Temizlik
   void dispose() {
-    _tokenStreamController.close();
     _messageStreamController.close();
   }
 }

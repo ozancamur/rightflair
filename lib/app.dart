@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'core/config/theme_notifier.dart';
 import 'core/constants/app.dart';
 import 'core/constants/theme.dart';
+import 'core/services/firebase/messaging.dart';
 import 'core/utils/router.dart';
 import 'feature/authentication/bloc/authentication_bloc.dart';
 import 'feature/authentication/repository/authentication_repository_impl.dart';
@@ -94,6 +95,7 @@ class RightFlair extends StatelessWidget {
         ),
       ],
       child: MaterialApp.router(
+        scaffoldMessengerKey: FirebaseMessagingManager.scaffoldMessengerKey,
         title: AppConstants.APP_NAME,
         debugShowCheckedModeBanner: false,
         themeMode: themeNotifier.themeMode,
