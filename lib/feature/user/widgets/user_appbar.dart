@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rightflair/core/components/button/back_button.dart';
+import 'package:rightflair/feature/share/dialog/dialog_share.dart';
 
 import '../../../../../../../core/components/appbar.dart';
 import '../../../core/components/button/icon_button.dart';
@@ -25,7 +26,10 @@ class UserAppbarWidget extends StatelessWidget implements PreferredSizeWidget {
     return AppBarComponent(
       leading: BackButtonComponent(),
       actions: [
-        IconButtonComponent(onTap: () {}, icon: AppIcons.SHARE),
+        IconButtonComponent(
+          onTap: () => dialogShare(context, userId: userId),
+          icon: AppIcons.SHARE,
+        ),
         SizedBox(width: context.width * 0.03),
         UserNotificationButton(
           userId: userId,

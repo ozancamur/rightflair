@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rightflair/core/components/post/post_music.dart';
+import 'package:rightflair/feature/share/dialog/dialog_share.dart';
 
 import '../../../feature/post/create_post/model/post.dart';
 import '../../../feature/post/create_post/model/post_user.dart';
@@ -13,7 +14,6 @@ class PostComponent extends StatelessWidget {
   final PostModel post;
   final VoidCallback onComment;
   final VoidCallback onSave;
-  final VoidCallback onShare;
   final bool isDraft;
   final double? height;
   const PostComponent({
@@ -21,7 +21,6 @@ class PostComponent extends StatelessWidget {
     required this.post,
     required this.onComment,
     required this.onSave,
-    required this.onShare,
     this.isDraft = false,
     this.height,
   });
@@ -55,7 +54,11 @@ class PostComponent extends StatelessWidget {
                   postId: post.id ?? "",
                   onComment: onComment,
                   onSave: onSave,
-                  onShare: onShare,
+                  onShare: () => dialogShare(
+                    context,
+                    postId: post.id ?? "",
+                    userId: post.user?.id ?? "",
+                  ),
                   isSaved: post.isSaved ?? false,
                 ),
         ],

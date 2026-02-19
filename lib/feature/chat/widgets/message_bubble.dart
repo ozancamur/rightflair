@@ -4,6 +4,8 @@ import 'package:rightflair/core/extensions/context.dart';
 import 'package:rightflair/feature/chat/cubit/chat_cubit.dart';
 import 'package:rightflair/feature/chat/model/chat_message.dart';
 import 'package:rightflair/feature/chat/widgets/chat_message/message_content.dart';
+import 'package:rightflair/feature/chat/widgets/chat_message/message_post_share.dart';
+import 'package:rightflair/feature/chat/widgets/chat_message/message_profile_share.dart';
 
 import '../../../core/constants/enums/message_send_status.dart';
 import 'chat_message/message_avatar.dart';
@@ -126,17 +128,39 @@ class MessageBubbleWidget extends StatelessWidget {
             ? CrossAxisAlignment.end
             : CrossAxisAlignment.start,
         children: [
-          MessageContentWidget(
-            isOwnMessage: isOwnMessage,
-            imageUrl: message.imageUrl,
-            content: message.content,
-          ),
+          _buildMessageContent(isOwnMessage, context),
           if (!isNextMessageSameSender) ...[
             SizedBox(height: context.height * 0.003),
             MessageTimeWidget(createdAt: message.createdAt),
           ],
         ],
       ),
+    );
+  }
+
+  Widget _buildMessageContent(bool isOwnMessage, BuildContext context) {
+    final type = message.messageType ?? 'text';
+
+    if (type == 'profile_share' && message.referencedUser != null) {
+      return MessageProfileShareWidget(
+        isOwnMessage: isOwnMessage,
+        referencedUser: message.referencedUser!,
+        content: message.content,
+      );
+    }
+
+    if (type == 'post_share' && message.referencedPost != null) {
+      return MessagePostShareWidget(
+        isOwnMessage: isOwnMessage,
+        referencedPost: message.referencedPost!,
+        content: message.content,
+      );
+    }
+
+    return MessageContentWidget(
+      isOwnMessage: isOwnMessage,
+      imageUrl: message.imageUrl,
+      content: message.content,
     );
   }
 }

@@ -75,6 +75,7 @@ class AppIcons {
   static const String PROFILE = '${_path}profile.svg';
 
   static const String RATE = '${_path}rate.svg';
+  static const String REPORT = '${_path}report.svg';
 
   static const String SAVE_FILLED = '${_path}save_filled.svg';
   static const String SAVED = '${_path}saved.svg';

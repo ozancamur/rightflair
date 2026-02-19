@@ -6,6 +6,7 @@ import 'package:rightflair/feature/chat/model/chat_request.dart';
 import 'package:rightflair/feature/chat/model/send_message_request.dart';
 import 'package:rightflair/feature/chat/model/send_message_response.dart';
 import 'package:rightflair/core/base/model/response.dart';
+import 'package:rightflair/feature/post/create_post/model/post.dart';
 import 'chat_repository.dart';
 
 class ChatRepositoryImpl implements ChatRepository {
@@ -40,11 +41,14 @@ class ChatRepositoryImpl implements ChatRepository {
   }) async {
     try {
       final response = await _api.post(
-        Endpoint.SEND_MESSAGE_TO_CONVERSATION,
+        Endpoint.SEND_MESSAGE,
         data: request.toJson(),
       );
+
+      if (response?.data == null) return null;
+
       final result = ResponseModel().fromJson(
-        response?.data as Map<String, dynamic>,
+        response!.data as Map<String, dynamic>,
       );
 
       if (result.success == true && result.data != null) {
@@ -55,6 +59,26 @@ class ChatRepositoryImpl implements ChatRepository {
       return null;
     } catch (e) {
       debugPrint("ChatRepositoryImpl ERROR in sendMessage: $e");
+      return null;
+    }
+  }
+
+  @override
+  Future<PostModel?> getPostById({required String postId}) async {
+    try {
+      final request = await _api.get(
+        Endpoint.GET_POST,
+        parameters: {'post_id': postId},
+      );
+      final ResponseModel response = ResponseModel().fromJson(
+        request?.data as Map<String, dynamic>,
+      );
+      final PostModel post = PostModel().fromJson(
+        response.data as Map<String, dynamic>,
+      );
+      return post;
+    } catch (e) {
+      debugPrint("ChatRepositoryImpl ERROR in getPostById: $e");
       return null;
     }
   }

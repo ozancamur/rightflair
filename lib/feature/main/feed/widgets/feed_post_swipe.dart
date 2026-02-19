@@ -180,7 +180,6 @@ class _FeedPostItemState extends State<FeedPostItem>
         ),
         onSave: () =>
             context.read<FeedBloc>().add(SavePostEvent(postId: widget.post.id)),
-        onShare: () {},
       ),
     );
   }

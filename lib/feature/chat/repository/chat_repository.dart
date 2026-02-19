@@ -1,3 +1,4 @@
+import '../../post/create_post/model/post.dart';
 import '../model/chat_messages.dart';
 import '../model/chat_request.dart';
 import '../model/send_message_request.dart';
@@ -8,4 +9,6 @@ abstract class ChatRepository {
   Future<SendMessageResponseModel?> sendMessage({
     required SendMessageRequestModel request,
   });
+
+  Future<PostModel?> getPostById({required String postId});
 }

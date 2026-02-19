@@ -268,6 +268,27 @@
         "clean": "Clean",
         "girl": "Girl"
     },
+    "shareDialog": {
+        "title": "Share",
+        "shareVia": "Share via",
+        "copyLink": "Copy Link",
+        "shareToChat": "Share",
+        "moreOptions": "More Options",
+        "reportPost": "Report Post",
+        "reportUser": "Report User",
+        "linkCopied": "Link copied!",
+        "noUser": "No user found"
+    },
+    "reportReason": {
+        "spam": "Spam",
+        "inappropriateContent": "Inappropriate Content",
+        "harassment": "Harassment",
+        "hateSpeech": "Hate Speech",
+        "violence": "Violence",
+        "nudity": "Nudity",
+        "misinformation": "Misinformation",
+        "other": "Other"
+    },
     "postDetail": {
         "comments": "Comments",
         "bookmarked": "Bookmarked",

@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:rightflair/core/services/supabase.dart';
 import 'package:rightflair/core/constants/enums/endpoint.dart';
 
@@ -32,7 +33,27 @@ class ApiService extends SupabaseService {
           if (token != null) {
             options.headers['Authorization'] = 'Bearer $token';
           }
+          debugPrint(
+            '🌐 [REQ] ${options.method} ${options.baseUrl}${options.path}',
+          );
+          if (options.data != null) {
+            debugPrint('📤 [REQ BODY] ${options.data}');
+          }
           handler.next(options);
+        },
+        onResponse: (response, handler) {
+          debugPrint(
+            '✅ [RES] ${response.statusCode} ${response.requestOptions.path}',
+          );
+          debugPrint('📥 [RES BODY] ${response.data}');
+          handler.next(response);
+        },
+        onError: (error, handler) {
+          debugPrint(
+            '❌ [ERR] ${error.response?.statusCode} ${error.requestOptions.path}',
+          );
+          debugPrint('📥 [ERR BODY] ${error.response?.data}');
+          handler.next(error);
         },
       ),
     );

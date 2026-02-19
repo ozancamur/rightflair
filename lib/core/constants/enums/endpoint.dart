@@ -33,9 +33,10 @@ enum Endpoint {
 
   GET_CONVERSATIONS("get-conversations"),
   GET_CONVERSATION_MESSAGES("get-conversation-messages"),
-  SEND_MESSAGE_TO_CONVERSATION("send-message-to-conversation"),
+  SEND_MESSAGE("send-message-to-conversation"),
 
   GET_ANALYSIS("get-analysis"),
+  GET_POST("get-post"),
 
   CHECK_TO_FOLLOWING_USER("check-to-following-user"),
   FOLLOW_TO_USER("follow-to-user"),
@@ -50,6 +51,10 @@ enum Endpoint {
   DELETE_STORY('delete-story'),
 
   SEARCH_POSTS('search-post'),
+
+  SEARCH_USER('search-user'),
+  REPORT_POST('report-post'),
+  REPORT_USER('report-user'),
 
   GET_ACTIVITY_NOTIFICATIONS('get-activity-notifications'),
   GET_FOLLOWER_NOTIFICATIONS('get-follower-notifications'),

@@ -1,5 +1,8 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
+import 'package:rightflair/core/constants/route.dart';
 import 'package:rightflair/feature/chat/model/chat_message.dart';
 import 'package:rightflair/feature/chat/model/chat_pagination.dart';
 import 'package:rightflair/feature/chat/model/chat_request.dart';
@@ -37,7 +40,6 @@ class ChatCubit extends Cubit<ChatState> {
     );
 
     final response = await _repo.fetchMessages(request: request);
-
     if (response != null) {
       emit(
         state.copyWith(
@@ -80,13 +82,26 @@ class ChatCubit extends Cubit<ChatState> {
     }
   }
 
-  Future<void> sendMessage(String content, {String? imageUrl}) async {
-    if (content.trim().isEmpty && imageUrl == null) return;
+  Future<void> sendMessage(
+    String content, {
+    String? imageUrl,
+    String? messageType,
+    String? referencedUserId,
+    String? referencedPostId,
+  }) async {
+    if (content.trim().isEmpty &&
+        imageUrl == null &&
+        referencedUserId == null &&
+        referencedPostId == null) {
+      return;
+    }
 
+    final type = messageType ?? 'text';
     final tempId = 'temp_${DateTime.now().millisecondsSinceEpoch}';
 
     final optimisticMessage = ChatMessageModel(
       id: tempId,
+      messageType: type,
       content: content.trim().isNotEmpty ? content.trim() : null,
       imageUrl: imageUrl,
       isOwnMessage: true,
@@ -100,8 +115,11 @@ class ChatCubit extends Cubit<ChatState> {
 
     final request = SendMessageRequestModel(
       conversationId: state.cId,
+      messageType: type,
       content: content.trim().isNotEmpty ? content.trim() : null,
       imageUrl: imageUrl,
+      referencedUserId: referencedUserId,
+      referencedPostId: referencedPostId,
     );
 
     final response = await _repo.sendMessage(request: request);
@@ -176,5 +194,17 @@ class ChatCubit extends Cubit<ChatState> {
     );
     final updatedMessages = [...state.messages, message];
     emit(state.copyWith(messages: updatedMessages));
+  }
+
+  Future<void> getPost(BuildContext context, {required String? pId}) async {
+    if (pId == null) return;
+    await _repo
+        .getPostById(postId: pId)
+        .then(
+          (value) => context.push(
+            RouteConstants.POST_DETAIL,
+            extra: {'post': value, 'isDraft': false},
+          ),
+        );
   }
 }

@@ -93,6 +93,7 @@ class RightFlair extends StatelessWidget {
           create: (_) =>
               SystemNotificationsCubit(SystemNotificationsRepositoryImpl()),
         ),
+        BlocProvider(create: (_) => SearchCubit(SearchRepositoryImpl())),
       ],
       child: MaterialApp.router(
         scaffoldMessengerKey: FirebaseMessagingManager.scaffoldMessengerKey,

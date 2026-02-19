@@ -287,6 +287,29 @@ class AppStrings {
   static const String RETRO = 'styleTags.retro';
   static const String CLEAN = 'styleTags.clean';
   static const String GIRL = 'styleTags.girl';
+  // SHARE DIALOG
+  static const String SHARE_DIALOG_TITLE = 'shareDialog.title';
+  static const String SHARE_DIALOG_SHARE_VIA = 'shareDialog.shareVia';
+  static const String SHARE_DIALOG_COPY_LINK = 'shareDialog.copyLink';
+  static const String SHARE_DIALOG_SHARE_TO_CHAT = 'shareDialog.shareToChat';
+  static const String SHARE_DIALOG_MORE_OPTIONS = 'shareDialog.moreOptions';
+  static const String SHARE_DIALOG_REPORT_POST = 'shareDialog.reportPost';
+  static const String SHARE_DIALOG_REPORT_USER = 'shareDialog.reportUser';
+  static const String SHARE_DIALOG_LINK_COPIED = 'shareDialog.linkCopied';
+  static const String SHARE_DIALOG_NO_USER = 'shareDialog.noUser';
+
+  // REPORT REASON
+  static const String REPORT_REASON_SPAM = 'reportReason.spam';
+  static const String REPORT_REASON_INAPPROPRIATE_CONTENT =
+      'reportReason.inappropriateContent';
+  static const String REPORT_REASON_HARASSMENT = 'reportReason.harassment';
+  static const String REPORT_REASON_HATE_SPEECH = 'reportReason.hateSpeech';
+  static const String REPORT_REASON_VIOLENCE = 'reportReason.violence';
+  static const String REPORT_REASON_NUDITY = 'reportReason.nudity';
+  static const String REPORT_REASON_MISINFORMATION =
+      'reportReason.misinformation';
+  static const String REPORT_REASON_OTHER = 'reportReason.other';
+
   // POST DETAIL
   static const String POST_DETAIL_COMMENTS = 'postDetail.comments';
   static const String POST_DETAIL_BOOKMARKED = 'postDetail.bookmarked';

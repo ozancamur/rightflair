@@ -94,7 +94,6 @@ class PostDetailPage extends StatelessWidget {
                         context.read<PostDetailCubit>().addComment(),
                   ),
                   onSave: () => context.read<PostDetailCubit>().onSavePost(),
-                  onShare: () {},
                 ),
         );
       },
