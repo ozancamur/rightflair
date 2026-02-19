@@ -175,12 +175,12 @@ class _SearchPostSwipeItemState extends State<SearchPostSwipeItem>
       bottom: context.height * .035,
       child: PostComponent(
         post: widget.post,
-        onComment: () => dialogComments(
+        onComment: widget.post.allowComments == true ? () => dialogComments(
           context,
           postId: widget.post.id ?? "",
           onAddComment: () =>
               context.read<SearchCubit>().onAddComment(widget.post.id ?? ""),
-        ),
+        ) : () {},
         onSave: () => context.read<SearchCubit>().savePost(widget.post.id),
       ),
     );

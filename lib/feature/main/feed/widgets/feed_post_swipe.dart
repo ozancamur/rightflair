@@ -171,13 +171,15 @@ class _FeedPostItemState extends State<FeedPostItem>
       bottom: context.height * .035,
       child: PostComponent(
         post: widget.post,
-        onComment: () => dialogComments(
-          context,
-          postId: widget.post.id ?? "",
-          onAddComment: () => context.read<FeedBloc>().add(
-            SendCommentToPostEvent(postId: widget.post.id ?? ""),
-          ),
-        ),
+        onComment: widget.post.allowComments == true
+            ? () => dialogComments(
+                context,
+                postId: widget.post.id ?? "",
+                onAddComment: () => context.read<FeedBloc>().add(
+                  SendCommentToPostEvent(postId: widget.post.id ?? ""),
+                ),
+              )
+            : () {},
         onSave: () =>
             context.read<FeedBloc>().add(SavePostEvent(postId: widget.post.id)),
       ),

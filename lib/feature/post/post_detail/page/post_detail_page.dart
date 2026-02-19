@@ -87,12 +87,14 @@ class PostDetailPage extends StatelessWidget {
               : PostComponent(
                   isDraft: isDraft,
                   post: state.post,
-                  onComment: () => dialogComments(
-                    context,
-                    postId: post.id ?? "",
-                    onAddComment: () =>
-                        context.read<PostDetailCubit>().addComment(),
-                  ),
+                  onComment: state.post.allowComments == true
+                      ? () => dialogComments(
+                          context,
+                          postId: post.id ?? "",
+                          onAddComment: () =>
+                              context.read<PostDetailCubit>().addComment(),
+                        )
+                      : () {},
                   onSave: () => context.read<PostDetailCubit>().onSavePost(),
                 ),
         );
