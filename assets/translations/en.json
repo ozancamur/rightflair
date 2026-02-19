@@ -294,6 +294,11 @@
         "misinformation": "Misinformation",
         "other": "Other"
     },
+    "reportSent": {
+        "title": "Report Sent",
+        "description": "Thank you for your report. We will review it as soon as possible.",
+        "ok": "OK"
+    },
     "postDetail": {
         "comments": "Comments",
         "bookmarked": "Bookmarked",

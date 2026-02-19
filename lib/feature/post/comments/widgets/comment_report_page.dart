@@ -6,6 +6,7 @@ import '../../../../core/components/text/text.dart';
 import '../../../../core/constants/enums/report_reason.dart';
 import '../../../../core/constants/font/font_size.dart';
 import '../../../../core/constants/string.dart';
+import '../../../../core/dialogs/report_success_dialog.dart';
 import '../../../../core/extensions/context.dart';
 import '../cubit/comments_cubit.dart';
 
@@ -35,6 +36,7 @@ class CommentReportPage extends StatefulWidget {
 
 class _CommentReportPageState extends State<CommentReportPage> {
   ReportReason? _selectedReason;
+  bool _isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -119,9 +121,10 @@ class _CommentReportPageState extends State<CommentReportPage> {
       child: SizedBox(
         width: double.infinity,
         child: ElevatedButton(
-          onPressed: _selectedReason == null
+          onPressed: (_selectedReason == null || _isLoading)
               ? null
               : () async {
+                  setState(() => _isLoading = true);
                   final success = await context
                       .read<CommentsCubit>()
                       .reportComment(
@@ -130,35 +133,36 @@ class _CommentReportPageState extends State<CommentReportPage> {
                       );
                   if (context.mounted) {
                     Navigator.pop(context);
-                    if (success) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: TextComponent(
-                            text: AppStrings.COMMENTS_REPORTED,
-                            color: context.colors.secondary,
-                            size: FontSizeConstants.SMALL,
-                          ),
-                        ),
-                      );
+                    if (success && context.mounted) {
+                      ReportSuccessDialog.show(context);
                     }
                   }
                 },
           style: ElevatedButton.styleFrom(
             backgroundColor: context.colors.error,
-            disabledBackgroundColor: context.colors.error.withValues(
-              alpha: 0.3,
-            ),
+            disabledBackgroundColor: _isLoading
+                ? context.colors.error
+                : context.colors.error.withValues(alpha: 0.3),
             padding: EdgeInsets.symmetric(vertical: context.height * 0.015),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(context.width * 0.03),
             ),
           ),
-          child: TextComponent(
-            text: AppStrings.COMMENTS_REPORT,
-            color: context.colors.secondary,
-            size: FontSizeConstants.NORMAL,
-            weight: FontWeight.w600,
-          ),
+          child: _isLoading
+              ? SizedBox(
+                  width: context.width * 0.05,
+                  height: context.width * 0.05,
+                  child: CircularProgressIndicator(
+                    strokeWidth: 2,
+                    color: context.colors.secondary,
+                  ),
+                )
+              : TextComponent(
+                  text: AppStrings.COMMENTS_REPORT,
+                  color: context.colors.secondary,
+                  size: FontSizeConstants.NORMAL,
+                  weight: FontWeight.w600,
+                ),
         ),
       ),
     );

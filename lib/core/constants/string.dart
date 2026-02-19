@@ -315,6 +315,11 @@ class AppStrings {
       'reportReason.misinformation';
   static const String REPORT_REASON_OTHER = 'reportReason.other';
 
+  // REPORT SUCCESS
+  static const String REPORT_SENT_TITLE = 'reportSent.title';
+  static const String REPORT_SENT_DESCRIPTION = 'reportSent.description';
+  static const String REPORT_SENT_OK = 'reportSent.ok';
+
   // POST DETAIL
   static const String POST_DETAIL_COMMENTS = 'postDetail.comments';
   static const String POST_DETAIL_BOOKMARKED = 'postDetail.bookmarked';
