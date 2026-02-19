@@ -80,4 +80,26 @@ class CommentsRepositoryImpl extends CommentsRepository {
       return null;
     }
   }
+
+  @override
+  Future<bool> reportComment({
+    required String commentId,
+    required String reason,
+    String? description,
+  }) async {
+    try {
+      await _api.post(
+        Endpoint.REPORT_COMMENT,
+        data: {
+          'comment_id': commentId,
+          'reason': reason,
+          if (description != null) 'description': description,
+        },
+      );
+      return true;
+    } catch (e) {
+      debugPrint("CommentsRepositoryImpl ERROR in reportComment :> $e");
+      return false;
+    }
+  }
 }

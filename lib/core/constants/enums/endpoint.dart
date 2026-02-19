@@ -56,6 +56,7 @@ enum Endpoint {
   SEARCH_USER('search-user'),
   REPORT_POST('report-post'),
   REPORT_USER('report-user'),
+  REPORT_COMMENT('report-comment'),
 
   GET_ACTIVITY_NOTIFICATIONS('get-activity-notifications'),
   GET_FOLLOWER_NOTIFICATIONS('get-follower-notifications'),

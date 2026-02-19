@@ -67,6 +67,7 @@ dependencies:
   google_mlkit_face_detection: ^0.13.2
   path: ^1.9.1
   image: ^4.7.2
+  translator: ^1.0.4+1
   
 dev_dependencies:
   flutter_test:

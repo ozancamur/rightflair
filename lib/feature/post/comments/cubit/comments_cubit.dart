@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../core/constants/enums/report_reason.dart';
 import '../../../main/feed/models/comment.dart';
 import '../../../main/feed/models/request_comment.dart';
 import '../repository/comments_repository_impl.dart';
@@ -78,5 +79,17 @@ class CommentsCubit extends Cubit<CommentsState> {
         emit(state.copyWith(comments: revertedComments));
       }
     }
+  }
+
+  Future<bool> reportComment({
+    required String commentId,
+    required ReportReason reason,
+    String? description,
+  }) async {
+    return await _repo.reportComment(
+      commentId: commentId,
+      reason: reason.value,
+      description: description,
+    );
   }
 }

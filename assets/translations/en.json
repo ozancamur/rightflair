@@ -187,7 +187,12 @@
         "reply": "Reply",
         "addPlaceholder": "Add comment..",
         "likes": "likes",
-        "viewReplies": "View {} replies"
+        "viewReplies": "View {} replies",
+        "translate": "Translate",
+        "report": "Report",
+        "shareWith": "Share with",
+        "reportComment": "Report Comment",
+        "reported": "Comment reported successfully"
     },
     "post": {
         "liked": "LIKED",
