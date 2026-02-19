@@ -115,6 +115,7 @@
         "following": "Following",
         "friends": "Friends",
         "viewReplies": "View {} replies",
+        "swipeToReact": "Swipe to react",
         "error": {
             "loadingPosts": "An error occurred while loading posts",
             "loadingMore": "An error occurred while loading more posts"
