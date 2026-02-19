@@ -36,7 +36,7 @@ class SharePage extends StatelessWidget {
             const ShareSearchUsersListWidget(),
             ShareSendButtonWidget(userId: userId, postId: postId),
             Divider(color: context.colors.onSurface),
-            postId != null
+            postId == null || postId == ""
                 ? ShareReportUserButtonWidget(userId: userId)
                 : ShareReportPostButtonWidget(postId: postId!, userId: userId),
             SizedBox(height: context.height * 0.04),

@@ -7,11 +7,11 @@ import 'package:rightflair/core/utils/dialogs/error.dart';
 import 'package:rightflair/feature/search/cubit/search_cubit.dart';
 import 'package:rightflair/feature/search/repository/search_repository_impl.dart';
 import 'package:rightflair/feature/search/widgets/search_appbar.dart';
-import 'package:rightflair/feature/search/widgets/search_post_widget.dart';
 
 import '../../../core/base/page/base_scaffold.dart';
 import '../widgets/recent_searches.dart';
 import '../widgets/search_error.dart';
+import '../widgets/search_swipeable_post_stack.dart';
 
 class SearchPage extends StatelessWidget {
   const SearchPage({super.key});
@@ -33,31 +33,6 @@ class _SearchPageView extends StatefulWidget {
 }
 
 class _SearchPageViewState extends State<_SearchPageView> {
-  final ScrollController _scrollController = ScrollController();
-
-  @override
-  void initState() {
-    super.initState();
-    _scrollController.addListener(_onScroll);
-  }
-
-  @override
-  void dispose() {
-    _scrollController.dispose();
-    super.dispose();
-  }
-
-  void _onScroll() {
-    if (_scrollController.position.pixels >=
-        _scrollController.position.maxScrollExtent * 0.8) {
-      final cubit = context.read<SearchCubit>();
-      final query = cubit.searchController.text;
-      if (query.isNotEmpty) {
-        cubit.loadMore(query);
-      }
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<SearchCubit, SearchState>(
@@ -81,7 +56,8 @@ class _SearchPageViewState extends State<_SearchPageView> {
                 SizedBox(height: context.height * 0.02),
                 RecentSearchesWidget(searches: state.recentSearches),
                 SizedBox(height: context.height * 0.02),
-                Expanded(child: _content(context, state))
+                Expanded(child: _content(context, state)),
+                SizedBox(height: context.height * 0.03),
               ],
             ),
           ),
@@ -92,7 +68,7 @@ class _SearchPageViewState extends State<_SearchPageView> {
 
   Widget _content(BuildContext context, SearchState state) {
     return state.searchResults.isNotEmpty
-        ? _posts(context, state)
+        ? const SearchSwipeablePostStack()
         : (state.isLoading && state.searchResults.isEmpty)
         ? LoadingComponent()
         : (state.errorMessage != null)
@@ -100,29 +76,5 @@ class _SearchPageViewState extends State<_SearchPageView> {
             message: state.errorMessage ?? AppStrings.ERROR_DEFAULT,
           )
         : const SizedBox.shrink();
-  }
-
-  Widget _posts(BuildContext context, SearchState state) {
-    return GridView.builder(
-      controller: _scrollController,
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        crossAxisSpacing: context.width * 0.02,
-        mainAxisSpacing: context.height * 0.02,
-        childAspectRatio: 0.75,
-      ),
-      itemCount: state.searchResults.length + (state.hasMoreResults ? 1 : 0),
-      itemBuilder: (context, index) {
-        if (index == state.searchResults.length) {
-          return const Center(
-            child: Padding(
-              padding: EdgeInsets.all(16.0),
-              child: CircularProgressIndicator(),
-            ),
-          );
-        }
-        return SearchPostWidget(post: state.searchResults[index]);
-      },
-    );
   }
 }

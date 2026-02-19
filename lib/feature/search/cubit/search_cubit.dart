@@ -147,6 +147,69 @@ class SearchCubit extends Cubit<SearchState> {
     await search(query, isNewSearch: false);
   }
 
+  void swipeRight(String postId) {
+    _removePostAfterSwipe(postId);
+    _repo.likePost(pId: postId);
+  }
+
+  void swipeLeft(String postId) {
+    _removePostAfterSwipe(postId);
+    _repo.dislikePost(pId: postId);
+  }
+
+  void _removePostAfterSwipe(String postId) {
+    final updatedResults = List<PostModel>.from(state.searchResults)
+      ..removeWhere((post) => post.id == postId);
+    emit(state.copyWith(searchResults: updatedResults));
+
+    // Auto-load more when running low
+    if (updatedResults.length <= 2 &&
+        state.hasMoreResults &&
+        !state.isLoading) {
+      final query = searchController.text;
+      if (query.isNotEmpty) {
+        loadMore(query);
+      }
+    }
+  }
+
+  void onAddComment(String postId) {
+    final updatedResults = state.searchResults.map((post) {
+      if (post.id == postId) {
+        return post.copyWith(commentsCount: (post.commentsCount ?? 0) + 1);
+      }
+      return post;
+    }).toList();
+    emit(state.copyWith(searchResults: updatedResults));
+  }
+
+  Future<void> savePost(String? postId) async {
+    if (postId == null) return;
+
+    final previousResults = state.searchResults;
+
+    // Optimistic update
+    final updatedResults = state.searchResults.map((post) {
+      if (post.id == postId) {
+        final isSaved = post.isSaved ?? false;
+        return post.copyWith(
+          isSaved: !isSaved,
+          savesCount: (post.savesCount ?? 0) + (!isSaved ? 1 : -1),
+        );
+      }
+      return post;
+    }).toList();
+
+    emit(state.copyWith(searchResults: updatedResults));
+
+    try {
+      await _repo.savePost(pId: postId);
+    } catch (e) {
+      // Rollback on error
+      emit(state.copyWith(searchResults: previousResults));
+    }
+  }
+
   @override
   Future<void> close() {
     searchController.dispose();

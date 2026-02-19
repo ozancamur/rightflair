@@ -56,7 +56,7 @@ class PostComponent extends StatelessWidget {
                   onSave: onSave,
                   onShare: () => dialogShare(
                     context,
-                    postId: post.id ?? "",
+                    postId: post.id,
                     userId: post.user?.id ?? "",
                   ),
                   isSaved: post.isSaved ?? false,
