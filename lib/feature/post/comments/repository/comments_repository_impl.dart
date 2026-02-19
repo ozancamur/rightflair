@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rightflair/feature/post/comments/model/response_comment_like.dart';
 
 import '../../../../core/base/model/response.dart';
 import '../../../../core/constants/enums/endpoint.dart';
@@ -18,11 +19,11 @@ class CommentsRepositoryImpl extends CommentsRepository {
         Endpoint.GET_POST_COMMENTS,
         data: {"post_id": pId},
       );
-      if(request == null) return null;
+      if (request == null) return null;
       final ResponseModel response = ResponseModel().fromJson(
         request.data as Map<String, dynamic>,
       );
-      if(request.data == null) return null;
+      if (request.data == null) return null;
       final List<CommentModel> data =
           ((response.data as Map<String, dynamic>)['comments'] as List<dynamic>)
               .map((e) => CommentModel().fromJson(e as Map<String, dynamic>))
@@ -54,6 +55,28 @@ class CommentsRepositoryImpl extends CommentsRepository {
       return data;
     } catch (e) {
       debugPrint("CommentsRepositoryImpl ERROR in sendCommentToPost :> $e");
+      return null;
+    }
+  }
+
+  @override
+  Future<ResponseCommentLikeModel?> likeComment({required String cId}) async {
+    try {
+      final request = await _api.post(
+        Endpoint.COMMENT_LIKE,
+        data: {"comment_id": cId},
+      );
+      if (request == null) return null;
+      final ResponseModel response = ResponseModel().fromJson(
+        request.data as Map<String, dynamic>,
+      );
+      if (request.data == null) return null;
+      final ResponseCommentLikeModel data = ResponseCommentLikeModel().fromJson(
+        response.data as Map<String, dynamic>,
+      );
+      return data;
+    } catch (e) {
+      debugPrint("CommentsRepositoryImpl ERROR in likeComment :> $e");
       return null;
     }
   }

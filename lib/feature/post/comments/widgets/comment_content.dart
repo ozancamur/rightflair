@@ -11,11 +11,13 @@ import 'comment_username.dart';
 class CommentContentWidget extends StatefulWidget {
   final CommentModel comment;
   final Function(String commentId) onReply;
+  final Function(String commentId)? onLike;
   final bool canReply;
   const CommentContentWidget({
     super.key,
     required this.comment,
     required this.onReply,
+    this.onLike,
     required this.canReply,
   });
 
@@ -87,6 +89,9 @@ class _CommentContentWidgetState extends State<CommentContentWidget>
                           repliesCount: 0,
                         ),
                         onReply: widget.onReply,
+                        onLike: reply.id != null && widget.onLike != null
+                            ? () => widget.onLike!(reply.id!)
+                            : null,
                         canReply: false,
                       ),
                     ),

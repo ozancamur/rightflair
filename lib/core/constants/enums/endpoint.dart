@@ -24,6 +24,7 @@ enum Endpoint {
   POST_DISLIKE("post-dislike"),
 
   GET_POST_COMMENTS("get-post-comments"),
+  COMMENT_LIKE("comment-like"),
   CREATE_COMMENT("create-comment"),
   SAVE_POST("save-post"),
   DELETE_POST("delete-post"),

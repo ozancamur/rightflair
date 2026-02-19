@@ -6,10 +6,12 @@ import 'comment.dart';
 class CommentsListWidget extends StatefulWidget {
   final List<CommentModel> comments;
   final Function(String commentId) onReply;
+  final Function(String commentId) onLike;
   const CommentsListWidget({
     super.key,
     required this.comments,
     required this.onReply,
+    required this.onLike,
   });
 
   @override
@@ -40,7 +42,11 @@ class _CommentsListWidgetState extends State<CommentsListWidget> {
         itemCount: widget.comments.length,
         itemBuilder: (context, index) {
           final CommentModel comment = widget.comments[index];
-          return CommentWidget(comment: comment, onReply: widget.onReply);
+          return CommentWidget(
+            comment: comment,
+            onReply: widget.onReply,
+            onLike: () => widget.onLike(comment.id!),
+          );
         },
       ),
     );

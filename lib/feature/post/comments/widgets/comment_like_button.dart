@@ -5,10 +5,12 @@ import '../../../../core/extensions/context.dart';
 class CommentLikeButtonWidget extends StatelessWidget {
   final bool isLiked;
   final int likeCount;
+  final VoidCallback? onLike;
   const CommentLikeButtonWidget({
     super.key,
     required this.isLiked,
     required this.likeCount,
+    this.onLike,
   });
 
   @override
@@ -16,9 +18,7 @@ class CommentLikeButtonWidget extends StatelessWidget {
     return Column(
       children: [
         GestureDetector(
-          onTap: () {
-            // Handle like
-          },
+          onTap: onLike,
           child: Icon(
             isLiked ? Icons.favorite : Icons.favorite_border,
             color: isLiked

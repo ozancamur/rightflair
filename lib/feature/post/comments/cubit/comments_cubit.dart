@@ -37,4 +37,46 @@ class CommentsCubit extends Cubit<CommentsState> {
       emit(state.copyWith(comments: updatedComments));
     }
   }
+
+  Future<void> likeComment({required String commentId}) async {
+    final comments = state.comments;
+    if (comments == null) return;
+
+    final index = comments.indexWhere((c) => c.id == commentId);
+    if (index == -1) return;
+
+    final comment = comments[index];
+    final currentlyLiked = comment.isLiked ?? false;
+
+    // Optimistic update
+    final updatedComments = List<CommentModel>.from(comments);
+    updatedComments[index] = comment.copyWith(
+      isLiked: !currentlyLiked,
+      likesCount: (comment.likesCount ?? 0) + (currentlyLiked ? -1 : 1),
+    );
+    emit(state.copyWith(comments: updatedComments));
+
+    // API call
+    final response = await _repo.likeComment(cId: commentId);
+
+    if (response != null) {
+      final syncedComments = List<CommentModel>.from(state.comments ?? []);
+      final syncIndex = syncedComments.indexWhere((c) => c.id == commentId);
+      if (syncIndex != -1) {
+        syncedComments[syncIndex] = syncedComments[syncIndex].copyWith(
+          isLiked: response.isLiked,
+          likesCount: response.likeCount,
+        );
+        emit(state.copyWith(comments: syncedComments));
+      }
+    } else {
+      // Revert on failure
+      final revertedComments = List<CommentModel>.from(state.comments ?? []);
+      final revertIndex = revertedComments.indexWhere((c) => c.id == commentId);
+      if (revertIndex != -1) {
+        revertedComments[revertIndex] = comment;
+        emit(state.copyWith(comments: revertedComments));
+      }
+    }
+  }
 }

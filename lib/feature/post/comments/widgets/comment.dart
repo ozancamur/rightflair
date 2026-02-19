@@ -9,11 +9,13 @@ import 'comment_like_button.dart';
 class CommentWidget extends StatelessWidget {
   final CommentModel comment;
   final Function(String commentId) onReply;
+  final VoidCallback? onLike;
   final bool canReply;
   const CommentWidget({
     super.key,
     required this.comment,
     required this.onReply,
+    this.onLike,
     this.canReply = true,
   });
 
@@ -35,11 +37,15 @@ class CommentWidget extends StatelessWidget {
               CommentContentWidget(
                 comment: comment,
                 onReply: onReply,
+                onLike: onLike != null && comment.id != null
+                    ? (_) => onLike!()
+                    : null,
                 canReply: canReply,
               ),
               CommentLikeButtonWidget(
                 isLiked: comment.isLiked ?? false,
                 likeCount: comment.likesCount ?? 0,
+                onLike: onLike,
               ),
             ],
           ),

@@ -76,6 +76,11 @@ class _CommentsDialogPageState extends State<CommentsDialogPage> {
                             }
                           });
                         },
+                        onLike: (String commentId) {
+                          context.read<CommentsCubit>().likeComment(
+                            commentId: commentId,
+                          );
+                        },
                       ),
                       AddCommentWidget(
                         isReply: _isReply,
