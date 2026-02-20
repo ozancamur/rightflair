@@ -4,7 +4,6 @@ import 'package:rightflair/core/base/page/base_scaffold.dart';
 import 'package:rightflair/core/extensions/context.dart';
 
 import '../bloc/feed_bloc.dart';
-import '../widgets/feed_appbar.dart';
 import '../widgets/feed_swipe_overlay.dart';
 import '../widgets/feed_tab_views.dart';
 import '../widgets/feed_tab_bars.dart';
@@ -44,22 +43,23 @@ class _FeedPageState extends State<FeedPage> {
     return DefaultTabController(
       length: 3,
       child: BaseScaffold(
-        appBar: FeedAppbarWidget(),
-        body: Stack(
-          children: [
-            Padding(
-              padding: EdgeInsets.only(
-                right: context.width * .05,
-                left: context.width * .05,
-                bottom: context.height * .02,
+        body: SafeArea(
+          child: Stack(
+            children: [
+              Padding(
+                padding: EdgeInsets.only(
+                  right: context.width * .05,
+                  left: context.width * .05,
+                  bottom: context.height * .02,
+                ),
+                child: _body(context),
               ),
-              child: _body(context),
-            ),
-            if (_showSwipeOverlay)
-              FeedSwipeOverlay(
-                onDismiss: () => setState(() => _showSwipeOverlay = false),
-              ),
-          ],
+              if (_showSwipeOverlay)
+                FeedSwipeOverlay(
+                  onDismiss: () => setState(() => _showSwipeOverlay = false),
+                ),
+            ],
+          ),
         ),
       ),
     );

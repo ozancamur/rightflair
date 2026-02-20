@@ -67,44 +67,6 @@ class SavePostEvent extends FeedEvent {
   List<Object?> get props => [postId];
 }
 
-class LoadMoreStoriesEvent extends FeedEvent {
-  const LoadMoreStoriesEvent();
-}
 
-class StoryViewedEvent extends FeedEvent {
-  final String storyId;
-  final String userId;
 
-  const StoryViewedEvent({required this.storyId, required this.userId});
 
-  @override
-  List<Object?> get props => [storyId, userId];
-}
-
-class FeedRefreshStoryEvent extends FeedEvent {
-  const FeedRefreshStoryEvent();
-}
-
-class AddNewStoryEvent extends FeedEvent {
-  final String mediaUrl;
-  final String mediaType;
-  final int duration;
-
-  const AddNewStoryEvent({
-    required this.mediaUrl,
-    required this.mediaType,
-    required this.duration,
-  });
-
-  @override
-  List<Object?> get props => [mediaUrl, mediaType, duration];
-}
-
-class DeleteStoryEvent extends FeedEvent {
-  final String storyId;
-
-  const DeleteStoryEvent({required this.storyId});
-
-  @override
-  List<Object?> get props => [storyId];
-}

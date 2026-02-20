@@ -1,11 +1,8 @@
 import 'package:rightflair/feature/main/feed/models/request_comment.dart';
-import 'package:rightflair/feature/main/feed/models/story_response.dart';
 
-import '../../profile/model/pagination.dart';
 import '../../profile/model/request_post.dart';
 import '../../profile/model/response_post.dart';
 import '../models/comment.dart';
-import '../models/my_story.dart';
 
 abstract class FeedRepository {
   // POSTS
@@ -28,10 +25,4 @@ abstract class FeedRepository {
   // SAVE
   Future<void> savePost({required String pId});
 
-  // STORY
-  Future<StoryResponseModel?> fetchStories({
-    required PaginationModel pagination,
-  });
-  Future<MyStoryModel?> fetchMyStories();
-  Future<bool> deleteStory({required String storyId});
 }

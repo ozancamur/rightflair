@@ -2,15 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:rightflair/core/base/model/response.dart';
 import 'package:rightflair/core/constants/enums/endpoint.dart';
 import 'package:rightflair/feature/main/feed/models/request_comment.dart';
-import 'package:rightflair/feature/main/profile/model/pagination.dart';
 
 import 'package:rightflair/feature/main/profile/model/request_post.dart';
 
 import '../../../../core/services/api.dart';
 import '../../profile/model/response_post.dart';
 import '../models/comment.dart';
-import '../models/my_story.dart';
-import '../models/story_response.dart';
 import 'feed_repository.dart';
 
 class FeedRepositoryImpl extends FeedRepository {
@@ -183,64 +180,4 @@ class FeedRepositoryImpl extends FeedRepository {
     }
   }
 
-  @override
-  Future<StoryResponseModel?> fetchStories({
-    required PaginationModel pagination,
-  }) async {
-    try {
-      final request = await _api.post(
-        Endpoint.GET_STORIES,
-        data: pagination.toJson(),
-      );
-      if (request == null) return null;
-      final ResponseModel response = ResponseModel().fromJson(
-        request.data as Map<String, dynamic>,
-      );
-      if (response.data == null) return null;
-      final StoryResponseModel data = StoryResponseModel().fromJson(
-        response.data as Map<String, dynamic>,
-      );
-      return data;
-    } catch (e) {
-      debugPrint("FeedRepositoryImpl ERROR in fetchStories :> $e");
-      return null;
-    }
-  }
-
-  @override
-  Future<MyStoryModel?> fetchMyStories() async {
-    try {
-      final request = await _api.get(Endpoint.GET_MY_STORIES);
-      if (request == null || request.data == null) return null;
-      final ResponseModel response = ResponseModel().fromJson(
-        request.data as Map<String, dynamic>,
-      );
-      if (response.data == null) return null;
-      final MyStoryModel data = MyStoryModel().fromJson(
-        response.data as Map<String, dynamic>,
-      );
-      return data;
-    } catch (e) {
-      debugPrint("FeedRepositoryImpl ERROR in fetchMyStories :> $e");
-      return null;
-    }
-  }
-
-  @override
-  Future<bool> deleteStory({required String storyId}) async {
-    try {
-      final request = await _api.post(
-        Endpoint.DELETE_STORY,
-        data: {'story_id': storyId},
-      );
-      if (request == null) return false;
-      final ResponseModel response = ResponseModel().fromJson(
-        request.data as Map<String, dynamic>,
-      );
-      return response.success ?? false;
-    } catch (e) {
-      debugPrint("FeedRepositoryImpl ERROR in deleteStory :> $e");
-      return false;
-    }
-  }
 }

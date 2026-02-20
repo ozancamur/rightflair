@@ -2,12 +2,7 @@ import 'dart:async';
 
 import 'package:equatable/equatable.dart';
 
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:rightflair/feature/main/feed/models/my_story.dart';
-import 'package:rightflair/feature/main/feed/models/my_story_item.dart';
-import 'package:rightflair/feature/main/feed/models/story.dart';
-import 'package:rightflair/feature/main/feed/models/user_with_stories.dart';
 import 'package:rightflair/feature/main/feed/repository/feed_repository_impl.dart';
 import 'package:rightflair/feature/main/profile/model/request_post.dart';
 import 'package:rightflair/feature/main/profile/model/response_post.dart';
@@ -29,11 +24,6 @@ class FeedBloc extends Bloc<FeedEvent, FeedState> {
     on<ChangeTabEvent>(_onChangeTab);
     on<SendCommentToPostEvent>(_onSendComment);
     on<SavePostEvent>(_onSavePost);
-    on<LoadMoreStoriesEvent>(_onLoadMoreStories);
-    on<StoryViewedEvent>(_onStoryViewed);
-    on<FeedRefreshStoryEvent>(_fetchStory);
-    on<AddNewStoryEvent>(_addNewStory);
-    on<DeleteStoryEvent>(_deleteStory);
   }
 
   Future<void> _onInitialize(
@@ -48,140 +38,22 @@ class FeedBloc extends Bloc<FeedEvent, FeedState> {
           postPagination: PaginationModel().reset(),
         ),
       );
-      final story = await _repo.fetchStories(
-        pagination: PaginationModel().forConversations(page: 1),
-      );
       final post = await _load(
         index: event.currentTabIndex,
         request: RequestPostModel().requestSortByDateOrderDesc(page: 1),
       );
 
-      final myStory = await _repo.fetchMyStories();
 
-      // Sort and update stories
-      final sortedStories = _sortAndUpdateStories(
-        story?.usersWithStories ?? [],
-      );
 
       emit(
         state.copyWith(
           isLoading: false,
           posts: post?.posts ?? [],
           postPagination: post?.pagination,
-          myStory: myStory,
-          stories: sortedStories,
-          storyPagination: story?.pagination,
         ),
       );
     } catch (e) {
       emit(state.copyWith(error: "", isLoading: false, isLoadingMore: false));
-    }
-  }
-
-  Future<void> _fetchStory(
-    FeedRefreshStoryEvent event,
-    Emitter<FeedState> emit,
-  ) async {
-    final story = await _repo.fetchStories(
-      pagination: PaginationModel().forConversations(page: 1),
-    );
-    final myStory = await _repo.fetchMyStories();
-
-    // Sort and update stories
-    final sortedStories = _sortAndUpdateStories(story?.usersWithStories ?? []);
-    emit(
-      state.copyWith(
-        isLoading: false,
-        myStory: myStory,
-        stories: sortedStories,
-        storyPagination: story?.pagination,
-      ),
-    );
-  }
-
-  Future<void> _addNewStory(
-    AddNewStoryEvent event,
-    Emitter<FeedState> emit,
-  ) async {
-    try {
-      debugPrint('=== Adding new story to feed ===');
-      debugPrint('Media URL: ${event.mediaUrl}');
-      debugPrint('Media Type: ${event.mediaType}');
-      debugPrint('Duration: ${event.duration}');
-      debugPrint('Current myStory: ${state.myStory}');
-      debugPrint('Current myStory user: ${state.myStory?.user}');
-      debugPrint(
-        'Current stories count: ${state.myStory?.stories?.length ?? 0}',
-      );
-
-      // Create new story item
-      final newStoryItem = MyStoryItemModel(
-        mediaUrl: event.mediaUrl,
-        mediaType: event.mediaType,
-        duration: event.duration,
-        viewCount: 0,
-        createdAt: DateTime.now(),
-        expiresAt: DateTime.now().add(const Duration(hours: 24)),
-        isExpired: false,
-        timeRemainingSeconds: 86400, // 24 hours
-        viewers: [],
-        totalViewers: 0,
-      );
-
-      // Update myStory with new story item
-      final currentStories = state.myStory?.stories ?? [];
-      final updatedStories = [newStoryItem, ...currentStories];
-
-      // Preserve user information
-      final updatedMyStory = MyStoryModel(
-        user: state.myStory?.user,
-        stories: updatedStories,
-      );
-
-      debugPrint(
-        'Updated stories count: ${updatedMyStory.stories?.length ?? 0}',
-      );
-
-      emit(state.copyWith(myStory: updatedMyStory));
-
-      debugPrint('=== Story added successfully ===');
-    } catch (e) {
-      debugPrint('Error adding new story: $e');
-    }
-  }
-
-  Future<void> _deleteStory(
-    DeleteStoryEvent event,
-    Emitter<FeedState> emit,
-  ) async {
-    try {
-      final success = await _repo.deleteStory(storyId: event.storyId);
-
-      if (success) {
-        debugPrint('Story deleted from API successfully');
-
-        // State'den story'yi çıkar
-        final currentStories = state.myStory?.stories ?? [];
-        final updatedStories = currentStories
-            .where((story) => story.id != event.storyId)
-            .toList();
-
-        debugPrint('Stories count before: ${currentStories.length}');
-        debugPrint('Stories count after: ${updatedStories.length}');
-
-        // Yeni myStory oluştur
-        final updatedMyStory = MyStoryModel(
-          user: state.myStory?.user,
-          stories: updatedStories,
-        );
-
-        emit(state.copyWith(myStory: updatedMyStory));
-        debugPrint('=== Story deleted successfully ===');
-      } else {
-        debugPrint('Failed to delete story from API');
-      }
-    } catch (e) {
-      debugPrint('Error deleting story: $e');
     }
   }
 
@@ -217,45 +89,7 @@ class FeedBloc extends Bloc<FeedEvent, FeedState> {
       emit(state.copyWith(error: "", isLoading: false, isLoadingMore: false));
     }
   }
-
-  Future<void> _onLoadMoreStories(
-    LoadMoreStoriesEvent event,
-    Emitter<FeedState> emit,
-  ) async {
-    try {
-      if (state.isLoadingMore || state.storyPagination?.hasNext == false) {
-        emit(state.copyWith(isLoadingMore: false));
-        return;
-      }
-      emit(state.copyWith(isLoadingMore: true));
-
-      if (state.storyPagination?.hasNext == true) {
-        final response = await _repo.fetchStories(
-          pagination: PaginationModel().forConversations(
-            page: (state.storyPagination?.page ?? 0) + 1,
-          ),
-        );
-        final updatedStories = List<UserWithStoriesModel>.from(
-          state.stories ?? [],
-        )..addAll(response?.usersWithStories ?? []);
-
-        // Sort and update stories
-        final sortedStories = _sortAndUpdateStories(updatedStories);
-
-        emit(
-          state.copyWith(
-            isLoadingMore: false,
-            stories: sortedStories,
-            storyPagination: response?.pagination,
-          ),
-        );
-      }
-    } catch (e) {
-      emit(state.copyWith(error: "", isLoading: false, isLoadingMore: false));
-    }
-  }
-
-  Future<ResponsePostModel?> _load({
+ Future<ResponsePostModel?> _load({
     required int index,
     required RequestPostModel request,
   }) async {
@@ -308,72 +142,6 @@ class FeedBloc extends Bloc<FeedEvent, FeedState> {
     }
   }
 
-  List<UserWithStoriesModel> _sortAndUpdateStories(
-    List<UserWithStoriesModel> stories,
-  ) {
-    final updatedStories = stories.map((userStory) {
-      final sortedUserStories = List<StoryModel>.from(userStory.stories ?? []);
-      sortedUserStories.sort((a, b) {
-        final aViewed = a.isViewed ?? false;
-        final bViewed = b.isViewed ?? false;
-
-        if (aViewed != bViewed) {
-          return aViewed ? 1 : -1;
-        }
-
-        final aDate = a.createdAt;
-        final bDate = b.createdAt;
-
-        if (aDate == null && bDate == null) return 0;
-        if (aDate == null) return 1;
-        if (bDate == null) return -1;
-
-        return bDate.compareTo(aDate);
-      });
-
-      final hasUnseenStories = sortedUserStories.any(
-        (story) => (story.isViewed ?? false) == false,
-      );
-
-      final latestStory = sortedUserStories.isNotEmpty
-          ? sortedUserStories.reduce((curr, next) {
-              final currDate = curr.createdAt;
-              final nextDate = next.createdAt;
-              if (currDate == null) return next;
-              if (nextDate == null) return curr;
-              return currDate.isAfter(nextDate) ? curr : next;
-            })
-          : null;
-      final latestStoryAt = latestStory?.createdAt;
-
-      return userStory.copyWith(
-        stories: sortedUserStories,
-        hasUnseenStories: hasUnseenStories,
-        latestStoryAt: latestStoryAt,
-      );
-    }).toList();
-
-    updatedStories.sort((a, b) {
-      final aHasUnseen = a.hasUnseenStories ?? false;
-      final bHasUnseen = b.hasUnseenStories ?? false;
-
-      if (aHasUnseen != bHasUnseen) {
-        return aHasUnseen ? -1 : 1;
-      }
-
-      final aDate = a.latestStoryAt;
-      final bDate = b.latestStoryAt;
-
-      if (aDate == null && bDate == null) return 0;
-      if (aDate == null) return 1;
-      if (bDate == null) return -1;
-
-      return bDate.compareTo(aDate);
-    });
-
-    return updatedStories;
-  }
-
   Future<void> _onChangeTab(
     ChangeTabEvent event,
     Emitter<FeedState> emit,
@@ -423,36 +191,4 @@ class FeedBloc extends Bloc<FeedEvent, FeedState> {
     }
   }
 
-  Future<void> _onStoryViewed(
-    StoryViewedEvent event,
-    Emitter<FeedState> emit,
-  ) async {
-    final updatedStories = state.stories?.map((userStory) {
-      if (userStory.user?.id == event.userId) {
-        final updatedUserStories = userStory.stories?.map((story) {
-          if (story.id == event.storyId) {
-            return story.copyWith(isViewed: true);
-          }
-          return story;
-        }).toList();
-
-        final hasUnseenStories =
-            updatedUserStories?.any(
-              (story) => (story.isViewed ?? false) == false,
-            ) ??
-            false;
-
-        return userStory.copyWith(
-          stories: updatedUserStories,
-          hasUnseenStories: hasUnseenStories,
-        );
-      }
-      return userStory;
-    }).toList();
-
-    // Re-sort stories after updating
-    final sortedStories = _sortAndUpdateStories(updatedStories ?? []);
-
-    emit(state.copyWith(stories: sortedStories));
-  }
 }

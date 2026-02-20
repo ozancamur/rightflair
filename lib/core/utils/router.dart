@@ -145,6 +145,7 @@ final GoRouter router = GoRouter(
       builder: (context, state) {
         final data = state.extra as Map<String, dynamic>;
         return StoryViewPage(
+          isMyStory: data['isMyStory'] as bool,
           stories: data['allStories'] as List<UserWithStoriesModel>,
           index: data['initialUserIndex'] as int,
         );
