@@ -1,4 +1,3 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:rightflair/core/components/text/text.dart';
 import 'package:rightflair/core/constants/string.dart';
@@ -6,6 +5,7 @@ import 'package:rightflair/core/extensions/context.dart';
 
 import '../../../../core/constants/color/color.dart';
 import '../../../../core/constants/enums/date_range.dart';
+import '../../../../core/helpers/date.dart';
 import '../model/engagement_chart.dart';
 import 'analytics_title.dart';
 import 'chart_painter.dart';
@@ -65,131 +65,6 @@ class _AnalyticsEngagementChartWidgetState
 
   List<double> get _chartData =>
       widget.data.map((e) => e.value ?? 0.0).toList();
-
-  String _getLocalizedDayLabel(String? dayLabel) {
-    if (dayLabel == null) return '';
-    switch (dayLabel.toLowerCase()) {
-      case 'mon':
-        return AppStrings.DAY_MONDAY.tr();
-      case 'tue':
-        return AppStrings.DAY_TUESDAY.tr();
-      case 'wed':
-        return AppStrings.DAY_WEDNESDAY.tr();
-      case 'thu':
-        return AppStrings.DAY_THURSDAY.tr();
-      case 'fri':
-        return AppStrings.DAY_FRIDAY.tr();
-      case 'sat':
-        return AppStrings.DAY_SATURDAY.tr();
-      case 'sun':
-        return AppStrings.DAY_SUNDAY.tr();
-      default:
-        return dayLabel;
-    }
-  }
-
-  String _getLocalizedMonth(int month) {
-    switch (month) {
-      case 1:
-        return AppStrings.MONTH_JANUARY.tr();
-      case 2:
-        return AppStrings.MONTH_FEBRUARY.tr();
-      case 3:
-        return AppStrings.MONTH_MARCH.tr();
-      case 4:
-        return AppStrings.MONTH_APRIL.tr();
-      case 5:
-        return AppStrings.MONTH_MAY.tr();
-      case 6:
-        return AppStrings.MONTH_JUNE.tr();
-      case 7:
-        return AppStrings.MONTH_JULY.tr();
-      case 8:
-        return AppStrings.MONTH_AUGUST.tr();
-      case 9:
-        return AppStrings.MONTH_SEPTEMBER.tr();
-      case 10:
-        return AppStrings.MONTH_OCTOBER.tr();
-      case 11:
-        return AppStrings.MONTH_NOVEMBER.tr();
-      case 12:
-        return AppStrings.MONTH_DECEMBER.tr();
-      default:
-        return '';
-    }
-  }
-
-  List<String> _getLabels() {
-    if (widget.data.isEmpty) return [];
-
-    switch (widget.dateRange) {
-      case DateRange.last7Days:
-        return widget.data
-            .map((e) => _getLocalizedDayLabel(e.dayLabel))
-            .toList();
-
-      case DateRange.last30Days:
-        return _getLast30DaysLabels();
-
-      case DateRange.last6Months:
-        return _getMonthLabels();
-
-      case DateRange.last1Year:
-        return _getMonthLabels();
-    }
-  }
-
-  List<String> _getLast30DaysLabels() {
-    final labels = <String>[];
-    final step = (widget.data.length / 6).ceil();
-
-    for (int i = 0; i < widget.data.length; i += step) {
-      final item = widget.data[i];
-      if (item.date != null) {
-        try {
-          final date = DateTime.parse(item.date!);
-          labels.add(date.day.toString().padLeft(2, '0'));
-        } catch (_) {
-          labels.add('');
-        }
-      }
-    }
-
-    // Add the last date as well
-    if (widget.data.isNotEmpty) {
-      final lastItem = widget.data.last;
-      if (lastItem.date != null) {
-        try {
-          final date = DateTime.parse(lastItem.date!);
-          final lastLabel = date.day.toString().padLeft(2, '0');
-          if (labels.isEmpty || labels.last != lastLabel) {
-            labels.add(lastLabel);
-          }
-        } catch (_) {}
-      }
-    }
-
-    return labels;
-  }
-
-  List<String> _getMonthLabels() {
-    final monthSet = <int>{};
-    final labels = <String>[];
-
-    for (final item in widget.data) {
-      if (item.date != null) {
-        try {
-          final date = DateTime.parse(item.date!);
-          if (!monthSet.contains(date.month)) {
-            monthSet.add(date.month);
-            labels.add(_getLocalizedMonth(date.month));
-          }
-        } catch (_) {}
-      }
-    }
-
-    return labels;
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -274,7 +149,10 @@ class _AnalyticsEngagementChartWidgetState
   }
 
   Widget _labelsRow(BuildContext context) {
-    final labels = _getLabels();
+    final labels = DateHelper.getLabels(
+      data: widget.data,
+      dateRange: widget.dateRange,
+    );
 
     return AnimatedSwitcher(
       duration: const Duration(milliseconds: 300),
@@ -301,6 +179,7 @@ class _AnalyticsEngagementChartWidgetState
                     text: label,
                     size: [context.width * 0.025],
                     color: context.colors.tertiary,
+                    tr: false,
                   ),
                 ),
               ),
