@@ -48,23 +48,28 @@ class NavigationBottomBar extends StatelessWidget {
   }
 
   Widget _add(BuildContext context) {
-    return InkWell(
-      onTap: () {
-        context.push(RouteConstants.CAMERA);
-      },
-      borderRadius: BorderRadius.circular(100),
-      child: Container(
-        height: context.width * .09,
-        width: context.width * .15,
-        margin: EdgeInsets.only(bottom: context.height * .005),
-        padding: EdgeInsets.all(context.width * .024),
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [context.colors.surface, context.colors.scrim],
-          ),
+    return SizedBox(
+      width: context.width * 0.15,
+      child: Center(
+        child: InkWell(
+          onTap: () {
+            context.push(RouteConstants.CAMERA);
+          },
           borderRadius: BorderRadius.circular(100),
+          child: Container(
+            height: context.width * .09,
+            width: context.width * .15,
+            margin: EdgeInsets.only(bottom: context.height * .005),
+            padding: EdgeInsets.all(context.width * .024),
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [context.colors.surface, context.colors.scrim],
+              ),
+              borderRadius: BorderRadius.circular(100),
+            ),
+            child: SvgPicture.asset(AppIcons.ADD, color: Colors.white),
+          ),
         ),
-        child: SvgPicture.asset(AppIcons.ADD, color: Colors.white),
       ),
     );
   }
@@ -73,25 +78,32 @@ class NavigationBottomBar extends StatelessWidget {
     final isSelected = currentIndex == index;
     return GestureDetector(
       onTap: () => context.read<NavigationCubit>().route(index),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.center,
-        spacing: context.height * 0.0035,
-        children: [
-          SvgPicture.asset(
-            icon,
-            height: context.height * (isSelected ? 0.0225 : 0.02),
-            color: isSelected ? Colors.white : context.colors.tertiary,
-          ),
-
-          Text(
-            label.tr(),
-            style: TextStyle(
-              fontSize: context.width * (isSelected ? 0.0275 : 0.025),
-              color: isSelected ? Colors.white : context.colors.tertiary,
+      child: SizedBox(
+        width: context.width * 0.15,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SizedBox(
+              height: context.height * 0.024,
+              child: Center(
+                child: SvgPicture.asset(
+                  icon,
+                  height: context.height * 0.022,
+                  color: isSelected ? Colors.white : context.colors.tertiary,
+                ),
+              ),
             ),
-          ),
-        ],
+            SizedBox(height: context.height * 0.0035),
+            Text(
+              label.tr(),
+              style: TextStyle(
+                fontSize: context.width * 0.026,
+                color: isSelected ? Colors.white : context.colors.tertiary,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
