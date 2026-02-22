@@ -38,7 +38,6 @@ class AnalyticsPage extends StatelessWidget {
     return AppBarComponent(
       title: AppbarTitleComponent(title: AppStrings.ANALYTICS_TITLE),
       centerTitle: true,
-      actions: [DateRangeButton(selectedRange: state.selectedDateRange)],
     );
   }
 
@@ -56,6 +55,7 @@ class AnalyticsPage extends StatelessWidget {
                   AnalyticsEngagementChartWidget(
                     data: state.data?.engagementChart ?? [],
                     dateRange: state.selectedDateRange,
+                    selectedRange: state.selectedDateRange,
                   ),
                 ],
               ),

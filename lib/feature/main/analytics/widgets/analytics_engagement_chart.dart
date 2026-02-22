@@ -7,9 +7,11 @@ import 'package:rightflair/core/extensions/context.dart';
 import '../../../../core/constants/color/color.dart';
 import '../../../../core/constants/enums/date_range.dart';
 import '../model/engagement_chart.dart';
+import 'analytics_title.dart';
 import 'chart_painter.dart';
 
 class AnalyticsEngagementChartWidget extends StatefulWidget {
+  final DateRange selectedRange;
   final List<EngagementChartModel> data;
   final DateRange dateRange;
 
@@ -17,6 +19,7 @@ class AnalyticsEngagementChartWidget extends StatefulWidget {
     super.key,
     required this.data,
     required this.dateRange,
+    required this.selectedRange,
   });
 
   @override
@@ -63,7 +66,6 @@ class _AnalyticsEngagementChartWidgetState
   List<double> get _chartData =>
       widget.data.map((e) => e.value ?? 0.0).toList();
 
-  // dayLabel'ı localized string'e çevir
   String _getLocalizedDayLabel(String? dayLabel) {
     if (dayLabel == null) return '';
     switch (dayLabel.toLowerCase()) {
@@ -86,7 +88,6 @@ class _AnalyticsEngagementChartWidgetState
     }
   }
 
-  // Ay numarasını localized string'e çevir
   String _getLocalizedMonth(int month) {
     switch (month) {
       case 1:
@@ -239,6 +240,7 @@ class _AnalyticsEngagementChartWidgetState
           weight: FontWeight.w600,
           color: context.colors.primary,
         ),
+        DateRangeButton(selectedRange: widget.selectedRange),
       ],
     );
   }

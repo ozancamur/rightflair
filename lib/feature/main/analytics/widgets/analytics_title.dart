@@ -46,7 +46,7 @@ class DateRangeButton extends StatelessWidget {
                   color: context.colors.primary,
                 )
               else
-              SizedBox(width: context.height * .01),
+                SizedBox(width: context.height * .01),
               SizedBox(width: context.height * .005),
               Text(
                 _getDateRangeLabel(range),
@@ -62,27 +62,23 @@ class DateRangeButton extends StatelessWidget {
         );
       }).toList(),
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-        decoration: BoxDecoration(
-          color: context.colors.primary.withValues(alpha: 0.1),
-          borderRadius: BorderRadius.circular(20),
-        ),
+        decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
         child: Row(
           mainAxisSize: MainAxisSize.min,
+          spacing: context.width * .01,
           children: [
             Text(
               _getDateRangeLabel(selectedRange),
               style: TextStyle(
-                color: context.colors.primary,
-                fontSize: 12,
+                color: context.colors.primaryContainer,
+                fontSize: 13,
                 fontWeight: FontWeight.w500,
               ),
             ),
-            const SizedBox(width: 4),
             Icon(
               Icons.keyboard_arrow_down,
               size: 18,
-              color: context.colors.primary,
+              color: context.colors.primaryContainer,
             ),
           ],
         ),
