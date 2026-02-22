@@ -383,7 +383,7 @@
     },
     "notificationSettings": {
         "title": "Notification Settings",
-        "description": "Here you can manage your notification settings for {}.",
+        "description": "Personalised post notifications are based on your interests.",
         "optionAll": "All",
         "optionNone": "None"
     },
