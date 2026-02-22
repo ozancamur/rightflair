@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "305916236954",
-    "project_id": "rightflair-development",
-    "storage_bucket": "rightflair-development.firebasestorage.app"
+    "project_number": "1035458871667",
+    "project_id": "rightflair",
+    "storage_bucket": "rightflair.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:305916236954:android:0fe71d8accb28138f1bb23",
+        "mobilesdk_app_id": "1:1035458871667:android:1f805a0ef50d4f29af0506",
         "android_client_info": {
           "package_name": "com.ozancamur.app.rightflair"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyBRSTWCL_UBEatdlUzROB-Afn9ieBh18xQ"
+          "current_key": "AIzaSyDTfi2Q2mjecfNfZMSiKzjvS8HiWENVyjc"
         }
       ],
       "services": {

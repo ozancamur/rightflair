@@ -50,19 +50,20 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyBRSTWCL_UBEatdlUzROB-Afn9ieBh18xQ',
-    appId: '1:305916236954:android:0fe71d8accb28138f1bb23',
-    messagingSenderId: '305916236954',
-    projectId: 'rightflair-development',
-    storageBucket: 'rightflair-development.firebasestorage.app',
+    apiKey: 'AIzaSyDTfi2Q2mjecfNfZMSiKzjvS8HiWENVyjc',
+    appId: '1:1035458871667:android:1f805a0ef50d4f29af0506',
+    messagingSenderId: '1035458871667',
+    projectId: 'rightflair',
+    storageBucket: 'rightflair.firebasestorage.app',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyCgwVLFSLC_qaN3epRS9mS9Efu3N2UwdG8',
-    appId: '1:305916236954:ios:724666f594448156f1bb23',
-    messagingSenderId: '305916236954',
-    projectId: 'rightflair-development',
-    storageBucket: 'rightflair-development.firebasestorage.app',
-    iosBundleId: 'com.ozancamur.app.rightflair',
+    apiKey: 'AIzaSyDU84WknwZqeKNnOkF6fmNJYl4d41T20Jk',
+    appId: '1:1035458871667:ios:5a039ec3dd5b44fcaf0506',
+    messagingSenderId: '1035458871667',
+    projectId: 'rightflair',
+    storageBucket: 'rightflair.firebasestorage.app',
+    iosBundleId: 'com.rightflair.social.app',
   );
+
 }

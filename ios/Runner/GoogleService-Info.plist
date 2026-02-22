@@ -3,17 +3,17 @@
 <plist version="1.0">
 <dict>
 	<key>API_KEY</key>
-	<string>AIzaSyCgwVLFSLC_qaN3epRS9mS9Efu3N2UwdG8</string>
+	<string>AIzaSyDU84WknwZqeKNnOkF6fmNJYl4d41T20Jk</string>
 	<key>GCM_SENDER_ID</key>
-	<string>305916236954</string>
+	<string>1035458871667</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.ozancamur.app.rightflair</string>
+	<string>com.rightflair.social.app</string>
 	<key>PROJECT_ID</key>
-	<string>rightflair-development</string>
+	<string>rightflair</string>
 	<key>STORAGE_BUCKET</key>
-	<string>rightflair-development.firebasestorage.app</string>
+	<string>rightflair.firebasestorage.app</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -25,6 +25,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:305916236954:ios:724666f594448156f1bb23</string>
+	<string>1:1035458871667:ios:5a039ec3dd5b44fcaf0506</string>
 </dict>
 </plist>
