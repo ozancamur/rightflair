@@ -65,6 +65,22 @@ class UserState extends Equatable {
     );
   }
 
+  UserState copyWithNullableStories({UserWithStoriesModel? userStories}) {
+    return UserState(
+      isLoading: isLoading,
+      user: user,
+      tags: tags,
+      posts: posts,
+      pagination: pagination,
+      isPostsLoading: isPostsLoading,
+      isLoadingMorePosts: isLoadingMorePosts,
+      isFollowing: isFollowing,
+      isFollowLoading: isFollowLoading,
+      isNotificationEnabled: isNotificationEnabled,
+      userStories: userStories,
+    );
+  }
+
   @override
   List<Object> get props => [
     isLoading,

@@ -34,57 +34,69 @@ class UserPage extends StatelessWidget {
               isFollowing: state.isFollowing,
               isNotificationEnabled: state.isNotificationEnabled,
             ),
-            body: SingleChildScrollView(
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: context.width * 0.05),
-                child: Column(
-                  spacing: context.height * 0.025,
-                  children: [
-                    ProfileHeaderComponent(
-                      user: state.user,
-                      tags: state.tags?.styleTags ?? [],
-                      isFollowing: state.isFollowing,
-                      userStories: state.userStories,
-                      onStoryTap: () async {
-                        final stories = state.userStories;
-                        if (stories != null &&
-                            (stories.stories?.isNotEmpty ?? false)) {
-                          await context.push(
-                            RouteConstants.STORY_VIEWER,
-                            extra: {
-                              'isMyStory': false,
-                              'allStories': [stories],
-                              'initialUserIndex': 0,
-                            },
+            body: RefreshIndicator(
+              onRefresh: () =>
+                  context.read<UserCubit>().refresh(userId: userId),
+              child: SingleChildScrollView(
+                physics: const AlwaysScrollableScrollPhysics(),
+                child: Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: context.width * 0.05,
+                  ),
+                  child: Column(
+                    spacing: context.height * 0.025,
+                    children: [
+                      ProfileHeaderComponent(
+                        user: state.user,
+                        tags: state.tags?.styleTags ?? [],
+                        isFollowing: state.isFollowing,
+                        userStories: state.userStories,
+                        onStoryTap: () async {
+                          final stories = state.userStories;
+                          if (stories != null &&
+                              (stories.stories?.isNotEmpty ?? false)) {
+                            await context.push(
+                              RouteConstants.STORY_VIEWER,
+                              extra: {
+                                'isMyStory': false,
+                                'allStories': [stories],
+                                'initialUserIndex': 0,
+                              },
+                            );
+                            if (context.mounted) {
+                              context.read<UserCubit>().refreshStories(
+                                userId: userId,
+                              );
+                            }
+                          }
+                        },
+                        onFollowTap: () {
+                          context.read<UserCubit>().followUser(userId: userId);
+                        },
+                        onMessageTap: () {},
+                        onFollowersTap: () {
+                          dialogFollow(
+                            context,
+                            listType: FollowListType.followers,
+                            userId: userId,
                           );
-                        }
-                      },
-                      onFollowTap: () {
-                        context.read<UserCubit>().followUser(userId: userId);
-                      },
-                      onMessageTap: () {},
-                      onFollowersTap: () {
-                        dialogFollow(
-                          context,
-                          listType: FollowListType.followers,
-                          userId: userId,
-                        );
-                      },
-                      onFollowingTap: () {
-                        dialogFollow(
-                          context,
-                          listType: FollowListType.following,
-                          userId: userId,
-                        );
-                      },
-                    ),
-                    ProfileTabItemComponent(text: AppStrings.PROFILE_PHOTOS),
-                    ProfilePostGridComponent(
-                      posts: state.posts,
-                      isLoading: state.isPostsLoading,
-                      isDraft: false,
-                    ),
-                  ],
+                        },
+                        onFollowingTap: () {
+                          dialogFollow(
+                            context,
+                            listType: FollowListType.following,
+                            userId: userId,
+                          );
+                        },
+                      ),
+                      ProfileTabItemComponent(text: AppStrings.PROFILE_PHOTOS),
+                      ProfilePostGridComponent(
+                        posts: state.posts,
+                        isLoading: state.isPostsLoading,
+                        isDraft: false,
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),

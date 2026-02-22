@@ -125,7 +125,19 @@ class UserCubit extends Cubit<UserState> {
   Future<void> _getUserStories({required String userId}) async {
     final response = await _repo.getUserStories(userId: userId);
     if (!isClosed) {
-      emit(state.copyWith(userStories: response));
+      emit(state.copyWithNullableStories(userStories: response));
     }
+  }
+
+  Future<void> refreshStories({required String userId}) async {
+    await _getUserStories(userId: userId);
+  }
+
+  Future<void> refresh({required String userId}) async {
+    await _getUser(userId: userId);
+    await _getUserStyleTags(userId: userId);
+    await _getUserPosts(userId: userId);
+    await checkFollowingUser(userId: userId);
+    await _getUserStories(userId: userId);
   }
 }
