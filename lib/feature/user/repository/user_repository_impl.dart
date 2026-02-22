@@ -5,6 +5,9 @@ import 'package:rightflair/feature/authentication/model/user.dart';
 import 'package:rightflair/feature/main/profile/model/style_tags.dart';
 
 import '../../../../../core/base/model/response.dart';
+import '../../main/feed/models/story.dart';
+import '../../main/feed/models/story_user.dart';
+import '../../main/feed/models/user_with_stories.dart';
 import '../../main/profile/model/request_post.dart';
 import '../../main/profile/model/response_post.dart';
 import '../../notifications/new_followers/model/follow_response.dart';
@@ -81,7 +84,9 @@ class UserRepositoryImpl extends UserRepository {
   }
 
   @override
-  Future<CheckToFollowingUserModel?> checkFollowingUser({required String userId}) async {
+  Future<CheckToFollowingUserModel?> checkFollowingUser({
+    required String userId,
+  }) async {
     try {
       final request = await _api.post(
         Endpoint.CHECK_TO_FOLLOWING_USER,
@@ -92,9 +97,8 @@ class UserRepositoryImpl extends UserRepository {
         request.data as Map<String, dynamic>,
       );
       if (response.data == null) return null;
-      final CheckToFollowingUserModel data = CheckToFollowingUserModel().fromJson(
-        response.data as Map<String, dynamic>,
-      );
+      final CheckToFollowingUserModel data = CheckToFollowingUserModel()
+          .fromJson(response.data as Map<String, dynamic>);
       return data;
     } catch (e) {
       debugPrint("UserRepositoryImpl ERROR in checkFollowingUser :> $e");
@@ -136,7 +140,40 @@ class UserRepositoryImpl extends UserRepository {
       );
       if (request == null) return;
     } catch (e) {
-      debugPrint("UserRepositoryImpl ERROR in udateUserNotificationSettings :> $e");
+      debugPrint(
+        "UserRepositoryImpl ERROR in udateUserNotificationSettings :> $e",
+      );
+    }
+  }
+
+  @override
+  Future<UserWithStoriesModel?> getUserStories({required String userId}) async {
+    try {
+      final request = await _api.get(
+        Endpoint.GET_STOROIES,
+        parameters: {'user_id': userId},
+      );
+      if (request == null) return null;
+      final ResponseModel response = ResponseModel().fromJson(
+        request.data as Map<String, dynamic>,
+      );
+      if (response.data == null) return null;
+      final data = response.data as Map<String, dynamic>;
+      return UserWithStoriesModel(
+        user: data['user'] != null
+            ? StoryUserModel().fromJson(data['user'] as Map<String, dynamic>)
+            : null,
+        hasUnseenStories: data['has_unseen'] as bool?,
+        storiesCount: data['total_count'] as int?,
+        stories: data['stories'] != null
+            ? (data['stories'] as List)
+                  .map((e) => StoryModel().fromJson(e as Map<String, dynamic>))
+                  .toList()
+            : null,
+      );
+    } catch (e) {
+      debugPrint("UserRepositoryImpl ERROR in getUserStories :> $e");
+      return null;
     }
   }
 }

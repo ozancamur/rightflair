@@ -12,8 +12,10 @@ class StoryViewCubit extends Cubit<StoryViewState> {
   Timer? _storyTimer;
   final StoryViewRepositoryImpl _repo;
   final Function(String storyId, String userId)? onStoryViewed;
+  final VoidCallback? onStoryDeleted;
 
-  StoryViewCubit(this._repo, {this.onStoryViewed}) : super(StoryViewState()) {
+  StoryViewCubit(this._repo, {this.onStoryViewed, this.onStoryDeleted})
+    : super(StoryViewState()) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       startStoryTimer();
     });
@@ -145,5 +147,59 @@ class StoryViewCubit extends Cubit<StoryViewState> {
     if (onStoryViewed != null && userId != null) {
       onStoryViewed!(sId, userId);
     }
+  }
+
+  Future<bool> deleteStory({required String storyId}) async {
+    _storyTimer?.cancel();
+
+    final success = await _repo.deleteStory(storyId: storyId);
+    if (!success) return false;
+
+    // Story'yi local state'den kaldır
+    final updatedStories = List<UserWithStoriesModel>.from(state.stories);
+    final userIndex = state.currentUserIndex;
+    final currentUser = updatedStories[userIndex];
+    final updatedUserStories = List.from(currentUser.stories ?? [])
+      ..removeAt(state.currentStoryIndex);
+
+    // Callback'i çağır
+    onStoryDeleted?.call();
+
+    // Kullanıcının başka story'si yoksa
+    if (updatedUserStories.isEmpty) {
+      updatedStories.removeAt(userIndex);
+      // Hiç story kalmadıysa kapat
+      if (updatedStories.isEmpty) {
+        emit(state.copyWith(shouldClose: true));
+        return true;
+      }
+      // Sonraki kullanıcıya geç veya öncekine
+      final newIndex = userIndex >= updatedStories.length
+          ? updatedStories.length - 1
+          : userIndex;
+      emit(
+        state.copyWith(
+          stories: updatedStories,
+          currentUserIndex: newIndex,
+          currentStoryIndex: 0,
+        ),
+      );
+      startStoryTimer();
+      return true;
+    }
+
+    // Story silindi ama başka story'ler var
+    updatedStories[userIndex] = currentUser.copyWith(
+      stories: updatedUserStories.cast(),
+    );
+    final newStoryIndex = state.currentStoryIndex >= updatedUserStories.length
+        ? updatedUserStories.length - 1
+        : state.currentStoryIndex;
+
+    emit(
+      state.copyWith(stories: updatedStories, currentStoryIndex: newStoryIndex),
+    );
+    startStoryTimer();
+    return true;
   }
 }

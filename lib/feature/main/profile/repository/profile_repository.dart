@@ -1,8 +1,8 @@
-
 import 'package:rightflair/feature/main/profile/model/request_post.dart';
 import 'package:rightflair/feature/main/profile/model/style_tags.dart';
 
 import '../../../authentication/model/user.dart';
+import '../../feed/models/user_with_stories.dart';
 import '../model/response_post.dart';
 
 abstract class ProfileRepository {
@@ -18,4 +18,5 @@ abstract class ProfileRepository {
   });
   Future<StyleTagsModel?> getUserStyleTags();
   Future<void> updateUser({String? profilePhotoUrl});
+  Future<UserWithStoriesModel?> getUserStories({required String userId});
 }

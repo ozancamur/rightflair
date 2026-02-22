@@ -1,4 +1,3 @@
-
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rightflair/feature/main/profile/model/request_post.dart';
@@ -6,6 +5,7 @@ import 'package:rightflair/feature/main/profile/model/style_tags.dart';
 import 'package:rightflair/feature/main/profile/repository/profile_repository_impl.dart';
 
 import '../../../authentication/model/user.dart';
+import '../../feed/models/user_with_stories.dart';
 import '../../../post/create_post/model/post.dart';
 import '../model/pagination.dart';
 
@@ -52,6 +52,7 @@ class ProfileCubit extends Cubit<ProfileState> {
     emit(state.copyWith(isLoading: true));
     final UserModel? user = await _repo.getUser();
     emit(state.copyWith(isLoading: false, user: user ?? UserModel()));
+    _getUserStories();
   }
 
   Future<void> _getUserStyleTags() async {
@@ -182,5 +183,17 @@ class ProfileCubit extends Cubit<ProfileState> {
     } else {
       emit(state.copyWith(isLoadingMoreDrafts: false));
     }
+  }
+
+  // STORIES
+  Future<void> _getUserStories() async {
+    final userId = state.user.id;
+    if (userId == null || userId.isEmpty) return;
+    final response = await _repo.getUserStories(userId: userId);
+    emit(state.copyWithNullableStories(userStories: response));
+  }
+
+  Future<void> refreshStories() async {
+    await _getUserStories();
   }
 }

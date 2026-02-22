@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 
 import '../../authentication/model/user.dart';
+import '../../main/feed/models/user_with_stories.dart';
 import '../../post/create_post/model/post.dart';
 import '../../main/profile/model/pagination.dart';
 import '../../main/profile/model/style_tags.dart';
@@ -19,6 +20,7 @@ class UserState extends Equatable {
   final bool isFollowing;
   final bool isFollowLoading;
   final bool isNotificationEnabled;
+  final UserWithStoriesModel? userStories;
 
   const UserState({
     this.isLoading = false,
@@ -31,6 +33,7 @@ class UserState extends Equatable {
     this.isFollowing = false,
     this.isFollowLoading = false,
     this.isNotificationEnabled = false,
+    this.userStories,
   });
 
   UserState copyWith({
@@ -44,6 +47,7 @@ class UserState extends Equatable {
     bool? isFollowing,
     bool? isFollowLoading,
     bool? isNotificationEnabled,
+    UserWithStoriesModel? userStories,
   }) {
     return UserState(
       isLoading: isLoading ?? this.isLoading,
@@ -57,6 +61,7 @@ class UserState extends Equatable {
       isFollowLoading: isFollowLoading ?? this.isFollowLoading,
       isNotificationEnabled:
           isNotificationEnabled ?? this.isNotificationEnabled,
+      userStories: userStories ?? this.userStories,
     );
   }
 
@@ -72,5 +77,6 @@ class UserState extends Equatable {
     isFollowing,
     isFollowLoading,
     isNotificationEnabled,
+    userStories ?? UserWithStoriesModel(),
   ];
 }

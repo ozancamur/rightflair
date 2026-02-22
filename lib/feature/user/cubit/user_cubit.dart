@@ -23,6 +23,7 @@ class UserCubit extends Cubit<UserState> {
     await _getUserStyleTags(userId: userId);
     await _getUserPosts(userId: userId);
     await checkFollowingUser(userId: userId);
+    await _getUserStories(userId: userId);
   }
 
   Future<void> _getUser({required String userId}) async {
@@ -91,8 +92,7 @@ class UserCubit extends Cubit<UserState> {
     if (!isClosed) {
       if (response != null) {
         final bool isFollowing = response.isFollowing ?? false;
-        final int followersCount =
-            response.followersCount ?? newFollowersCount;
+        final int followersCount = response.followersCount ?? newFollowersCount;
         emit(
           state.copyWith(
             isFollowing: isFollowing,
@@ -120,5 +120,12 @@ class UserCubit extends Cubit<UserState> {
       uid: uid,
       notification: notification,
     );
+  }
+
+  Future<void> _getUserStories({required String userId}) async {
+    final response = await _repo.getUserStories(userId: userId);
+    if (!isClosed) {
+      emit(state.copyWith(userStories: response));
+    }
   }
 }

@@ -9,7 +9,9 @@ import 'package:rightflair/core/constants/string.dart';
 
 import '../../../../../../core/extensions/context.dart';
 import '../../../../feature/authentication/model/user.dart';
+import '../../../../feature/main/feed/models/user_with_stories.dart';
 import 'profile_photo.dart';
+import 'story_ring.dart';
 
 class ProfileHeaderImageComponent extends StatelessWidget {
   final bool isCanEdit;
@@ -17,6 +19,8 @@ class ProfileHeaderImageComponent extends StatelessWidget {
   final List<String> tags;
   final VoidCallback onRefresh;
   final VoidCallback? onPhotoChange;
+  final UserWithStoriesModel? userStories;
+  final VoidCallback? onStoryTap;
 
   const ProfileHeaderImageComponent({
     super.key,
@@ -25,13 +29,28 @@ class ProfileHeaderImageComponent extends StatelessWidget {
     required this.tags,
     required this.onRefresh,
     this.onPhotoChange,
+    this.userStories,
+    this.onStoryTap,
   });
 
   @override
   Widget build(BuildContext context) {
     return isCanEdit
         ? _profile(context)
-        : ProfilePhotoComponent(url: user.profilePhotoUrl);
+        : _storyRing(ProfilePhotoComponent(url: user.profilePhotoUrl));
+  }
+
+  Widget _storyRing(Widget child) {
+    final hasStories =
+        userStories != null && (userStories!.stories?.isNotEmpty ?? false);
+    final hasUnseen = userStories?.hasUnseenStories ?? false;
+
+    return StoryRingWidget(
+      hasStories: hasStories,
+      hasUnseen: hasUnseen,
+      onTap: onStoryTap,
+      child: child,
+    );
   }
 
   SizedBox _profile(BuildContext context) {
@@ -41,7 +60,7 @@ class ProfileHeaderImageComponent extends StatelessWidget {
       child: Stack(
         alignment: Alignment.topCenter,
         children: [
-          ProfilePhotoComponent(url: user.profilePhotoUrl),
+          _storyRing(ProfilePhotoComponent(url: user.profilePhotoUrl)),
           _change(context),
           _edit(context),
         ],

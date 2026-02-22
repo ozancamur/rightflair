@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:go_router/go_router.dart';
 import 'package:rightflair/core/constants/route.dart';
 import 'package:rightflair/feature/choose_username/page/choose_username_page.dart';
@@ -148,6 +150,7 @@ final GoRouter router = GoRouter(
           isMyStory: data['isMyStory'] as bool,
           stories: data['allStories'] as List<UserWithStoriesModel>,
           index: data['initialUserIndex'] as int,
+          onStoryDeleted: data['onStoryDeleted'] as VoidCallback?,
         );
       },
     ),

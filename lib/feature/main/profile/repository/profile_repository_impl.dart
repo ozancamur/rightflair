@@ -5,6 +5,9 @@ import 'package:rightflair/feature/authentication/model/user.dart';
 import 'package:rightflair/feature/main/profile/model/style_tags.dart';
 
 import '../../../../core/base/model/response.dart';
+import '../../feed/models/story.dart';
+import '../../feed/models/story_user.dart';
+import '../../feed/models/user_with_stories.dart';
 import '../model/request_post.dart';
 import '../model/response_post.dart';
 import 'profile_repository.dart';
@@ -126,6 +129,37 @@ class ProfileRepositoryImpl extends ProfileRepository {
       return data;
     } catch (e) {
       debugPrint("ProfileRepositoryImpl ERROR in getUserDrafts :> $e");
+      return null;
+    }
+  }
+
+  @override
+  Future<UserWithStoriesModel?> getUserStories({required String userId}) async {
+    try {
+      final request = await _api.get(
+        Endpoint.GET_STOROIES,
+        parameters: {'user_id': userId},
+      );
+      if (request == null) return null;
+      final ResponseModel response = ResponseModel().fromJson(
+        request.data as Map<String, dynamic>,
+      );
+      if (response.data == null) return null;
+      final data = response.data as Map<String, dynamic>;
+      return UserWithStoriesModel(
+        user: data['user'] != null
+            ? StoryUserModel().fromJson(data['user'] as Map<String, dynamic>)
+            : null,
+        hasUnseenStories: data['has_unseen'] as bool?,
+        storiesCount: data['total_count'] as int?,
+        stories: data['stories'] != null
+            ? (data['stories'] as List)
+                  .map((e) => StoryModel().fromJson(e as Map<String, dynamic>))
+                  .toList()
+            : null,
+      );
+    } catch (e) {
+      debugPrint("ProfileRepositoryImpl ERROR in getUserStories :> $e");
       return null;
     }
   }

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:rightflair/core/components/loading.dart';
+import 'package:rightflair/core/constants/route.dart';
 import 'package:rightflair/core/extensions/context.dart';
 import 'package:rightflair/core/components/profile/profile_header.dart';
 import 'package:rightflair/feature/follow/page/dialog_follow.dart';
@@ -96,8 +98,32 @@ class _ProfilePageState extends State<ProfilePage>
           isCanEdit: true,
           user: state.user,
           tags: state.tags?.styleTags ?? [],
-          onEditPhoto: () =>
-              dialogCreateStory(context, uid: state.user.id ?? ''),
+          userStories: state.userStories,
+          onStoryTap: () async {
+            final stories = state.userStories;
+            if (stories != null && (stories.stories?.isNotEmpty ?? false)) {
+              await context.push(
+                RouteConstants.STORY_VIEWER,
+                extra: {
+                  'isMyStory': true,
+                  'allStories': [stories],
+                  'initialUserIndex': 0,
+                  'onStoryDeleted': () {
+                    context.read<ProfileCubit>().refreshStories();
+                  },
+                },
+              );
+              if (context.mounted) {
+                context.read<ProfileCubit>().refreshStories();
+              }
+            }
+          },
+          onEditPhoto: () async {
+            await dialogCreateStory(context, uid: state.user.id ?? '');
+            if (context.mounted) {
+              context.read<ProfileCubit>().refreshStories();
+            }
+          },
           onFollowersTap: () {
             dialogFollow(
               context,

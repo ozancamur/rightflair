@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
+import 'package:rightflair/core/constants/route.dart';
 import 'package:rightflair/core/constants/string.dart';
 import 'package:rightflair/core/extensions/context.dart';
 import 'package:rightflair/core/components/profile/profile_header.dart';
@@ -42,6 +44,21 @@ class UserPage extends StatelessWidget {
                       user: state.user,
                       tags: state.tags?.styleTags ?? [],
                       isFollowing: state.isFollowing,
+                      userStories: state.userStories,
+                      onStoryTap: () async {
+                        final stories = state.userStories;
+                        if (stories != null &&
+                            (stories.stories?.isNotEmpty ?? false)) {
+                          await context.push(
+                            RouteConstants.STORY_VIEWER,
+                            extra: {
+                              'isMyStory': false,
+                              'allStories': [stories],
+                              'initialUserIndex': 0,
+                            },
+                          );
+                        }
+                      },
                       onFollowTap: () {
                         context.read<UserCubit>().followUser(userId: userId);
                       },

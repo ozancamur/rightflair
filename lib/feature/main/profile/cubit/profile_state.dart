@@ -4,6 +4,7 @@ class ProfileState extends Equatable {
   final bool isLoading;
   final UserModel user;
   final StyleTagsModel? tags;
+  final UserWithStoriesModel? userStories;
 
   final List<PostModel>? posts;
   final PaginationModel? postsPagination;
@@ -24,6 +25,7 @@ class ProfileState extends Equatable {
     this.isLoading = false,
     required this.user,
     this.tags,
+    this.userStories,
 
     this.posts = const [],
     this.isPostsLoading = false,
@@ -45,6 +47,7 @@ class ProfileState extends Equatable {
     bool? isLoading,
     UserModel? user,
     StyleTagsModel? tags,
+    UserWithStoriesModel? userStories,
 
     List<PostModel>? posts,
     bool? isPostsLoading,
@@ -65,6 +68,7 @@ class ProfileState extends Equatable {
       isLoading: isLoading ?? this.isLoading,
       user: user ?? this.user,
       tags: tags ?? this.tags,
+      userStories: userStories ?? this.userStories,
 
       posts: posts ?? this.posts,
       isPostsLoading: isPostsLoading ?? this.isPostsLoading,
@@ -79,7 +83,29 @@ class ProfileState extends Equatable {
       drafts: drafts ?? this.drafts,
       isDraftsLoading: isDraftsLoading ?? this.isDraftsLoading,
       draftsPagination: draftsPagination ?? this.draftsPagination,
-      isLoadingMoreDrafts: isLoadingMoreDrafts ?? this.isLoadingMoreDrafts
+      isLoadingMoreDrafts: isLoadingMoreDrafts ?? this.isLoadingMoreDrafts,
+    );
+  }
+
+  /// userStories'i açıkça null yapabilmek için ayrı bir metod
+  ProfileState copyWithNullableStories({UserWithStoriesModel? userStories}) {
+    return ProfileState(
+      isLoading: isLoading,
+      user: user,
+      tags: tags,
+      userStories: userStories,
+      posts: posts,
+      isPostsLoading: isPostsLoading,
+      postsPagination: postsPagination,
+      isLoadingMorePosts: isLoadingMorePosts,
+      saves: saves,
+      isSavesLoading: isSavesLoading,
+      savesPagination: savesPagination,
+      isLoadingMoreSaves: isLoadingMoreSaves,
+      drafts: drafts,
+      isDraftsLoading: isDraftsLoading,
+      draftsPagination: draftsPagination,
+      isLoadingMoreDrafts: isLoadingMoreDrafts,
     );
   }
 
@@ -88,12 +114,13 @@ class ProfileState extends Equatable {
     isLoading,
     user,
     tags ?? StyleTagsModel(),
+    userStories ?? UserWithStoriesModel(),
     posts ?? [],
 
     isPostsLoading,
     postsPagination ?? PaginationModel(),
     isLoadingMorePosts,
-    
+
     saves ?? [],
     isSavesLoading,
     savesPagination ?? PaginationModel(),

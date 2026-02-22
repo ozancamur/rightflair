@@ -12,12 +12,14 @@ class StoryViewPage extends StatefulWidget {
   final bool isMyStory;
   final List<UserWithStoriesModel> stories;
   final int index;
+  final VoidCallback? onStoryDeleted;
 
   const StoryViewPage({
     super.key,
     required this.stories,
     required this.index,
     required this.isMyStory,
+    this.onStoryDeleted,
   });
 
   @override
@@ -58,6 +60,7 @@ class _StoryViewPageState extends State<StoryViewPage>
       create: (context) => StoryViewCubit(
         StoryViewRepositoryImpl(),
         onStoryViewed: (storyId, userId) {},
+        onStoryDeleted: widget.onStoryDeleted,
       )..init(stories: widget.stories, initialIndex: widget.index),
       child: BlocConsumer<StoryViewCubit, StoryViewState>(
         listener: (context, state) {
@@ -197,6 +200,8 @@ class _StoryViewPageState extends State<StoryViewPage>
             ? () {
                 final currentStory = story.stories?[state.currentStoryIndex];
                 if (currentStory?.id != null) {
+                  final cubit = context.read<StoryViewCubit>();
+                  cubit.pauseStory();
                   showDialog(
                     context: context,
                     builder: (dialogContext) => AlertDialog(
@@ -206,13 +211,26 @@ class _StoryViewPageState extends State<StoryViewPage>
                       ),
                       actions: [
                         TextButton(
-                          onPressed: () => Navigator.pop(dialogContext),
+                          onPressed: () {
+                            Navigator.pop(dialogContext);
+                            cubit.resumeStory();
+                          },
                           child: const Text('İptal'),
                         ),
                         TextButton(
-                          onPressed: () {
+                          onPressed: () async {
                             Navigator.pop(dialogContext);
-                            Navigator.of(context).pop();
+                            final deleted = await cubit.deleteStory(
+                              storyId: currentStory!.id!,
+                            );
+                            if (!deleted && context.mounted) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text('Hikaye silinemedi'),
+                                ),
+                              );
+                              cubit.resumeStory();
+                            }
                           },
                           child: const Text(
                             'Sil',

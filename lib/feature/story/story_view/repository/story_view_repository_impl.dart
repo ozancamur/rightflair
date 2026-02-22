@@ -15,4 +15,20 @@ class StoryViewRepositoryImpl extends StoryViewRepository {
       debugPrint("FeedRepositoryImpl ERROR in viewStory :> $e");
     }
   }
+
+  @override
+  Future<bool> deleteStory({required String storyId}) async {
+    try {
+      final response = await _api.post(
+        Endpoint.DELETE_STORY,
+        data: {'story_id': storyId},
+      );
+      if (response == null) return false;
+      final data = response.data as Map<String, dynamic>?;
+      return data?['success'] == true;
+    } catch (e) {
+      debugPrint("StoryViewRepositoryImpl ERROR in deleteStory :> $e");
+      return false;
+    }
+  }
 }

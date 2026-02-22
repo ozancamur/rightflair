@@ -4,6 +4,7 @@ import 'package:rightflair/core/extensions/context.dart';
 import 'package:rightflair/core/components/profile/profile_action_buttons.dart';
 
 import '../../../feature/authentication/model/user.dart';
+import '../../../feature/main/feed/models/user_with_stories.dart';
 import '../../../feature/main/profile/cubit/profile_cubit.dart';
 import 'header/profile_header_bio.dart';
 import 'header/profile_header_image.dart';
@@ -21,6 +22,8 @@ class ProfileHeaderComponent extends StatelessWidget {
   final VoidCallback? onFollowingTap;
   final bool isCanEdit;
   final bool isFollowing;
+  final UserWithStoriesModel? userStories;
+  final VoidCallback? onStoryTap;
 
   const ProfileHeaderComponent({
     super.key,
@@ -33,6 +36,8 @@ class ProfileHeaderComponent extends StatelessWidget {
     this.isCanEdit = false,
     required this.user,
     this.isFollowing = false,
+    this.userStories,
+    this.onStoryTap,
   });
 
   @override
@@ -45,6 +50,8 @@ class ProfileHeaderComponent extends StatelessWidget {
           tags: tags,
           onRefresh: () => context.read<ProfileCubit>().refresh(),
           onPhotoChange: onEditPhoto,
+          userStories: userStories,
+          onStoryTap: onStoryTap,
         ),
         ProfileHeaderUsernameComponent(
           name: user.fullName,
