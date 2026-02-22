@@ -63,6 +63,7 @@ class AuthenticationBloc
       return;
     }
 
+    await _messaging.getToken();
     emit(AuthenticationSuccess());
   }
 
