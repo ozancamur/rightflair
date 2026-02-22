@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../core/constants/enums/follow_list_type.dart';
-import '../cubit/follow_list_cubit.dart';
-import '../../user/repository/user_repository_impl.dart';
-import 'follow_list_dialog_page.dart';
+import '../cubit/follow_cubit.dart';
+import '../repository/follow_repository_impl.dart';
+import 'follow_page.dart';
 
-void dialogFollowList(
+void dialogFollow(
   BuildContext context, {
   required FollowListType listType,
   String? userId,
@@ -19,9 +19,9 @@ void dialogFollowList(
     enableDrag: true,
     builder: (context) => BlocProvider(
       create: (context) =>
-          FollowListCubit(UserRepositoryImpl())
+          FollowCubit(FollowRepositoryImpl())
             ..init(listType: listType, userId: userId),
-      child: FollowListDialogPage(listType: listType),
+      child: FollowPage(listType: listType),
     ),
   );
 }

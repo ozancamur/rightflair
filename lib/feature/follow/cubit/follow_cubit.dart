@@ -5,14 +5,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../core/constants/enums/follow_list_type.dart';
 import '../model/follow_list_request.dart';
 import '../model/follow_list_response.dart';
-import '../../user/repository/user_repository_impl.dart';
-import 'follow_list_state.dart';
+import '../model/follow_user.dart';
+import '../repository/follow_repository_impl.dart';
+import 'follow_state.dart';
 
-class FollowListCubit extends Cubit<FollowListState> {
-  final UserRepositoryImpl _repo;
+class FollowCubit extends Cubit<FollowState> {
+  final FollowRepositoryImpl _repo;
   Timer? _debounceTimer;
 
-  FollowListCubit(this._repo) : super(const FollowListState());
+  FollowCubit(this._repo) : super(const FollowState());
 
   Future<void> init({required FollowListType listType, String? userId}) async {
     emit(
@@ -70,7 +71,7 @@ class FollowListCubit extends Cubit<FollowListState> {
     if (response != null) {
       final newUsers = isLoadMore
           ? [...state.users, ...?response.users]
-          : response.users ?? [];
+          : response.users ?? <FollowUserModel>[];
 
       emit(
         state.copyWith(

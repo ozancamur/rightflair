@@ -1,20 +1,19 @@
 import 'package:equatable/equatable.dart';
 
 import '../../../core/constants/enums/follow_list_type.dart';
-import '../../authentication/model/user.dart';
+import '../model/follow_user.dart';
 import '../../main/profile/model/pagination.dart';
 
-
-class FollowListState extends Equatable {
+class FollowState extends Equatable {
   final bool isLoading;
   final bool isLoadingMore;
-  final List<UserModel> users;
+  final List<FollowUserModel> users;
   final PaginationModel? pagination;
   final String searchQuery;
   final FollowListType listType;
   final String? userId;
 
-  const FollowListState({
+  const FollowState({
     this.isLoading = false,
     this.isLoadingMore = false,
     this.users = const [],
@@ -24,16 +23,16 @@ class FollowListState extends Equatable {
     this.userId,
   });
 
-  FollowListState copyWith({
+  FollowState copyWith({
     bool? isLoading,
     bool? isLoadingMore,
-    List<UserModel>? users,
+    List<FollowUserModel>? users,
     PaginationModel? pagination,
     String? searchQuery,
     FollowListType? listType,
     String? userId,
   }) {
-    return FollowListState(
+    return FollowState(
       isLoading: isLoading ?? this.isLoading,
       isLoadingMore: isLoadingMore ?? this.isLoadingMore,
       users: users ?? this.users,

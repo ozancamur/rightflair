@@ -46,8 +46,7 @@ enum Endpoint {
   GET_FOLLOWING_LIST("get-following-list"),
 
   CREATE_STORY('create-story'),
-  GET_STORIES('get-following-stories'),
-  GET_MY_STORIES('get-my-stories'),
+  GET_STOROIES('get-user-stories'),
   VIEW_STORY('view-story'),
   DELETE_STORY('delete-story'),
 
@@ -62,7 +61,9 @@ enum Endpoint {
   GET_FOLLOWER_NOTIFICATIONS('get-follower-notifications'),
   GET_SYSTEM_NOTIFICATIONS('get-system-notifications'),
 
-  GET_SUGGESTED_USERS('get-suggested-users');
+  GET_SUGGESTED_USERS('get-suggested-users'),
+  GET_SHARE_SUGGESTIONS('get-share-suggestions'),
+  ;
 
   final String value;
   const Endpoint(this.value);

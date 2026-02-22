@@ -1,16 +1,17 @@
+import 'package:rightflair/feature/follow/model/follow_user.dart';
+
 import '../../../core/base/model/base.dart';
-import '../../authentication/model/user.dart';
 import '../../main/profile/model/pagination.dart';
 
 class FollowListResponseModel extends BaseModel<FollowListResponseModel> {
-  final List<UserModel>? users;
+  final List<FollowUserModel>? users;
   final PaginationModel? pagination;
 
   FollowListResponseModel({this.users, this.pagination});
 
   @override
   FollowListResponseModel copyWith({
-    List<UserModel>? users,
+    List<FollowUserModel>? users,
     PaginationModel? pagination,
   }) {
     return FollowListResponseModel(
@@ -27,7 +28,7 @@ class FollowListResponseModel extends BaseModel<FollowListResponseModel> {
     return FollowListResponseModel(
       users: usersList != null
           ? (usersList as List<dynamic>)
-                .map((e) => UserModel().fromJson(e as Map<String, dynamic>))
+                .map((e) => FollowUserModel().fromJson(e as Map<String, dynamic>))
                 .toList()
           : null,
       pagination: json['pagination'] != null

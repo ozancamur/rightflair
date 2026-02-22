@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
+import 'package:rightflair/feature/follow/cubit/follow_cubit.dart';
 
 import 'core/config/theme_notifier.dart';
 import 'core/constants/app.dart';
@@ -14,6 +15,7 @@ import 'feature/chat/cubit/chat_cubit.dart';
 import 'feature/chat/repository/chat_repository_impl.dart';
 import 'feature/choose_username/cubit/choose_username_cubit.dart';
 import 'feature/choose_username/repository/choose_username_repository_impl.dart';
+import 'feature/follow/repository/follow_repository_impl.dart';
 import 'feature/location/cubit/location_cubit.dart';
 import 'feature/main/feed/bloc/feed_bloc.dart';
 import 'feature/main/inbox/cubit/inbox_cubit.dart';
@@ -94,7 +96,9 @@ class RightFlair extends StatelessWidget {
               SystemNotificationsCubit(SystemNotificationsRepositoryImpl()),
         ),
         BlocProvider(create: (_) => SearchCubit(SearchRepositoryImpl())),
+        BlocProvider(create: (_) => FollowCubit(FollowRepositoryImpl())),
       ],
+
       child: MaterialApp.router(
         scaffoldMessengerKey: FirebaseMessagingManager.scaffoldMessengerKey,
         title: AppConstants.APP_NAME,

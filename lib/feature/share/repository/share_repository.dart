@@ -1,6 +1,7 @@
 import '../../../core/constants/enums/report_reason.dart';
 import '../../main/profile/model/pagination.dart';
 import '../model/search_response.dart';
+import '../model/share.dart';
 
 abstract class ShareRepository {
   Future<SearchReponseModel?> searchUsers({
@@ -26,4 +27,6 @@ abstract class ShareRepository {
     required String referencedPostId,
     String? content,
   });
+
+  Future<List<SearchUserModel>?> getShareSuggestions();
 }

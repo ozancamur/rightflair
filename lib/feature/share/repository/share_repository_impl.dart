@@ -8,6 +8,7 @@ import 'package:rightflair/feature/share/model/search_response.dart';
 
 import '../../../core/base/model/response.dart';
 import '../../../core/services/api.dart';
+import '../model/share.dart';
 import 'share_repository.dart';
 
 class ShareRepositoryImpl extends ShareRepository {
@@ -63,9 +64,11 @@ class ShareRepositoryImpl extends ShareRepository {
           'limit': pagination.limit,
         },
       );
+      if (request?.data == null) return null;
       final ResponseModel response = ResponseModel().fromJson(
-        request?.data as Map<String, dynamic>,
+        request!.data as Map<String, dynamic>,
       );
+      if (response.data == null) return null;
       final SearchReponseModel data = SearchReponseModel().fromJson(
         response.data as Map<String, dynamic>,
       );
@@ -130,6 +133,24 @@ class ShareRepositoryImpl extends ShareRepository {
     } catch (e) {
       debugPrint("ShareRepositoryImpl ERROR in sharePost: $e");
       return false;
+    }
+  }
+
+  @override
+  Future<List<SearchUserModel>?> getShareSuggestions() async {
+    try {
+      final request = await _api.get(Endpoint.GET_SHARE_SUGGESTIONS);
+      if (request == null) return null;
+      final ResponseModel response = ResponseModel().fromJson(
+        request.data as Map<String, dynamic>,
+      );
+      if (response.data == null) return null;
+      return ((response.data as Map<String, dynamic>)['users'] as List<dynamic>)
+          .map((e) => SearchUserModel().fromJson(e as Map<String, dynamic>))
+          .toList();
+    } catch (e) {
+      debugPrint("ShareRepositoryImpl ERROR in getShareSuggestions :> $e");
+      return null;
     }
   }
 }

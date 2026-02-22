@@ -14,7 +14,9 @@ class ShareCubit extends Cubit<ShareState> {
   final FocusNode searchFocusNode = FocusNode();
 
   final ShareRepositoryImpl _repo;
-  ShareCubit(this._repo) : super(const ShareState());
+  ShareCubit(this._repo) : super(const ShareState()) {
+    _fetchUserList();
+  }
 
   Future<void> searchUsers(String query) async {
     if (query.trim().isEmpty) {
@@ -76,9 +78,8 @@ class ShareCubit extends Cubit<ShareState> {
     return success;
   }
 
-  void selectReportReason(ReportReason reason) {
-    emit(state.copyWith(selectedReportReason: reason));
-  }
+  void selectReportReason(ReportReason reason) =>
+      emit(state.copyWith(selectedReportReason: reason));
 
   Future<void> reportPost(String postId) async {
     final reason = state.selectedReportReason;
@@ -101,6 +102,37 @@ class ShareCubit extends Cubit<ShareState> {
   void clearSearch() {
     searchController.clear();
     emit(state.copyWith(searchResults: [], clearSelectedUser: true));
+  }
+
+  void toggleSearch() {
+    final opening = !state.isSearchOpen;
+    if (!opening) {
+      searchController.clear();
+      searchFocusNode.unfocus();
+      emit(state.copyWith(isSearchOpen: false, searchResults: []));
+    } else {
+      emit(state.copyWith(isSearchOpen: true));
+      Future.microtask(() => searchFocusNode.requestFocus());
+    }
+  }
+
+  void closeSearch() {
+    searchController.clear();
+    searchFocusNode.unfocus();
+    emit(state.copyWith(isSearchOpen: false, searchResults: []));
+  }
+
+  Future<void> _fetchUserList() async {
+    emit(state.copyWith(isLoading: true));
+
+    List<SearchUserModel>? response;
+    response = await _repo.getShareSuggestions();
+
+    if (response != null) {
+      emit(state.copyWith(users: response, isLoading: false));
+    } else {
+      emit(state.copyWith(isLoading: false));
+    }
   }
 
   @override

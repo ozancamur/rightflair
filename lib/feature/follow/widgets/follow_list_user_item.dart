@@ -7,10 +7,10 @@ import '../../../core/components/text/text.dart';
 import '../../../core/constants/font/font_size.dart';
 import '../../../core/constants/icons.dart';
 import '../../../core/extensions/context.dart';
-import '../../authentication/model/user.dart';
+import '../model/follow_user.dart';
 
 class FollowListUserItem extends StatelessWidget {
-  final UserModel user;
+  final FollowUserModel user;
   final VoidCallback onTap;
   const FollowListUserItem({
     super.key,

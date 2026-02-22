@@ -11,20 +11,20 @@ import '../../../core/constants/font/font_size.dart';
 import '../../../core/constants/route.dart';
 import '../../../core/constants/string.dart';
 import '../../../core/extensions/context.dart';
-import '../cubit/follow_list_cubit.dart';
-import '../cubit/follow_list_state.dart';
+import '../cubit/follow_cubit.dart';
+import '../cubit/follow_state.dart';
 import '../widgets/follow_list_search_field.dart';
 import '../widgets/follow_list_user_item.dart';
 
-class FollowListDialogPage extends StatefulWidget {
+class FollowPage extends StatefulWidget {
   final FollowListType listType;
-  const FollowListDialogPage({super.key, required this.listType});
+  const FollowPage({super.key, required this.listType});
 
   @override
-  State<FollowListDialogPage> createState() => _FollowListDialogPageState();
+  State<FollowPage> createState() => _FollowPageState();
 }
 
-class _FollowListDialogPageState extends State<FollowListDialogPage> {
+class _FollowPageState extends State<FollowPage> {
   late ScrollController _scrollController;
 
   @override
@@ -37,7 +37,7 @@ class _FollowListDialogPageState extends State<FollowListDialogPage> {
   void _onScroll() {
     if (_scrollController.position.pixels >=
         _scrollController.position.maxScrollExtent - 200) {
-      context.read<FollowListCubit>().loadMore();
+      context.read<FollowCubit>().loadMore();
     }
   }
 
@@ -50,7 +50,7 @@ class _FollowListDialogPageState extends State<FollowListDialogPage> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<FollowListCubit, FollowListState>(
+    return BlocBuilder<FollowCubit, FollowState>(
       builder: (context, state) {
         return Padding(
           padding: EdgeInsets.only(top: context.height * 0.15),
@@ -78,7 +78,7 @@ class _FollowListDialogPageState extends State<FollowListDialogPage> {
                   ),
                   child: FollowListSearchField(
                     onChanged: (value) {
-                      context.read<FollowListCubit>().search(value);
+                      context.read<FollowCubit>().search(value);
                     },
                   ),
                 ),
@@ -112,7 +112,7 @@ class _FollowListDialogPageState extends State<FollowListDialogPage> {
     );
   }
 
-  Widget _buildUserList(BuildContext context, FollowListState state) {
+  Widget _buildUserList(BuildContext context, FollowState state) {
     if (state.users.isEmpty) {
       return Center(
         child: TextComponent(

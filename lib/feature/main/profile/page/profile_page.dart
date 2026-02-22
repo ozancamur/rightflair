@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rightflair/core/components/loading.dart';
 import 'package:rightflair/core/extensions/context.dart';
 import 'package:rightflair/core/components/profile/profile_header.dart';
-import 'package:rightflair/feature/follow/page/dialog_follow_list.dart';
+import 'package:rightflair/feature/follow/page/dialog_follow.dart';
 
 import '../../../../core/base/page/base_scaffold.dart';
 import '../../../../core/constants/enums/follow_list_type.dart';
@@ -99,14 +99,14 @@ class _ProfilePageState extends State<ProfilePage>
           onEditPhoto: () =>
               dialogCreateStory(context, uid: state.user.id ?? ''),
           onFollowersTap: () {
-            dialogFollowList(
+            dialogFollow(
               context,
               listType: FollowListType.followers,
               userId: null,
             );
           },
           onFollowingTap: () {
-            dialogFollowList(
+            dialogFollow(
               context,
               listType: FollowListType.following,
               userId: null,

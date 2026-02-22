@@ -11,7 +11,7 @@ import '../../../core/components/profile/profile_tab_item.dart';
 import '../../../core/constants/enums/follow_list_type.dart';
 import '../cubit/user_cubit.dart';
 import '../cubit/user_state.dart';
-import '../../follow/page/dialog_follow_list.dart';
+import '../../follow/page/dialog_follow.dart';
 import '../widgets/user_appbar.dart';
 
 class UserPage extends StatelessWidget {
@@ -47,14 +47,14 @@ class UserPage extends StatelessWidget {
                       },
                       onMessageTap: () {},
                       onFollowersTap: () {
-                        dialogFollowList(
+                        dialogFollow(
                           context,
                           listType: FollowListType.followers,
                           userId: userId,
                         );
                       },
                       onFollowingTap: () {
-                        dialogFollowList(
+                        dialogFollow(
                           context,
                           listType: FollowListType.following,
                           userId: userId,
