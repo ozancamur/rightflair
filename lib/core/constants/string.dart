@@ -455,4 +455,8 @@ class AppStrings {
       'notificationSettings.optionAll';
   static const String NOTIFICATION_SETTINGS_OPTION_NONE =
       'notificationSettings.optionNone';
+
+  // POST SAVE SNACKBAR
+  static const String POST_SAVED = 'post.saved';
+  static const String POST_SAVED_VIEW = 'post.savedView';
 }

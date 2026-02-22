@@ -200,7 +200,9 @@
     },
     "post": {
         "liked": "LIKED",
-        "disliked": "DISLIKED"
+        "disliked": "DISLIKED",
+        "saved": "Saved",
+        "savedView": "View >"
     },
     "days": {
         "monday": "Mon",
