@@ -366,6 +366,15 @@ class AppStrings {
   static const String PROFILE_EDIT_STORY_GALLERY_EMPTY =
       'profileEdit.storyGalleryEmpty';
 
+  // STORY CAMERA
+  static const String STORY_ADD_SOUND = 'story.addSound';
+  static const String STORY_TEXT = 'story.text';
+  static const String STORY_POST = 'story.post';
+  static const String STORY_CREATE = 'story.create';
+  static const String STORY_LIVE = 'story.live';
+  static const String STORY_YOUR_STORY = 'story.yourStory';
+  static const String STORY_NEXT = 'story.next';
+
   // SETTINGS
   static const String SETTINGS_TITLE = 'settings.title';
   static const String SETTINGS_ACCOUNT = 'settings.account';

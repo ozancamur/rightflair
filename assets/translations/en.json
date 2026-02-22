@@ -339,6 +339,15 @@
         "myStyles": "My Styles",
         "addNew": "+ Add New"
     },
+    "story": {
+        "addSound": "Add sound",
+        "text": "TEXT",
+        "post": "POST",
+        "create": "CREATE",
+        "live": "LIVE",
+        "yourStory": "Your Story",
+        "next": "Next"
+    },
     "settings": {
         "title": "Settings",
         "account": "ACCOUNT",

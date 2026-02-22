@@ -4,10 +4,7 @@ import 'dart:typed_data';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:photo_manager/photo_manager.dart';
-import 'package:rightflair/core/extensions/context.dart';
 
-import '../../../../core/components/text/text.dart';
-import '../../../../core/constants/font/font_size.dart';
 import '../../../../core/constants/string.dart';
 import 'edit_story_media_page.dart';
 
@@ -95,31 +92,31 @@ class _GalleryPickerPageState extends State<GalleryPickerPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: context.colors.surface,
+      backgroundColor: Colors.black,
       appBar: AppBar(
-        backgroundColor: context.colors.surface,
+        backgroundColor: Colors.black,
+        elevation: 0,
         leading: IconButton(
           onPressed: () => Navigator.pop(context),
-          icon: Icon(Icons.close, color: context.colors.onSurface),
+          icon: const Icon(Icons.close, color: Colors.white),
         ),
-        title: TextComponent(
-          text: AppStrings.PROFILE_EDIT_STORY_GALLERY.tr(),
-          color: context.colors.onSurface,
-          size: FontSizeConstants.LARGE,
-          weight: FontWeight.bold,
+        title: Text(
+          AppStrings.PROFILE_EDIT_STORY_GALLERY.tr(),
+          style: const TextStyle(
+            color: Colors.white,
+            fontSize: 17,
+            fontWeight: FontWeight.bold,
+          ),
         ),
         centerTitle: true,
       ),
       body: _isLoading && _mediaList.isEmpty
-          ? Center(
-              child: CircularProgressIndicator(color: context.colors.primary),
-            )
+          ? const Center(child: CircularProgressIndicator(color: Colors.white))
           : _mediaList.isEmpty
           ? Center(
-              child: TextComponent(
-                text: AppStrings.PROFILE_EDIT_STORY_GALLERY_EMPTY.tr(),
-                color: context.colors.onSurface,
-                size: FontSizeConstants.NORMAL,
+              child: Text(
+                AppStrings.PROFILE_EDIT_STORY_GALLERY_EMPTY.tr(),
+                style: const TextStyle(color: Colors.white70, fontSize: 14),
               ),
             )
           : NotificationListener<ScrollNotification>(
@@ -133,19 +130,17 @@ class _GalleryPickerPageState extends State<GalleryPickerPage> {
                 return false;
               },
               child: GridView.builder(
-                padding: EdgeInsets.all(context.width * 0.005),
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                padding: const EdgeInsets.all(1),
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 3,
-                  mainAxisSpacing: context.width * 0.005,
-                  crossAxisSpacing: context.width * 0.005,
+                  mainAxisSpacing: 1,
+                  crossAxisSpacing: 1,
                 ),
                 itemCount: _mediaList.length + (_hasMoreToLoad ? 1 : 0),
                 itemBuilder: (context, index) {
                   if (index == _mediaList.length) {
-                    return Center(
-                      child: CircularProgressIndicator(
-                        color: context.colors.primary,
-                      ),
+                    return const Center(
+                      child: CircularProgressIndicator(color: Colors.white),
                     );
                   }
 
@@ -166,39 +161,37 @@ class _GalleryPickerPageState extends State<GalleryPickerPage> {
                                 fit: BoxFit.cover,
                               );
                             }
-                            return Container(
-                              color: context.colors.surfaceContainerHighest,
-                            );
+                            return Container(color: Colors.grey.shade900);
                           },
                         ),
                         if (asset.type == AssetType.video)
                           Positioned(
-                            bottom: context.width * 0.01,
-                            right: context.width * 0.01,
+                            bottom: 4,
+                            right: 4,
                             child: Container(
-                              padding: EdgeInsets.symmetric(
-                                horizontal: context.width * 0.015,
-                                vertical: context.height * 0.0025,
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 6,
+                                vertical: 2,
                               ),
                               decoration: BoxDecoration(
-                                color: context.colors.surface.withOpacity(0.7),
-                                borderRadius: BorderRadius.circular(
-                                  context.width * 0.01,
-                                ),
+                                color: Colors.black.withOpacity(0.7),
+                                borderRadius: BorderRadius.circular(4),
                               ),
                               child: Row(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
-                                  Icon(
+                                  const Icon(
                                     Icons.play_arrow,
-                                    color: context.colors.onSurface,
-                                    size: context.width * 0.03,
+                                    color: Colors.white,
+                                    size: 12,
                                   ),
-                                  SizedBox(width: context.width * 0.005),
-                                  TextComponent(
-                                    text: _formatDuration(asset.duration),
-                                    color: context.colors.onSurface,
-                                    size: FontSizeConstants.XXX_SMALL,
+                                  const SizedBox(width: 2),
+                                  Text(
+                                    _formatDuration(asset.duration),
+                                    style: const TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 10,
+                                    ),
                                   ),
                                 ],
                               ),

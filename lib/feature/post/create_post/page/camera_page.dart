@@ -737,19 +737,12 @@ class _CameraPageState extends State<CameraPage> with WidgetsBindingObserver {
           ),
           const Spacer(),
           // PHOTO label
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 8),
-            decoration: BoxDecoration(
+          Text(
+            AppStrings.PROFILE_EDIT_STORY_PHOTO.tr(),
+            style: const TextStyle(
               color: Colors.white,
-              borderRadius: BorderRadius.circular(20),
-            ),
-            child: const Text(
-              'PHOTO',
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 13,
-                fontWeight: FontWeight.w700,
-              ),
+              fontSize: 15,
+              fontWeight: FontWeight.w700,
             ),
           ),
           const Spacer(),
