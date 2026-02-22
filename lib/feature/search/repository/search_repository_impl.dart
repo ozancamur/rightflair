@@ -1,7 +1,9 @@
 import 'package:dio/dio.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:rightflair/core/base/model/response.dart';
 import 'package:rightflair/core/constants/enums/endpoint.dart';
+import 'package:rightflair/core/constants/string.dart';
 import 'package:rightflair/core/services/api.dart';
 import 'package:rightflair/feature/main/feed/models/comment.dart';
 import 'package:rightflair/feature/main/feed/models/request_comment.dart';
@@ -50,10 +52,12 @@ class SearchRepositoryImpl extends SearchRepository {
           }
         }
       }
-      throw Exception('Search failed. Please try again.');
+      throw Exception(AppStrings.SEARCH_FAILED.tr());
     } catch (e) {
       debugPrint("SearchRepositoryImpl ERROR in searchPosts :> $e");
-      throw Exception('An unexpected error occurred.');
+      throw Exception(
+        AppStrings.SEARCH_UNEXPECTED_ERROR.tr(args: [e.toString()]),
+      );
     }
   }
 

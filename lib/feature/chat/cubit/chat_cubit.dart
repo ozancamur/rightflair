@@ -1,8 +1,10 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rightflair/core/constants/route.dart';
+import 'package:rightflair/core/constants/string.dart';
 import 'package:rightflair/feature/chat/model/chat_message.dart';
 import 'package:rightflair/feature/chat/model/chat_pagination.dart';
 import 'package:rightflair/feature/chat/model/chat_request.dart';
@@ -49,7 +51,12 @@ class ChatCubit extends Cubit<ChatState> {
         ),
       );
     } else {
-      emit(state.copyWith(isLoading: false, error: 'Failed to load messages'));
+      emit(
+        state.copyWith(
+          isLoading: false,
+          error: AppStrings.CHAT_FAILED_TO_LOAD_MESSAGES.tr(),
+        ),
+      );
     }
   }
 

@@ -1,6 +1,8 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rightflair/core/constants/string.dart';
 import 'package:rightflair/core/services/cache.dart';
 import 'package:rightflair/feature/post/create_post/model/post.dart';
 import 'package:rightflair/feature/search/model/request_search.dart';
@@ -69,7 +71,7 @@ class SearchCubit extends Cubit<SearchState> {
     if (query.trim().length < 2) {
       emit(
         state.copyWith(
-          errorMessage: 'Lütfen en az 2 karakter girin',
+          errorMessage: AppStrings.SEARCH_MIN_CHARACTERS.tr(),
           searchResults: [],
         ),
       );
@@ -128,7 +130,7 @@ class SearchCubit extends Cubit<SearchState> {
         emit(
           state.copyWith(
             isLoading: false,
-            errorMessage: 'Search failed. Please try again.',
+            errorMessage: AppStrings.SEARCH_FAILED.tr(),
           ),
         );
       }
@@ -136,7 +138,9 @@ class SearchCubit extends Cubit<SearchState> {
       emit(
         state.copyWith(
           isLoading: false,
-          errorMessage: 'An error occurred: ${e.toString()}',
+          errorMessage: AppStrings.SEARCH_UNEXPECTED_ERROR.tr(
+            args: [e.toString()],
+          ),
         ),
       );
     }

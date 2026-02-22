@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rightflair/core/constants/string.dart';
 import 'package:rightflair/core/extensions/context.dart';
 import '../cubit/create_post_cubit.dart';
 import '../model/mention_user.dart';
@@ -77,7 +79,7 @@ class _MentionUserDialogState extends State<MentionUserDialog> {
               autofocus: true,
               style: TextStyle(color: context.colors.primary),
               decoration: InputDecoration(
-                hintText: 'Search users...',
+                hintText: AppStrings.MENTION_SEARCH_USERS.tr(),
                 hintStyle: TextStyle(color: context.colors.onPrimary),
                 prefixIcon: Icon(Icons.search, color: context.colors.primary),
                 filled: true,
@@ -103,8 +105,8 @@ class _MentionUserDialogState extends State<MentionUserDialog> {
                   ? Center(
                       child: Text(
                         _searchController.text.isEmpty
-                            ? 'Type to search users'
-                            : 'No users found',
+                            ? AppStrings.MENTION_TYPE_TO_SEARCH.tr()
+                            : AppStrings.MENTION_NO_USERS_FOUND.tr(),
                         style: TextStyle(color: context.colors.onPrimary),
                       ),
                     )

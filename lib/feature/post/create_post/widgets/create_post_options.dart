@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -67,7 +68,7 @@ class CreatePostOptionsWidget extends StatelessWidget {
     return BlocBuilder<CreatePostCubit, CreatePostState>(
       builder: (context, state) {
         return CreatePostOptionTile(
-          title: 'Müzik Ekle',
+          title: AppStrings.CREATE_POST_ADD_MUSIC_LABEL.tr(),
           subtitle: selectedMusic?.displayName,
           iconPath: null,
           icon: Icon(Icons.music_note, color: Colors.white),

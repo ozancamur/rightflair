@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:audioplayers/audioplayers.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -40,7 +41,10 @@ class CreatePostCubit extends Cubit<CreatePostState> {
         isAnonymous: value,
       );
       if (response.isBlurred == false) {
-        dialogError(context, message: "Yüz algılama başarısız oldu.");
+        dialogError(
+          context,
+          message: AppStrings.CREATE_POST_FACE_DETECTION_FAILED.tr(),
+        );
       }
       emit(
         state.copyWith(

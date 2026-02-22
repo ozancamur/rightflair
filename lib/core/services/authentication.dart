@@ -1,4 +1,6 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:rightflair/core/constants/string.dart';
 import 'package:rightflair/core/services/supabase.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -20,7 +22,9 @@ class AuthenticationService extends SupabaseService {
     } on AuthException catch (e) {
       throw SupabaseAuthException(e.message);
     } catch (e) {
-      throw SupabaseAuthException('Kayıt sırasında bir hata oluştu: $e');
+      throw SupabaseAuthException(
+        AppStrings.AUTH_SIGNUP_ERROR.tr(args: [e.toString()]),
+      );
     }
   }
 
@@ -38,7 +42,9 @@ class AuthenticationService extends SupabaseService {
     } on AuthException catch (e) {
       throw SupabaseAuthException(e.message);
     } catch (e) {
-      throw SupabaseAuthException('Giriş sırasında bir hata oluştu: $e');
+      throw SupabaseAuthException(
+        AppStrings.AUTH_SIGNIN_ERROR.tr(args: [e.toString()]),
+      );
     }
   }
 
@@ -54,7 +60,9 @@ class AuthenticationService extends SupabaseService {
       final idToken = googleAuth.idToken;
 
       if (idToken == null) {
-        throw SupabaseAuthException('Google ID token alınamadı');
+        throw SupabaseAuthException(
+          AppStrings.AUTH_GOOGLE_ID_TOKEN_FAILED.tr(),
+        );
       }
 
       final response = await client.auth.signInWithIdToken(
@@ -67,7 +75,7 @@ class AuthenticationService extends SupabaseService {
       throw SupabaseAuthException(e.message);
     } catch (e) {
       throw SupabaseAuthException(
-        'Google ile giriş sırasında bir hata oluştu: $e',
+        AppStrings.AUTH_GOOGLE_SIGNIN_ERROR.tr(args: [e.toString()]),
       );
     }
   }
@@ -84,7 +92,7 @@ class AuthenticationService extends SupabaseService {
 
       final idToken = credential.identityToken;
       if (idToken == null) {
-        throw SupabaseAuthException('Apple ID token alınamadı');
+        throw SupabaseAuthException(AppStrings.AUTH_APPLE_ID_TOKEN_FAILED.tr());
       }
 
       final response = await client.auth.signInWithIdToken(
@@ -94,12 +102,14 @@ class AuthenticationService extends SupabaseService {
 
       return response;
     } on SignInWithAppleAuthorizationException catch (e) {
-      throw SupabaseAuthException('Apple ile giriş hatası: ${e.message}');
+      throw SupabaseAuthException(
+        AppStrings.AUTH_APPLE_SIGNIN_AUTH_ERROR.tr(args: [e.message]),
+      );
     } on AuthException catch (e) {
       throw SupabaseAuthException(e.message);
     } catch (e) {
       throw SupabaseAuthException(
-        'Apple ile giriş sırasında bir hata oluştu: $e',
+        AppStrings.AUTH_APPLE_SIGNIN_ERROR.tr(args: [e.toString()]),
       );
     }
   }
@@ -111,7 +121,9 @@ class AuthenticationService extends SupabaseService {
     } on AuthException catch (e) {
       throw SupabaseAuthException(e.message);
     } catch (e) {
-      throw SupabaseAuthException('Şifre sıfırlama maili gönderilemedi: $e');
+      throw SupabaseAuthException(
+        AppStrings.AUTH_PASSWORD_RESET_ERROR.tr(args: [e.toString()]),
+      );
     }
   }
 
@@ -122,7 +134,9 @@ class AuthenticationService extends SupabaseService {
     } on AuthException catch (e) {
       throw SupabaseAuthException(e.message);
     } catch (e) {
-      throw SupabaseAuthException('Çıkış sırasında bir hata oluştu: $e');
+      throw SupabaseAuthException(
+        AppStrings.AUTH_SIGNOUT_ERROR.tr(args: [e.toString()]),
+      );
     }
   }
 }

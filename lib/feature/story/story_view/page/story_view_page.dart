@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rightflair/feature/main/feed/models/user_with_stories.dart';
 import 'package:rightflair/feature/story/story_view/cubit/story_view_cubit.dart';
+import 'package:rightflair/core/constants/string.dart';
 import 'package:rightflair/feature/story/story_view/repository/story_view_repository_impl.dart';
 import '../widgets/story_content.dart';
 import '../widgets/story_progress_bar.dart';
@@ -205,17 +207,15 @@ class _StoryViewPageState extends State<StoryViewPage>
                   showDialog(
                     context: context,
                     builder: (dialogContext) => AlertDialog(
-                      title: const Text('Hikayeyi Sil'),
-                      content: const Text(
-                        'Bu hikayeyi silmek istediğinize emin misiniz?',
-                      ),
+                      title: Text(AppStrings.STORY_DELETE_TITLE.tr()),
+                      content: Text(AppStrings.STORY_DELETE_MESSAGE.tr()),
                       actions: [
                         TextButton(
                           onPressed: () {
                             Navigator.pop(dialogContext);
                             cubit.resumeStory();
                           },
-                          child: const Text('İptal'),
+                          child: Text(AppStrings.STORY_DELETE_CANCEL.tr()),
                         ),
                         TextButton(
                           onPressed: () async {
@@ -225,15 +225,17 @@ class _StoryViewPageState extends State<StoryViewPage>
                             );
                             if (!deleted && context.mounted) {
                               ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text('Hikaye silinemedi'),
+                                SnackBar(
+                                  content: Text(
+                                    AppStrings.STORY_DELETE_FAILED.tr(),
+                                  ),
                                 ),
                               );
                               cubit.resumeStory();
                             }
                           },
-                          child: const Text(
-                            'Sil',
+                          child: Text(
+                            AppStrings.STORY_DELETE_DELETE.tr(),
                             style: TextStyle(color: Colors.red),
                           ),
                         ),

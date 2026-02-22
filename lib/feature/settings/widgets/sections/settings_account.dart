@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
@@ -79,7 +80,7 @@ class SettingsAccountWidget extends StatelessWidget {
     return SettingsListItemWidget(
       icon: AppIcons.EMAIL,
       title: AppStrings.SETTINGS_EMAIL,
-      subtitle: email ?? "rightflairuser@example.com",
+      subtitle: email ?? AppStrings.DEFAULT_FALLBACK_EMAIL.tr(),
       trailing: emailVerified == true
           ? Icon(
               Icons.check_circle,

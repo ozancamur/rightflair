@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rightflair/core/constants/string.dart';
 import 'package:rightflair/core/extensions/context.dart';
 import 'package:rightflair/feature/chat/cubit/chat_cubit.dart';
 import 'package:rightflair/feature/chat/model/chat_message.dart';
@@ -94,7 +96,7 @@ class MessageBubbleWidget extends StatelessWidget {
                 ListTile(
                   leading: Icon(Icons.refresh, color: context.colors.primary),
                   title: Text(
-                    'Tekrar Gönder',
+                    AppStrings.CHAT_RESEND.tr(),
                     style: TextStyle(color: context.colors.primary),
                   ),
                   onTap: () {
@@ -105,7 +107,7 @@ class MessageBubbleWidget extends StatelessWidget {
                 ListTile(
                   leading: Icon(Icons.delete_outline, color: Colors.red),
                   title: Text(
-                    'Mesajı Sil',
+                    AppStrings.CHAT_DELETE_MESSAGE.tr(),
                     style: TextStyle(color: Colors.red),
                   ),
                   onTap: () {

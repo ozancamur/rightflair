@@ -399,5 +399,63 @@
         "error": "Music could not be played",
         "defaultSong": "Song",
         "defaultArtist": "Artist"
+    },
+    "createPostErrors": {
+        "faceDetectionFailed": "Face detection failed.",
+        "addMusic": "Add Music"
+    },
+    "storyDelete": {
+        "title": "Delete Story",
+        "message": "Are you sure you want to delete this story?",
+        "cancel": "Cancel",
+        "delete": "Delete",
+        "failed": "Story could not be deleted"
+    },
+    "chatActions": {
+        "resend": "Resend",
+        "deleteMessage": "Delete Message"
+    },
+    "profileEditErrors": {
+        "photoUploadFailed": "Photo could not be uploaded",
+        "photoUploadError": "An error occurred while uploading photo: {}",
+        "profileSaveFailed": "Profile could not be saved: {}"
+    },
+    "searchErrors": {
+        "minCharacters": "Please enter at least 2 characters",
+        "searchFailed": "Search failed. Please try again.",
+        "unexpectedError": "An error occurred: {}"
+    },
+    "authErrors": {
+        "signupError": "An error occurred during registration: {}",
+        "signinError": "An error occurred during login: {}",
+        "googleIdTokenFailed": "Could not get Google ID token",
+        "googleSigninError": "An error occurred during Google sign in: {}",
+        "appleIdTokenFailed": "Could not get Apple ID token",
+        "appleSigninAuthError": "Apple sign in error: {}",
+        "appleSigninError": "An error occurred during Apple sign in: {}",
+        "passwordResetError": "Failed to send password reset email: {}",
+        "signoutError": "An error occurred during sign out: {}"
+    },
+    "messagingErrors": {
+        "permissionError": "Permission request error: {}",
+        "tokenError": "Error getting token: {}",
+        "foregroundError": "Error setting foreground notification: {}",
+        "notificationSettingsError": "Error getting notification settings: {}",
+        "permissionCheckError": "Error checking permission status: {}"
+    },
+    "mention": {
+        "searchUsers": "Search users...",
+        "typeToSearch": "Type to search users",
+        "noUsersFound": "No users found"
+    },
+    "storyError": {
+        "failedToLoad": "Failed to load story"
+    },
+    "chatError": {
+        "failedToLoadMessages": "Failed to load messages"
+    },
+    "defaults": {
+        "rightflairUser": "Rightflair User",
+        "fallbackEmail": "rightflairuser@example.com"
     }
 }

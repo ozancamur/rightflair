@@ -1,12 +1,14 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:rightflair/core/constants/app.dart';
 import 'package:rightflair/core/constants/color/color.dart';
 import 'package:rightflair/core/constants/enums/endpoint.dart';
 import 'package:rightflair/core/constants/image.dart';
+import 'package:rightflair/core/constants/string.dart';
 import 'package:rightflair/core/services/api.dart';
 import 'package:rightflair/core/services/cache.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -101,7 +103,9 @@ class FirebaseMessagingManager {
       }
       return settings;
     } catch (e) {
-      throw Exception('İzin isteği sırasında hata: $e');
+      throw Exception(
+        AppStrings.MESSAGING_PERMISSION_ERROR.tr(args: [e.toString()]),
+      );
     }
   }
 
@@ -130,7 +134,9 @@ class FirebaseMessagingManager {
       if (token != null) {}
       return token;
     } catch (e) {
-      throw Exception('Token alınırken hata: $e');
+      throw Exception(
+        AppStrings.MESSAGING_TOKEN_ERROR.tr(args: [e.toString()]),
+      );
     }
   }
 
@@ -156,7 +162,9 @@ class FirebaseMessagingManager {
         debugPrint('Foreground notification ayarlandı');
       }
     } catch (e) {
-      throw Exception('Foreground notification ayarlanırken hata: $e');
+      throw Exception(
+        AppStrings.MESSAGING_FOREGROUND_ERROR.tr(args: [e.toString()]),
+      );
     }
   }
 
@@ -251,7 +259,11 @@ class FirebaseMessagingManager {
     try {
       return await _messaging.getNotificationSettings();
     } catch (e) {
-      throw Exception('Notification ayarları alınırken hata: $e');
+      throw Exception(
+        AppStrings.MESSAGING_NOTIFICATION_SETTINGS_ERROR.tr(
+          args: [e.toString()],
+        ),
+      );
     }
   }
 
@@ -262,7 +274,9 @@ class FirebaseMessagingManager {
       return settings.authorizationStatus == AuthorizationStatus.authorized ||
           settings.authorizationStatus == AuthorizationStatus.provisional;
     } catch (e) {
-      throw Exception('İzin durumu kontrol edilirken hata: $e');
+      throw Exception(
+        AppStrings.MESSAGING_PERMISSION_CHECK_ERROR.tr(args: [e.toString()]),
+      );
     }
   }
 

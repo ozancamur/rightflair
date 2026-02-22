@@ -459,4 +459,75 @@ class AppStrings {
   // POST SAVE SNACKBAR
   static const String POST_SAVED = 'post.saved';
   static const String POST_SAVED_VIEW = 'post.savedView';
+
+  // CREATE POST ERRORS
+  static const String CREATE_POST_FACE_DETECTION_FAILED =
+      'createPostErrors.faceDetectionFailed';
+  static const String CREATE_POST_ADD_MUSIC_LABEL = 'createPostErrors.addMusic';
+
+  // STORY DELETE
+  static const String STORY_DELETE_TITLE = 'storyDelete.title';
+  static const String STORY_DELETE_MESSAGE = 'storyDelete.message';
+  static const String STORY_DELETE_CANCEL = 'storyDelete.cancel';
+  static const String STORY_DELETE_DELETE = 'storyDelete.delete';
+  static const String STORY_DELETE_FAILED = 'storyDelete.failed';
+
+  // CHAT ACTIONS
+  static const String CHAT_RESEND = 'chatActions.resend';
+  static const String CHAT_DELETE_MESSAGE = 'chatActions.deleteMessage';
+
+  // PROFILE EDIT ERRORS
+  static const String PROFILE_EDIT_PHOTO_UPLOAD_FAILED =
+      'profileEditErrors.photoUploadFailed';
+  static const String PROFILE_EDIT_PHOTO_UPLOAD_ERROR =
+      'profileEditErrors.photoUploadError';
+  static const String PROFILE_EDIT_PROFILE_SAVE_FAILED =
+      'profileEditErrors.profileSaveFailed';
+
+  // SEARCH ERRORS
+  static const String SEARCH_MIN_CHARACTERS = 'searchErrors.minCharacters';
+  static const String SEARCH_FAILED = 'searchErrors.searchFailed';
+  static const String SEARCH_UNEXPECTED_ERROR = 'searchErrors.unexpectedError';
+
+  // AUTH ERRORS (SERVICE)
+  static const String AUTH_SIGNUP_ERROR = 'authErrors.signupError';
+  static const String AUTH_SIGNIN_ERROR = 'authErrors.signinError';
+  static const String AUTH_GOOGLE_ID_TOKEN_FAILED =
+      'authErrors.googleIdTokenFailed';
+  static const String AUTH_GOOGLE_SIGNIN_ERROR = 'authErrors.googleSigninError';
+  static const String AUTH_APPLE_ID_TOKEN_FAILED =
+      'authErrors.appleIdTokenFailed';
+  static const String AUTH_APPLE_SIGNIN_AUTH_ERROR =
+      'authErrors.appleSigninAuthError';
+  static const String AUTH_APPLE_SIGNIN_ERROR = 'authErrors.appleSigninError';
+  static const String AUTH_PASSWORD_RESET_ERROR =
+      'authErrors.passwordResetError';
+  static const String AUTH_SIGNOUT_ERROR = 'authErrors.signoutError';
+
+  // MESSAGING ERRORS
+  static const String MESSAGING_PERMISSION_ERROR =
+      'messagingErrors.permissionError';
+  static const String MESSAGING_TOKEN_ERROR = 'messagingErrors.tokenError';
+  static const String MESSAGING_FOREGROUND_ERROR =
+      'messagingErrors.foregroundError';
+  static const String MESSAGING_NOTIFICATION_SETTINGS_ERROR =
+      'messagingErrors.notificationSettingsError';
+  static const String MESSAGING_PERMISSION_CHECK_ERROR =
+      'messagingErrors.permissionCheckError';
+
+  // MENTION
+  static const String MENTION_SEARCH_USERS = 'mention.searchUsers';
+  static const String MENTION_TYPE_TO_SEARCH = 'mention.typeToSearch';
+  static const String MENTION_NO_USERS_FOUND = 'mention.noUsersFound';
+
+  // STORY ERROR
+  static const String STORY_FAILED_TO_LOAD = 'storyError.failedToLoad';
+
+  // CHAT ERROR
+  static const String CHAT_FAILED_TO_LOAD_MESSAGES =
+      'chatError.failedToLoadMessages';
+
+  // DEFAULTS
+  static const String DEFAULT_RIGHTFLAIR_USER = 'defaults.rightflairUser';
+  static const String DEFAULT_FALLBACK_EMAIL = 'defaults.fallbackEmail';
 }

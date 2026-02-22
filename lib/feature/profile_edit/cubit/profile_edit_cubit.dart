@@ -1,11 +1,13 @@
 import 'dart:io';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../../core/constants/enums/image_picker_option.dart';
+import '../../../core/constants/string.dart';
 import '../../story/create_story/page/create_story_dialog.dart';
 import '../../authentication/model/user.dart';
 import '../repository/profile_edit_repository.dart';
@@ -112,7 +114,7 @@ class ProfileEditCubit extends Cubit<ProfileEditState> {
           emit(
             state.copyWith(
               isUploading: false,
-              errorMessage: 'Fotoğraf yüklenemedi',
+              errorMessage: AppStrings.PROFILE_EDIT_PHOTO_UPLOAD_FAILED.tr(),
             ),
           );
         }
@@ -122,7 +124,9 @@ class ProfileEditCubit extends Cubit<ProfileEditState> {
         emit(
           state.copyWith(
             isUploading: false,
-            errorMessage: 'Fotoğraf yüklenirken hata oluştu: $e',
+            errorMessage: AppStrings.PROFILE_EDIT_PHOTO_UPLOAD_ERROR.tr(
+              args: [e.toString()],
+            ),
           ),
         );
       }
@@ -163,7 +167,9 @@ class ProfileEditCubit extends Cubit<ProfileEditState> {
           emit(
             state.copyWith(
               isSaving: false,
-              errorMessage: 'Profil kaydedilemedi: $e',
+              errorMessage: AppStrings.PROFILE_EDIT_PROFILE_SAVE_FAILED.tr(
+                args: [e.toString()],
+              ),
             ),
           );
         }
