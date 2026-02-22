@@ -293,8 +293,6 @@ class AppStrings {
   static const String TECHWEAR = 'styleTags.techwear';
   static const String SKATER = 'styleTags.skater';
   static const String RETRO = 'styleTags.retro';
-  static const String CLEAN = 'styleTags.clean';
-  static const String GIRL = 'styleTags.girl';
   // SHARE DIALOG
   static const String SHARE_DIALOG_TITLE = 'shareDialog.title';
   static const String SHARE_DIALOG_SHARE_VIA = 'shareDialog.shareVia';

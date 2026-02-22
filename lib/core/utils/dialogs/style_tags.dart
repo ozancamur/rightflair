@@ -4,30 +4,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../feature/profile_edit/cubit/profile_edit_cubit.dart';
 import '../../components/text/text.dart';
+import '../../constants/enums/user_style_tags.dart';
 import '../../constants/font/font_size.dart';
-import '../../constants/string.dart';
 import '../../extensions/context.dart';
 
 void dialogStyleTags(BuildContext context) {
   final profileEditCubit = context.read<ProfileEditCubit>();
-  final styles = [
-    AppStrings.OVERSIZED,
-    AppStrings.STREETWEAR,
-    AppStrings.MODELLING,
-    AppStrings.CASUAL,
-    AppStrings.FORMAL,
-    AppStrings.VINTAGE,
-    AppStrings.SPORTY,
-    AppStrings.BOHEMIAN,
-    AppStrings.Y2K,
-    AppStrings.GOTH,
-    AppStrings.MINIMALIST,
-    AppStrings.TECHWEAR,
-    AppStrings.SKATER,
-    AppStrings.RETRO,
-    AppStrings.CLEAN,
-    AppStrings.GIRL,
-  ];
+  final styles = UserStyleTags.values.map((e) => e.value).toList();
 
   showModalBottomSheet(
     context: context,

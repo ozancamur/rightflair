@@ -273,9 +273,7 @@
         "minimalist": "Minimalist",
         "techwear": "Techwear",
         "skater": "Skater",
-        "retro": "Retro",
-        "clean": "Clean",
-        "girl": "Girl"
+        "retro": "Retro"
     },
     "shareDialog": {
         "title": "Share",
