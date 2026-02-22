@@ -179,6 +179,9 @@ class AppStrings {
   static const String INBOX_MESSAGES = 'inbox.messages';
   static const String INBOX_NOTIFICATIONS = 'inbox.notifications';
   static const String INBOX_SENT_A_PHOTO = 'inbox.sentAPhoto';
+  static const String INBOX_POST_SHARED = 'inbox.postShared';
+  static const String INBOX_PROFILE_SHARED = 'inbox.profileShared';
+  static const String INBOX_IMAGE_SHARED = 'inbox.imageShared';
   static const String INBOX_TODAYS_ACTIVITY = 'inbox.todaysActivity';
   static const String INBOX_KEEP_POSTING = 'inbox.keepPosting';
 
@@ -302,6 +305,8 @@ class AppStrings {
   static const String SHARE_DIALOG_REPORT_USER = 'shareDialog.reportUser';
   static const String SHARE_DIALOG_LINK_COPIED = 'shareDialog.linkCopied';
   static const String SHARE_DIALOG_NO_USER = 'shareDialog.noUser';
+  static const String SHARE_DIALOG_SMS = 'shareDialog.sms';
+  static const String SHARE_DIALOG_MORE = 'shareDialog.more';
 
   // REPORT REASON
   static const String REPORT_REASON_SPAM = 'reportReason.spam';

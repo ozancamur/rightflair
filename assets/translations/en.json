@@ -150,6 +150,9 @@
         "messages": "Messages",
         "notifications": "Notifications",
         "sentAPhoto": "Sent a photo",
+        "postShared": "A post was shared",
+        "profileShared": "A user was shared",
+        "imageShared": "An image was shared",
         "todaysActivity": "Today's Activity",
         "keepPosting": "Keep posting outfits to get more reactions",
         "systemNotifications": {
@@ -283,7 +286,9 @@
         "reportPost": "Report Post",
         "reportUser": "Report User",
         "linkCopied": "Link copied!",
-        "noUser": "No user found"
+        "noUser": "No user found",
+        "sms": "SMS",
+        "more": "More"
     },
     "reportReason": {
         "spam": "Spam",

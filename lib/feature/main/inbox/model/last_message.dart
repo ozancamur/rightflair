@@ -1,6 +1,8 @@
 import '../../../../core/base/model/base.dart';
 
 class LastMessageModel extends BaseModel<LastMessageModel> {
+  String? id;
+  String? messageType;
   String? content;
   String? imageUrl;
   String? senderId;
@@ -8,7 +10,10 @@ class LastMessageModel extends BaseModel<LastMessageModel> {
   bool? isOwnMessage;
   bool? isRead;
 
+
   LastMessageModel({
+    this.id,
+    this.messageType,
     this.content,
     this.imageUrl,
     this.senderId,
@@ -19,6 +24,8 @@ class LastMessageModel extends BaseModel<LastMessageModel> {
 
   @override
   LastMessageModel copyWith({
+  String? id,
+  String? messageType,
     String? content,
     String? imageUrl,
     String? senderId,
@@ -27,6 +34,8 @@ class LastMessageModel extends BaseModel<LastMessageModel> {
     bool? isRead,
   }) {
     return LastMessageModel(
+      id: id ?? this.id,
+      messageType: messageType ?? this.messageType,
       content: content ?? this.content,
       imageUrl: imageUrl ?? this.imageUrl,
       senderId: senderId ?? this.senderId,
@@ -39,6 +48,8 @@ class LastMessageModel extends BaseModel<LastMessageModel> {
   @override
   LastMessageModel fromJson(Map<String, dynamic> json) {
     return LastMessageModel(
+      id: json['id'] as String?,
+      messageType: json['message_type'] as String?,
       content: json['content'] as String?,
       imageUrl: json['image_url'] as String?,
       senderId: json['sender_id'] as String?,
@@ -53,6 +64,8 @@ class LastMessageModel extends BaseModel<LastMessageModel> {
   @override
   Map<String, dynamic> toJson() {
     return {
+      'id': id,
+      'message_type': messageType,
       'content': content,
       'image_url': imageUrl,
       'sender_id': senderId,

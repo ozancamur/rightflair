@@ -1,5 +1,8 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:rightflair/core/constants/enums/message_type.dart';
 import 'package:rightflair/core/constants/font/font_size.dart';
+import 'package:rightflair/core/constants/string.dart';
 import 'package:rightflair/core/extensions/context.dart';
 import 'package:rightflair/feature/main/inbox/model/last_message.dart';
 
@@ -11,11 +14,18 @@ class MessageContentWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final String text = model.messageType == MessageType.post_share.name
+        ? AppStrings.INBOX_POST_SHARED.tr()
+        : model.messageType == MessageType.profile_share.name
+        ? AppStrings.INBOX_PROFILE_SHARED.tr()
+        : model.messageType == MessageType.image.name
+        ? AppStrings.INBOX_IMAGE_SHARED.tr()
+        : model.content ?? "";
     return Row(
       children: [
         Expanded(
           child: TextComponent(
-            text: model.content ?? "",
+            text: text,
             size: FontSizeConstants.SMALL,
             color: context.colors.tertiary,
             maxLine: 1,
