@@ -46,19 +46,23 @@ class _SearchPageViewState extends State<_SearchPageView> {
         }
       },
       builder: (context, state) {
-        return BaseScaffold(
-          appBar: SearchAppBarWidget(),
-          body: Padding(
-            padding: EdgeInsets.symmetric(horizontal: context.width * 0.04),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(height: context.height * 0.02),
-                RecentSearchesWidget(searches: state.recentSearches),
-                SizedBox(height: context.height * 0.02),
-                Expanded(child: _content(context, state)),
-                SizedBox(height: context.height * 0.03),
-              ],
+        return GestureDetector(
+          onTap: () => FocusScope.of(context).unfocus(),
+          child: BaseScaffold(
+            resizeToAvoidBottomInset: false,
+            appBar: SearchAppBarWidget(),
+            body: Padding(
+              padding: EdgeInsets.symmetric(horizontal: context.width * 0.04),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(height: context.height * 0.02),
+                  RecentSearchesWidget(searches: state.recentSearches),
+                  SizedBox(height: context.height * 0.02),
+                  Expanded(child: _content(context, state)),
+                  SizedBox(height: context.height * 0.03),
+                ],
+              ),
             ),
           ),
         );
