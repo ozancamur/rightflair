@@ -114,7 +114,26 @@ class CreatePostCubit extends Cubit<CreatePostState> {
   }
 
   void setSelectedMusic(MusicModel? music) {
-    emit(state.copyWith(selectedMusic: music));
+    if (music == null) {
+      emit(
+        CreatePostState(
+          isAnonymous: state.isAnonymous,
+          allowComments: state.allowComments,
+          selectedLocation: state.selectedLocation,
+          selectedMusic: null,
+          isPlayingMusic: state.isPlayingMusic,
+          currentPlayingMusicUrl: state.currentPlayingMusicUrl,
+          imagePath: state.imagePath,
+          originalImagePath: state.originalImagePath,
+          isProcessingImage: state.isProcessingImage,
+          tags: state.tags,
+          mentionedUserIds: state.mentionedUserIds,
+          isLoading: state.isLoading,
+        ),
+      );
+    } else {
+      emit(state.copyWith(selectedMusic: music));
+    }
   }
 
   Future<void> pickImageFromGallery() async {
@@ -257,6 +276,7 @@ class CreatePostCubit extends Cubit<CreatePostState> {
     if (state.selectedMusic != null) {
       final url = state.selectedMusic!.url;
       if (url == null || url.isEmpty) return;
+      await _audioPlayer.setReleaseMode(ReleaseMode.loop);
       await _audioPlayer.play(UrlSource(url));
       emit(state.copyWith(currentPlayingMusicUrl: url));
     }
@@ -301,8 +321,9 @@ class CreatePostCubit extends Cubit<CreatePostState> {
   }
 
   @override
-  Future<void> close() {
-    _audioPlayer.dispose();
+  Future<void> close() async {
+    await _audioPlayer.stop();
+    await _audioPlayer.dispose();
     return super.close();
   }
 }

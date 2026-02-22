@@ -27,10 +27,20 @@ class CreatePostPage extends StatefulWidget {
 
 class _CreatePostPageState extends State<CreatePostPage> {
   final TextEditingController _descriptionController = TextEditingController();
+  late final CreatePostCubit _createPostCubit;
+
+  @override
+  void initState() {
+    super.initState();
+    _createPostCubit = context.read<CreatePostCubit>();
+  }
 
   @override
   void dispose() {
     _descriptionController.dispose();
+    // Stop music when leaving create post page
+    _createPostCubit.stopMusic();
+    _createPostCubit.setSelectedMusic(null);
     super.dispose();
   }
 
