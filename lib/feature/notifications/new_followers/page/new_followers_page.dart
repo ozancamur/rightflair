@@ -6,7 +6,6 @@ import 'package:rightflair/core/extensions/context.dart';
 import '../../../../core/base/page/base_scaffold.dart';
 import '../../../../core/components/appbar.dart';
 import '../../../../core/components/button/back_button.dart';
-import '../../../../core/components/button/settings_button.dart';
 import '../../../../core/components/text/appbar_title.dart';
 import '../../../../core/constants/string.dart';
 import '../cubit/new_followers_cubit.dart';
@@ -66,12 +65,6 @@ class _NewFollowersPageState extends State<NewFollowersPage> {
     return AppBarComponent(
       leading: BackButtonComponent(),
       title: AppbarTitleComponent(title: AppStrings.INBOX_NEW_FOLLOWERS_TITLE),
-      actions: [
-        Padding(
-          padding: EdgeInsets.only(right: context.width * .04),
-          child: SettingsButtonComponent(),
-        ),
-      ],
     );
   }
 
