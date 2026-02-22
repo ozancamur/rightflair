@@ -110,9 +110,8 @@ class FirebaseMessagingManager {
   }
 
   Future<String?> getToken() async {
-    final String key = "user-fcm-token";
+    const String key = "user-fcm-token";
     try {
-      final String cachedToken = await CacheService().get(key) ?? "";
       String? token;
 
       if (Platform.isIOS) {
@@ -124,14 +123,22 @@ class FirebaseMessagingManager {
       if (kDebugMode) {
         debugPrint("USER FCM TOKEN :> $token");
       }
-      if (client.auth.currentUser != null && (token != cachedToken)) {
+
+      if (token == null) return null;
+
+      // Cache'deki token ile karşılaştır
+      final String? cachedToken = await CacheService().get(key);
+
+      // Kullanıcı giriş yapmış ve token farklı veya cache boş ise güncelle
+      if (client.auth.currentUser != null &&
+          (cachedToken == null || cachedToken != token)) {
         await ApiService().post(
           Endpoint.UPDATE_FCM_TOKEN,
           data: {'fcm_token': token},
         );
+        await CacheService().set(key, token);
       }
-      await CacheService().set(key, token);
-      if (token != null) {}
+
       return token;
     } catch (e) {
       throw Exception(
