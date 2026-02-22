@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../feature/main/navigation/cubit/navigation_cubit.dart';
 import '../../constants/color/color.dart';
@@ -91,6 +92,10 @@ class PostActionsComponent extends StatelessWidget {
               onTap: () {
                 ScaffoldMessenger.of(context).hideCurrentSnackBar();
                 context.read<NavigationCubit>().route(3);
+                // Pop back to NavigationPage if on a pushed route
+                while (context.canPop()) {
+                  context.pop();
+                }
               },
               child: Text(
                 AppStrings.POST_SAVED_VIEW.tr(),
