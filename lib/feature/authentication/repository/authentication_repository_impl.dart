@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:rightflair/core/constants/enums/endpoint.dart';
 import 'package:rightflair/core/services/api.dart';
@@ -13,14 +14,20 @@ class AuthenticationRepositoryImpl extends AuthenticationRepository {
   @override
   Future<UserModel?> createUser({required UserModel user}) async {
     try {
-      final request = await _api.post(
-        Endpoint.CREATE_USER,
+      final request = await _api.dio.post(
+        Endpoint.CREATE_USER.value,
         data: user.toJson(),
       );
-      if (request == null) return null;
       final UserModel data = UserModel().fromJson(request.data['data']);
       if (request.data == null) return null;
       return data;
+    } on DioException catch (e) {
+      if (e.response?.statusCode == 409) {
+        debugPrint("ℹ️ User already exists, proceeding with login.");
+        return user;
+      }
+      debugPrint("❌ SupabaseDatabaseCreateService ERROR in createUser :> $e");
+      return null;
     } catch (e) {
       debugPrint("❌ SupabaseDatabaseCreateService ERROR in createUser :> $e");
       return null;

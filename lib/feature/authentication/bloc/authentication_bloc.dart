@@ -73,7 +73,10 @@ class AuthenticationBloc
     emit(AuthenticationLoading());
     final response = await _authentication.signInWithApple();
     final String? uid = response.user?.id;
-    if (uid == null) return;
+    if (uid == null) {
+      emit(AuthenticationError(AppStrings.AUTHENTICATION_REGISTER_ERROR.tr()));
+      return;
+    }
 
     final UserModel? user = await _create(
       id: uid,
@@ -94,7 +97,10 @@ class AuthenticationBloc
     final response = await _authentication.signInWithGoogle();
 
     final String? uid = response.user?.id;
-    if (uid == null) return;
+    if (uid == null) {
+      emit(AuthenticationError(AppStrings.AUTHENTICATION_REGISTER_ERROR.tr()));
+      return;
+    }
 
     final UserModel? user = await _create(
       id: uid,

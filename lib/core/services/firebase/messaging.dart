@@ -165,9 +165,6 @@ class FirebaseMessagingManager {
         badge: badge,
         sound: sound,
       );
-      if (kDebugMode) {
-        debugPrint('Foreground notification ayarlandı');
-      }
     } catch (e) {
       throw Exception(
         AppStrings.MESSAGING_FOREGROUND_ERROR.tr(args: [e.toString()]),

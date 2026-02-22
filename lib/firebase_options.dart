@@ -59,11 +59,11 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyDU84WknwZqeKNnOkF6fmNJYl4d41T20Jk',
-    appId: '1:1035458871667:ios:5a039ec3dd5b44fcaf0506',
+    appId: '1:1035458871667:ios:98c6d4c69eb3dd35af0506',
     messagingSenderId: '1035458871667',
     projectId: 'rightflair',
     storageBucket: 'rightflair.firebasestorage.app',
-    iosBundleId: 'com.rightflair.social.app',
+    iosBundleId: 'com.ozancamur.app.rightflair',
   );
 
 }
