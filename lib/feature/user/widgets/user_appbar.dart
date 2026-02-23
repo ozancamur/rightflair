@@ -29,14 +29,7 @@ class UserAppbarWidget extends StatelessWidget implements PreferredSizeWidget {
           onTap: () => dialogShare(context, userId: userId),
           icon: AppIcons.SHARE,
         ),
-        SizedBox(width: context.width * 0.03),
-        /*UserNotificationButton(
-          userId: userId,
-          fullname: fullname,
-          isFollowing: isFollowing,
-          isNotificationEnabled: isNotificationEnabled,
-        ),*/
-        SizedBox(width: context.width * .04),
+        SizedBox(width: context.width * 0.01),
       ],
     );
   }
