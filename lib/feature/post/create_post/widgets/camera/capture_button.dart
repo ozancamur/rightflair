@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rightflair/core/constants/color/color.dart';
+import 'package:rightflair/core/extensions/context.dart';
 
 class CaptureButton extends StatelessWidget {
   final VoidCallback onTap;
@@ -8,17 +9,18 @@ class CaptureButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final size = context.width * .195;
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        width: 78,
-        height: 78,
+        width: size,
+        height: size,
         decoration: BoxDecoration(
           shape: BoxShape.circle,
           border: Border.all(color: AppColors.WHITE, width: 4),
         ),
         child: Padding(
-          padding: const EdgeInsets.all(4),
+          padding: EdgeInsets.all(context.width * .01),
           child: Container(
             decoration: const BoxDecoration(
               shape: BoxShape.circle,

@@ -1,7 +1,8 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:rightflair/core/components/text/text.dart';
 import 'package:rightflair/core/constants/color/color.dart';
 import 'package:rightflair/core/constants/string.dart';
+import 'package:rightflair/core/extensions/context.dart';
 
 class PreviewActionButtons extends StatelessWidget {
   final VoidCallback onRetake;
@@ -21,44 +22,40 @@ class PreviewActionButtons extends StatelessWidget {
           child: GestureDetector(
             onTap: onRetake,
             child: Container(
-              height: 50,
+              height: context.height * .06,
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(25),
+                borderRadius: BorderRadius.circular(context.width * .065),
                 border: Border.all(color: AppColors.WHITE, width: 1.5),
               ),
               child: Center(
-                child: Text(
-                  AppStrings.CREATE_POST_CAMERA_RETAKE.tr(),
-                  style: const TextStyle(
-                    color: AppColors.WHITE,
-                    fontSize: 15,
-                    fontWeight: FontWeight.w600,
-                  ),
+                child: TextComponent(
+                  text: AppStrings.CREATE_POST_CAMERA_RETAKE,
+                  size: const [15],
+                  color: AppColors.WHITE,
+                  weight: FontWeight.w600,
                 ),
               ),
             ),
           ),
         ),
-        const SizedBox(width: 12),
+        SizedBox(width: context.width * .03),
         Expanded(
           child: GestureDetector(
             onTap: onContinue,
             child: Container(
-              height: 50,
+              height: context.height * .06,
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(25),
+                borderRadius: BorderRadius.circular(context.width * .065),
                 gradient: LinearGradient(
                   colors: [AppColors.ORANGE, AppColors.YELLOW],
                 ),
               ),
               child: Center(
-                child: Text(
-                  AppStrings.CREATE_POST_CAMERA_CONTINUE.tr(),
-                  style: const TextStyle(
-                    color: AppColors.WHITE,
-                    fontSize: 15,
-                    fontWeight: FontWeight.w600,
-                  ),
+                child: TextComponent(
+                  text: AppStrings.CREATE_POST_CAMERA_CONTINUE,
+                  size: const [15],
+                  color: AppColors.WHITE,
+                  weight: FontWeight.w600,
                 ),
               ),
             ),

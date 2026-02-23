@@ -7,14 +7,15 @@ import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:photo_manager/photo_manager.dart';
+import 'package:rightflair/core/components/text/text.dart';
 import 'package:rightflair/core/constants/color/color.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:rightflair/core/constants/icons.dart';
 import 'package:rightflair/core/constants/route.dart';
 import 'package:rightflair/core/constants/string.dart';
 import 'package:rightflair/core/extensions/context.dart';
 import 'package:rightflair/feature/share/dialog/dialog_share.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'dart:typed_data';
 
 import '../cubit/create_post_cubit.dart';
@@ -316,11 +317,12 @@ class _CameraPageState extends State<CameraPage> with WidgetsBindingObserver {
                 color: context.colors.error,
                 height: context.height * .03,
               ),
-              const SizedBox(width: 12),
+              SizedBox(width: context.width * .03),
               Text(
                 AppStrings.CREATE_POST_DISCARD.tr(),
-                style: const TextStyle(
-                  color: Colors.red,
+                style: TextStyle(
+                  color: context.colors.error,
+                  fontSize: 14,
                   fontWeight: FontWeight.w600,
                 ),
               ),
@@ -336,12 +338,13 @@ class _CameraPageState extends State<CameraPage> with WidgetsBindingObserver {
                 color: context.colors.secondary,
                 height: context.height * .03,
               ),
-              const SizedBox(width: 12),
+              SizedBox(width: context.width * .03),
               Text(
                 AppStrings.CREATE_POST_SAVE_DRAFT.tr(),
                 style: TextStyle(
-                  fontWeight: FontWeight.w600,
                   color: context.colors.secondary,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w600,
                 ),
               ),
             ],
@@ -355,12 +358,13 @@ class _CameraPageState extends State<CameraPage> with WidgetsBindingObserver {
                 radius: 11,
                 backgroundImage: FileImage(File(_capturedImagePath!)),
               ),
-              const SizedBox(width: 12),
+              SizedBox(width: context.width * .03),
               Text(
                 AppStrings.CREATE_POST_SEND_TO_FRIENDS.tr(),
                 style: TextStyle(
-                  fontWeight: FontWeight.w600,
                   color: context.colors.secondary,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w600,
                 ),
               ),
             ],
@@ -478,7 +482,10 @@ class _CameraPageState extends State<CameraPage> with WidgetsBindingObserver {
       right: 0,
       child: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          padding: EdgeInsets.symmetric(
+            horizontal: context.width * .04,
+            vertical: context.height * .01,
+          ),
           child: Row(
             children: [
               CircleIconButton(
@@ -505,7 +512,7 @@ class _CameraPageState extends State<CameraPage> with WidgetsBindingObserver {
 
   Widget _buildCameraRightToolbar() {
     return Positioned(
-      right: 14,
+      right: context.width * .035,
       top: 0,
       bottom: 0,
       child: SafeArea(
@@ -516,7 +523,7 @@ class _CameraPageState extends State<CameraPage> with WidgetsBindingObserver {
               icon: _isFlashOn ? Icons.flash_on : Icons.flash_off,
               onTap: _toggleFlash,
             ),
-            const SizedBox(height: 22),
+            SizedBox(height: context.height * .026),
             SideToolbarIcon(
               icon: Icons.auto_awesome,
               onTap: _toggleFilterVisibility,
@@ -545,31 +552,30 @@ class _CameraPageState extends State<CameraPage> with WidgetsBindingObserver {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const SizedBox(height: 12),
+              SizedBox(height: context.height * .014),
               CaptureButton(onTap: _takePicture),
-              const SizedBox(height: 6),
+              SizedBox(height: context.height * .007),
               if (_showFilters) ...[
-                Text(
-                  CameraFilter.filters[_selectedFilterIndex].name,
-                  style: const TextStyle(
-                    color: AppColors.WHITE,
-                    fontSize: 12,
-                    fontWeight: FontWeight.w600,
-                  ),
+                TextComponent(
+                  text: CameraFilter.filters[_selectedFilterIndex].name,
+                  tr: false,
+                  size: const [12],
+                  color: AppColors.WHITE,
+                  weight: FontWeight.w600,
                 ),
-                const SizedBox(height: 14),
+                SizedBox(height: context.height * .017),
                 CameraFilterList(
                   selectedFilterIndex: _selectedFilterIndex,
                   onFilterSelected: (i) =>
                       setState(() => _selectedFilterIndex = i),
                 ),
               ],
-              const SizedBox(height: 16),
+              SizedBox(height: context.height * .019),
               BottomGalleryPicker(
                 onPickFromGallery: _pickFromGallery,
                 latestGalleryImage: _latestGalleryImage,
               ),
-              const SizedBox(height: 12),
+              SizedBox(height: context.height * .014),
             ],
           ),
         ),
@@ -605,7 +611,10 @@ class _CameraPageState extends State<CameraPage> with WidgetsBindingObserver {
       right: 0,
       child: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          padding: EdgeInsets.symmetric(
+            horizontal: context.width * .04,
+            vertical: context.height * .01,
+          ),
           child: Row(
             children: [
               CircleIconButton(
@@ -616,7 +625,7 @@ class _CameraPageState extends State<CameraPage> with WidgetsBindingObserver {
               const Spacer(),
               AddSoundPill(onTap: _showAddMusicDialog, onRemove: _removeMusic),
               const Spacer(),
-              const SizedBox(width: 40),
+              SizedBox(width: context.width * .1),
             ],
           ),
         ),
@@ -626,7 +635,7 @@ class _CameraPageState extends State<CameraPage> with WidgetsBindingObserver {
 
   Widget _buildPreviewRightToolbar() {
     return Positioned(
-      right: 14,
+      right: context.width * .035,
       top: 0,
       bottom: 0,
       child: SafeArea(
@@ -634,9 +643,9 @@ class _CameraPageState extends State<CameraPage> with WidgetsBindingObserver {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const SideToolbarIcon(icon: Icons.text_fields),
-            const SizedBox(height: 22),
+            SizedBox(height: context.height * .026),
             const SideToolbarIcon(icon: Icons.brush_outlined),
-            const SizedBox(height: 22),
+            SizedBox(height: context.height * .026),
             SideToolbarIcon(
               icon: Icons.auto_awesome,
               onTap: _toggleFilterVisibility,
@@ -663,26 +672,28 @@ class _CameraPageState extends State<CameraPage> with WidgetsBindingObserver {
         ),
         child: SafeArea(
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            padding: EdgeInsets.symmetric(
+              horizontal: context.width * .04,
+              vertical: context.height * .014,
+            ),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
                 if (_showFilters) ...[
-                  Text(
-                    CameraFilter.filters[_selectedFilterIndex].name,
-                    style: const TextStyle(
-                      color: AppColors.WHITE,
-                      fontSize: 12,
-                      fontWeight: FontWeight.w600,
-                    ),
+                  TextComponent(
+                    text: CameraFilter.filters[_selectedFilterIndex].name,
+                    tr: false,
+                    size: const [12],
+                    color: AppColors.WHITE,
+                    weight: FontWeight.w600,
                   ),
-                  const SizedBox(height: 10),
+                  SizedBox(height: context.height * .012),
                   CameraFilterList(
                     selectedFilterIndex: _selectedFilterIndex,
                     onFilterSelected: (i) =>
                         setState(() => _selectedFilterIndex = i),
                   ),
-                  const SizedBox(height: 16),
+                  SizedBox(height: context.height * .019),
                 ],
                 PreviewActionButtons(
                   onRetake: _retake,

@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:rightflair/core/constants/color/color.dart';
-import 'package:rightflair/core/extensions/context.dart';
 
-class SideToolbarIcon extends StatelessWidget {
+import '../../../../core/constants/color/color.dart';
+import '../../../../core/extensions/context.dart';
+
+class StorySideToolbarIcon extends StatelessWidget {
   final IconData icon;
   final VoidCallback? onTap;
   final bool hasBadge;
 
-  const SideToolbarIcon({
+  const StorySideToolbarIcon({
     super.key,
     required this.icon,
     this.onTap,
@@ -30,7 +31,7 @@ class SideToolbarIcon extends StatelessWidget {
                 width: context.width * .025,
                 height: context.width * .025,
                 decoration: BoxDecoration(
-                  color: AppColors.RED_ACCENT,
+                  color: AppColors.ORANGE,
                   shape: BoxShape.circle,
                   border: Border.all(color: AppColors.BLACK, width: 1),
                 ),

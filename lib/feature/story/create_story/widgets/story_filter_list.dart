@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:rightflair/core/components/text/text.dart';
-import 'package:rightflair/core/constants/color/color.dart';
-import 'package:rightflair/core/extensions/context.dart';
-import '../../model/camera_filter.dart';
 
-class CameraFilterList extends StatelessWidget {
+import '../../../../core/components/text/text.dart';
+import '../../../../core/constants/color/color.dart';
+import '../../../../core/extensions/context.dart';
+import '../model/story_filter.dart';
+
+class StoryFilterList extends StatelessWidget {
   final int selectedFilterIndex;
   final ValueChanged<int> onFilterSelected;
 
-  const CameraFilterList({
+  const StoryFilterList({
     super.key,
     required this.selectedFilterIndex,
     required this.onFilterSelected,
@@ -16,7 +17,7 @@ class CameraFilterList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final filters = CameraFilter.filters;
+    final filters = StoryFilter.filters;
     return SizedBox(
       height: context.height * .076,
       child: ListView.builder(
@@ -78,6 +79,7 @@ class CameraFilterList extends StatelessWidget {
                     color: isSelected ? AppColors.WHITE : AppColors.WHITE_54,
                     weight: isSelected ? FontWeight.w600 : FontWeight.w400,
                     overflow: TextOverflow.ellipsis,
+                    maxLine: 1,
                   ),
                 ],
               ),

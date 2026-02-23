@@ -8,197 +8,18 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:video_player/video_player.dart';
 
+import '../../../../core/components/text/text.dart';
 import '../../../../core/constants/color/color.dart';
 import '../../../../core/constants/string.dart';
 import '../../../../core/extensions/context.dart';
 import '../cubit/create_story_cubit.dart';
-
-/// Filters (same as create_post camera_page)
-class _StoryEditFilter {
-  final String name;
-  final List<double>? colorMatrix;
-
-  const _StoryEditFilter({required this.name, this.colorMatrix});
-
-  static const List<_StoryEditFilter> filters = [
-    _StoryEditFilter(name: 'Original'),
-    _StoryEditFilter(
-      name: 'Warm',
-      colorMatrix: [
-        1.2,
-        0.1,
-        0.0,
-        0,
-        10,
-        0.0,
-        1.0,
-        0.0,
-        0,
-        0,
-        0.0,
-        0.0,
-        0.8,
-        0,
-        0,
-        0.0,
-        0.0,
-        0.0,
-        1,
-        0,
-      ],
-    ),
-    _StoryEditFilter(
-      name: 'Cool',
-      colorMatrix: [
-        0.8,
-        0.0,
-        0.0,
-        0,
-        0,
-        0.0,
-        1.0,
-        0.1,
-        0,
-        0,
-        0.0,
-        0.0,
-        1.2,
-        0,
-        10,
-        0.0,
-        0.0,
-        0.0,
-        1,
-        0,
-      ],
-    ),
-    _StoryEditFilter(
-      name: 'B&W',
-      colorMatrix: [
-        0.33,
-        0.59,
-        0.11,
-        0,
-        0,
-        0.33,
-        0.59,
-        0.11,
-        0,
-        0,
-        0.33,
-        0.59,
-        0.11,
-        0,
-        0,
-        0.0,
-        0.0,
-        0.0,
-        1,
-        0,
-      ],
-    ),
-    _StoryEditFilter(
-      name: 'Sepia',
-      colorMatrix: [
-        0.39,
-        0.77,
-        0.19,
-        0,
-        0,
-        0.35,
-        0.69,
-        0.17,
-        0,
-        0,
-        0.27,
-        0.53,
-        0.13,
-        0,
-        0,
-        0.0,
-        0.0,
-        0.0,
-        1,
-        0,
-      ],
-    ),
-    _StoryEditFilter(
-      name: 'Vivid',
-      colorMatrix: [
-        1.4,
-        -0.1,
-        -0.1,
-        0,
-        0,
-        -0.1,
-        1.4,
-        -0.1,
-        0,
-        0,
-        -0.1,
-        -0.1,
-        1.4,
-        0,
-        0,
-        0.0,
-        0.0,
-        0.0,
-        1,
-        0,
-      ],
-    ),
-    _StoryEditFilter(
-      name: 'Vintage',
-      colorMatrix: [
-        0.9,
-        0.2,
-        0.1,
-        0,
-        15,
-        0.1,
-        0.8,
-        0.1,
-        0,
-        10,
-        0.1,
-        0.1,
-        0.6,
-        0,
-        5,
-        0.0,
-        0.0,
-        0.0,
-        1,
-        0,
-      ],
-    ),
-    _StoryEditFilter(
-      name: 'Fade',
-      colorMatrix: [
-        1.0,
-        0.0,
-        0.0,
-        0,
-        30,
-        0.0,
-        1.0,
-        0.0,
-        0,
-        30,
-        0.0,
-        0.0,
-        1.0,
-        0,
-        30,
-        0.0,
-        0.0,
-        0.0,
-        1,
-        0,
-      ],
-    ),
-  ];
-}
+import '../model/story_drawing.dart';
+import '../model/story_filter.dart';
+import '../widgets/story_action_buttons.dart';
+import '../widgets/story_circle_icon_button.dart';
+import '../widgets/story_filter_list.dart';
+import '../widgets/story_side_toolbar_icon.dart';
+import '../widgets/story_trash_bin.dart';
 
 class EditStoryMediaPage extends StatefulWidget {
   final File mediaFile;
@@ -237,10 +58,10 @@ class _EditStoryMediaPageState extends State<EditStoryMediaPage> {
     super.initState();
     // If a filter was passed from camera, find matching index
     if (widget.colorMatrix != null) {
-      for (int i = 0; i < _StoryEditFilter.filters.length; i++) {
-        if (_StoryEditFilter.filters[i].colorMatrix != null &&
+      for (int i = 0; i < StoryFilter.filters.length; i++) {
+        if (StoryFilter.filters[i].colorMatrix != null &&
             _listsEqual(
-              _StoryEditFilter.filters[i].colorMatrix!,
+              StoryFilter.filters[i].colorMatrix!,
               widget.colorMatrix!,
             )) {
           _selectedFilterIndex = i;
@@ -306,7 +127,7 @@ class _EditStoryMediaPageState extends State<EditStoryMediaPage> {
   }
 
   Widget _applyFilter(Widget child) {
-    final filter = _StoryEditFilter.filters[_selectedFilterIndex];
+    final filter = StoryFilter.filters[_selectedFilterIndex];
     if (filter.colorMatrix == null) return child;
     return ColorFiltered(
       colorFilter: ColorFilter.matrix(filter.colorMatrix!),
@@ -315,7 +136,7 @@ class _EditStoryMediaPageState extends State<EditStoryMediaPage> {
   }
 
   Future<File?> _applyFilterToFile(File file) async {
-    final filter = _StoryEditFilter.filters[_selectedFilterIndex];
+    final filter = StoryFilter.filters[_selectedFilterIndex];
     if (filter.colorMatrix == null) return file;
 
     final bytes = await file.readAsBytes();
@@ -353,53 +174,49 @@ class _EditStoryMediaPageState extends State<EditStoryMediaPage> {
       context: context,
       builder: (BuildContext dialogContext) {
         String text = '';
-        Color textColor = Colors.white;
+        Color textColor = AppColors.WHITE;
 
         return StatefulBuilder(
           builder: (ctx, setDialogState) {
             return Dialog(
-              backgroundColor: Colors.grey.shade900,
+              backgroundColor: context.colors.surfaceContainerHighest,
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(context.width * .03),
               ),
               child: Padding(
-                padding: const EdgeInsets.all(20),
+                padding: EdgeInsets.all(context.width * .05),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      AppStrings.PROFILE_EDIT_STORY_ADD_TEXT.tr(),
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
+                    TextComponent(
+                      text: AppStrings.PROFILE_EDIT_STORY_ADD_TEXT,
+                      size: const [16],
+                      color: AppColors.WHITE,
+                      weight: FontWeight.bold,
                     ),
-                    const SizedBox(height: 16),
+                    SizedBox(height: context.height * .019),
                     TextField(
                       autofocus: true,
-                      style: const TextStyle(color: Colors.white),
+                      style: const TextStyle(color: AppColors.WHITE),
                       decoration: InputDecoration(
                         hintText: AppStrings
                             .PROFILE_EDIT_STORY_WRITE_TEXT_PLACEHOLDER
                             .tr(),
-                        hintStyle: TextStyle(
-                          color: Colors.white.withOpacity(0.5),
-                        ),
-                        enabledBorder: const UnderlineInputBorder(
-                          borderSide: BorderSide(color: Colors.white54),
+                        hintStyle: TextStyle(color: AppColors.WHITE_50),
+                        enabledBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: AppColors.WHITE_54),
                         ),
                         focusedBorder: const UnderlineInputBorder(
-                          borderSide: BorderSide(color: Colors.white),
+                          borderSide: BorderSide(color: AppColors.WHITE),
                         ),
                       ),
                       onChanged: (value) => text = value,
                     ),
-                    const SizedBox(height: 16),
+                    SizedBox(height: context.height * .019),
                     Wrap(
-                      spacing: 8,
-                      runSpacing: 8,
+                      spacing: context.width * .02,
+                      runSpacing: context.width * .02,
                       children:
                           [
                             Colors.white,
@@ -415,15 +232,15 @@ class _EditStoryMediaPageState extends State<EditStoryMediaPage> {
                               onTap: () =>
                                   setDialogState(() => textColor = color),
                               child: Container(
-                                width: 36,
-                                height: 36,
+                                width: context.width * .09,
+                                height: context.width * .09,
                                 decoration: BoxDecoration(
                                   color: color,
                                   shape: BoxShape.circle,
                                   border: Border.all(
                                     color: textColor == color
-                                        ? Colors.white
-                                        : Colors.transparent,
+                                        ? AppColors.WHITE
+                                        : AppColors.TRANSPARENT,
                                     width: 2.5,
                                   ),
                                 ),
@@ -431,18 +248,19 @@ class _EditStoryMediaPageState extends State<EditStoryMediaPage> {
                             );
                           }).toList(),
                     ),
-                    const SizedBox(height: 16),
+                    SizedBox(height: context.height * .019),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         TextButton(
                           onPressed: () => Navigator.pop(dialogContext),
-                          child: Text(
-                            AppStrings.DIALOG_CANCEL.tr(),
-                            style: const TextStyle(color: Colors.white70),
+                          child: TextComponent(
+                            text: AppStrings.DIALOG_CANCEL,
+                            size: const [14],
+                            color: AppColors.WHITE.withOpacity(0.7),
                           ),
                         ),
-                        const SizedBox(width: 8),
+                        SizedBox(width: context.width * .02),
                         TextButton(
                           onPressed: () {
                             if (text.isNotEmpty) {
@@ -461,12 +279,11 @@ class _EditStoryMediaPageState extends State<EditStoryMediaPage> {
                             }
                             Navigator.pop(dialogContext);
                           },
-                          child: Text(
-                            AppStrings.PROFILE_EDIT_ADD_NEW.tr(),
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                            ),
+                          child: TextComponent(
+                            text: AppStrings.PROFILE_EDIT_ADD_NEW,
+                            size: const [14],
+                            color: AppColors.WHITE,
+                            weight: FontWeight.bold,
                           ),
                         ),
                       ],
@@ -484,25 +301,23 @@ class _EditStoryMediaPageState extends State<EditStoryMediaPage> {
   void _showColorPicker() {
     showModalBottomSheet(
       context: context,
-      backgroundColor: Colors.grey.shade900,
+      backgroundColor: context.colors.surfaceContainerHighest,
       builder: (BuildContext ctx) {
         return Padding(
-          padding: const EdgeInsets.all(20),
+          padding: EdgeInsets.all(context.width * .05),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text(
-                AppStrings.PROFILE_EDIT_STORY_SELECT_COLOR.tr(),
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                ),
+              TextComponent(
+                text: AppStrings.PROFILE_EDIT_STORY_SELECT_COLOR,
+                size: const [16],
+                color: AppColors.WHITE,
+                weight: FontWeight.bold,
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: context.height * .019),
               Wrap(
-                spacing: 12,
-                runSpacing: 12,
+                spacing: context.width * .03,
+                runSpacing: context.width * .03,
                 children:
                     [
                       Colors.white,
@@ -522,15 +337,15 @@ class _EditStoryMediaPageState extends State<EditStoryMediaPage> {
                           Navigator.pop(ctx);
                         },
                         child: Container(
-                          width: 44,
-                          height: 44,
+                          width: context.width * .11,
+                          height: context.width * .11,
                           decoration: BoxDecoration(
                             color: color,
                             shape: BoxShape.circle,
                             border: Border.all(
                               color: _selectedColor == color
-                                  ? Colors.white
-                                  : Colors.transparent,
+                                  ? AppColors.WHITE
+                                  : AppColors.TRANSPARENT,
                               width: 2.5,
                             ),
                           ),
@@ -538,7 +353,7 @@ class _EditStoryMediaPageState extends State<EditStoryMediaPage> {
                       );
                     }).toList(),
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: context.height * .019),
             ],
           ),
         );
@@ -597,7 +412,7 @@ class _EditStoryMediaPageState extends State<EditStoryMediaPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: context.colors.surface,
       body: BlocListener<CreateStoryCubit, CreateStoryState>(
         listener: (context, state) {
           if (state.isLoading == false && state.uploadSuccess == true) {
@@ -606,20 +421,20 @@ class _EditStoryMediaPageState extends State<EditStoryMediaPage> {
                 content: Text(
                   AppStrings.PROFILE_EDIT_STORY_CREATED_SUCCESS.tr(),
                 ),
-                backgroundColor: Colors.green,
+                backgroundColor: AppColors.GREEN,
               ),
             );
             Future.delayed(const Duration(milliseconds: 500), () {
               if (context.mounted) {
-                Navigator.pop(context); // Edit page
-                Navigator.pop(context); // Camera page
+                Navigator.pop(context);
+                Navigator.pop(context);
               }
             });
           } else if (state.error != null) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                 content: Text(state.error!),
-                backgroundColor: Colors.redAccent,
+                backgroundColor: AppColors.RED_ACCENT,
               ),
             );
           }
@@ -627,209 +442,183 @@ class _EditStoryMediaPageState extends State<EditStoryMediaPage> {
         child: Stack(
           fit: StackFit.expand,
           children: [
-            // Media Preview
-            RepaintBoundary(
-              key: _repaintKey,
-              child: Stack(
-                fit: StackFit.expand,
-                children: [
-                  // Main media
-                  if (widget.isVideo && _videoController != null)
-                    Center(
-                      child: _applyFilter(
-                        AspectRatio(
-                          aspectRatio: _videoController!.value.aspectRatio,
-                          child: VideoPlayer(_videoController!),
-                        ),
-                      ),
-                    )
-                  else
-                    Center(
-                      child: _applyFilter(
-                        Image.file(widget.mediaFile, fit: BoxFit.contain),
-                      ),
-                    ),
-
-                  // Drawing layer
-                  if (!widget.isVideo)
-                    Positioned.fill(
-                      child: CustomPaint(
-                        painter: DrawingPainter(_drawingPoints),
-                      ),
-                    ),
-
-                  // Text overlays (inside repaint boundary)
-                  ..._textOverlays.map((overlay) {
-                    return Positioned(
-                      left: overlay.position.dx,
-                      top: overlay.position.dy,
-                      child: Container(
-                        padding: const EdgeInsets.all(8),
-                        decoration: BoxDecoration(
-                          color: Colors.black.withOpacity(0.4),
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        child: Text(
-                          overlay.text,
-                          style: TextStyle(
-                            color: overlay.color,
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    );
-                  }),
-                ],
-              ),
-            ),
-
-            // Drawing input layer
-            if (_isDrawing)
-              GestureDetector(
-                onPanStart: (d) {
-                  setState(() {
-                    _drawingPoints.add(
-                      DrawingPoint(
-                        offset: d.localPosition,
-                        paint: Paint()
-                          ..color = _selectedColor
-                          ..strokeWidth = _strokeWidth
-                          ..strokeCap = StrokeCap.round,
-                      ),
-                    );
-                  });
-                },
-                onPanUpdate: (d) {
-                  setState(() {
-                    _drawingPoints.add(
-                      DrawingPoint(
-                        offset: d.localPosition,
-                        paint: Paint()
-                          ..color = _selectedColor
-                          ..strokeWidth = _strokeWidth
-                          ..strokeCap = StrokeCap.round,
-                      ),
-                    );
-                  });
-                },
-                onPanEnd: (_) {
-                  _drawingPoints.add(DrawingPoint(offset: null, paint: null));
-                },
-                child: Container(color: Colors.transparent),
-              ),
-
-            // Draggable text overlays (outside repaint boundary)
-            ..._textOverlays.asMap().entries.map((entry) {
-              final index = entry.key;
-              final overlay = entry.value;
-              return Positioned(
-                left: overlay.position.dx,
-                top: overlay.position.dy,
-                child: GestureDetector(
-                  onLongPressStart: (_) {
-                    setState(() => _isDraggingText = true);
-                  },
-                  onPanStart: (_) {
-                    setState(() => _isDraggingText = true);
-                  },
-                  onPanUpdate: (d) {
-                    setState(() {
-                      overlay.position = Offset(
-                        overlay.position.dx + d.delta.dx,
-                        overlay.position.dy + d.delta.dy,
-                      );
-                      // Check if over trash
-                      _isOverTrash = _checkIfOverTrash(overlay.position);
-                    });
-                  },
-                  onPanEnd: (_) {
-                    if (_isOverTrash) {
-                      setState(() {
-                        _textOverlays.removeAt(index);
-                        _isDraggingText = false;
-                        _isOverTrash = false;
-                      });
-                    } else {
-                      setState(() {
-                        _isDraggingText = false;
-                        _isOverTrash = false;
-                      });
-                    }
-                  },
-                  child: AnimatedScale(
-                    scale: _isDraggingText && _isOverTrash ? 0.8 : 1.0,
-                    duration: const Duration(milliseconds: 150),
-                    child: Container(
-                      padding: const EdgeInsets.all(8),
-                      decoration: BoxDecoration(
-                        color: Colors.black.withOpacity(0.25),
-                        borderRadius: BorderRadius.circular(8),
-                        border: Border.all(
-                          color: Colors.white.withOpacity(0.4),
-                          width: 1,
-                        ),
-                      ),
-                      child: Text(
-                        overlay.text,
-                        style: TextStyle(
-                          color: overlay.color,
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              );
-            }),
-
-            // Trash bin (appears when dragging text)
-            if (_isDraggingText)
-              Positioned(
-                bottom: 100,
-                left: 0,
-                right: 0,
-                child: Center(
-                  child: AnimatedScale(
-                    scale: _isOverTrash ? 1.3 : 1.0,
-                    duration: const Duration(milliseconds: 150),
-                    child: Container(
-                      key: _trashKey,
-                      width: 56,
-                      height: 56,
-                      decoration: BoxDecoration(
-                        color: _isOverTrash
-                            ? Colors.red
-                            : Colors.black.withOpacity(0.6),
-                        shape: BoxShape.circle,
-                        border: Border.all(
-                          color: _isOverTrash
-                              ? Colors.red.shade300
-                              : Colors.white54,
-                          width: 2,
-                        ),
-                      ),
-                      child: Icon(
-                        Icons.delete,
-                        color: Colors.white,
-                        size: _isOverTrash ? 30 : 26,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-
-            // Top Bar
+            _buildMediaPreview(),
+            if (_isDrawing) _buildDrawingLayer(),
+            ..._buildDraggableTextOverlays(),
+            if (_isDraggingText) _buildTrashBin(),
             _buildTopBar(),
-
-            // Right Side Toolbar
             _buildRightToolbar(),
-
-            // Bottom Section
             _buildBottom(),
           ],
         ),
+      ),
+    );
+  }
+
+  // ======================== MEDIA PREVIEW ========================
+
+  Widget _buildMediaPreview() {
+    return RepaintBoundary(
+      key: _repaintKey,
+      child: Stack(
+        fit: StackFit.expand,
+        children: [
+          if (widget.isVideo && _videoController != null)
+            Center(
+              child: _applyFilter(
+                AspectRatio(
+                  aspectRatio: _videoController!.value.aspectRatio,
+                  child: VideoPlayer(_videoController!),
+                ),
+              ),
+            )
+          else
+            Center(
+              child: _applyFilter(
+                Image.file(widget.mediaFile, fit: BoxFit.contain),
+              ),
+            ),
+          if (!widget.isVideo)
+            Positioned.fill(
+              child: CustomPaint(painter: DrawingPainter(_drawingPoints)),
+            ),
+          ..._textOverlays.map((overlay) {
+            return Positioned(
+              left: overlay.position.dx,
+              top: overlay.position.dy,
+              child: Container(
+                padding: EdgeInsets.all(context.width * .02),
+                decoration: BoxDecoration(
+                  color: AppColors.BLACK.withOpacity(0.4),
+                  borderRadius: BorderRadius.circular(context.width * .02),
+                ),
+                child: TextComponent(
+                  text: overlay.text,
+                  tr: false,
+                  size: const [18],
+                  color: overlay.color,
+                  weight: FontWeight.bold,
+                ),
+              ),
+            );
+          }),
+        ],
+      ),
+    );
+  }
+
+  // ======================== DRAWING LAYER ========================
+
+  Widget _buildDrawingLayer() {
+    return GestureDetector(
+      onPanStart: (d) {
+        setState(() {
+          _drawingPoints.add(
+            DrawingPoint(
+              offset: d.localPosition,
+              paint: Paint()
+                ..color = _selectedColor
+                ..strokeWidth = _strokeWidth
+                ..strokeCap = StrokeCap.round,
+            ),
+          );
+        });
+      },
+      onPanUpdate: (d) {
+        setState(() {
+          _drawingPoints.add(
+            DrawingPoint(
+              offset: d.localPosition,
+              paint: Paint()
+                ..color = _selectedColor
+                ..strokeWidth = _strokeWidth
+                ..strokeCap = StrokeCap.round,
+            ),
+          );
+        });
+      },
+      onPanEnd: (_) {
+        _drawingPoints.add(DrawingPoint(offset: null, paint: null));
+      },
+      child: Container(color: AppColors.TRANSPARENT),
+    );
+  }
+
+  // ======================== DRAGGABLE TEXT OVERLAYS ========================
+
+  List<Widget> _buildDraggableTextOverlays() {
+    return _textOverlays.asMap().entries.map((entry) {
+      final index = entry.key;
+      final overlay = entry.value;
+      return Positioned(
+        left: overlay.position.dx,
+        top: overlay.position.dy,
+        child: GestureDetector(
+          onLongPressStart: (_) {
+            setState(() => _isDraggingText = true);
+          },
+          onPanStart: (_) {
+            setState(() => _isDraggingText = true);
+          },
+          onPanUpdate: (d) {
+            setState(() {
+              overlay.position = Offset(
+                overlay.position.dx + d.delta.dx,
+                overlay.position.dy + d.delta.dy,
+              );
+              _isOverTrash = _checkIfOverTrash(overlay.position);
+            });
+          },
+          onPanEnd: (_) {
+            if (_isOverTrash) {
+              setState(() {
+                _textOverlays.removeAt(index);
+                _isDraggingText = false;
+                _isOverTrash = false;
+              });
+            } else {
+              setState(() {
+                _isDraggingText = false;
+                _isOverTrash = false;
+              });
+            }
+          },
+          child: AnimatedScale(
+            scale: _isDraggingText && _isOverTrash ? 0.8 : 1.0,
+            duration: const Duration(milliseconds: 150),
+            child: Container(
+              padding: EdgeInsets.all(context.width * .02),
+              decoration: BoxDecoration(
+                color: AppColors.BLACK.withOpacity(0.25),
+                borderRadius: BorderRadius.circular(context.width * .02),
+                border: Border.all(
+                  color: AppColors.WHITE.withOpacity(0.4),
+                  width: 1,
+                ),
+              ),
+              child: TextComponent(
+                text: overlay.text,
+                tr: false,
+                size: const [18],
+                color: overlay.color,
+                weight: FontWeight.bold,
+              ),
+            ),
+          ),
+        ),
+      );
+    }).toList();
+  }
+
+  // ======================== TRASH BIN ========================
+
+  Widget _buildTrashBin() {
+    return Positioned(
+      bottom: context.height * .12,
+      left: 0,
+      right: 0,
+      child: Center(
+        child: StoryTrashBin(trashKey: _trashKey, isOverTrash: _isOverTrash),
       ),
     );
   }
@@ -843,15 +632,18 @@ class _EditStoryMediaPageState extends State<EditStoryMediaPage> {
       right: 0,
       child: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          padding: EdgeInsets.symmetric(
+            horizontal: context.width * .04,
+            vertical: context.height * .01,
+          ),
           child: Row(
             children: [
-              _circleIconButton(
-                Icons.arrow_back_ios_new,
+              StoryCircleIconButton(
+                icon: Icons.arrow_back_ios_new,
                 onTap: () => Navigator.pop(context),
               ),
               const Spacer(),
-              const SizedBox(width: 40),
+              SizedBox(width: context.width * .1),
             ],
           ),
         ),
@@ -863,50 +655,45 @@ class _EditStoryMediaPageState extends State<EditStoryMediaPage> {
 
   Widget _buildRightToolbar() {
     return Positioned(
-      right: 14,
+      right: context.width * .035,
       top: 0,
       bottom: 0,
       child: SafeArea(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // Text
-            _sideToolbarIcon(Icons.text_fields, onTap: _addText),
-            const SizedBox(height: 22),
-            // Draw
-            _sideToolbarIcon(
-              Icons.brush_outlined,
+            StorySideToolbarIcon(icon: Icons.text_fields, onTap: _addText),
+            SizedBox(height: context.height * .026),
+            StorySideToolbarIcon(
+              icon: Icons.brush_outlined,
               onTap: () => setState(() => _isDrawing = !_isDrawing),
               hasBadge: _isDrawing,
             ),
-            const SizedBox(height: 22),
-            // Color picker (when drawing)
+            SizedBox(height: context.height * .026),
             if (_isDrawing) ...[
               GestureDetector(
                 onTap: _showColorPicker,
                 child: Container(
-                  width: 28,
-                  height: 28,
+                  width: context.width * .07,
+                  height: context.width * .07,
                   decoration: BoxDecoration(
                     color: _selectedColor,
                     shape: BoxShape.circle,
-                    border: Border.all(color: Colors.white, width: 2),
+                    border: Border.all(color: AppColors.WHITE, width: 2),
                   ),
                 ),
               ),
-              const SizedBox(height: 22),
+              SizedBox(height: context.height * .026),
             ],
-            // Clear drawings
             if (_drawingPoints.isNotEmpty) ...[
-              _sideToolbarIcon(
-                Icons.delete_outline,
+              StorySideToolbarIcon(
+                icon: Icons.delete_outline,
                 onTap: () => setState(() => _drawingPoints.clear()),
               ),
-              const SizedBox(height: 22),
+              SizedBox(height: context.height * .026),
             ],
-            // Effects / Filters
-            _sideToolbarIcon(
-              Icons.auto_awesome,
+            StorySideToolbarIcon(
+              icon: Icons.auto_awesome,
               onTap: _toggleFilterVisibility,
               hasBadge: _showFilters,
             ),
@@ -928,102 +715,37 @@ class _EditStoryMediaPageState extends State<EditStoryMediaPage> {
           gradient: LinearGradient(
             begin: Alignment.bottomCenter,
             end: Alignment.topCenter,
-            colors: [Colors.black.withOpacity(0.8), Colors.transparent],
+            colors: [AppColors.BLACK_80, AppColors.TRANSPARENT],
           ),
         ),
         child: SafeArea(
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            padding: EdgeInsets.symmetric(
+              horizontal: context.width * .04,
+              vertical: context.height * .014,
+            ),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                // Filter section
                 if (_showFilters) ...[
-                  Text(
-                    _StoryEditFilter.filters[_selectedFilterIndex].name,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 12,
-                      fontWeight: FontWeight.w600,
-                    ),
+                  TextComponent(
+                    text: StoryFilter.filters[_selectedFilterIndex].name,
+                    tr: false,
+                    size: const [12],
+                    color: AppColors.WHITE,
+                    weight: FontWeight.w600,
                   ),
-                  const SizedBox(height: 10),
-                  _buildFilterList(),
-                  const SizedBox(height: 16),
+                  SizedBox(height: context.height * .012),
+                  StoryFilterList(
+                    selectedFilterIndex: _selectedFilterIndex,
+                    onFilterSelected: (i) =>
+                        setState(() => _selectedFilterIndex = i),
+                  ),
+                  SizedBox(height: context.height * .019),
                 ],
-                // Buttons row
-                BlocBuilder<CreateStoryCubit, CreateStoryState>(
-                  builder: (context, state) {
-                    final isLoading = state.isLoading == true;
-                    return Row(
-                      children: [
-                        // Retake button
-                        Expanded(
-                          child: GestureDetector(
-                            onTap: isLoading
-                                ? null
-                                : () => Navigator.pop(context),
-                            child: Container(
-                              height: 50,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(25),
-                                border: Border.all(
-                                  color: Colors.white,
-                                  width: 1.5,
-                                ),
-                              ),
-                              child: Center(
-                                child: Text(
-                                  AppStrings.CREATE_POST_CAMERA_RETAKE.tr(),
-                                  style: const TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(width: 12),
-                        // Share / Continue button
-                        Expanded(
-                          child: GestureDetector(
-                            onTap: isLoading ? null : _uploadStory,
-                            child: Container(
-                              height: 50,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(25),
-                                gradient: LinearGradient(
-                                  colors: [AppColors.ORANGE, AppColors.YELLOW],
-                                ),
-                              ),
-                              child: Center(
-                                child: isLoading
-                                    ? const SizedBox(
-                                        width: 22,
-                                        height: 22,
-                                        child: CircularProgressIndicator(
-                                          color: Colors.white,
-                                          strokeWidth: 2.5,
-                                        ),
-                                      )
-                                    : Text(
-                                        AppStrings.PROFILE_EDIT_STORY_SHARE
-                                            .tr(),
-                                        style: const TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.w600,
-                                        ),
-                                      ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    );
-                  },
+                StoryActionButtons(
+                  onRetake: () => Navigator.pop(context),
+                  onShare: _uploadStory,
                 ),
               ],
             ),
@@ -1032,170 +754,4 @@ class _EditStoryMediaPageState extends State<EditStoryMediaPage> {
       ),
     );
   }
-
-  // ======================== FILTER LIST ========================
-
-  Widget _buildFilterList() {
-    final filters = _StoryEditFilter.filters;
-    return SizedBox(
-      height: 64,
-      child: ListView.builder(
-        scrollDirection: Axis.horizontal,
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        itemCount: filters.length,
-        itemBuilder: (context, index) {
-          final filter = filters[index];
-          final isSelected = index == _selectedFilterIndex;
-          return GestureDetector(
-            onTap: () => setState(() => _selectedFilterIndex = index),
-            child: Container(
-              width: 52,
-              margin: const EdgeInsets.symmetric(horizontal: 6),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Container(
-                    width: 44,
-                    height: 44,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      border: Border.all(
-                        color: isSelected ? Colors.white : Colors.white30,
-                        width: isSelected ? 2.5 : 1.5,
-                      ),
-                    ),
-                    child: ClipOval(
-                      child: ColorFiltered(
-                        colorFilter: filter.colorMatrix != null
-                            ? ColorFilter.matrix(filter.colorMatrix!)
-                            : const ColorFilter.mode(
-                                Colors.transparent,
-                                BlendMode.multiply,
-                              ),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                              begin: Alignment.topLeft,
-                              end: Alignment.bottomRight,
-                              colors: [
-                                Colors.pink.shade200,
-                                Colors.orange.shade200,
-                                Colors.blue.shade200,
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    filter.name,
-                    style: TextStyle(
-                      color: isSelected ? Colors.white : Colors.white54,
-                      fontSize: 9,
-                      fontWeight: isSelected
-                          ? FontWeight.w600
-                          : FontWeight.w400,
-                    ),
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ],
-              ),
-            ),
-          );
-        },
-      ),
-    );
-  }
-
-  // ======================== SHARED WIDGETS ========================
-
-  Widget _circleIconButton(IconData icon, {VoidCallback? onTap}) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        width: 40,
-        height: 40,
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          color: Colors.black.withOpacity(0.3),
-        ),
-        child: Icon(icon, color: Colors.white, size: 24),
-      ),
-    );
-  }
-
-  Widget _sideToolbarIcon(
-    IconData icon, {
-    VoidCallback? onTap,
-    bool hasBadge = false,
-  }) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Stack(
-        clipBehavior: Clip.none,
-        children: [
-          Icon(icon, color: Colors.white, size: 28),
-          if (hasBadge)
-            Positioned(
-              right: -4,
-              bottom: -4,
-              child: Container(
-                width: 10,
-                height: 10,
-                decoration: BoxDecoration(
-                  color: AppColors.ORANGE,
-                  shape: BoxShape.circle,
-                  border: Border.all(color: Colors.black, width: 1),
-                ),
-              ),
-            ),
-        ],
-      ),
-    );
-  }
-}
-
-// ======================== MODELS ========================
-
-class TextOverlay {
-  String text;
-  Color color;
-  Offset position;
-
-  TextOverlay({
-    required this.text,
-    required this.color,
-    required this.position,
-  });
-}
-
-class DrawingPoint {
-  Offset? offset;
-  Paint? paint;
-
-  DrawingPoint({this.offset, this.paint});
-}
-
-class DrawingPainter extends CustomPainter {
-  final List<DrawingPoint> points;
-
-  DrawingPainter(this.points);
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    for (int i = 0; i < points.length - 1; i++) {
-      if (points[i].offset != null && points[i + 1].offset != null) {
-        canvas.drawLine(
-          points[i].offset!,
-          points[i + 1].offset!,
-          points[i].paint!,
-        );
-      }
-    }
-  }
-
-  @override
-  bool shouldRepaint(DrawingPainter oldDelegate) => true;
 }

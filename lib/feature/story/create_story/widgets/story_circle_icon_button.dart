@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:rightflair/core/constants/color/color.dart';
-import 'package:rightflair/core/extensions/context.dart';
 
-class CircleIconButton extends StatelessWidget {
+import '../../../../core/constants/color/color.dart';
+import '../../../../core/extensions/context.dart';
+
+class StoryCircleIconButton extends StatelessWidget {
   final IconData icon;
   final VoidCallback? onTap;
 
-  const CircleIconButton({super.key, required this.icon, this.onTap});
+  const StoryCircleIconButton({super.key, required this.icon, this.onTap});
 
   @override
   Widget build(BuildContext context) {

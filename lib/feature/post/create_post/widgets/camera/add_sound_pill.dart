@@ -1,8 +1,9 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rightflair/core/components/text/text.dart';
 import 'package:rightflair/core/constants/color/color.dart';
 import 'package:rightflair/core/constants/string.dart';
+import 'package:rightflair/core/extensions/context.dart';
 import '../../cubit/create_post_cubit.dart';
 
 class AddSoundPill extends StatelessWidget {
@@ -24,36 +25,35 @@ class AddSoundPill extends StatelessWidget {
             GestureDetector(
               onTap: onTap,
               child: Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 16,
-                  vertical: 8,
+                padding: EdgeInsets.symmetric(
+                  horizontal: context.width * .04,
+                  vertical: context.height * .01,
                 ),
-                constraints: const BoxConstraints(maxWidth: 200),
+                constraints: BoxConstraints(maxWidth: context.width * .5),
                 decoration: BoxDecoration(
                   color: AppColors.WHITE_15,
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(context.width * .05),
                 ),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    const Icon(
+                    Icon(
                       Icons.music_note,
                       color: AppColors.WHITE,
-                      size: 16,
+                      size: context.width * .04,
                     ),
-                    const SizedBox(width: 6),
+                    SizedBox(width: context.width * .015),
                     Flexible(
-                      child: Text(
-                        hasMusic
+                      child: TextComponent(
+                        text: hasMusic
                             ? '${music.artist ?? ''} - ${music.title ?? ''}'
-                            : AppStrings.CREATE_POST_ADD_MUSIC.tr(),
-                        style: const TextStyle(
-                          color: AppColors.WHITE,
-                          fontSize: 13,
-                          fontWeight: FontWeight.w500,
-                        ),
+                            : AppStrings.CREATE_POST_ADD_MUSIC,
+                        tr: !hasMusic,
+                        size: const [13],
+                        color: AppColors.WHITE,
+                        weight: FontWeight.w500,
                         overflow: TextOverflow.ellipsis,
-                        maxLines: 1,
+                        maxLine: 1,
                       ),
                     ),
                   ],
@@ -61,20 +61,20 @@ class AddSoundPill extends StatelessWidget {
               ),
             ),
             if (hasMusic) ...[
-              const SizedBox(width: 6),
+              SizedBox(width: context.width * .015),
               GestureDetector(
                 onTap: onRemove,
                 child: Container(
-                  width: 28,
-                  height: 28,
+                  width: context.width * .07,
+                  height: context.width * .07,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     color: AppColors.WHITE_20,
                   ),
-                  child: const Icon(
+                  child: Icon(
                     Icons.close,
                     color: AppColors.WHITE,
-                    size: 16,
+                    size: context.width * .04,
                   ),
                 ),
               ),
