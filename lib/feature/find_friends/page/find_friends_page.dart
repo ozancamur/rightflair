@@ -1,8 +1,13 @@
+import 'dart:io';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:go_router/go_router.dart';
+import 'package:rightflair/core/constants/app.dart';
+import 'package:share_plus/share_plus.dart';
 
 import '../../../core/components/loading.dart';
 import '../../../core/components/text/text.dart';
@@ -104,21 +109,24 @@ class _FindFriendsPageState extends State<FindFriendsPage> {
       children: [
         // Action tiles
         FindFriendsActionTile(
-          iconBackgroundColor: const Color(0xFFFFA726),
-          iconPath: AppIcons.SHARE,
+          iconBackgroundColor: context.colors.scrim,
+          iconPath: AppIcons.SHARE_FILLED,
           title: AppStrings.FIND_FRIENDS_INVITE,
           subtitle: AppStrings.FIND_FRIENDS_INVITE_SUBTITLE,
           onTap: () {
-            // TODO: Share profile invite
-          },
-        ),
-        FindFriendsActionTile(
-          iconBackgroundColor: const Color(0xFF66BB6A),
-          iconPath: AppIcons.CONTACT,
-          title: AppStrings.FIND_FRIENDS_CONTACTS,
-          subtitle: AppStrings.FIND_FRIENDS_CONTACTS_SUBTITLE,
-          onTap: () {
-            // TODO: Find contacts
+            String url = "";
+            if (Platform.isIOS) {
+              url = AppConstants.APPLE;
+            } else {
+              url = AppConstants.GOOGLE;
+            }
+            SharePlus.instance.share(
+              ShareParams(
+                text: AppStrings.FIND_FRIENDS_SHARE_TEXT.tr(
+                  namedArgs: {'url': url},
+                ),
+              ),
+            );
           },
         ),
 

@@ -466,7 +466,8 @@
         "suggested": "Suggested accounts",
         "remove": "Remove",
         "followBack": "Follow back",
-        "noResults": "No users found"
+        "noResults": "No users found",
+        "shareText": "Join me on Rightflair! {url}"
     },
     "defaults": {
         "rightflairUser": "Rightflair User",

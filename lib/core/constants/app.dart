@@ -8,4 +8,8 @@ class AppConstants {
   static const String CONTACT_EMAIL = "ozancamur1006@gmail.com";
   static const String PRIVACY = "https://supabase.com/privacy";
   static const String TERMS = "https://supabase.com/terms";
+
+  static const String APPLE = "https://supabase.com/";
+  static const String GOOGLE = "https://supabase.com/";
+
 }
