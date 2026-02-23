@@ -26,4 +26,5 @@ class RouteConstants {
   static const String USER = '/user';
 
   static const String STORY_VIEWER = '/story_viewer';
+  static const String FIND_FRIENDS = '/find_friends';
 }

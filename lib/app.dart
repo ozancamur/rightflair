@@ -15,6 +15,8 @@ import 'feature/chat/cubit/chat_cubit.dart';
 import 'feature/chat/repository/chat_repository_impl.dart';
 import 'feature/choose_username/cubit/choose_username_cubit.dart';
 import 'feature/choose_username/repository/choose_username_repository_impl.dart';
+import 'feature/find_friends/cubit/find_friends_cubit.dart';
+import 'feature/find_friends/repository/find_friends_repository_impl.dart';
 import 'feature/follow/repository/follow_repository_impl.dart';
 import 'feature/location/cubit/location_cubit.dart';
 import 'feature/main/feed/bloc/feed_bloc.dart';
@@ -97,6 +99,9 @@ class RightFlair extends StatelessWidget {
         ),
         BlocProvider(create: (_) => SearchCubit(SearchRepositoryImpl())),
         BlocProvider(create: (_) => FollowCubit(FollowRepositoryImpl())),
+        BlocProvider(
+          create: (_) => FindFriendsCubit(FindFriendsRepositoryImpl()),
+        ),
       ],
 
       child: MaterialApp.router(

@@ -21,8 +21,10 @@ class SuggestedUserModel extends BaseModel<SuggestedUserModel> {
 
   @override
   SuggestedUserModel fromJson(Map<String, dynamic> json) {
+    final usersList =
+        (json['suggested_users'] ?? json['users']) as List<dynamic>?;
     return SuggestedUserModel(
-      suggestedUsers: (json['suggested_users'] as List<dynamic>?)
+      suggestedUsers: usersList
           ?.map(
             (e) =>
                 NotificationSenderModel().fromJson(e as Map<String, dynamic>),

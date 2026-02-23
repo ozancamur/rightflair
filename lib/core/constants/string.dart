@@ -527,6 +527,23 @@ class AppStrings {
   static const String CHAT_FAILED_TO_LOAD_MESSAGES =
       'chatError.failedToLoadMessages';
 
+  // FIND FRIENDS
+  static const String FIND_FRIENDS_TITLE = 'findFriends.title';
+  static const String FIND_FRIENDS_SEARCH_HINT = 'findFriends.searchHint';
+  static const String FIND_FRIENDS_INVITE = 'findFriends.invite';
+  static const String FIND_FRIENDS_INVITE_SUBTITLE =
+      'findFriends.inviteSubtitle';
+  static const String FIND_FRIENDS_CONTACTS = 'findFriends.contacts';
+  static const String FIND_FRIENDS_CONTACTS_SUBTITLE =
+      'findFriends.contactsSubtitle';
+  static const String FIND_FRIENDS_FACEBOOK = 'findFriends.facebook';
+  static const String FIND_FRIENDS_FACEBOOK_SUBTITLE =
+      'findFriends.facebookSubtitle';
+  static const String FIND_FRIENDS_SUGGESTED = 'findFriends.suggested';
+  static const String FIND_FRIENDS_REMOVE = 'findFriends.remove';
+  static const String FIND_FRIENDS_FOLLOW_BACK = 'findFriends.followBack';
+  static const String FIND_FRIENDS_NO_RESULTS = 'findFriends.noResults';
+
   // DEFAULTS
   static const String DEFAULT_RIGHTFLAIR_USER = 'defaults.rightflairUser';
   static const String DEFAULT_FALLBACK_EMAIL = 'defaults.fallbackEmail';

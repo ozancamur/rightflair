@@ -454,6 +454,20 @@
     "chatError": {
         "failedToLoadMessages": "Failed to load messages"
     },
+    "findFriends": {
+        "title": "Find friends",
+        "searchHint": "Search by name or username",
+        "invite": "Invite friends",
+        "inviteSubtitle": "Share your profile to connect.",
+        "contacts": "Find contacts",
+        "contactsSubtitle": "Sync or find contacts.",
+        "facebook": "Find Facebook friends",
+        "facebookSubtitle": "Sync or find Facebook friends.",
+        "suggested": "Suggested accounts",
+        "remove": "Remove",
+        "followBack": "Follow back",
+        "noResults": "No users found"
+    },
     "defaults": {
         "rightflairUser": "Rightflair User",
         "fallbackEmail": "rightflairuser@example.com"

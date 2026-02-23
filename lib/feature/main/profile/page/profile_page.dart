@@ -68,7 +68,7 @@ class _ProfilePageState extends State<ProfilePage>
     return BlocBuilder<ProfileCubit, ProfileState>(
       builder: (context, state) {
         return BaseScaffold(
-          appBar: const ProfileAppbarWidget(),
+          appBar:  ProfileAppbarWidget(userId: state.user.id ?? ''),
           body: _body(context, state),
         );
       },

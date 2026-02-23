@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rightflair/core/constants/route.dart';
 import 'package:rightflair/feature/main/profile/cubit/profile_cubit.dart';
+import 'package:rightflair/feature/share/dialog/dialog_share.dart';
 
 import '../../../../../../core/components/appbar.dart';
 import '../../../../core/components/button/icon_button.dart';
@@ -12,17 +13,23 @@ import '../../../../core/components/button/settings_button.dart';
 
 class ProfileAppbarWidget extends StatelessWidget
     implements PreferredSizeWidget {
-  const ProfileAppbarWidget({super.key});
+  final String? userId;
+  const ProfileAppbarWidget({super.key, required this.userId});
 
   @override
   Widget build(BuildContext context) {
     return AppBarComponent(
       leading: IconButtonComponent(
-        onTap: () => context.push(RouteConstants.SEARCH),
+        onTap: () => context.push(RouteConstants.FIND_FRIENDS),
         icon: AppIcons.ADD_FRIEND,
       ),
       actions: [
-        IconButtonComponent(onTap: () {}, icon: AppIcons.SHARE),
+        IconButtonComponent(
+          onTap: () => (userId == null || userId == "")
+              ? null
+              : dialogShare(context, userId: userId ?? "", showReport: false),
+          icon: AppIcons.SHARE,
+        ),
         SizedBox(width: context.width * 0.02),
         SettingsButtonComponent(
           onSettings: () async {

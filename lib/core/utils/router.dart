@@ -16,6 +16,7 @@ import 'package:rightflair/feature/settings/page/settings_page.dart';
 
 import '../../feature/authentication/pages/register_page.dart';
 import '../../feature/chat/page/chat_page.dart';
+import '../../feature/find_friends/page/find_friends_page.dart';
 import '../../feature/post/create_post/model/post.dart';
 import '../../feature/main/feed/models/user_with_stories.dart';
 import '../../feature/post/post_detail/page/post_detail_page.dart';
@@ -140,6 +141,11 @@ final GoRouter router = GoRouter(
       path: RouteConstants.USER,
       name: RouteConstants.USER,
       builder: (context, state) => UserPage(userId: state.extra as String),
+    ),
+    GoRoute(
+      path: RouteConstants.FIND_FRIENDS,
+      name: RouteConstants.FIND_FRIENDS,
+      builder: (context, state) => const FindFriendsPage(),
     ),
     GoRoute(
       path: RouteConstants.STORY_VIEWER,

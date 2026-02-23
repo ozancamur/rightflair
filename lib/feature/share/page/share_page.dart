@@ -15,7 +15,13 @@ import '../widgets/share_top_bar.dart';
 class SharePage extends StatelessWidget {
   final String? postId;
   final String userId;
-  const SharePage({super.key, this.postId, required this.userId});
+  final bool showReport;
+  const SharePage({
+    super.key,
+    this.postId,
+    required this.userId,
+    this.showReport = true,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -54,10 +60,15 @@ class SharePage extends StatelessWidget {
             ),
             Divider(color: context.colors.onSurface),
             ShareSocialMediaGridWidget(postId: postId, userId: userId),
-            Divider(color: context.colors.onSurface),
-            postId == null || postId == ""
-                ? ShareReportUserButtonWidget(userId: userId)
-                : ShareReportPostButtonWidget(postId: postId!, userId: userId),
+            if (showReport) ...[
+              Divider(color: context.colors.onSurface),
+              postId == null || postId == ""
+                  ? ShareReportUserButtonWidget(userId: userId)
+                  : ShareReportPostButtonWidget(
+                      postId: postId!,
+                      userId: userId,
+                    ),
+            ],
             SizedBox(height: context.height * 0.04),
           ],
         ),
