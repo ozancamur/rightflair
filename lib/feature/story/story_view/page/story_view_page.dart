@@ -35,6 +35,11 @@ class _StoryViewPageState extends State<StoryViewPage>
   late PageController _pageController;
   late AnimationController _animationController;
 
+  // Drag-to-dismiss state
+  double _dragOffset = 0.0;
+  bool _isDraggingDown = false;
+  bool _isLongPressing = false;
+
   @override
   void initState() {
     super.initState();
@@ -98,10 +103,17 @@ class _StoryViewPageState extends State<StoryViewPage>
     StoryViewCubit cubit,
     StoryViewState state,
   ) {
+    final screenHeight = MediaQuery.of(context).size.height;
+    final progress = (_dragOffset / (screenHeight * 0.4)).clamp(0.0, 1.0);
+    final scale = 1.0 - (progress * 0.4);
+    final borderRadius = progress * 24.0;
+    final opacity = (1.0 - progress).clamp(0.0, 1.0);
+
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: Colors.transparent,
       body: GestureDetector(
         onTapDown: (details) {
+          if (_isDraggingDown) return;
           final screenWidth = MediaQuery.of(context).size.width;
           final dx = details.globalPosition.dx;
 
@@ -111,19 +123,96 @@ class _StoryViewPageState extends State<StoryViewPage>
             cubit.onTapRight();
           }
         },
-        onLongPressStart: (_) => cubit.pauseStory(),
-        onLongPressEnd: (_) => cubit.resumeStory(),
-        onVerticalDragEnd: (details) {
-          if (details.primaryVelocity == null) return;
-          if (details.primaryVelocity! > 0) {
-            // Swipe down -> close
-            Navigator.of(context).pop();
-          } else if (details.primaryVelocity! < -300 && widget.isMyStory) {
-            // Swipe up -> show viewers (only for own stories)
-            _showViewersSheet(context, cubit);
+        onLongPressStart: (_) {
+          _isLongPressing = true;
+          cubit.pauseStory();
+        },
+        onLongPressMoveUpdate: (details) {
+          if (!_isLongPressing) return;
+          final dy = details.offsetFromOrigin.dy;
+          if (dy > 0) {
+            setState(() {
+              _isDraggingDown = true;
+              _dragOffset = dy;
+            });
+          } else if (_isDraggingDown) {
+            setState(() {
+              _dragOffset = 0.0;
+            });
           }
         },
-        child: _page(state),
+        onLongPressEnd: (_) {
+          if (_isDraggingDown) {
+            if (_dragOffset > screenHeight * 0.6) {
+              Navigator.of(context).pop();
+            } else {
+              setState(() {
+                _dragOffset = 0.0;
+                _isDraggingDown = false;
+              });
+              cubit.resumeStory();
+            }
+          } else {
+            cubit.resumeStory();
+          }
+          _isLongPressing = false;
+        },
+        onVerticalDragStart: (_) {
+          if (_isLongPressing) return;
+          cubit.pauseStory();
+        },
+        onVerticalDragUpdate: (details) {
+          if (_isLongPressing) return;
+          final dy = details.primaryDelta ?? 0;
+          if (_dragOffset + dy > 0) {
+            setState(() {
+              _isDraggingDown = true;
+              _dragOffset = (_dragOffset + dy).clamp(0.0, screenHeight);
+            });
+          }
+        },
+        onVerticalDragEnd: (details) {
+          if (_isLongPressing) return;
+          final velocity = details.primaryVelocity ?? 0;
+
+          if (_isDraggingDown &&
+              (_dragOffset > screenHeight * 0.6 || velocity > 1500)) {
+            Navigator.of(context).pop();
+          } else if (_isDraggingDown) {
+            setState(() {
+              _dragOffset = 0.0;
+              _isDraggingDown = false;
+            });
+            cubit.resumeStory();
+          } else if (velocity < -300 && widget.isMyStory) {
+            cubit.resumeStory();
+            _showViewersSheet(context, cubit);
+          } else {
+            cubit.resumeStory();
+          }
+        },
+        child: Stack(
+          children: [
+            // Dark overlay behind story content
+            Positioned.fill(
+              child: ColoredBox(color: Colors.black.withOpacity(opacity)),
+            ),
+            AnimatedContainer(
+              duration: _isDraggingDown
+                  ? Duration.zero
+                  : const Duration(milliseconds: 200),
+              curve: Curves.easeOut,
+              transform: Matrix4.identity()
+                ..translate(0.0, _dragOffset)
+                ..scale(scale, scale),
+              transformAlignment: Alignment.topCenter,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(borderRadius),
+                child: _page(state),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -426,8 +426,8 @@ class _EditStoryMediaPageState extends State<EditStoryMediaPage> {
             );
             Future.delayed(const Duration(milliseconds: 500), () {
               if (context.mounted) {
-                Navigator.pop(context);
-                Navigator.pop(context);
+                Navigator.pop(context, true);
+                Navigator.pop(context, true);
               }
             });
           } else if (state.error != null) {

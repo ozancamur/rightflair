@@ -35,8 +35,8 @@ class StoryViewCubit extends Cubit<StoryViewState> {
 
     if (currentStory == null) return;
 
-    // View story when it starts (only if not viewed)
-    if (currentStory.id != null && currentStory.isViewed == false) {
+    // View story when it starts
+    if (currentStory.id != null) {
       final userId = currentUser.user?.id;
       viewStory(sId: currentStory.id!, userId: userId);
     }

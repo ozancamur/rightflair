@@ -124,7 +124,23 @@ class _ProfilePageState extends State<ProfilePage>
           onEditPhoto: () async {
             await dialogCreateStory(context, uid: state.user.id ?? '');
             if (context.mounted) {
-              context.read<ProfileCubit>().refreshStories();
+              await context.read<ProfileCubit>().refreshStories();
+              if (context.mounted) {
+                final stories = context.read<ProfileCubit>().state.userStories;
+                if (stories != null && (stories.stories?.isNotEmpty ?? false)) {
+                  await context.push(
+                    RouteConstants.STORY_VIEWER,
+                    extra: {
+                      'isMyStory': true,
+                      'allStories': [stories],
+                      'initialUserIndex': 0,
+                      'onStoryDeleted': () {
+                        context.read<ProfileCubit>().refreshStories();
+                      },
+                    },
+                  );
+                }
+              }
             }
           },
           onFollowersTap: () {

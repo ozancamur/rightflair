@@ -43,7 +43,9 @@ class ProfileHeaderImageComponent extends StatelessWidget {
   Widget _storyRing(Widget child) {
     final hasStories =
         userStories != null && (userStories!.stories?.isNotEmpty ?? false);
-    final hasUnseen = userStories?.hasUnseenStories ?? false;
+    final hasUnseen = isCanEdit
+        ? false
+        : (userStories?.hasUnseenStories ?? false);
 
     return StoryRingWidget(
       hasStories: hasStories,

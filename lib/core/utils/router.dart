@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rightflair/core/constants/route.dart';
 import 'package:rightflair/feature/choose_username/page/choose_username_page.dart';
@@ -162,13 +163,21 @@ final GoRouter router = GoRouter(
     GoRoute(
       path: RouteConstants.STORY_VIEWER,
       name: RouteConstants.STORY_VIEWER,
-      builder: (context, state) {
+      pageBuilder: (context, state) {
         final data = state.extra as Map<String, dynamic>;
-        return StoryViewPage(
-          isMyStory: data['isMyStory'] as bool,
-          stories: data['allStories'] as List<UserWithStoriesModel>,
-          index: data['initialUserIndex'] as int,
-          onStoryDeleted: data['onStoryDeleted'] as VoidCallback?,
+        return CustomTransitionPage(
+          key: state.pageKey,
+          opaque: false,
+          barrierDismissible: false,
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            return FadeTransition(opacity: animation, child: child);
+          },
+          child: StoryViewPage(
+            isMyStory: data['isMyStory'] as bool,
+            stories: data['allStories'] as List<UserWithStoriesModel>,
+            index: data['initialUserIndex'] as int,
+            onStoryDeleted: data['onStoryDeleted'] as VoidCallback?,
+          ),
         );
       },
     ),
