@@ -596,9 +596,9 @@ class _CameraPageState extends State<CameraPage> with WidgetsBindingObserver {
       body: Stack(
         fit: StackFit.expand,
         children: [
-          Center(
+          Positioned.fill(
             child: _applyFilter(
-              Image.file(File(_capturedImagePath!), fit: BoxFit.contain),
+              Image.file(File(_capturedImagePath!), fit: BoxFit.cover),
             ),
           ),
           _buildPreviewTopBar(),

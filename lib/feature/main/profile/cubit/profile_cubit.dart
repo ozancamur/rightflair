@@ -196,4 +196,19 @@ class ProfileCubit extends Cubit<ProfileState> {
   Future<void> refreshStories() async {
     await _getUserStories();
   }
+
+  void markOwnStoriesAsViewed() {
+    final stories = state.userStories;
+    if (stories == null) return;
+
+    final updatedStories = stories.stories
+        ?.map((s) => s.copyWith(isViewed: true))
+        .toList();
+    final updatedUserStories = stories.copyWith(
+      hasUnseenStories: false,
+      stories: updatedStories,
+    );
+
+    emit(state.copyWith(userStories: updatedUserStories));
+  }
 }

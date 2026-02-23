@@ -31,7 +31,7 @@ class AddSoundPill extends StatelessWidget {
                 ),
                 constraints: BoxConstraints(maxWidth: context.width * .5),
                 decoration: BoxDecoration(
-                  color: AppColors.WHITE_15,
+                  color: AppColors.WHITE_30,
                   borderRadius: BorderRadius.circular(context.width * .05),
                 ),
                 child: Row(

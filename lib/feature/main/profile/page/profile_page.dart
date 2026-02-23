@@ -68,7 +68,7 @@ class _ProfilePageState extends State<ProfilePage>
     return BlocBuilder<ProfileCubit, ProfileState>(
       builder: (context, state) {
         return BaseScaffold(
-          appBar:  ProfileAppbarWidget(userId: state.user.id ?? ''),
+          appBar: ProfileAppbarWidget(userId: state.user.id ?? ''),
           body: _body(context, state),
         );
       },
@@ -114,7 +114,10 @@ class _ProfilePageState extends State<ProfilePage>
                 },
               );
               if (context.mounted) {
-                context.read<ProfileCubit>().refreshStories();
+                await context.read<ProfileCubit>().refreshStories();
+                if (context.mounted) {
+                  context.read<ProfileCubit>().markOwnStoriesAsViewed();
+                }
               }
             }
           },

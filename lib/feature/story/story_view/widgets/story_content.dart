@@ -48,7 +48,7 @@ class StoryContent extends StatelessWidget {
     return SizedBox.expand(
       child: Image.network(
         story!.mediaUrl!,
-        fit: BoxFit.contain,
+        fit: BoxFit.cover,
         loadingBuilder: (context, child, loadingProgress) {
           if (loadingProgress == null) return child;
           return Center(

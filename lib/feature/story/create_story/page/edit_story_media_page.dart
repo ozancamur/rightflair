@@ -473,9 +473,9 @@ class _EditStoryMediaPageState extends State<EditStoryMediaPage> {
               ),
             )
           else
-            Center(
+            Positioned.fill(
               child: _applyFilter(
-                Image.file(widget.mediaFile, fit: BoxFit.contain),
+                Image.file(widget.mediaFile, fit: BoxFit.cover),
               ),
             ),
           if (!widget.isVideo)
