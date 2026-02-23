@@ -61,6 +61,16 @@ class UserPage extends StatelessWidget {
                                 'isMyStory': false,
                                 'allStories': [stories],
                                 'initialUserIndex': 0,
+                                'onStoryViewed':
+                                    (String storyId, String userId) {
+                                      if (context.mounted) {
+                                        context
+                                            .read<UserCubit>()
+                                            .markStoryAsViewed(
+                                              storyId: storyId,
+                                            );
+                                      }
+                                    },
                               },
                             );
                             if (context.mounted) {

@@ -64,19 +64,16 @@ class FindFriendsCubit extends Cubit<FindFriendsState> {
   }
 
   Future<void> followUser(String userId) async {
-    // Optimistic removal from list
-    final updatedSuggested = state.suggestedUsers
-        .where((u) => u.id != userId)
-        .toList();
-    final updatedSearch = state.searchResults
-        .where((u) => u.id != userId)
-        .toList();
-    emit(
-      state.copyWith(
-        suggestedUsers: updatedSuggested,
-        searchResults: updatedSearch,
-      ),
-    );
+    final updatedFollowedIds = Set<String>.from(state.followedUserIds);
+    final isCurrentlyFollowed = updatedFollowedIds.contains(userId);
+
+    if (isCurrentlyFollowed) {
+      updatedFollowedIds.remove(userId);
+    } else {
+      updatedFollowedIds.add(userId);
+    }
+
+    emit(state.copyWith(followedUserIds: updatedFollowedIds));
 
     await _repo.followUser(userId: userId);
   }

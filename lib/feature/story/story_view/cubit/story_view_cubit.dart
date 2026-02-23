@@ -207,6 +207,23 @@ class StoryViewCubit extends Cubit<StoryViewState> {
   }
 
   Future<void> viewStory({required String sId, String? userId}) async {
+    // Mark story as viewed in local state
+    final updatedStories = List<UserWithStoriesModel>.from(state.stories);
+    final userIndex = state.currentUserIndex;
+    final currentUser = updatedStories[userIndex];
+    final updatedUserStories = currentUser.stories?.map((s) {
+      if (s.id == sId) return s.copyWith(isViewed: true);
+      return s;
+    }).toList();
+
+    final allViewed =
+        updatedUserStories?.every((s) => s.isViewed == true) ?? false;
+    updatedStories[userIndex] = currentUser.copyWith(
+      stories: updatedUserStories,
+      hasUnseenStories: !allViewed,
+    );
+    emit(state.copyWith(stories: updatedStories));
+
     await _repo.viewStory(sId: sId);
     if (onStoryViewed != null && userId != null) {
       onStoryViewed!(sId, userId);

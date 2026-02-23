@@ -133,6 +133,26 @@ class UserCubit extends Cubit<UserState> {
     await _getUserStories(userId: userId);
   }
 
+  void markStoryAsViewed({required String storyId}) {
+    final stories = state.userStories;
+    if (stories == null) return;
+
+    final updatedStories = stories.stories?.map((s) {
+      if (s.id == storyId) return s.copyWith(isViewed: true);
+      return s;
+    }).toList();
+
+    final allViewed = updatedStories?.every((s) => s.isViewed == true) ?? false;
+    emit(
+      state.copyWith(
+        userStories: stories.copyWith(
+          stories: updatedStories,
+          hasUnseenStories: !allViewed,
+        ),
+      ),
+    );
+  }
+
   Future<void> refresh({required String userId}) async {
     await _getUser(userId: userId);
     await _getUserStyleTags(userId: userId);

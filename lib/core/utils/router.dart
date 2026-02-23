@@ -177,6 +177,7 @@ final GoRouter router = GoRouter(
             stories: data['allStories'] as List<UserWithStoriesModel>,
             index: data['initialUserIndex'] as int,
             onStoryDeleted: data['onStoryDeleted'] as VoidCallback?,
+            onStoryViewed: data['onStoryViewed'] as Function(String, String)?,
           ),
         );
       },

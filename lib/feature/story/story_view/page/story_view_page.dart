@@ -17,6 +17,7 @@ class StoryViewPage extends StatefulWidget {
   final List<UserWithStoriesModel> stories;
   final int index;
   final VoidCallback? onStoryDeleted;
+  final Function(String storyId, String userId)? onStoryViewed;
 
   const StoryViewPage({
     super.key,
@@ -24,6 +25,7 @@ class StoryViewPage extends StatefulWidget {
     required this.index,
     required this.isMyStory,
     this.onStoryDeleted,
+    this.onStoryViewed,
   });
 
   @override
@@ -68,7 +70,7 @@ class _StoryViewPageState extends State<StoryViewPage>
     return BlocProvider(
       create: (context) => StoryViewCubit(
         StoryViewRepositoryImpl(),
-        onStoryViewed: (storyId, userId) {},
+        onStoryViewed: widget.onStoryViewed,
         onStoryDeleted: widget.onStoryDeleted,
       )..init(stories: widget.stories, initialIndex: widget.index),
       child: BlocConsumer<StoryViewCubit, StoryViewState>(

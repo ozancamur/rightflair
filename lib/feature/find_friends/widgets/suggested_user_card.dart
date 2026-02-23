@@ -1,5 +1,4 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -7,20 +6,19 @@ import '../../../core/components/loading.dart';
 import '../../../core/components/text/text.dart';
 import '../../../core/constants/font/font_size.dart';
 import '../../../core/constants/icons.dart';
-import '../../../core/constants/string.dart';
 import '../../../core/extensions/context.dart';
 import '../../main/inbox/model/notification_sender.dart';
 
 class SuggestedUserCard extends StatelessWidget {
   final NotificationSenderModel user;
-  final VoidCallback onRemove;
+  final bool isFollowed;
   final VoidCallback onFollow;
   final VoidCallback onTap;
 
   const SuggestedUserCard({
     super.key,
     required this.user,
-    required this.onRemove,
+    this.isFollowed = false,
     required this.onFollow,
     required this.onTap,
   });
@@ -35,14 +33,7 @@ class SuggestedUserCard extends StatelessWidget {
           horizontal: context.width * 0.04,
           vertical: context.height * 0.01,
         ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _buildUserInfo(context),
-            SizedBox(height: context.height * 0.012),
-            _buildActionButtons(context),
-          ],
-        ),
+        child: _buildUserInfo(context),
       ),
     );
   }
@@ -78,65 +69,39 @@ class SuggestedUserCard extends StatelessWidget {
             ],
           ),
         ),
-        IconButton(
-          onPressed: () {},
-          icon: Icon(
-            Icons.more_horiz,
-            color: context.colors.primaryContainer,
-            size: context.width * 0.05,
-          ),
-        ),
+        _buildFollowButton(context),
       ],
     );
   }
 
-  Widget _buildActionButtons(BuildContext context) {
-    return Row(
-      children: [
-        Expanded(
-          child: OutlinedButton(
-            onPressed: onRemove,
-            style: OutlinedButton.styleFrom(
-              side: BorderSide(
-                color: context.colors.primaryContainer.withValues(alpha: 0.3),
+  Widget _buildFollowButton(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        gradient: isFollowed
+            ? null
+            : const LinearGradient(
+                colors: [Colors.orange, Colors.yellow],
+                begin: Alignment.center,
+                end: Alignment.bottomRight,
               ),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(context.width * 0.02),
-              ),
-              padding: EdgeInsets.symmetric(vertical: context.height * 0.012),
-            ),
-            child: TextComponent(
-              text: AppStrings.FIND_FRIENDS_REMOVE.tr(),
-              tr: false,
-              size: FontSizeConstants.SMALL,
-              weight: FontWeight.w600,
-              color: context.colors.primary,
-            ),
-          ),
-        ),
-        SizedBox(width: context.width * 0.03),
-        Expanded(
-          child: ElevatedButton(
-            onPressed: onFollow,
-            style: ElevatedButton.styleFrom(
-              backgroundColor: context.colors.error,
-              foregroundColor: Colors.white,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(context.width * 0.02),
-              ),
-              padding: EdgeInsets.symmetric(vertical: context.height * 0.012),
-              elevation: 0,
-            ),
-            child: TextComponent(
-              text: AppStrings.FIND_FRIENDS_FOLLOW_BACK.tr(),
-              tr: false,
-              size: FontSizeConstants.SMALL,
-              weight: FontWeight.w600,
+        color: isFollowed ? Colors.grey.shade400 : null,
+        shape: BoxShape.circle,
+      ),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: onFollow,
+          customBorder: const CircleBorder(),
+          child: Padding(
+            padding: EdgeInsets.all(context.width * 0.025),
+            child: Icon(
+              isFollowed ? Icons.person_remove : Icons.person_add,
               color: Colors.white,
+              size: context.width * 0.055,
             ),
           ),
         ),
-      ],
+      ),
     );
   }
 

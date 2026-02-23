@@ -157,15 +157,10 @@ class _FindFriendsPageState extends State<FindFriendsPage> {
               Divider(color: context.colors.primaryFixedDim, height: 1),
               SuggestedUserCard(
                 user: user,
-                onRemove: () {
-                  context.read<FindFriendsCubit>().removeUser(user.id!);
-                },
-                onFollow: () {
-                  context.read<FindFriendsCubit>().followUser(user.id!);
-                },
-                onTap: () {
-                  context.push(RouteConstants.USER, extra: user.id);
-                },
+                isFollowed: state.followedUserIds.contains(user.id),
+                onFollow: () =>
+                    context.read<FindFriendsCubit>().followUser(user.id!),
+                onTap: () => context.push(RouteConstants.USER, extra: user.id),
               ),
             ],
           ),

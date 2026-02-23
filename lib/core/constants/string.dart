@@ -551,6 +551,7 @@ class AppStrings {
   static const String FIND_FRIENDS_SUGGESTED = 'findFriends.suggested';
   static const String FIND_FRIENDS_REMOVE = 'findFriends.remove';
   static const String FIND_FRIENDS_FOLLOW_BACK = 'findFriends.followBack';
+  static const String FIND_FRIENDS_FOLLOW = 'findFriends.follow';
   static const String FIND_FRIENDS_NO_RESULTS = 'findFriends.noResults';
   static const String FIND_FRIENDS_SHARE_TEXT = 'findFriends.shareText';
 

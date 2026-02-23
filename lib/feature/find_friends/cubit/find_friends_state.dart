@@ -12,6 +12,7 @@ class FindFriendsState extends Equatable {
   final PaginationNotificationModel? searchPagination;
   final String searchQuery;
   final bool isSearching;
+  final Set<String> followedUserIds;
 
   const FindFriendsState({
     this.isLoading = false,
@@ -22,6 +23,7 @@ class FindFriendsState extends Equatable {
     this.searchPagination,
     this.searchQuery = '',
     this.isSearching = false,
+    this.followedUserIds = const {},
   });
 
   FindFriendsState copyWith({
@@ -33,6 +35,7 @@ class FindFriendsState extends Equatable {
     PaginationNotificationModel? searchPagination,
     String? searchQuery,
     bool? isSearching,
+    Set<String>? followedUserIds,
   }) {
     return FindFriendsState(
       isLoading: isLoading ?? this.isLoading,
@@ -43,6 +46,7 @@ class FindFriendsState extends Equatable {
       searchPagination: searchPagination ?? this.searchPagination,
       searchQuery: searchQuery ?? this.searchQuery,
       isSearching: isSearching ?? this.isSearching,
+      followedUserIds: followedUserIds ?? this.followedUserIds,
     );
   }
 
@@ -64,5 +68,6 @@ class FindFriendsState extends Equatable {
     searchPagination,
     searchQuery,
     isSearching,
+    followedUserIds,
   ];
 }
