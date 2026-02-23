@@ -19,7 +19,8 @@ class NavigationBottomBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: context.height * .07,
-      padding: EdgeInsets.symmetric(horizontal: context.width * .04),
+      width: context.width,
+      padding: EdgeInsets.symmetric(horizontal: context.width * .025),
       margin: EdgeInsets.only(
         right: context.width * .05,
         left: context.width * .05,
@@ -30,7 +31,6 @@ class NavigationBottomBar extends StatelessWidget {
         borderRadius: BorderRadius.circular(100),
       ),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           _item(context, 0, AppIcons.HOME, AppStrings.NAVIGATION_HOME),
           _item(
@@ -48,8 +48,8 @@ class NavigationBottomBar extends StatelessWidget {
   }
 
   Widget _add(BuildContext context) {
-    return SizedBox(
-      width: context.width * 0.15,
+    return Expanded(
+      flex: 5,
       child: Center(
         child: InkWell(
           onTap: () {
@@ -76,10 +76,10 @@ class NavigationBottomBar extends StatelessWidget {
 
   Widget _item(BuildContext context, int index, String icon, String label) {
     final isSelected = currentIndex == index;
-    return GestureDetector(
-      onTap: () => context.read<NavigationCubit>().route(index),
-      child: SizedBox(
-        width: context.width * 0.15,
+    return Expanded(
+      flex: 4,
+      child: GestureDetector(
+        onTap: () => context.read<NavigationCubit>().route(index),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
