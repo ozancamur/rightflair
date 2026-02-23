@@ -5,6 +5,7 @@ import 'dart:ui' as ui;
 
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:photo_manager/photo_manager.dart';
 
 import '../../../../core/components/text/text.dart';
@@ -108,6 +109,9 @@ class _CameraStoryPageState extends State<CameraStoryPage>
     );
     try {
       await _cameraController!.initialize();
+      await _cameraController!.lockCaptureOrientation(
+        DeviceOrientation.portraitUp,
+      );
       await _cameraController!.setFlashMode(FlashMode.off);
       if (mounted) setState(() {});
     } catch (e) {
