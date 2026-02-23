@@ -37,9 +37,9 @@ class FollowUserModel extends BaseModel<FollowUserModel> {
     return FollowUserModel(
       id: json['id'] as String?,
       username: json['username'] as String?,
-      fullName: json['full_name'] as String?,
-      profilePhotoUrl: json['profile_photo_url'] as String?,
-      isFollowing: json['is_following'] as bool?,
+      fullName: json['fullname'] as String?,
+      profilePhotoUrl: json['profilephotourl'] as String?,
+      isFollowing: json['isFollowing'] as bool?,
     );
   }
 

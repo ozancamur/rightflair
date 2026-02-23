@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:rightflair/core/constants/string.dart';
 
 import '../../../core/components/loading.dart';
 import '../../../core/components/text/text.dart';
@@ -34,7 +35,7 @@ class FollowListUserItem extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   TextComponent(
-                    text: user.fullName ?? '',
+                    text: user.fullName ?? AppStrings.DEFAULT_RIGHTFLAIR_USER,
                     tr: false,
                     size: FontSizeConstants.NORMAL,
                     weight: FontWeight.w600,
@@ -44,7 +45,7 @@ class FollowListUserItem extends StatelessWidget {
                   ),
                   SizedBox(height: context.height * 0.002),
                   TextComponent(
-                    text: '@${user.username ?? ''}',
+                    text: '@${user.username ?? 'rightflair_user'}',
                     tr: false,
                     size: FontSizeConstants.SMALL,
                     weight: FontWeight.w400,
