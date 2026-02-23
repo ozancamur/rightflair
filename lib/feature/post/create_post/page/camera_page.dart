@@ -255,7 +255,7 @@ class _CameraPageState extends State<CameraPage> with WidgetsBindingObserver {
     await context.read<CreatePostCubit>().setImagePath(filteredPath);
 
     if (isAnonymous && mounted) Navigator.of(context).pop();
-    if (mounted) context.go(RouteConstants.CREATE_POST);
+    if (mounted) context.push(RouteConstants.CREATE_POST);
   }
 
   void _showAddMusicDialog() async {

@@ -56,7 +56,7 @@ class _CreatePostPageState extends State<CreatePostPage> {
   AppBarComponent _appbar() {
     return AppBarComponent(
       leading: BackButtonComponent(
-        onBack: () => context.go(RouteConstants.NAVIGATION),
+        onBack: () => context.go(RouteConstants.CAMERA),
       ),
       title: AppbarTitleComponent(title: AppStrings.CREATE_POST_APPBAR),
     );
