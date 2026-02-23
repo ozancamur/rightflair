@@ -26,7 +26,7 @@ class ProfilePostGridComponent extends StatelessWidget {
         : GridView.builder(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
-            padding: EdgeInsets.zero,
+            padding: EdgeInsets.only(bottom: context.height * .025),
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
               crossAxisSpacing: context.width * 0.02,
