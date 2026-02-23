@@ -9,6 +9,8 @@ import 'package:rightflair/feature/story/story_view/repository/story_view_reposi
 import '../widgets/story_content.dart';
 import '../widgets/story_progress_bar.dart';
 import '../widgets/story_user_info.dart';
+import '../widgets/story_viewer_count.dart';
+import '../widgets/story_viewers_sheet.dart';
 
 class StoryViewPage extends StatefulWidget {
   final bool isMyStory;
@@ -112,13 +114,33 @@ class _StoryViewPageState extends State<StoryViewPage>
         onLongPressStart: (_) => cubit.pauseStory(),
         onLongPressEnd: (_) => cubit.resumeStory(),
         onVerticalDragEnd: (details) {
+          if (details.primaryVelocity == null) return;
           if (details.primaryVelocity! > 0) {
+            // Swipe down -> close
             Navigator.of(context).pop();
+          } else if (details.primaryVelocity! < -300 && widget.isMyStory) {
+            // Swipe up -> show viewers (only for own stories)
+            _showViewersSheet(context, cubit);
           }
         },
         child: _page(state),
       ),
     );
+  }
+
+  void _showViewersSheet(BuildContext context, StoryViewCubit cubit) {
+    cubit.openViewersSheet();
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.transparent,
+      isScrollControlled: true,
+      isDismissible: true,
+      enableDrag: true,
+      builder: (_) =>
+          BlocProvider.value(value: cubit, child: const StoryViewersSheet()),
+    ).whenComplete(() {
+      cubit.closeViewersSheet();
+    });
   }
 
   PageView _page(StoryViewState state) {
@@ -141,7 +163,7 @@ class _StoryViewPageState extends State<StoryViewPage>
             // Story Content
             StoryContent(story: story.stories?[state.currentStoryIndex]),
 
-            // Gradient overlay for better text visibility
+            // Gradient overlay for better text visibility (top)
             Positioned(
               top: 0,
               left: 0,
@@ -158,6 +180,27 @@ class _StoryViewPageState extends State<StoryViewPage>
               ),
             ),
 
+            // Bottom gradient for viewer count visibility (only for own stories)
+            if (widget.isMyStory)
+              Positioned(
+                bottom: 0,
+                left: 0,
+                right: 0,
+                child: Container(
+                  height: 120,
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.bottomCenter,
+                      end: Alignment.topCenter,
+                      colors: [
+                        Colors.black.withOpacity(0.5),
+                        Colors.transparent,
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+
             // User info and progress bars
             SafeArea(
               child: Column(
@@ -169,6 +212,28 @@ class _StoryViewPageState extends State<StoryViewPage>
                 ],
               ),
             ),
+
+            // Viewer count (bottom-left, only for own stories)
+            if (widget.isMyStory)
+              Positioned(
+                bottom: 0,
+                left: 0,
+                right: 0,
+                child: SafeArea(
+                  child: Align(
+                    alignment: Alignment.bottomCenter,
+                    child: StoryViewerCount(
+                      viewCount:
+                          story.stories?[state.currentStoryIndex].viewCount ??
+                          0,
+                      onTap: () {
+                        final cubit = context.read<StoryViewCubit>();
+                        _showViewersSheet(context, cubit);
+                      },
+                    ),
+                  ),
+                ),
+              ),
           ],
         );
       },

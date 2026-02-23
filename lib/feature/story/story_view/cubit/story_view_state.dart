@@ -9,6 +9,12 @@ class StoryViewState extends Equatable {
   final bool shouldNavigateToNextUser;
   final bool shouldNavigateToPreviousUser;
   final bool shouldClose;
+  // Viewers
+  final bool isViewersLoading;
+  final bool isViewersSheetOpen;
+  final List<MyStoryViewersModel> viewers;
+  final int totalViewCount;
+  final StoryViewersPagination viewersPagination;
 
   const StoryViewState({
     this.stories = const [],
@@ -19,6 +25,11 @@ class StoryViewState extends Equatable {
     this.shouldNavigateToNextUser = false,
     this.shouldNavigateToPreviousUser = false,
     this.shouldClose = false,
+    this.isViewersLoading = false,
+    this.isViewersSheetOpen = false,
+    this.viewers = const [],
+    this.totalViewCount = 0,
+    this.viewersPagination = const StoryViewersPagination(),
   });
 
   StoryViewState copyWith({
@@ -30,6 +41,11 @@ class StoryViewState extends Equatable {
     bool? shouldNavigateToNextUser,
     bool? shouldNavigateToPreviousUser,
     bool? shouldClose,
+    bool? isViewersLoading,
+    bool? isViewersSheetOpen,
+    List<MyStoryViewersModel>? viewers,
+    int? totalViewCount,
+    StoryViewersPagination? viewersPagination,
   }) {
     return StoryViewState(
       stories: stories ?? this.stories,
@@ -42,6 +58,11 @@ class StoryViewState extends Equatable {
       shouldNavigateToPreviousUser:
           shouldNavigateToPreviousUser ?? this.shouldNavigateToPreviousUser,
       shouldClose: shouldClose ?? this.shouldClose,
+      isViewersLoading: isViewersLoading ?? this.isViewersLoading,
+      isViewersSheetOpen: isViewersSheetOpen ?? this.isViewersSheetOpen,
+      viewers: viewers ?? this.viewers,
+      totalViewCount: totalViewCount ?? this.totalViewCount,
+      viewersPagination: viewersPagination ?? this.viewersPagination,
     );
   }
 
@@ -55,5 +76,10 @@ class StoryViewState extends Equatable {
     shouldNavigateToNextUser,
     shouldNavigateToPreviousUser,
     shouldClose,
+    isViewersLoading,
+    isViewersSheetOpen,
+    viewers,
+    totalViewCount,
+    viewersPagination,
   ];
 }

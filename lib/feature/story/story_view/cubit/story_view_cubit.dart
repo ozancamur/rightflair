@@ -3,7 +3,9 @@ import 'dart:async';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rightflair/feature/main/feed/models/my_story_viewers.dart';
 import 'package:rightflair/feature/main/feed/models/user_with_stories.dart';
+import 'package:rightflair/feature/story/story_view/model/story_viewers_response.dart';
 import 'package:rightflair/feature/story/story_view/repository/story_view_repository_impl.dart';
 
 part 'story_view_state.dart';
@@ -134,6 +136,68 @@ class StoryViewCubit extends Cubit<StoryViewState> {
 
   void onTapRight() {
     nextStory();
+  }
+
+  // ===========================================
+  // VIEWERS
+  // ===========================================
+
+  Future<void> fetchStoryViewers({int page = 1}) async {
+    final currentUser = state.stories[state.currentUserIndex];
+    final currentStory = currentUser.stories?[state.currentStoryIndex];
+    if (currentStory?.id == null) return;
+
+    emit(state.copyWith(isViewersLoading: true));
+
+    final response = await _repo.getStoryViewers(
+      storyId: currentStory!.id!,
+      page: page,
+    );
+
+    if (response != null) {
+      final newViewers = page == 1
+          ? response.viewers
+          : [...state.viewers, ...response.viewers];
+
+      emit(
+        state.copyWith(
+          viewers: newViewers,
+          totalViewCount: response.totalViewCount,
+          viewersPagination: response.pagination,
+          isViewersLoading: false,
+        ),
+      );
+    } else {
+      emit(
+        state.copyWith(
+          isViewersLoading: false,
+          totalViewCount: currentStory.viewCount ?? 0,
+        ),
+      );
+    }
+  }
+
+  void openViewersSheet() {
+    pauseStory();
+    emit(state.copyWith(isViewersSheetOpen: true));
+    fetchStoryViewers();
+  }
+
+  void closeViewersSheet() {
+    emit(
+      state.copyWith(
+        isViewersSheetOpen: false,
+        viewers: const [],
+        viewersPagination: const StoryViewersPagination(),
+      ),
+    );
+    resumeStory();
+  }
+
+  void loadMoreViewers() {
+    if (state.viewersPagination.hasNext && !state.isViewersLoading) {
+      fetchStoryViewers(page: state.viewersPagination.page + 1);
+    }
   }
 
   @override
