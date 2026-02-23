@@ -20,6 +20,12 @@ class _NavigationPageState extends State<NavigationPage> {
   bool _hasCheckedPendingPost = false;
 
   @override
+  void initState() {
+    super.initState();
+    context.read<NavigationCubit>().reset();
+  }
+
+  @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     debugPrint(

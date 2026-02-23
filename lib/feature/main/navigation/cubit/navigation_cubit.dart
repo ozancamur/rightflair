@@ -10,7 +10,7 @@ import '../../profile/page/profile_page.dart';
 part 'navigation_state.dart';
 
 class NavigationCubit extends Cubit<NavigationState> {
-  final PageController controller = PageController();
+  PageController controller = PageController();
   NavigationCubit() : super(NavigationState.initial());
 
   void route(int index) {
@@ -18,5 +18,19 @@ class NavigationCubit extends Cubit<NavigationState> {
       controller.jumpToPage(index);
       emit(state.copyWith(currentIndex: index));
     }
+  }
+
+  /// Resets navigation to initial state with a fresh PageController.
+  /// Must be called when NavigationPage is (re)created (e.g. after logout/login).
+  void reset() {
+    controller.dispose();
+    controller = PageController();
+    emit(NavigationState.initial());
+  }
+
+  @override
+  Future<void> close() {
+    controller.dispose();
+    return super.close();
   }
 }
