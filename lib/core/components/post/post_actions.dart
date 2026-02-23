@@ -1,10 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 
-import '../../../feature/main/navigation/cubit/navigation_cubit.dart';
-import '../../constants/color/color.dart';
 import '../../constants/font/font_size.dart';
 import '../../constants/icons.dart';
 import '../../constants/string.dart';
@@ -71,39 +67,16 @@ class PostActionsComponent extends StatelessWidget {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisSize: MainAxisSize.min,
           children: [
-            Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const Icon(Icons.check_circle, color: Colors.white, size: 20),
-                const SizedBox(width: 8),
-                Text(
-                  AppStrings.POST_SAVED.tr(),
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: FontSizeConstants.NORMAL.first,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-              ],
-            ),
-            GestureDetector(
-              onTap: () {
-                ScaffoldMessenger.of(context).hideCurrentSnackBar();
-                context.read<NavigationCubit>().route(3);
-                // Pop back to NavigationPage if on a pushed route
-                while (context.canPop()) {
-                  context.pop();
-                }
-              },
-              child: Text(
-                AppStrings.POST_SAVED_VIEW.tr(),
-                style: TextStyle(
-                  color: AppColors.ORANGE,
-                  fontSize: FontSizeConstants.NORMAL.first,
-                  fontWeight: FontWeight.w600,
-                ),
+            const Icon(Icons.check_circle, color: Colors.white, size: 20),
+            const SizedBox(width: 8),
+            Text(
+              AppStrings.POST_SAVED.tr(),
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: FontSizeConstants.NORMAL.first,
+                fontWeight: FontWeight.w500,
               ),
             ),
           ],
