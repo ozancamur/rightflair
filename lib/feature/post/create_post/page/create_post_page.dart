@@ -151,98 +151,101 @@ class _CreatePostPageState extends State<CreatePostPage>
     );
   }
 
-  SafeArea _body(BuildContext context, CreatePostState state) {
-    return SafeArea(
-      child: SingleChildScrollView(
-        padding: EdgeInsets.symmetric(horizontal: context.width * 0.05),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            CreatePostImageWidget(),
-            SizedBox(height: context.height * 0.03),
+  Widget _body(BuildContext context, CreatePostState state) {
+    return GestureDetector(
+      onTap: () => FocusScope.of(context).unfocus(),
+      child: SafeArea(
+        child: SingleChildScrollView(
+          padding: EdgeInsets.symmetric(horizontal: context.width * 0.05),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              CreatePostImageWidget(),
+              SizedBox(height: context.height * 0.03),
 
-            TextComponent(
-              text: AppStrings.CREATE_POST_ABOUT_OUTFIT,
-              size: FontSizeConstants.LARGE,
-              weight: FontWeight.w600,
-            ),
-            SizedBox(height: context.height * 0.015),
-            CreatePostDescription(controller: _descriptionController),
-            SizedBox(height: context.height * 0.02),
-
-            // Display selected tags
-            if (state.tags.isNotEmpty) ...[
               TextComponent(
-                text: AppStrings.CREATE_POST_TAGS,
-                size: FontSizeConstants.NORMAL,
-                weight: FontWeight.w500,
+                text: AppStrings.CREATE_POST_ABOUT_OUTFIT,
+                size: FontSizeConstants.LARGE,
+                weight: FontWeight.w600,
               ),
-              SizedBox(height: context.height * 0.01),
-              Wrap(
-                spacing: 8,
-                runSpacing: 8,
-                children: state.tags.map((tag) {
-                  return Chip(
-                    label: Text('#$tag'),
-                    backgroundColor: context.colors.primaryFixedDim,
-                    labelStyle: TextStyle(color: context.colors.primary),
-                    deleteIcon: Icon(
-                      Icons.close,
-                      size: 16,
-                      color: context.colors.primary,
-                    ),
-                    onDeleted: () {
-                      // Remove from cubit
-                      context.read<CreatePostCubit>().removeTag(tag);
-                      // Remove from description text
-                      final currentText = _descriptionController.text;
-                      final updatedText = currentText
-                          .replaceAll('#$tag', '')
-                          .replaceAll(RegExp(r'\s+'), ' ')
-                          .trim();
-                      _descriptionController.text = updatedText;
-                    },
+              SizedBox(height: context.height * 0.015),
+              CreatePostDescription(controller: _descriptionController),
+              SizedBox(height: context.height * 0.02),
+
+              // Display selected tags
+              if (state.tags.isNotEmpty) ...[
+                TextComponent(
+                  text: AppStrings.CREATE_POST_TAGS,
+                  size: FontSizeConstants.NORMAL,
+                  weight: FontWeight.w500,
+                ),
+                SizedBox(height: context.height * 0.01),
+                Wrap(
+                  spacing: 8,
+                  runSpacing: 8,
+                  children: state.tags.map((tag) {
+                    return Chip(
+                      label: Text('#$tag'),
+                      backgroundColor: context.colors.primaryFixedDim,
+                      labelStyle: TextStyle(color: context.colors.primary),
+                      deleteIcon: Icon(
+                        Icons.close,
+                        size: 16,
+                        color: context.colors.primary,
+                      ),
+                      onDeleted: () {
+                        // Remove from cubit
+                        context.read<CreatePostCubit>().removeTag(tag);
+                        // Remove from description text
+                        final currentText = _descriptionController.text;
+                        final updatedText = currentText
+                            .replaceAll('#$tag', '')
+                            .replaceAll(RegExp(r'\s+'), ' ')
+                            .trim();
+                        _descriptionController.text = updatedText;
+                      },
+                    );
+                  }).toList(),
+                ),
+                SizedBox(height: context.height * 0.02),
+              ],
+
+              // Options
+              CreatePostOptionsWidget(
+                isAnonymous: state.isAnonymous,
+                allowComments: state.allowComments,
+                selectedLocation: state.selectedLocation,
+              ),
+              SizedBox(height: context.height * 0.02),
+
+              // Buttons
+              CreatePostBottomButtons(
+                onDraft: () {
+                  final rawDescription = _descriptionController.text;
+                  final tags = TextParser.parseTags(rawDescription);
+                  final cleanDescription = TextParser.cleanText(rawDescription);
+                  context.read<CreatePostCubit>().createDraft(
+                    context,
+                    description: cleanDescription,
+                    styleTags: tags,
+                    mentionedUserIds: state.mentionedUserIds,
                   );
-                }).toList(),
+                },
+                onPost: () {
+                  final rawDescription = _descriptionController.text;
+                  final tags = TextParser.parseTags(rawDescription);
+                  final cleanDescription = TextParser.cleanText(rawDescription);
+                  context.read<CreatePostCubit>().createPost(
+                    context,
+                    description: cleanDescription,
+                    styleTags: tags,
+                    mentionedUserIds: state.mentionedUserIds,
+                  );
+                },
               ),
               SizedBox(height: context.height * 0.02),
             ],
-
-            // Options
-            CreatePostOptionsWidget(
-              isAnonymous: state.isAnonymous,
-              allowComments: state.allowComments,
-              selectedLocation: state.selectedLocation,
-            ),
-            SizedBox(height: context.height * 0.02),
-
-            // Buttons
-            CreatePostBottomButtons(
-              onDraft: () {
-                final rawDescription = _descriptionController.text;
-                final tags = TextParser.parseTags(rawDescription);
-                final cleanDescription = TextParser.cleanText(rawDescription);
-                context.read<CreatePostCubit>().createDraft(
-                  context,
-                  description: cleanDescription,
-                  styleTags: tags,
-                  mentionedUserIds: state.mentionedUserIds,
-                );
-              },
-              onPost: () {
-                final rawDescription = _descriptionController.text;
-                final tags = TextParser.parseTags(rawDescription);
-                final cleanDescription = TextParser.cleanText(rawDescription);
-                context.read<CreatePostCubit>().createPost(
-                  context,
-                  description: cleanDescription,
-                  styleTags: tags,
-                  mentionedUserIds: state.mentionedUserIds,
-                );
-              },
-            ),
-            SizedBox(height: context.height * 0.02),
-          ],
+          ),
         ),
       ),
     );

@@ -28,7 +28,7 @@ class PostUpdateRepositoryImpl implements PostUpdateRepository {
        _supabase = supabase ?? Supabase.instance.client;
 
   @override
-  Future<ResponseModel?> updatePost({required UpdatePostModel post}) async {
+  Future<ResponseModel?> updateDraft({required UpdatePostModel post}) async {
     try {
       final request = await _api.patch(
         Endpoint.UPDATE_DRAFT,
@@ -40,7 +40,27 @@ class PostUpdateRepositoryImpl implements PostUpdateRepository {
       );
       return response;
     } catch (e) {
-      debugPrint("PostUpdateRepositoryImpl ERROR in updatePost :> $e");
+      debugPrint("PostUpdateRepositoryImpl ERROR in updateDraft :> $e");
+      return null;
+    }
+  }
+
+  @override
+  Future<ResponseModel?> updatePublishedPost({
+    required UpdatePostModel post,
+  }) async {
+    try {
+      final request = await _api.patch(
+        Endpoint.UPDATE_POST,
+        data: post.toJson(),
+      );
+      if (request == null) return null;
+      final ResponseModel response = ResponseModel().fromJson(
+        request.data as Map<String, dynamic>,
+      );
+      return response;
+    } catch (e) {
+      debugPrint("PostUpdateRepositoryImpl ERROR in updatePublishedPost :> $e");
       return null;
     }
   }

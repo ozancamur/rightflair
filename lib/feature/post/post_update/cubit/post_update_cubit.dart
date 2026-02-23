@@ -35,7 +35,7 @@ class PostUpdateCubit extends Cubit<PostUpdateState> {
   }
 
   /// Initialize the cubit with existing post data
-  void init({required PostModel post}) {
+  void init({required PostModel post, required bool isDraft}) {
     MusicModel? music;
     if (post.musicAudioUrl != null && post.musicAudioUrl!.isNotEmpty) {
       music = MusicModel(
@@ -56,6 +56,7 @@ class PostUpdateCubit extends Cubit<PostUpdateState> {
         tags: post.tags ?? [],
         mentionedUserIds: post.mentionedUsers ?? [],
         selectedMusic: music,
+        isDraft: isDraft,
       ),
     );
   }
@@ -165,6 +166,7 @@ class PostUpdateCubit extends Cubit<PostUpdateState> {
           isLoading: state.isLoading,
           postId: state.postId,
           description: state.description,
+          isDraft: state.isDraft,
         ),
       );
     } else {
@@ -282,18 +284,21 @@ class PostUpdateCubit extends Cubit<PostUpdateState> {
 
     emit(state.copyWith(isLoading: true));
 
-    // If a new image was picked, upload it
-    String? postImageUrl = state.postImageUrl;
-    if (state.imagePath != null) {
-      final uploadedUrl = await _uploadImage();
-      if (uploadedUrl != null) {
-        postImageUrl = uploadedUrl;
+    // If draft and a new image was picked, upload it
+    String? postImageUrl;
+    if (state.isDraft) {
+      postImageUrl = state.postImageUrl;
+      if (state.imagePath != null) {
+        final uploadedUrl = await _uploadImage();
+        if (uploadedUrl != null) {
+          postImageUrl = uploadedUrl;
+        }
       }
     }
 
     final UpdatePostModel post = UpdatePostModel(
       postId: state.postId,
-      postImageUrl: postImageUrl,
+      postImageUrl: state.isDraft ? postImageUrl : null,
       description: description,
       location: state.selectedLocation,
       isAnonymous: state.isAnonymous,
@@ -303,10 +308,12 @@ class PostUpdateCubit extends Cubit<PostUpdateState> {
       musicArtist: state.selectedMusic?.artist,
       musicTitle: state.selectedMusic?.title,
       musicAudioUrl: state.selectedMusic?.url,
-      status: status,
+      status: state.isDraft ? status : null,
     );
 
-    final response = await _repo.updatePost(post: post);
+    final response = state.isDraft
+        ? await _repo.updateDraft(post: post)
+        : await _repo.updatePublishedPost(post: post);
     emit(state.copyWith(isLoading: false));
 
     if (response == null || response.success != true) {

@@ -16,6 +16,7 @@ class PostUpdateState {
   final bool isLoading;
   final String? postId;
   final String? description;
+  final bool isDraft;
 
   const PostUpdateState({
     this.isAnonymous = false,
@@ -33,6 +34,7 @@ class PostUpdateState {
     this.isLoading = false,
     this.postId,
     this.description,
+    this.isDraft = true,
   });
 
   PostUpdateState copyWith({
@@ -51,6 +53,7 @@ class PostUpdateState {
     bool? isLoading,
     String? postId,
     String? description,
+    bool? isDraft,
   }) {
     return PostUpdateState(
       isAnonymous: isAnonymous ?? this.isAnonymous,
@@ -69,6 +72,7 @@ class PostUpdateState {
       isLoading: isLoading ?? this.isLoading,
       postId: postId ?? this.postId,
       description: description ?? this.description,
+      isDraft: isDraft ?? this.isDraft,
     );
   }
 }

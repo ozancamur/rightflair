@@ -149,7 +149,10 @@
         "sendToFriends": "Send to friends"
     },
     "updatePost": {
-        "appbar": "Edit Post"
+        "appbar": "Edit Post",
+        "update": "Update",
+        "draft": "Update Draft",
+        "postOutfit": "Post Outfit"
     },
     "inbox": {
         "title": "InBox",

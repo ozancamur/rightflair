@@ -107,7 +107,10 @@ final GoRouter router = GoRouter(
       name: RouteConstants.POST_UPDATE,
       builder: (context, state) {
         final data = state.extra as Map<String, dynamic>;
-        return PostUpdatePage(post: data['post'] as PostModel);
+        return PostUpdatePage(
+          post: data['post'] as PostModel,
+          isDraft: data['isDraft'] as bool,
+        );
       },
     ),
     GoRoute(

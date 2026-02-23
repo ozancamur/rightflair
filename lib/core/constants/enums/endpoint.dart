@@ -31,6 +31,7 @@ enum Endpoint {
   CREATE_POST("create-post"),
   CREATE_DRAFT("create-draft"),
   UPDATE_DRAFT("update-draft"),
+  UPDATE_POST("update-post"),
   SEARCH_USER_FOR_MENTION('search-users-for-mention'),
 
   GET_CONVERSATIONS("get-conversations"),

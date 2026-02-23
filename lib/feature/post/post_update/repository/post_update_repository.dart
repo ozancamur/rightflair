@@ -6,7 +6,8 @@ import '../../create_post/model/music.dart';
 import '../model/update_post.dart';
 
 abstract class PostUpdateRepository {
-  Future<ResponseModel?> updatePost({required UpdatePostModel post});
+  Future<ResponseModel?> updateDraft({required UpdatePostModel post});
+  Future<ResponseModel?> updatePublishedPost({required UpdatePostModel post});
   Future<List<MentionUserModel>?> searchUsersForMention({
     required String query,
   });

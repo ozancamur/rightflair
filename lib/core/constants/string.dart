@@ -174,6 +174,9 @@ class AppStrings {
 
   // UPDATE POST
   static const String UPDATE_POST_APPBAR = 'updatePost.appbar';
+  static const String UPDATE_POST_UPDATE = 'updatePost.update';
+  static const String UPDATE_POST_DRAFT = 'updatePost.draft';
+  static const String UPDATE_POST_POST = 'updatePost.postOutfit';
 
   // POST MUSIC
   static const String POST_MUSIC_ERROR = 'postMusic.error';

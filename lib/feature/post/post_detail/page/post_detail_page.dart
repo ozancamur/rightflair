@@ -49,7 +49,10 @@ class PostDetailPage extends StatelessWidget {
         if (isOwner) ...[
           IconButtonComponent(
             onTap: () {
-              context.push(RouteConstants.POST_UPDATE, extra: {'post': post});
+              context.push(
+                RouteConstants.POST_UPDATE,
+                extra: {'post': post, 'isDraft': isDraft},
+              );
             },
             icon: AppIcons.EDIT,
           ),
