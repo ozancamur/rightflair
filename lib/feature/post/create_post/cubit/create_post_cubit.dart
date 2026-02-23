@@ -5,8 +5,10 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:rightflair/core/constants/route.dart';
 import 'package:rightflair/core/constants/string.dart';
+import 'package:rightflair/core/services/cache.dart';
 import 'package:rightflair/core/utils/dialogs/error.dart';
 import 'package:rightflair/feature/post/create_post/model/create_post.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -133,6 +135,7 @@ class CreatePostCubit extends Cubit<CreatePostState> {
           tags: state.tags,
           mentionedUserIds: state.mentionedUserIds,
           isLoading: state.isLoading,
+          pendingDescription: state.pendingDescription,
         ),
       );
     } else {
@@ -159,6 +162,8 @@ class CreatePostCubit extends Cubit<CreatePostState> {
             isProcessingImage: false,
           ),
         );
+        // Proactively save pending post
+        await savePendingPost();
       } catch (e) {
         debugPrint('Error processing gallery image: $e');
         emit(
@@ -168,6 +173,8 @@ class CreatePostCubit extends Cubit<CreatePostState> {
             isProcessingImage: false,
           ),
         );
+        // Proactively save pending post
+        await savePendingPost();
       }
     }
   }
@@ -185,6 +192,9 @@ class CreatePostCubit extends Cubit<CreatePostState> {
         isProcessingImage: false,
       ),
     );
+    // Proactively save pending post as soon as image is set
+    // This ensures data is persisted even if lifecycle events don't complete
+    await savePendingPost();
   }
 
   Future<void> createPost(
@@ -227,6 +237,7 @@ class CreatePostCubit extends Cubit<CreatePostState> {
         message: response?.message ?? AppStrings.ERROR_DEFAULT,
       );
     } else {
+      await clearPendingPost();
       context.go(RouteConstants.NAVIGATION);
     }
     emit(state.copyWith(isLoading: false));
@@ -272,6 +283,7 @@ class CreatePostCubit extends Cubit<CreatePostState> {
         message: response?.message ?? AppStrings.ERROR_DEFAULT,
       );
     } else {
+      await clearPendingPost();
       context.go(RouteConstants.NAVIGATION);
     }
   }
@@ -322,6 +334,224 @@ class CreatePostCubit extends Cubit<CreatePostState> {
 
     await _audioPlayer.play(UrlSource(url));
     emit(state.copyWith(currentPlayingMusicUrl: url, isPlayingMusic: true));
+  }
+
+  // ==================== Pending Post (Continue Editing) ====================
+
+  final CacheService _cacheService = CacheService();
+
+  /// Save current post state to cache (called on app lifecycle pause)
+  Future<void> savePendingPost({String? description}) async {
+    debugPrint(
+      '[ContinueEditing] savePendingPost() called, imagePath=${state.imagePath}, description=$description',
+    );
+    if (state.imagePath == null) {
+      debugPrint(
+        '[ContinueEditing] savePendingPost: imagePath is null, skipping',
+      );
+      return;
+    }
+    debugPrint(
+      '[ContinueEditing] savePendingPost: saving with imagePath=${state.imagePath}',
+    );
+
+    try {
+      // 1. Save to SharedPreferences IMMEDIATELY with current paths
+      //    This must happen first — app may be killed any moment
+      final data = <String, dynamic>{
+        'imagePath': state.imagePath,
+        'originalImagePath': state.originalImagePath,
+        'description': description ?? '',
+        'isAnonymous': state.isAnonymous,
+        'allowComments': state.allowComments,
+        'selectedLocation': state.selectedLocation,
+        'tags': state.tags,
+        'mentionedUserIds': state.mentionedUserIds,
+        if (state.selectedMusic != null) ...{
+          'musicTitle': state.selectedMusic!.title,
+          'musicArtist': state.selectedMusic!.artist,
+          'musicUrl': state.selectedMusic!.url,
+        },
+      };
+      await _cacheService.savePendingPost(data);
+      debugPrint(
+        '[ContinueEditing] savePendingPost: step 1 done (SharedPreferences saved)',
+      );
+
+      // 2. Copy images to persistent directory (best-effort, may not complete)
+      final appDir = await getApplicationDocumentsDirectory();
+      debugPrint('[ContinueEditing] savePendingPost: appDir=${appDir.path}');
+      final pendingDir = Directory('${appDir.path}/pending_post');
+      if (!await pendingDir.exists()) {
+        await pendingDir.create(recursive: true);
+      }
+
+      String? persistentImagePath;
+      String? persistentOriginalPath;
+
+      final imageFile = File(state.imagePath!);
+      debugPrint(
+        '[ContinueEditing] savePendingPost: imageFile exists=${await imageFile.exists()}',
+      );
+      if (await imageFile.exists()) {
+        final ext = state.imagePath!.split('.').last;
+        final dest = File('${pendingDir.path}/pending_image.$ext');
+        await imageFile.copy(dest.path);
+        persistentImagePath = dest.path;
+        debugPrint(
+          '[ContinueEditing] savePendingPost: image copied to $persistentImagePath',
+        );
+      }
+
+      if (state.originalImagePath != null) {
+        final origFile = File(state.originalImagePath!);
+        if (await origFile.exists()) {
+          final ext = state.originalImagePath!.split('.').last;
+          final dest = File('${pendingDir.path}/pending_original.$ext');
+          await origFile.copy(dest.path);
+          persistentOriginalPath = dest.path;
+          debugPrint(
+            '[ContinueEditing] savePendingPost: original copied to $persistentOriginalPath',
+          );
+        }
+      }
+
+      // 3. Update SharedPreferences with RELATIVE paths
+      //    iOS can change sandbox UUID between launches, so absolute paths break.
+      //    We save relative-to-Documents paths and reconstruct on restore.
+      if (persistentImagePath != null || persistentOriginalPath != null) {
+        final docsPath = appDir.path;
+        if (persistentImagePath != null) {
+          data['imagePath'] = persistentImagePath.replaceFirst(
+            '$docsPath/',
+            '',
+          );
+        }
+        if (persistentOriginalPath != null) {
+          data['originalImagePath'] = persistentOriginalPath.replaceFirst(
+            '$docsPath/',
+            '',
+          );
+        }
+        await _cacheService.savePendingPost(data);
+        debugPrint(
+          '[ContinueEditing] savePendingPost: step 3 done (relative paths saved: image=${data['imagePath']}, original=${data['originalImagePath']})',
+        );
+      }
+      debugPrint('[ContinueEditing] savePendingPost: COMPLETE');
+    } catch (e, stackTrace) {
+      debugPrint('[ContinueEditing] savePendingPost: ERROR $e');
+      debugPrint('[ContinueEditing] StackTrace: $stackTrace');
+    }
+  }
+
+  /// Resolve a cached path to an absolute path.
+  /// If the path is relative (e.g. "pending_post/pending_image.png"),
+  /// prepend the current Documents directory.
+  Future<String?> _resolveImagePath(String? path) async {
+    if (path == null) return null;
+    // Already absolute
+    if (path.startsWith('/')) {
+      if (File(path).existsSync()) return path;
+      // Absolute but file missing — try to reconstruct from filename
+      final filename = path.split('/').last;
+      final appDir = await getApplicationDocumentsDirectory();
+      final reconstructed = '${appDir.path}/pending_post/$filename';
+      if (File(reconstructed).existsSync()) return reconstructed;
+      return null;
+    }
+    // Relative path
+    final appDir = await getApplicationDocumentsDirectory();
+    final absolute = '${appDir.path}/$path';
+    if (File(absolute).existsSync()) return absolute;
+    return null;
+  }
+
+  /// Restore post state from cache
+  Future<void> restorePendingPost() async {
+    final data = await _cacheService.getPendingPost();
+    if (data == null) return;
+
+    MusicModel? music;
+    if (data['musicTitle'] != null) {
+      music = MusicModel(
+        title: data['musicTitle'] as String?,
+        artist: data['musicArtist'] as String?,
+        url: data['musicUrl'] as String?,
+      );
+    }
+
+    // Resolve paths (handles both relative and stale absolute paths)
+    final restoredImagePath = await _resolveImagePath(
+      data['imagePath'] as String?,
+    );
+    final restoredOriginalPath = await _resolveImagePath(
+      data['originalImagePath'] as String?,
+    );
+
+    debugPrint(
+      '[ContinueEditing] restorePendingPost: resolved imagePath=$restoredImagePath',
+    );
+    debugPrint(
+      '[ContinueEditing] restorePendingPost: resolved originalPath=$restoredOriginalPath',
+    );
+
+    emit(
+      CreatePostState(
+        imagePath: restoredImagePath,
+        originalImagePath: restoredOriginalPath,
+        isAnonymous: data['isAnonymous'] as bool? ?? false,
+        allowComments: data['allowComments'] as bool? ?? true,
+        selectedLocation: data['selectedLocation'] as String?,
+        tags:
+            (data['tags'] as List<dynamic>?)
+                ?.map((e) => e as String)
+                .toList() ??
+            [],
+        mentionedUserIds:
+            (data['mentionedUserIds'] as List<dynamic>?)
+                ?.map((e) => e as String)
+                .toList() ??
+            [],
+        selectedMusic: music,
+        pendingDescription: data['description'] as String?,
+      ),
+    );
+    debugPrint(
+      '[ContinueEditing] restorePendingPost: emitted state, imagePath=${state.imagePath}',
+    );
+
+    // Clear cache after restoring — only SharedPreferences, files remain
+    await _cacheService.clearPendingPost();
+    debugPrint(
+      '[ContinueEditing] restorePendingPost: cache cleared, state.imagePath=${state.imagePath}',
+    );
+  }
+
+  /// Get pending post description from cache (for restoring TextField)
+  Future<String?> getPendingPostDescription() async {
+    final data = await _cacheService.getPendingPost();
+    if (data == null) return null;
+    return data['description'] as String?;
+  }
+
+  /// Check if there is a pending post to continue editing
+  Future<Map<String, dynamic>?> getPendingPostData() async {
+    return await _cacheService.getPendingPost();
+  }
+
+  /// Clear pending post cache and delete persistent image files
+  Future<void> clearPendingPost() async {
+    try {
+      final appDir = await getApplicationDocumentsDirectory();
+      final pendingDir = Directory('${appDir.path}/pending_post');
+      if (await pendingDir.exists()) {
+        await pendingDir.delete(recursive: true);
+      }
+    } catch (e) {
+      debugPrint('Error deleting pending post files: $e');
+    }
+    await _cacheService.clearPendingPost();
   }
 
   @override

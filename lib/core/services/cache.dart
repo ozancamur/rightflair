@@ -6,6 +6,11 @@ class CacheService {
   static const String _recentSearchesKey = 'recent_searches';
   static const int _maxRecentSearches = 3;
 
+  // Pending post keys
+  static const String _pendingPostKey = 'pending_post_data';
+  static const String _pendingPostTimestampKey = 'pending_post_timestamp';
+  static const Duration _pendingPostExpiry = Duration(hours: 3);
+
   /// Get recent searches from cache
   Future<List<String>> getRecentSearches() async {
     try {
@@ -62,6 +67,80 @@ class CacheService {
     try {
       final prefs = await SharedPreferences.getInstance();
       await prefs.remove(_recentSearchesKey);
+    } catch (e) {
+      // Handle error silently
+    }
+  }
+
+  // ==================== Pending Post (Continue Editing) ====================
+
+  /// Save pending post data to cache with current timestamp
+  Future<void> savePendingPost(Map<String, dynamic> postData) async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final encoded = jsonEncode(postData);
+      await prefs.setString(_pendingPostKey, encoded);
+      await prefs.setInt(
+        _pendingPostTimestampKey,
+        DateTime.now().millisecondsSinceEpoch,
+      );
+      // ignore: avoid_print
+      print(
+        '[ContinueEditing] CacheService.savePendingPost: SUCCESS, key=$_pendingPostKey',
+      );
+    } catch (e) {
+      // ignore: avoid_print
+      print('[ContinueEditing] CacheService.savePendingPost: ERROR $e');
+    }
+  }
+
+  /// Get pending post data if it exists and hasn't expired (within 3 hours)
+  Future<Map<String, dynamic>?> getPendingPost() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final raw = prefs.getString(_pendingPostKey);
+      final timestamp = prefs.getInt(_pendingPostTimestampKey);
+
+      // ignore: avoid_print
+      print(
+        '[ContinueEditing] CacheService.getPendingPost: raw=${raw != null ? 'exists (${raw.length} chars)' : 'null'}, timestamp=$timestamp',
+      );
+
+      if (raw == null || timestamp == null) return null;
+
+      final savedAt = DateTime.fromMillisecondsSinceEpoch(timestamp);
+      final now = DateTime.now();
+
+      // Check if expired (more than 3 hours)
+      if (now.difference(savedAt) > _pendingPostExpiry) {
+        // ignore: avoid_print
+        print(
+          '[ContinueEditing] CacheService.getPendingPost: EXPIRED (saved at $savedAt)',
+        );
+        await clearPendingPost();
+        return null;
+      }
+
+      return jsonDecode(raw) as Map<String, dynamic>;
+    } catch (e) {
+      // ignore: avoid_print
+      print('[ContinueEditing] CacheService.getPendingPost: ERROR $e');
+      return null;
+    }
+  }
+
+  /// Check if there is a valid (non-expired) pending post
+  Future<bool> hasPendingPost() async {
+    final data = await getPendingPost();
+    return data != null;
+  }
+
+  /// Clear pending post data
+  Future<void> clearPendingPost() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.remove(_pendingPostKey);
+      await prefs.remove(_pendingPostTimestampKey);
     } catch (e) {
       // Handle error silently
     }

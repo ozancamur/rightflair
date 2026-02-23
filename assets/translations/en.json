@@ -469,6 +469,10 @@
         "noResults": "No users found",
         "shareText": "Join me on Rightflair! {url}"
     },
+    "continueEditing": {
+        "title": "Continue editing this post?",
+        "edit": "Edit"
+    },
     "defaults": {
         "rightflairUser": "Rightflair User",
         "fallbackEmail": "rightflairuser@example.com"

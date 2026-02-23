@@ -545,6 +545,10 @@ class AppStrings {
   static const String FIND_FRIENDS_NO_RESULTS = 'findFriends.noResults';
   static const String FIND_FRIENDS_SHARE_TEXT = 'findFriends.shareText';
 
+  // CONTINUE EDITING
+  static const String CONTINUE_EDITING_TITLE = 'continueEditing.title';
+  static const String CONTINUE_EDITING_EDIT = 'continueEditing.edit';
+
   // DEFAULTS
   static const String DEFAULT_RIGHTFLAIR_USER = 'defaults.rightflairUser';
   static const String DEFAULT_FALLBACK_EMAIL = 'defaults.fallbackEmail';

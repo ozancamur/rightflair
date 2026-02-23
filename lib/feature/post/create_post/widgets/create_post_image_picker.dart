@@ -43,6 +43,10 @@ class CreatePostImageWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<CreatePostCubit, CreatePostState>(
       builder: (context, state) {
+        debugPrint(
+          '[ContinueEditing] CreatePostImageWidget.build: imagePath=${state.imagePath}, '
+          'exists=${state.imagePath != null ? File(state.imagePath!).existsSync() : "N/A"}',
+        );
         return Center(
           child: GestureDetector(
             onTap: state.isProcessingImage

@@ -8,11 +8,12 @@ class CreatePostState {
   final bool isPlayingMusic;
   final String? currentPlayingMusicUrl;
   final String? imagePath;
-  final String? originalImagePath; 
-  final bool isProcessingImage; 
+  final String? originalImagePath;
+  final bool isProcessingImage;
   final List<String> tags;
   final List<String> mentionedUserIds;
   final bool isLoading;
+  final String? pendingDescription; // Restored description from cache
 
   const CreatePostState({
     this.isAnonymous = false,
@@ -27,6 +28,7 @@ class CreatePostState {
     this.tags = const [],
     this.mentionedUserIds = const [],
     this.isLoading = false,
+    this.pendingDescription,
   });
 
   CreatePostState copyWith({
@@ -42,6 +44,7 @@ class CreatePostState {
     List<String>? tags,
     List<String>? mentionedUserIds,
     bool? isLoading,
+    String? pendingDescription,
   }) {
     return CreatePostState(
       isAnonymous: isAnonymous ?? this.isAnonymous,
@@ -57,6 +60,7 @@ class CreatePostState {
       tags: tags ?? this.tags,
       mentionedUserIds: mentionedUserIds ?? this.mentionedUserIds,
       isLoading: isLoading ?? this.isLoading,
+      pendingDescription: pendingDescription ?? this.pendingDescription,
     );
   }
 }

@@ -25,20 +25,94 @@ class CreatePostPage extends StatefulWidget {
   State<CreatePostPage> createState() => _CreatePostPageState();
 }
 
-class _CreatePostPageState extends State<CreatePostPage> {
+class _CreatePostPageState extends State<CreatePostPage>
+    with WidgetsBindingObserver {
   final TextEditingController _descriptionController = TextEditingController();
   late final CreatePostCubit _createPostCubit;
+  bool _isAppInBackground = false;
 
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
     _createPostCubit = context.read<CreatePostCubit>();
+    debugPrint(
+      '[ContinueEditing] CreatePostPage.initState: imagePath=${_createPostCubit.state.imagePath}',
+    );
+    _restoreDescriptionIfNeeded();
+    _restoreFromCacheIfNeeded();
+  }
+
+  /// Restore description text from pending post state if available
+  void _restoreDescriptionIfNeeded() {
+    final pendingDesc = _createPostCubit.state.pendingDescription;
+    if (pendingDesc != null && pendingDesc.isNotEmpty) {
+      _descriptionController.text = pendingDesc;
+    }
+  }
+
+  /// Fallback: if cubit has no imagePath, check cache and restore
+  Future<void> _restoreFromCacheIfNeeded() async {
+    if (_createPostCubit.state.imagePath != null) {
+      debugPrint(
+        '[ContinueEditing] CreatePostPage: imagePath already set, no need to restore',
+      );
+      return;
+    }
+    debugPrint(
+      '[ContinueEditing] CreatePostPage: imagePath is null, checking cache...',
+    );
+    final pendingData = await _createPostCubit.getPendingPostData();
+    if (pendingData != null && mounted) {
+      debugPrint(
+        '[ContinueEditing] CreatePostPage: found pending data in cache, restoring...',
+      );
+      await _createPostCubit.restorePendingPost();
+      debugPrint(
+        '[ContinueEditing] CreatePostPage: restored, imagePath=${_createPostCubit.state.imagePath}',
+      );
+      // Also restore description
+      final pendingDesc = _createPostCubit.state.pendingDescription;
+      if (pendingDesc != null && pendingDesc.isNotEmpty) {
+        _descriptionController.text = pendingDesc;
+      }
+    }
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+    debugPrint('[ContinueEditing] CreatePostPage lifecycle: $state');
+    if (state == AppLifecycleState.paused ||
+        state == AppLifecycleState.inactive) {
+      _isAppInBackground = true;
+      debugPrint(
+        '[ContinueEditing] CreatePostPage: app going background, saving...',
+      );
+      _createPostCubit.savePendingPost(
+        description: _descriptionController.text,
+      );
+    } else if (state == AppLifecycleState.resumed) {
+      _isAppInBackground = false;
+      debugPrint('[ContinueEditing] CreatePostPage: app resumed');
+    }
   }
 
   @override
   void dispose() {
+    debugPrint(
+      '[ContinueEditing] CreatePostPage.dispose() called, isAppInBackground=$_isAppInBackground',
+    );
+    WidgetsBinding.instance.removeObserver(this);
+    if (_isAppInBackground) {
+      debugPrint(
+        '[ContinueEditing] CreatePostPage.dispose(): saving pending post (background kill)',
+      );
+      _createPostCubit.savePendingPost(
+        description: _descriptionController.text,
+      );
+    }
     _descriptionController.dispose();
-    // Stop music when leaving create post page
     _createPostCubit.stopMusic();
     _createPostCubit.setSelectedMusic(null);
     super.dispose();
