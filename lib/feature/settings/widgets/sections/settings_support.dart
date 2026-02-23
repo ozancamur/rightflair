@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:in_app_review/in_app_review.dart';
+import 'package:share_plus/share_plus.dart';
+import 'package:url_launcher/url_launcher.dart';
 
+import '../../../../core/constants/app.dart';
 import '../../../../core/constants/icons.dart';
 import '../../../../core/constants/string.dart';
 import '../../../../core/extensions/context.dart';
@@ -45,7 +47,12 @@ class SettingsSupportWidget extends StatelessWidget {
         color: context.colors.primary,
         size: context.width * 0.06,
       ),
-      onTap: () {},
+      onTap: () async {
+        final uri = Uri.parse(AppConstants.SUPPORT);
+        if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
+          debugPrint('Could not launch $uri');
+        }
+      },
     );
   }
 
@@ -59,16 +66,11 @@ class SettingsSupportWidget extends StatelessWidget {
         size: context.width * 0.06,
       ),
       onTap: () async {
-        try {
-          final InAppReview inAppReview = InAppReview.instance;
-          if (await inAppReview.isAvailable()) {
-            await inAppReview.requestReview();
-          } else {
-            await inAppReview.openStoreListing();
-          }
-        } catch (e) {
-          debugPrint("SETTINGS CUBIT _share ERROR :> $e");
-        }
+        final message =
+            '${AppConstants.APP_NAME}\n\n'
+            'App Store: ${AppConstants.APPLE}\n'
+            'Play Store: ${AppConstants.GOOGLE}';
+        await SharePlus.instance.share(ShareParams(text: message));
       },
     );
   }
