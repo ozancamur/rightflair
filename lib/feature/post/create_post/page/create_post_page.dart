@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rightflair/core/components/text/text.dart';
 import 'package:rightflair/core/constants/font/font_size.dart';
-import 'package:rightflair/core/constants/route.dart';
 import 'package:rightflair/core/constants/string.dart';
 import 'package:rightflair/core/extensions/context.dart';
 
@@ -40,7 +39,20 @@ class _CreatePostPageState extends State<CreatePostPage>
       '[ContinueEditing] CreatePostPage.initState: imagePath=${_createPostCubit.state.imagePath}',
     );
     _restoreDescriptionIfNeeded();
-    _restoreFromCacheIfNeeded();
+    _initializeAndSaveCache();
+  }
+
+  /// Restore from cache if needed, then save current state to cache
+  Future<void> _initializeAndSaveCache() async {
+    await _restoreFromCacheIfNeeded();
+    if (mounted && _createPostCubit.state.imagePath != null) {
+      debugPrint(
+        '[ContinueEditing] CreatePostPage: saving to cache on page open',
+      );
+      _createPostCubit.savePendingPost(
+        description: _descriptionController.text,
+      );
+    }
   }
 
   /// Restore description text from pending post state if available
@@ -130,7 +142,10 @@ class _CreatePostPageState extends State<CreatePostPage>
   AppBarComponent _appbar() {
     return AppBarComponent(
       leading: BackButtonComponent(
-        onBack: () => context.go(RouteConstants.CAMERA),
+        onBack: () {
+          _createPostCubit.clearPendingPost();
+          context.pop();
+        },
       ),
       title: AppbarTitleComponent(title: AppStrings.CREATE_POST_APPBAR),
     );

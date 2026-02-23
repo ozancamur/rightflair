@@ -208,6 +208,8 @@ class CreatePostCubit extends Cubit<CreatePostState> {
       dialogError(context, message: AppStrings.ERROR_DEFAULT);
       return;
     }
+    // Clear cache as soon as post is initiated
+    await clearPendingPost();
     emit(state.copyWith(isLoading: true));
     final String? postPhotoUrl = await _repo.uploadStoryImage(
       userId: uid,
@@ -237,7 +239,6 @@ class CreatePostCubit extends Cubit<CreatePostState> {
         message: response?.message ?? AppStrings.ERROR_DEFAULT,
       );
     } else {
-      await clearPendingPost();
       context.go(RouteConstants.NAVIGATION);
     }
     emit(state.copyWith(isLoading: false));
@@ -254,6 +255,8 @@ class CreatePostCubit extends Cubit<CreatePostState> {
       dialogError(context, message: AppStrings.ERROR_DEFAULT);
       return;
     }
+    // Clear cache as soon as draft is initiated
+    await clearPendingPost();
     emit(state.copyWith(isLoading: true));
     final String? postPhotoUrl = await _repo.uploadStoryImage(
       userId: uid,
@@ -283,7 +286,6 @@ class CreatePostCubit extends Cubit<CreatePostState> {
         message: response?.message ?? AppStrings.ERROR_DEFAULT,
       );
     } else {
-      await clearPendingPost();
       context.go(RouteConstants.NAVIGATION);
     }
   }

@@ -52,9 +52,7 @@ class NavigationBottomBar extends StatelessWidget {
       flex: 5,
       child: Center(
         child: InkWell(
-          onTap: () {
-            context.push(RouteConstants.CAMERA);
-          },
+          onTap: () => context.push(RouteConstants.CAMERA),
           borderRadius: BorderRadius.circular(100),
           child: Container(
             height: context.width * .09,
