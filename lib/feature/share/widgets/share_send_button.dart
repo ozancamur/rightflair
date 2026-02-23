@@ -9,7 +9,13 @@ import '../cubit/share_cubit.dart';
 class ShareSendButtonWidget extends StatelessWidget {
   final String userId;
   final String? postId;
-  const ShareSendButtonWidget({super.key, required this.userId, this.postId});
+  final String? imageUrl;
+  const ShareSendButtonWidget({
+    super.key,
+    required this.userId,
+    this.postId,
+    this.imageUrl,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -75,7 +81,9 @@ class ShareSendButtonWidget extends StatelessWidget {
 
   Future<void> _onSend(BuildContext context) async {
     final cubit = context.read<ShareCubit>();
-    if (postId != null && postId!.isNotEmpty) {
+    if (imageUrl != null && imageUrl!.isNotEmpty) {
+      await cubit.shareImage(imageUrl: imageUrl!);
+    } else if (postId != null && postId!.isNotEmpty) {
       await cubit.sharePost(referencedPostId: postId!);
     } else {
       await cubit.shareProfile(referencedUserId: userId);

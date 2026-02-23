@@ -137,6 +137,34 @@ class ShareRepositoryImpl extends ShareRepository {
   }
 
   @override
+  Future<bool> shareImage({
+    required String recipientId,
+    required String imageUrl,
+  }) async {
+    if (recipientId.isEmpty || imageUrl.isEmpty) return false;
+    try {
+      final response = await _api.post(
+        Endpoint.SEND_MESSAGE,
+        data: {
+          'recipient_id': recipientId,
+          'message_type': MessageType.image.name,
+          'image_url': imageUrl,
+        },
+      );
+
+      if (response?.data == null) return false;
+
+      final result = ResponseModel().fromJson(
+        response!.data as Map<String, dynamic>,
+      );
+      return result.success == true;
+    } catch (e) {
+      debugPrint("ShareRepositoryImpl ERROR in shareImage: $e");
+      return false;
+    }
+  }
+
+  @override
   Future<List<SearchUserModel>?> getShareSuggestions() async {
     try {
       final request = await _api.get(Endpoint.GET_SHARE_SUGGESTIONS);

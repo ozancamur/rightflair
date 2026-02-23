@@ -197,6 +197,22 @@ class CreatePostCubit extends Cubit<CreatePostState> {
     await savePendingPost();
   }
 
+  /// Upload the current image and return the public URL.
+  Future<String?> uploadImage() async {
+    final String? uid = Supabase.instance.client.auth.currentUser?.id;
+    if (uid == null || uid.isEmpty || state.imagePath == null) return null;
+    try {
+      final imageUrl = await _repo.uploadStoryImage(
+        userId: uid,
+        file: File(state.imagePath!),
+      );
+      return imageUrl;
+    } catch (e) {
+      debugPrint('Error uploading image: $e');
+      return null;
+    }
+  }
+
   Future<void> createPost(
     BuildContext context, {
     String? description,

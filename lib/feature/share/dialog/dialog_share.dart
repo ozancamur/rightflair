@@ -10,6 +10,7 @@ void dialogShare(
   String? postId,
   required String userId,
   bool showReport = true,
+  String? imageUrl,
 }) {
   showModalBottomSheet(
     context: context,
@@ -19,7 +20,12 @@ void dialogShare(
     enableDrag: true,
     builder: (context) => BlocProvider(
       create: (_) => ShareCubit(ShareRepositoryImpl()),
-      child: SharePage(postId: postId, userId: userId, showReport: showReport),
+      child: SharePage(
+        postId: postId,
+        userId: userId,
+        showReport: showReport,
+        imageUrl: imageUrl,
+      ),
     ),
   );
 }

@@ -16,11 +16,13 @@ class SharePage extends StatelessWidget {
   final String? postId;
   final String userId;
   final bool showReport;
+  final String? imageUrl;
   const SharePage({
     super.key,
     this.postId,
     required this.userId,
     this.showReport = true,
+    this.imageUrl,
   });
 
   @override
@@ -53,7 +55,11 @@ class SharePage extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     const ShareHorizontalUsersListWidget(),
-                    ShareSendButtonWidget(userId: userId, postId: postId),
+                    ShareSendButtonWidget(
+                      userId: userId,
+                      postId: postId,
+                      imageUrl: imageUrl,
+                    ),
                   ],
                 );
               },

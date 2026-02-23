@@ -3,11 +3,18 @@ import 'dart:ui' as ui;
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:photo_manager/photo_manager.dart';
 import 'package:rightflair/core/constants/color/color.dart';
+import 'package:rightflair/core/constants/icons.dart';
 import 'package:rightflair/core/constants/route.dart';
+import 'package:rightflair/core/constants/string.dart';
+import 'package:rightflair/core/extensions/context.dart';
+import 'package:rightflair/feature/share/dialog/dialog_share.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'dart:typed_data';
 
 import '../cubit/create_post_cubit.dart';
@@ -39,6 +46,7 @@ class _CameraPageState extends State<CameraPage> with WidgetsBindingObserver {
   bool _showFilters = false;
   Uint8List? _latestGalleryImage;
   late final CreatePostCubit _createPostCubit;
+  final GlobalKey _backButtonKey = GlobalKey();
 
   // ---------------------------------------------------------------------------
   // Lifecycle
@@ -277,6 +285,146 @@ class _CameraPageState extends State<CameraPage> with WidgetsBindingObserver {
   }
 
   // ---------------------------------------------------------------------------
+  // Preview back options
+  // ---------------------------------------------------------------------------
+
+  void _showPreviewBackOptions() {
+    final renderBox =
+        _backButtonKey.currentContext?.findRenderObject() as RenderBox?;
+    if (renderBox == null) return;
+
+    final position = renderBox.localToGlobal(Offset.zero);
+    final size = renderBox.size;
+
+    showMenu<String>(
+      context: context,
+      color: context.colors.primary,
+      position: RelativeRect.fromLTRB(
+        position.dx,
+        position.dy + size.height + 8,
+        position.dx + size.width,
+        0,
+      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      items: [
+        PopupMenuItem<String>(
+          value: 'discard',
+          child: Row(
+            children: [
+              SvgPicture.asset(
+                AppIcons.DELETE,
+                color: context.colors.error,
+                height: context.height * .03,
+              ),
+              const SizedBox(width: 12),
+              Text(
+                AppStrings.CREATE_POST_DISCARD.tr(),
+                style: const TextStyle(
+                  color: Colors.red,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ],
+          ),
+        ),
+        PopupMenuItem<String>(
+          value: 'draft',
+          child: Row(
+            children: [
+              SvgPicture.asset(
+                AppIcons.DRAFT,
+                color: context.colors.secondary,
+                height: context.height * .03,
+              ),
+              const SizedBox(width: 12),
+              Text(
+                AppStrings.CREATE_POST_SAVE_DRAFT.tr(),
+                style: TextStyle(
+                  fontWeight: FontWeight.w600,
+                  color: context.colors.secondary,
+                ),
+              ),
+            ],
+          ),
+        ),
+        PopupMenuItem<String>(
+          value: 'send',
+          child: Row(
+            children: [
+              CircleAvatar(
+                radius: 11,
+                backgroundImage: FileImage(File(_capturedImagePath!)),
+              ),
+              const SizedBox(width: 12),
+              Text(
+                AppStrings.CREATE_POST_SEND_TO_FRIENDS.tr(),
+                style: TextStyle(
+                  fontWeight: FontWeight.w600,
+                  color: context.colors.secondary,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    ).then((value) {
+      if (value == null) return;
+      switch (value) {
+        case 'discard':
+          _retake();
+          break;
+        case 'draft':
+          _saveDraftFromPreview();
+          break;
+        case 'send':
+          _sendToFriends();
+          break;
+      }
+    });
+  }
+
+  Future<void> _saveDraftFromPreview() async {
+    if (_capturedImagePath == null) return;
+
+    final filteredPath = await _applyFilterToFile(_capturedImagePath!);
+    await _createPostCubit.setImagePath(filteredPath);
+
+    if (mounted) {
+      _createPostCubit.createDraft(context);
+    }
+  }
+
+  Future<void> _sendToFriends() async {
+    if (_capturedImagePath == null) return;
+
+    final String? uid = Supabase.instance.client.auth.currentUser?.id;
+    if (uid == null || uid.isEmpty) return;
+
+    // Show loading
+    if (mounted) {
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (_) => const Center(
+          child: CircularProgressIndicator(color: AppColors.WHITE),
+        ),
+      );
+    }
+
+    // Apply filter and upload image
+    final filteredPath = await _applyFilterToFile(_capturedImagePath!);
+    await _createPostCubit.setImagePath(filteredPath);
+    final imageUrl = await _createPostCubit.uploadImage();
+
+    // Dismiss loading
+    if (mounted) Navigator.of(context).pop();
+
+    if (imageUrl != null && imageUrl.isNotEmpty && mounted) {
+      dialogShare(context, userId: uid, showReport: false, imageUrl: imageUrl);
+    }
+  }
+
+  // ---------------------------------------------------------------------------
   // Build
   // ---------------------------------------------------------------------------
 
@@ -460,7 +608,11 @@ class _CameraPageState extends State<CameraPage> with WidgetsBindingObserver {
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
           child: Row(
             children: [
-              CircleIconButton(icon: Icons.arrow_back_ios_new, onTap: _retake),
+              CircleIconButton(
+                key: _backButtonKey,
+                icon: Icons.arrow_back_ios_new,
+                onTap: _showPreviewBackOptions,
+              ),
               const Spacer(),
               AddSoundPill(onTap: _showAddMusicDialog, onRemove: _removeMusic),
               const Spacer(),

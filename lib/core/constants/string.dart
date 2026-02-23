@@ -168,6 +168,9 @@ class AppStrings {
   static const String CREATE_POST_SEARCH_MUSIC_PLACEHOLDER =
       'createPost.searchMusicPlaceholder';
   static const String CREATE_POST_NO_RESULTS = 'createPost.noResults';
+  static const String CREATE_POST_DISCARD = 'createPost.discard';
+  static const String CREATE_POST_SAVE_DRAFT = 'createPost.saveDraft';
+  static const String CREATE_POST_SEND_TO_FRIENDS = 'createPost.sendToFriends';
 
   // POST MUSIC
   static const String POST_MUSIC_ERROR = 'postMusic.error';

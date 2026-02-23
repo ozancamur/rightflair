@@ -78,6 +78,21 @@ class ShareCubit extends Cubit<ShareState> {
     return success;
   }
 
+  Future<bool> shareImage({required String imageUrl}) async {
+    final selectedUser = state.selectedUser;
+    if (selectedUser?.id == null || imageUrl.isEmpty) return false;
+
+    emit(state.copyWith(isSending: true));
+
+    final success = await _repo.shareImage(
+      recipientId: selectedUser!.id!,
+      imageUrl: imageUrl,
+    );
+
+    emit(state.copyWith(isSending: false));
+    return success;
+  }
+
   void selectReportReason(ReportReason reason) =>
       emit(state.copyWith(selectedReportReason: reason));
 

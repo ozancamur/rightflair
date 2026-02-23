@@ -28,5 +28,10 @@ abstract class ShareRepository {
     String? content,
   });
 
+  Future<bool> shareImage({
+    required String recipientId,
+    required String imageUrl,
+  });
+
   Future<List<SearchUserModel>?> getShareSuggestions();
 }

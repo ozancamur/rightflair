@@ -143,7 +143,10 @@
         "addMusic": "Add Music",
         "searchMusic": "Use the field above to search for music",
         "searchMusicPlaceholder": "Search song or artist...",
-        "noResults": "No results found"
+        "noResults": "No results found",
+        "discard": "Discard",
+        "saveDraft": "Save draft",
+        "sendToFriends": "Send to friends"
     },
     "inbox": {
         "title": "InBox",
