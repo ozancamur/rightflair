@@ -25,6 +25,7 @@ class _FeedPostItemState extends State<FeedPostItem>
   late AnimationController _animationController;
   late Animation<Offset> _animation;
   Offset _dragOffset = Offset.zero;
+  bool _isResetting = false;
 
   @override
   void initState() {
@@ -99,6 +100,7 @@ class _FeedPostItemState extends State<FeedPostItem>
   }
 
   void _resetPosition() {
+    _isResetting = true;
     _animationController.reset();
     _animation = Tween<Offset>(begin: _dragOffset, end: Offset.zero).animate(
       CurvedAnimation(parent: _animationController, curve: Curves.easeOutBack),
@@ -112,6 +114,7 @@ class _FeedPostItemState extends State<FeedPostItem>
   void _resetCard() {
     setState(() {
       _dragOffset = Offset.zero;
+      _isResetting = false;
       _animationController.reset();
     });
   }
@@ -153,8 +156,8 @@ class _FeedPostItemState extends State<FeedPostItem>
             alignment: Alignment.bottomCenter,
             children: [
               _post(context),
-              if (currentOffset.dx > 0) _right(context),
-              if (currentOffset.dx < 0) _left(context),
+              if (!_isResetting && currentOffset.dx > 0) _right(context),
+              if (!_isResetting && currentOffset.dx < 0) _left(context),
               _actions(context),
             ],
           ),
