@@ -30,9 +30,9 @@ class ShareUserAvatarWidget extends StatelessWidget {
         backgroundImage: imageProvider,
         backgroundColor: Colors.grey.shade200,
       ),
-      placeholder: (_, __) =>
+      placeholder: (_, _) =>
           CircleAvatar(radius: radius, backgroundColor: Colors.grey.shade200),
-      errorWidget: (_, __, ___) => CircleAvatar(
+      errorWidget: (_, _, _) => CircleAvatar(
         radius: radius,
         backgroundColor: Colors.grey.shade200,
         child: SvgPicture.asset(

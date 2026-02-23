@@ -193,18 +193,12 @@ class _CreatePostDescriptionState extends State<CreatePostDescription> {
       if (hasAtSign) {
         // Remove @ since it's already there and replace with full mention + space
         newText =
-            currentText.substring(0, cursorPosition) +
-            username +
-            ' ' +
-            currentText.substring(cursorPosition);
+            '${currentText.substring(0, cursorPosition)}$username ${currentText.substring(cursorPosition)}';
         newCursorPosition = cursorPosition + username.length + 1;
       } else {
         // Add full mention with @ + space
         newText =
-            currentText.substring(0, cursorPosition) +
-            mention +
-            ' ' +
-            currentText.substring(cursorPosition);
+            '${currentText.substring(0, cursorPosition)}$mention ${currentText.substring(cursorPosition)}';
         newCursorPosition = cursorPosition + mention.length + 1;
       }
 
@@ -231,9 +225,7 @@ class _CreatePostDescriptionState extends State<CreatePostDescription> {
 
     _isProcessing = true;
     final newText =
-        currentText.substring(0, cursorPosition) +
-        '#' +
-        currentText.substring(cursorPosition);
+        '${currentText.substring(0, cursorPosition)}#${currentText.substring(cursorPosition)}';
 
     widget.controller.text = newText;
     _lastText = newText;
@@ -254,9 +246,7 @@ class _CreatePostDescriptionState extends State<CreatePostDescription> {
 
     _isProcessing = true;
     final newText =
-        currentText.substring(0, cursorPosition) +
-        '@' +
-        currentText.substring(cursorPosition);
+        '${currentText.substring(0, cursorPosition)}@${currentText.substring(cursorPosition)}';
 
     widget.controller.text = newText;
     _lastText = newText;

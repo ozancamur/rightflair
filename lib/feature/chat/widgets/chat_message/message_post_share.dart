@@ -64,7 +64,7 @@ class MessagePostShareWidget extends StatelessWidget {
                   width: context.width * 0.7,
                   height: context.width * 0.5,
                   fit: BoxFit.cover,
-                  placeholder: (_, __) => Container(
+                  placeholder: (_, _) => Container(
                     width: context.width * 0.7,
                     height: context.width * 0.5,
                     color: context.colors.primary.withOpacity(0.1),
@@ -79,7 +79,7 @@ class MessagePostShareWidget extends StatelessWidget {
                       ),
                     ),
                   ),
-                  errorWidget: (_, __, ___) => Container(
+                  errorWidget: (_, _, _) => Container(
                     width: context.width * 0.7,
                     height: context.width * 0.5,
                     color: context.colors.primary.withOpacity(0.1),

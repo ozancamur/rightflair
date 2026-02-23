@@ -18,7 +18,7 @@ class GalleryPickerPage extends StatefulWidget {
 }
 
 class _GalleryPickerPageState extends State<GalleryPickerPage> {
-  List<AssetEntity> _mediaList = [];
+  List<AssetEntity> mediaList = [];
   bool _isLoading = true;
   int _currentPage = 0;
   final int _pageSize = 50;
@@ -62,7 +62,7 @@ class _GalleryPickerPageState extends State<GalleryPickerPage> {
       );
 
       setState(() {
-        _mediaList.addAll(media);
+        mediaList.addAll(media);
         _currentPage++;
         _isLoading = false;
         _hasMoreToLoad = media.length == _pageSize;
@@ -110,9 +110,9 @@ class _GalleryPickerPageState extends State<GalleryPickerPage> {
         ),
         centerTitle: true,
       ),
-      body: _isLoading && _mediaList.isEmpty
+      body: _isLoading && mediaList.isEmpty
           ? const Center(child: CircularProgressIndicator(color: Colors.white))
-          : _mediaList.isEmpty
+          : mediaList.isEmpty
           ? Center(
               child: Text(
                 AppStrings.PROFILE_EDIT_STORY_GALLERY_EMPTY.tr(),
@@ -136,15 +136,15 @@ class _GalleryPickerPageState extends State<GalleryPickerPage> {
                   mainAxisSpacing: 1,
                   crossAxisSpacing: 1,
                 ),
-                itemCount: _mediaList.length + (_hasMoreToLoad ? 1 : 0),
+                itemCount: mediaList.length + (_hasMoreToLoad ? 1 : 0),
                 itemBuilder: (context, index) {
-                  if (index == _mediaList.length) {
+                  if (index == mediaList.length) {
                     return const Center(
                       child: CircularProgressIndicator(color: Colors.white),
                     );
                   }
 
-                  final asset = _mediaList[index];
+                  final asset = mediaList[index];
                   return GestureDetector(
                     onTap: () => _selectMedia(asset),
                     child: Stack(

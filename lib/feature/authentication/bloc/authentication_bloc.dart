@@ -96,6 +96,7 @@ class AuthenticationBloc
   ) async {
     emit(AuthenticationLoading());
     final response = await _authentication.signInWithGoogle();
+    if (response == null) return;
 
     final String? uid = response.user?.id;
     if (uid == null) {

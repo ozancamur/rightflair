@@ -124,7 +124,6 @@ class _CreatePostPageState extends State<CreatePostPage> {
               isAnonymous: state.isAnonymous,
               allowComments: state.allowComments,
               selectedLocation: state.selectedLocation,
-              selectedMusic: state.selectedMusic,
             ),
             SizedBox(height: context.height * 0.02),
 

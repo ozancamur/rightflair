@@ -49,7 +49,7 @@ class AuthenticationService extends SupabaseService {
   }
 
   /// Google ile giriş
-  Future<AuthResponse> signInWithGoogle() async {
+  Future<AuthResponse?> signInWithGoogle() async {
     try {
       final googleSignIn = GoogleSignIn.instance;
 
@@ -58,12 +58,7 @@ class AuthenticationService extends SupabaseService {
 
       final googleAuth = googleUser.authentication;
       final idToken = googleAuth.idToken;
-
-      if (idToken == null) {
-        throw SupabaseAuthException(
-          AppStrings.AUTH_GOOGLE_ID_TOKEN_FAILED.tr(),
-        );
-      }
+      if (idToken == null) return null;
 
       final response = await client.auth.signInWithIdToken(
         provider: OAuthProvider.google,

@@ -157,11 +157,11 @@ class _UserItem extends StatelessWidget {
         backgroundImage: imageProvider,
         backgroundColor: Colors.grey.shade200,
       ),
-      placeholder: (_, __) => CircleAvatar(
+      placeholder: (_, _) => CircleAvatar(
         radius: diameter / 2,
         backgroundColor: Colors.grey.shade200,
       ),
-      errorWidget: (_, __, ___) => CircleAvatar(
+      errorWidget: (_, _, _) => CircleAvatar(
         radius: diameter / 2,
         backgroundColor: Colors.grey.shade200,
         child: SvgPicture.asset(

@@ -198,9 +198,6 @@ class _AddMusicBottomSheetState extends State<AddMusicBottomSheet> {
     MusicModel music,
     bool isPlayingCurrentTrack,
   ) {
-    print(
-      "Rendering song: ${music.title}, url: ${music.url}, isPlayingCurrentTrack: $isPlayingCurrentTrack",
-    );
     return ListTile(
       contentPadding: EdgeInsets.zero,
       leading: Icon(
