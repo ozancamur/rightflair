@@ -7,6 +7,7 @@ import 'package:rightflair/core/components/button/icon_button.dart';
 import 'package:rightflair/core/components/loading.dart';
 import 'package:rightflair/core/components/post/post.dart';
 import 'package:rightflair/core/constants/icons.dart';
+import 'package:rightflair/core/constants/route.dart';
 import 'package:rightflair/core/constants/string.dart';
 import 'package:rightflair/core/extensions/context.dart';
 import 'package:rightflair/core/utils/dialogs/confirm.dart';
@@ -46,7 +47,12 @@ class PostDetailPage extends StatelessWidget {
       leading: BackButtonComponent(),
       actions: [
         if (isOwner) ...[
-          IconButtonComponent(onTap: () {}, icon: AppIcons.EDIT),
+          IconButtonComponent(
+            onTap: () {
+              context.push(RouteConstants.POST_UPDATE, extra: {'post': post});
+            },
+            icon: AppIcons.EDIT,
+          ),
           SizedBox(width: context.width * 0.03),
           IconButtonComponent(
             onTap: () async {

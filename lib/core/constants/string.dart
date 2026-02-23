@@ -172,6 +172,9 @@ class AppStrings {
   static const String CREATE_POST_SAVE_DRAFT = 'createPost.saveDraft';
   static const String CREATE_POST_SEND_TO_FRIENDS = 'createPost.sendToFriends';
 
+  // UPDATE POST
+  static const String UPDATE_POST_APPBAR = 'updatePost.appbar';
+
   // POST MUSIC
   static const String POST_MUSIC_ERROR = 'postMusic.error';
   static const String POST_MUSIC_DEFAULT_SONG = 'postMusic.defaultSong';

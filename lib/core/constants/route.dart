@@ -16,6 +16,7 @@ class RouteConstants {
   static const String CAMERA = '/camera';
   static const String CREATE_POST = '/create_post';
   static const String POST_DETAIL = '/post_detail';
+  static const String POST_UPDATE = '/post_update';
   static const String EDIT_PROFILE = '/edit_profile';
   static const String SETTINGS = '/settings';
 

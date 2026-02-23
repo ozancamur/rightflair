@@ -1,0 +1,89 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/svg.dart';
+
+import '../../../../core/constants/icons.dart';
+import '../../../../core/constants/string.dart';
+import '../../../../core/extensions/context.dart';
+import '../../create_post/widgets/create_post_option_tile.dart';
+import '../cubit/post_update_cubit.dart';
+
+import '../../../location/page/location_page.dart';
+
+class PostUpdateOptionsWidget extends StatelessWidget {
+  final bool isAnonymous;
+  final bool allowComments;
+  final String? selectedLocation;
+
+  const PostUpdateOptionsWidget({
+    super.key,
+    required this.isAnonymous,
+    required this.allowComments,
+    this.selectedLocation,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        _buildLocationTile(context),
+        _buildAnonymousTile(context),
+        _buildCommentsTile(context),
+      ],
+    );
+  }
+
+  Widget _buildLocationTile(BuildContext context) {
+    return CreatePostOptionTile(
+      title: AppStrings.CREATE_POST_LOCATION,
+      subtitle: selectedLocation,
+      iconPath: AppIcons.LOCATION,
+      trailing: SvgPicture.asset(
+        AppIcons.ARROW_RIGHT,
+        colorFilter: ColorFilter.mode(
+          context.colors.onPrimary,
+          BlendMode.srcIn,
+        ),
+        height: context.height * 0.015,
+      ),
+      onTap: () async {
+        final result = await Navigator.push<String>(
+          context,
+          MaterialPageRoute(builder: (context) => LocationPage()),
+        );
+        if (result != null && context.mounted) {
+          context.read<PostUpdateCubit>().updateLocation(result);
+        }
+      },
+    );
+  }
+
+  Widget _buildAnonymousTile(BuildContext context) {
+    return CreatePostOptionTile(
+      title: AppStrings.CREATE_POST_ANONYMOUSLY,
+      subtitle: AppStrings.CREATE_POST_ANONYMOUSLY_SUBTITLE,
+      iconPath: AppIcons.ANONYMOUS,
+      trailing: Switch.adaptive(
+        value: isAnonymous,
+        activeColor: context.colors.inverseSurface,
+        onChanged: (value) async => await context
+            .read<PostUpdateCubit>()
+            .toggleAnonymous(context, value),
+      ),
+    );
+  }
+
+  Widget _buildCommentsTile(BuildContext context) {
+    return CreatePostOptionTile(
+      title: AppStrings.CREATE_POST_ALLOW_COMMENTS,
+      iconPath: AppIcons.COMMENTS,
+      trailing: Switch.adaptive(
+        padding: EdgeInsets.zero,
+        value: allowComments,
+        activeColor: context.colors.inverseSurface,
+        onChanged: (value) =>
+            context.read<PostUpdateCubit>().toggleAllowComments(value),
+      ),
+    );
+  }
+}

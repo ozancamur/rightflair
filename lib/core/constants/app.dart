@@ -12,4 +12,5 @@ class AppConstants {
   static const String APPLE = "https://supabase.com/";
   static const String GOOGLE = "https://supabase.com/";
 
+  static const String SUPPORT = "https://forms.gle/g8XkDjoG63MhUhat5";
 }

@@ -148,6 +148,9 @@
         "saveDraft": "Save draft",
         "sendToFriends": "Send to friends"
     },
+    "updatePost": {
+        "appbar": "Edit Post"
+    },
     "inbox": {
         "title": "InBox",
         "messages": "Messages",

@@ -156,4 +156,30 @@ class ApiService extends SupabaseService {
       return null;
     }
   }
+
+  // PATCH Method
+  Future<Response?> patch(
+    Endpoint endpoint, {
+    dynamic data,
+    Map<String, dynamic>? parameters,
+    Options? options,
+    CancelToken? cancelToken,
+    ProgressCallback? onSendProgress,
+    ProgressCallback? onReceiveProgress,
+  }) async {
+    try {
+      final Response response = await dio.patch(
+        endpoint.value,
+        data: data,
+        queryParameters: parameters,
+        options: options,
+        cancelToken: cancelToken,
+        onSendProgress: onSendProgress,
+        onReceiveProgress: onReceiveProgress,
+      );
+      return response;
+    } catch (e) {
+      return null;
+    }
+  }
 }

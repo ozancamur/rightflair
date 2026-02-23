@@ -20,6 +20,7 @@ import '../../feature/find_friends/page/find_friends_page.dart';
 import '../../feature/post/create_post/model/post.dart';
 import '../../feature/main/feed/models/user_with_stories.dart';
 import '../../feature/post/post_detail/page/post_detail_page.dart';
+import '../../feature/post/post_update/page/post_update_page.dart';
 import '../../feature/profile_edit/page/profile_edit_page.dart';
 import '../../feature/authentication/pages/splash_page.dart';
 import '../../feature/story/story_view/page/story_view_page.dart';
@@ -99,6 +100,14 @@ final GoRouter router = GoRouter(
           post: data['post'] as PostModel,
           isDraft: data['isDraft'] as bool,
         );
+      },
+    ),
+    GoRoute(
+      path: RouteConstants.POST_UPDATE,
+      name: RouteConstants.POST_UPDATE,
+      builder: (context, state) {
+        final data = state.extra as Map<String, dynamic>;
+        return PostUpdatePage(post: data['post'] as PostModel);
       },
     ),
     GoRoute(
