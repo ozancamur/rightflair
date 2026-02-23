@@ -454,14 +454,17 @@ class _CameraPageState extends State<CameraPage> with WidgetsBindingObserver {
         children: [
           if (_controller != null && _controller!.value.isInitialized)
             Positioned.fill(
-              child: _applyFilter(
-                ClipRect(
-                  child: FittedBox(
-                    fit: BoxFit.cover,
-                    child: SizedBox(
-                      width: _controller!.value.previewSize!.height,
-                      height: _controller!.value.previewSize!.width,
-                      child: CameraPreview(_controller!),
+              child: GestureDetector(
+                onDoubleTap: _flipCamera,
+                child: _applyFilter(
+                  ClipRect(
+                    child: FittedBox(
+                      fit: BoxFit.cover,
+                      child: SizedBox(
+                        width: _controller!.value.previewSize!.height,
+                        height: _controller!.value.previewSize!.width,
+                        child: CameraPreview(_controller!),
+                      ),
                     ),
                   ),
                 ),

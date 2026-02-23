@@ -351,14 +351,17 @@ class _CameraStoryPageState extends State<CameraStoryPage>
         fit: StackFit.expand,
         children: [
           Positioned.fill(
-            child: _applyFilter(
-              ClipRect(
-                child: FittedBox(
-                  fit: BoxFit.cover,
-                  child: SizedBox(
-                    width: _cameraController!.value.previewSize!.height,
-                    height: _cameraController!.value.previewSize!.width,
-                    child: CameraPreview(_cameraController!),
+            child: GestureDetector(
+              onDoubleTap: _switchCamera,
+              child: _applyFilter(
+                ClipRect(
+                  child: FittedBox(
+                    fit: BoxFit.cover,
+                    child: SizedBox(
+                      width: _cameraController!.value.previewSize!.height,
+                      height: _cameraController!.value.previewSize!.width,
+                      child: CameraPreview(_cameraController!),
+                    ),
                   ),
                 ),
               ),
