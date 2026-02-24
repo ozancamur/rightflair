@@ -11,7 +11,15 @@ class PostDetailCubit extends Cubit<PostDetailState> {
   PostDetailCubit(this._repo)
     : super(PostDetailState(post: PostModel(), isLoading: false));
 
-  void init({required PostModel post}) => emit(state.copyWith(post: post));
+  Future<void> init({required String postId}) async {
+    emit(state.copyWith(isLoading: true));
+    final response = await _repo.getPostById(postId: postId);
+    if (response != null) {
+      emit(state.copyWith(post: response, isLoading: false));
+    } else {
+      emit(state.copyWith(isLoading: false));
+    }
+  }
 
   Future<void> onSavePost() async {
     if (state.post.id == null) return;

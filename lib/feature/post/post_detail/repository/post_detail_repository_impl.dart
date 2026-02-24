@@ -3,6 +3,7 @@ import 'package:rightflair/core/base/model/response.dart';
 
 import '../../../../core/constants/enums/endpoint.dart';
 import '../../../../core/services/api.dart';
+import '../../create_post/model/post.dart';
 import 'post_detail_repository.dart';
 
 class PostDetailRepositoryImpl extends PostDetailRepository {
@@ -25,15 +26,35 @@ class PostDetailRepositoryImpl extends PostDetailRepository {
         Endpoint.DELETE_POST,
         data: {'post_id': pId},
       );
-      if(request == null) return false;
+      if (request == null) return false;
       final ResponseModel response = ResponseModel().fromJson(
         request.data as Map<String, dynamic>,
       );
-      if(request.data == null) return false;
+      if (request.data == null) return false;
       return response.success ?? false;
     } catch (e) {
       debugPrint("PostDetailRepositoryImpl ERROR in deletePost :> $e");
       return false;
+    }
+  }
+
+  @override
+  Future<PostModel?> getPostById({required String postId}) async {
+    try {
+      final request = await _api.get(
+        Endpoint.GET_POST,
+        parameters: {'post_id': postId},
+      );
+      final ResponseModel response = ResponseModel().fromJson(
+        request?.data as Map<String, dynamic>,
+      );
+      final PostModel post = PostModel().fromJson(
+        response.data as Map<String, dynamic>,
+      );
+      return post;
+    } catch (e) {
+      debugPrint("PostDetailRepositoryImpl ERROR in getPostById: $e");
+      return null;
     }
   }
 }

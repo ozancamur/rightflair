@@ -21,7 +21,7 @@ class SearchPostWidget extends StatelessWidget {
       onTap: () {
         context.push(
           RouteConstants.POST_DETAIL,
-          extra: {'post': post, 'isDraft': false},
+          extra: {'postId': post.id, 'isDraft': false},
         );
       },
       child: Container(

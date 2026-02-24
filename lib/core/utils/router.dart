@@ -98,7 +98,7 @@ final GoRouter router = GoRouter(
       builder: (context, state) {
         final data = state.extra as Map<String, dynamic>;
         return PostDetailPage(
-          post: data['post'] as PostModel,
+          postId: data['postId'] as String,
           isDraft: data['isDraft'] as bool,
         );
       },

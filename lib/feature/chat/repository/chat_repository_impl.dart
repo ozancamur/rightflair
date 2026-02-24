@@ -6,7 +6,6 @@ import 'package:rightflair/feature/chat/model/chat_request.dart';
 import 'package:rightflair/feature/chat/model/send_message_request.dart';
 import 'package:rightflair/feature/chat/model/send_message_response.dart';
 import 'package:rightflair/core/base/model/response.dart';
-import 'package:rightflair/feature/post/create_post/model/post.dart';
 import 'chat_repository.dart';
 
 class ChatRepositoryImpl implements ChatRepository {
@@ -63,23 +62,4 @@ class ChatRepositoryImpl implements ChatRepository {
     }
   }
 
-  @override
-  Future<PostModel?> getPostById({required String postId}) async {
-    try {
-      final request = await _api.get(
-        Endpoint.GET_POST,
-        parameters: {'post_id': postId},
-      );
-      final ResponseModel response = ResponseModel().fromJson(
-        request?.data as Map<String, dynamic>,
-      );
-      final PostModel post = PostModel().fromJson(
-        response.data as Map<String, dynamic>,
-      );
-      return post;
-    } catch (e) {
-      debugPrint("ChatRepositoryImpl ERROR in getPostById: $e");
-      return null;
-    }
-  }
 }

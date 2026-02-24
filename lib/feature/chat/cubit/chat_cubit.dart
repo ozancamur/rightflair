@@ -205,13 +205,9 @@ class ChatCubit extends Cubit<ChatState> {
 
   Future<void> getPost(BuildContext context, {required String? pId}) async {
     if (pId == null) return;
-    await _repo
-        .getPostById(postId: pId)
-        .then(
-          (value) => context.push(
-            RouteConstants.POST_DETAIL,
-            extra: {'post': value, 'isDraft': false},
-          ),
-        );
+    context.push(
+      RouteConstants.POST_DETAIL,
+      extra: {'postId': pId, 'isDraft': false},
+    );
   }
 }

@@ -26,7 +26,7 @@ class ProfilePostGridItemComponent extends StatelessWidget {
       onTap: () async {
         final result = await context.push(
           RouteConstants.POST_DETAIL,
-          extra: {'post': post, 'isDraft': isDraft},
+          extra: {'postId': post.id, 'isDraft': isDraft},
         );
         if (result == 'deleted' && context.mounted) {
           context.read<ProfileCubit>().deleteRefresh();

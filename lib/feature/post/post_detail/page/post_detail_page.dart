@@ -20,29 +20,39 @@ import '../../create_post/model/post.dart';
 import '../repository/post_detail_repository_impl.dart';
 
 class PostDetailPage extends StatelessWidget {
-  final PostModel post;
+  final String postId;
   final bool isDraft;
-  const PostDetailPage({super.key, required this.post, required this.isDraft});
+
+  const PostDetailPage({
+    super.key,
+    required this.postId,
+    required this.isDraft,
+  });
 
   @override
   Widget build(BuildContext context) {
-    final currentUserId = Supabase.instance.client.auth.currentUser?.id;
-    final isOwner = isDraft
-        ? true
-        : currentUserId != null && currentUserId == post.user?.id;
-
     return BlocProvider(
       create: (context) =>
-          PostDetailCubit(PostDetailRepositoryImpl())..init(post: post),
+          PostDetailCubit(PostDetailRepositoryImpl())..init(postId: postId),
       child: BlocBuilder<PostDetailCubit, PostDetailState>(
         builder: (context, state) {
-          return BaseScaffold(appBar: _appbar(isOwner, context), body: _body());
+          final bool isOwner =
+              state.post.user?.id ==
+              Supabase.instance.client.auth.currentUser?.id;
+          return BaseScaffold(
+            appBar: _appbar(context, post: state.post, isOwner: isOwner),
+            body: _body(context, state),
+          );
         },
       ),
     );
   }
 
-  AppBarComponent _appbar(bool isOwner, BuildContext context) {
+  AppBarComponent _appbar(
+    BuildContext context, {
+    required PostModel post,
+    required bool isOwner,
+  }) {
     return AppBarComponent(
       leading: BackButtonComponent(),
       actions: [
@@ -81,33 +91,29 @@ class PostDetailPage extends StatelessWidget {
     );
   }
 
-  BlocBuilder<PostDetailCubit, PostDetailState> _body() {
-    return BlocBuilder<PostDetailCubit, PostDetailState>(
-      builder: (context, state) {
-        return Padding(
-          padding: EdgeInsets.only(
-            right: context.width * .05,
-            left: context.width * .05,
-            top: context.height * .025,
-            bottom: context.height * .075,
-          ),
-          child: state.isLoading
-              ? LoadingComponent()
-              : PostComponent(
-                  isDraft: isDraft,
-                  post: state.post,
-                  onComment: state.post.allowComments == true
-                      ? () => dialogComments(
-                          context,
-                          postId: post.id ?? "",
-                          onAddComment: () =>
-                              context.read<PostDetailCubit>().addComment(),
-                        )
-                      : () {},
-                  onSave: () => context.read<PostDetailCubit>().onSavePost(),
-                ),
-        );
-      },
+  Padding _body(BuildContext context, PostDetailState state) {
+    return Padding(
+      padding: EdgeInsets.only(
+        right: context.width * .05,
+        left: context.width * .05,
+        top: context.height * .025,
+        bottom: context.height * .075,
+      ),
+      child: state.isLoading
+          ? LoadingComponent()
+          : PostComponent(
+              isDraft: isDraft,
+              post: state.post,
+              onComment: state.post.allowComments == true
+                  ? () => dialogComments(
+                      context,
+                      postId: state.post.id ?? "",
+                      onAddComment: () =>
+                          context.read<PostDetailCubit>().addComment(),
+                    )
+                  : () {},
+              onSave: () => context.read<PostDetailCubit>().onSavePost(),
+            ),
     );
   }
 }
