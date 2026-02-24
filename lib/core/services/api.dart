@@ -5,14 +5,16 @@ import 'package:rightflair/core/constants/enums/endpoint.dart';
 
 class ApiService extends SupabaseService {
   static final ApiService _instance = ApiService._internal();
-  late final Dio dio;
+  Dio? _dio;
+  Dio get dio => _dio!;
 
   factory ApiService() => _instance;
 
   ApiService._internal();
 
   void init({required String BASE_URL}) {
-    dio = Dio(
+    if (_dio != null) return;
+    _dio = Dio(
       BaseOptions(
         baseUrl: BASE_URL,
         connectTimeout: const Duration(seconds: 30),

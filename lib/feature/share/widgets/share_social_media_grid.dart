@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:rightflair/core/constants/app.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -17,10 +18,11 @@ class ShareSocialMediaGridWidget extends StatelessWidget {
   });
 
   String get _shareLink {
+    final String URL = AppConstants.DEEP_LINK;
     if (postId != null && postId!.isNotEmpty) {
-      return 'https://rightflair.com/post/$postId';
+      return '$URL/post/$postId';
     }
-    return 'https://rightflair.com/user/$userId';
+    return '$URL/profile/$userId';
   }
 
   String get _shareText => 'Check this out on Rightflair! $_shareLink';
