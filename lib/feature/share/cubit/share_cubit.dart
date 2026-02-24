@@ -31,6 +31,7 @@ class ShareCubit extends Cubit<ShareState> {
       pagination: PaginationModel().forSearchUsers(page: 1),
     );
 
+    if (isClosed) return;
     emit(
       state.copyWith(isLoading: false, searchResults: response?.users ?? []),
     );
@@ -55,7 +56,7 @@ class ShareCubit extends Cubit<ShareState> {
       referencedUserId: referencedUserId,
     );
 
-    emit(state.copyWith(isSending: false));
+    if (!isClosed) emit(state.copyWith(isSending: false));
     return success;
   }
 
@@ -74,7 +75,7 @@ class ShareCubit extends Cubit<ShareState> {
       content: content,
     );
 
-    emit(state.copyWith(isSending: false));
+    if (!isClosed) emit(state.copyWith(isSending: false));
     return success;
   }
 
@@ -89,7 +90,7 @@ class ShareCubit extends Cubit<ShareState> {
       imageUrl: imageUrl,
     );
 
-    emit(state.copyWith(isSending: false));
+    if (!isClosed) emit(state.copyWith(isSending: false));
     return success;
   }
 
@@ -143,6 +144,7 @@ class ShareCubit extends Cubit<ShareState> {
     List<SearchUserModel>? response;
     response = await _repo.getShareSuggestions();
 
+    if (isClosed) return;
     if (response != null) {
       emit(state.copyWith(users: response, isLoading: false));
     } else {
