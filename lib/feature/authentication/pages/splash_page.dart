@@ -8,6 +8,7 @@ import 'package:rightflair/core/extensions/context.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../../core/config/config.dart';
+import '../../../core/services/deep_link.dart';
 
 class SplashPage extends StatefulWidget {
   const SplashPage({super.key});
@@ -23,8 +24,11 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
     _config();
   }
 
-  Future<void> _config() async =>
-      await Config().init().then((_) => _checkAuthAndNavigate());
+  Future<void> _config() async {
+    await Config().init();
+    DeepLinkService().initialize();
+    _checkAuthAndNavigate();
+  }
 
   Future<void> _checkAuthAndNavigate() async {
     await Future.delayed(const Duration(milliseconds: 2500));

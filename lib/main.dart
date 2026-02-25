@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:rightflair/core/constants/app.dart';
 import 'package:rightflair/core/constants/enums/locale.dart';
-import 'package:rightflair/core/services/deep_link.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -15,7 +14,6 @@ void main() async {
   await EasyLocalization.ensureInitialized();
 
   final ThemeMode themeMode = await _getThemeMode();
-  DeepLinkService().initialize();
   runApp(
     ChangeNotifierProvider(
       create: (_) => ThemeNotifier(themeMode),

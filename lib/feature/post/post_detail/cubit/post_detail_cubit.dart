@@ -14,6 +14,7 @@ class PostDetailCubit extends Cubit<PostDetailState> {
   Future<void> init({required String postId}) async {
     emit(state.copyWith(isLoading: true));
     final response = await _repo.getPostById(postId: postId);
+    if (isClosed) return;
     if (response != null) {
       emit(state.copyWith(post: response, isLoading: false));
     } else {
@@ -31,7 +32,7 @@ class PostDetailCubit extends Cubit<PostDetailState> {
     );
 
     emit(state.copyWith(post: updatedPost));
-    await _repo.savePost(pId: state.post.id!);
+    if (!isClosed) await _repo.savePost(pId: state.post.id!);
   }
 
   void addComment() {
@@ -46,7 +47,7 @@ class PostDetailCubit extends Cubit<PostDetailState> {
     emit(state.copyWith(isLoading: true));
     if (state.post.id == null) return false;
     final response = await _repo.deletePost(pId: state.post.id!);
-    emit(state.copyWith(isLoading: false));
+    if (!isClosed) emit(state.copyWith(isLoading: false));
     return response;
   }
 }
