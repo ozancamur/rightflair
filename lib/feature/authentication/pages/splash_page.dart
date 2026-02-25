@@ -26,7 +26,7 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
 
   Future<void> _config() async {
     await Config().init();
-    DeepLinkService().initialize();
+    await DeepLinkService().initialize();
     _checkAuthAndNavigate();
   }
 
@@ -44,7 +44,12 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
         );
         debugPrint("USER ID :> ${user.id}");
       }
-      context.go(RouteConstants.NAVIGATION);
+
+      // Pending deep link varsa ona git, yoksa normal navigation
+      final handled = DeepLinkService().handlePendingDeepLink();
+      if (!handled) {
+        context.go(RouteConstants.NAVIGATION);
+      }
     } else {
       context.go(RouteConstants.WELCOME);
     }
