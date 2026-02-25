@@ -39,12 +39,11 @@ class _CommentsDialogPageState extends State<CommentsDialogPage> {
     return BlocBuilder<CommentsCubit, CommentsState>(
       builder: (context, state) {
         return Padding(
-          padding: EdgeInsets.only(
-            top: isKeyboardOpen ? context.height * 0.15 : context.height * 0.4,
-            bottom: keyboardHeight,
-          ),
+          padding: EdgeInsets.only(bottom: keyboardHeight),
           child: Container(
-            height: context.height * 0.85,
+            height: isKeyboardOpen
+                ? context.height * 0.85
+                : context.height * 0.6,
             decoration: BoxDecoration(
               color: context.colors.secondary,
               borderRadius: BorderRadius.only(
