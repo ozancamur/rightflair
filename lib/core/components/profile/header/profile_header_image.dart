@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
@@ -35,9 +36,64 @@ class ProfileHeaderImageComponent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return isCanEdit
-        ? _profile(context)
-        : _storyRing(ProfilePhotoComponent(url: user.profilePhotoUrl));
+    return GestureDetector(
+      onLongPress: () => _showEnlargedPhoto(context),
+      child: isCanEdit
+          ? _profile(context)
+          : _storyRing(ProfilePhotoComponent(url: user.profilePhotoUrl)),
+    );
+  }
+
+  void _showEnlargedPhoto(BuildContext context) {
+    final url = user.profilePhotoUrl;
+    if (url == null || url.isEmpty) return;
+
+    showGeneralDialog(
+      context: context,
+      barrierDismissible: true,
+      barrierLabel: '',
+      barrierColor: Colors.black.withValues(alpha: 0.95),
+      pageBuilder: (context, _, __) {
+        return Scaffold(
+          backgroundColor: Colors.transparent,
+          body: Stack(
+            children: [
+              // Tap anywhere to close
+              GestureDetector(
+                onTap: () => Navigator.of(context).pop(),
+                child: Container(color: Colors.transparent),
+              ),
+              // Close button
+              Positioned(
+                top: MediaQuery.of(context).padding.top + 12,
+                left: 16,
+                child: GestureDetector(
+                  onTap: () => Navigator.of(context).pop(),
+                  child: const Icon(Icons.close, color: Colors.white, size: 28),
+                ),
+              ),
+              // Centered circular photo
+              Center(
+                child: CachedNetworkImage(
+                  imageUrl: url,
+                  imageBuilder: (context, imageProvider) => CircleAvatar(
+                    radius: MediaQuery.of(context).size.width * 0.42,
+                    backgroundImage: imageProvider,
+                    backgroundColor: Colors.grey.shade800,
+                  ),
+                  placeholder: (context, url) => CircleAvatar(
+                    radius: MediaQuery.of(context).size.width * 0.42,
+                    backgroundColor: Colors.grey.shade800,
+                    child: const CircularProgressIndicator(color: Colors.white),
+                  ),
+                  errorWidget: (context, url, error) => const SizedBox.shrink(),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
   }
 
   Widget _storyRing(Widget child) {
