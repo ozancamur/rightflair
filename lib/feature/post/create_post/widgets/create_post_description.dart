@@ -210,6 +210,31 @@ class _CreatePostDescriptionState extends State<CreatePostDescription> {
       widget.controller.selection = TextSelection.fromPosition(
         TextPosition(offset: newCursorPosition),
       );
+    } else if (mounted) {
+      // User dismissed the dialog without selecting anyone — remove the "@"
+      final currentText = widget.controller.text;
+      var cursorPosition = widget.controller.selection.baseOffset;
+
+      if (cursorPosition < 0 || cursorPosition > currentText.length) {
+        cursorPosition = currentText.length;
+      }
+
+      final hasAtSign =
+          cursorPosition > 0 &&
+          currentText.length >= cursorPosition &&
+          currentText[cursorPosition - 1] == '@';
+
+      if (hasAtSign) {
+        final newText =
+            '${currentText.substring(0, cursorPosition - 1)}${currentText.substring(cursorPosition)}';
+        final newCursorPosition = cursorPosition - 1;
+
+        widget.controller.text = newText;
+        _lastText = newText;
+        widget.controller.selection = TextSelection.fromPosition(
+          TextPosition(offset: newCursorPosition),
+        );
+      }
     }
     _isProcessing = false;
   }
