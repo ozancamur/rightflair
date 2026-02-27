@@ -4,7 +4,6 @@ import '../extensions/context.dart';
 
 class AppBarComponent extends StatelessWidget implements PreferredSizeWidget {
   final Widget? leading;
-  final double? leadingWidth;
   final Widget? title;
   final List<Widget>? actions;
   final PreferredSizeWidget? bottom;
@@ -12,7 +11,6 @@ class AppBarComponent extends StatelessWidget implements PreferredSizeWidget {
   const AppBarComponent({
     super.key,
     this.leading,
-    this.leadingWidth,
     this.title,
     this.actions,
     this.bottom,
@@ -25,19 +23,18 @@ class AppBarComponent extends StatelessWidget implements PreferredSizeWidget {
       backgroundColor: context.colors.secondary,
       foregroundColor: context.colors.primary,
       elevation: 0,
+      automaticallyImplyLeading: false,
+      leadingWidth: context.height * .065,
       leading: Padding(
-        padding: EdgeInsets.only(left: context.width * .035),
+        padding: EdgeInsets.only(left: context.height * .015),
         child: leading,
       ),
-      leadingWidth: leadingWidth,
-      actionsPadding: EdgeInsets.symmetric(
-        vertical: context.height * .005,
-        horizontal: context.width * .02,
-      ),
-      actions: actions,
+      titleSpacing: 0,
       title: title,
-      bottom: bottom,
       centerTitle: centerTitle,
+      actionsPadding: EdgeInsets.only(right: context.height * .015),
+      actions: actions,
+      bottom: bottom,
     );
   }
 
