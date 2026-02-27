@@ -20,8 +20,14 @@ import '../widgets/follow_list_user_item.dart';
 
 class FollowPage extends StatefulWidget {
   final String username;
+  final String? userId;
   final FollowListType listType;
-  const FollowPage({super.key, required this.username, required this.listType});
+  const FollowPage({
+    super.key,
+    required this.username,
+    this.userId,
+    required this.listType,
+  });
 
   @override
   State<FollowPage> createState() => _FollowPageState();
@@ -42,7 +48,10 @@ class _FollowPageState extends State<FollowPage>
     );
     _tabController.addListener(_onTabChanged);
 
-    context.read<FollowCubit>().init(listType: widget.listType);
+    context.read<FollowCubit>().init(
+      listType: widget.listType,
+      userId: widget.userId,
+    );
     _scrollController = ScrollController();
     _scrollController.addListener(_onScroll);
   }
@@ -52,7 +61,7 @@ class _FollowPageState extends State<FollowPage>
     final listType = _tabController.index == 0
         ? FollowListType.following
         : FollowListType.followers;
-    context.read<FollowCubit>().init(listType: listType);
+    context.read<FollowCubit>().init(listType: listType, userId: widget.userId);
   }
 
   void _onScroll() {

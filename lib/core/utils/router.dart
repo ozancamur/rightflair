@@ -167,10 +167,11 @@ final GoRouter router = GoRouter(
       name: RouteConstants.FOLLOW,
       builder: (context, state) {
         final data = state.extra as Map<String, dynamic>;
-        
+
         return FollowPage(
           listType: data['listType'] as FollowListType,
           username: data['username'] as String,
+          userId: data['userId'] as String?,
         );
       },
     ),

@@ -16,15 +16,7 @@ class FollowCubit extends Cubit<FollowState> {
   FollowCubit(this._repo) : super(const FollowState());
 
   Future<void> init({required FollowListType listType, String? userId}) async {
-    emit(
-      state.copyWith(
-        listType: listType,
-        userId: userId,
-        users: [],
-        pagination: null,
-        searchQuery: '',
-      ),
-    );
+    emit(FollowState(listType: listType, userId: userId));
     await _fetchList(page: 1);
   }
 

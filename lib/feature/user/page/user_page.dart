@@ -90,6 +90,7 @@ class UserPage extends StatelessWidget {
                           extra: {
                             "listType": FollowListType.followers,
                             'username': state.user.username ?? '',
+                            'userId': userId,
                           },
                         ),
                         onFollowingTap: () => context.push(
@@ -97,6 +98,7 @@ class UserPage extends StatelessWidget {
                           extra: {
                             "listType": FollowListType.following,
                             'username': state.user.username ?? '',
+                            'userId': userId,
                           },
                         ),
                       ),
