@@ -18,6 +18,7 @@ import 'package:rightflair/feature/settings/page/settings_page.dart';
 import '../../feature/authentication/pages/register_page.dart';
 import '../../feature/chat/page/chat_page.dart';
 import '../../feature/find_friends/page/find_friends_page.dart';
+import '../../feature/follow/page/follow_page.dart';
 import '../../feature/post/create_post/model/post.dart';
 import '../../feature/main/feed/models/user_with_stories.dart';
 import '../../feature/post/post_detail/page/post_detail_page.dart';
@@ -26,6 +27,7 @@ import '../../feature/profile_edit/page/profile_edit_page.dart';
 import '../../feature/authentication/pages/splash_page.dart';
 import '../../feature/story/story_view/page/story_view_page.dart';
 import '../../feature/user/page/user_page.dart';
+import '../constants/enums/follow_list_type.dart';
 
 final GoRouter router = GoRouter(
   initialLocation: RouteConstants.SPLASH,
@@ -159,6 +161,18 @@ final GoRouter router = GoRouter(
       path: RouteConstants.FIND_FRIENDS,
       name: RouteConstants.FIND_FRIENDS,
       builder: (context, state) => const FindFriendsPage(),
+    ),
+    GoRoute(
+      path: RouteConstants.FOLLOW,
+      name: RouteConstants.FOLLOW,
+      builder: (context, state) {
+        final data = state.extra as Map<String, dynamic>;
+        
+        return FollowPage(
+          listType: data['listType'] as FollowListType,
+          username: data['username'] as String,
+        );
+      },
     ),
     GoRoute(
       path: RouteConstants.STORY_VIEWER,

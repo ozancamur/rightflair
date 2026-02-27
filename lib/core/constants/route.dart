@@ -28,4 +28,5 @@ class RouteConstants {
 
   static const String STORY_VIEWER = '/story_viewer';
   static const String FIND_FRIENDS = '/find_friends';
+  static const String FOLLOW = '/follow';
 }

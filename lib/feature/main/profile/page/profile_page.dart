@@ -5,8 +5,6 @@ import 'package:rightflair/core/components/loading.dart';
 import 'package:rightflair/core/constants/route.dart';
 import 'package:rightflair/core/extensions/context.dart';
 import 'package:rightflair/core/components/profile/profile_header.dart';
-import 'package:rightflair/feature/follow/page/dialog_follow.dart';
-
 import '../../../../core/base/page/base_scaffold.dart';
 import '../../../../core/constants/enums/follow_list_type.dart';
 import '../../../story/create_story/page/create_story_dialog.dart';
@@ -143,20 +141,14 @@ class _ProfilePageState extends State<ProfilePage>
               }
             }
           },
-          onFollowersTap: () {
-            dialogFollow(
-              context,
-              listType: FollowListType.followers,
-              userId: null,
-            );
-          },
-          onFollowingTap: () {
-            dialogFollow(
-              context,
-              listType: FollowListType.following,
-              userId: null,
-            );
-          },
+          onFollowersTap: () => context.push(
+            RouteConstants.FOLLOW,
+            extra: {"listType": FollowListType.followers, 'username': state.user.username ?? ''},
+          ),
+          onFollowingTap: () => context.push(
+            RouteConstants.FOLLOW,
+            extra: {"listType": FollowListType.following, 'username': state.user.username ?? ''},
+          ),
         ),
         ProfileTabBarsWidget(tabController: _tabController),
         ProfileTabViewsWidget(

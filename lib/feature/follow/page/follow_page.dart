@@ -2,8 +2,10 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:rightflair/core/components/appbar.dart';
+import 'package:rightflair/core/components/button/back_button.dart';
 
-import '../../../core/components/drag_handle.dart';
+import '../../../core/base/page/base_scaffold.dart';
 import '../../../core/components/loading.dart';
 import '../../../core/components/text/text.dart';
 import '../../../core/constants/enums/follow_list_type.dart';
@@ -17,21 +19,40 @@ import '../widgets/follow_list_search_field.dart';
 import '../widgets/follow_list_user_item.dart';
 
 class FollowPage extends StatefulWidget {
+  final String username;
   final FollowListType listType;
-  const FollowPage({super.key, required this.listType});
+  const FollowPage({super.key, required this.username, required this.listType});
 
   @override
   State<FollowPage> createState() => _FollowPageState();
 }
 
-class _FollowPageState extends State<FollowPage> {
+class _FollowPageState extends State<FollowPage>
+    with SingleTickerProviderStateMixin {
+  late TabController _tabController;
   late ScrollController _scrollController;
 
   @override
   void initState() {
     super.initState();
+    _tabController = TabController(
+      length: 2,
+      vsync: this,
+      initialIndex: widget.listType == FollowListType.following ? 0 : 1,
+    );
+    _tabController.addListener(_onTabChanged);
+
+    context.read<FollowCubit>().init(listType: widget.listType);
     _scrollController = ScrollController();
     _scrollController.addListener(_onScroll);
+  }
+
+  void _onTabChanged() {
+    if (_tabController.indexIsChanging) return;
+    final listType = _tabController.index == 0
+        ? FollowListType.following
+        : FollowListType.followers;
+    context.read<FollowCubit>().init(listType: listType);
   }
 
   void _onScroll() {
@@ -43,6 +64,8 @@ class _FollowPageState extends State<FollowPage> {
 
   @override
   void dispose() {
+    _tabController.removeListener(_onTabChanged);
+    _tabController.dispose();
     _scrollController.removeListener(_onScroll);
     _scrollController.dispose();
     super.dispose();
@@ -52,9 +75,12 @@ class _FollowPageState extends State<FollowPage> {
   Widget build(BuildContext context) {
     return BlocBuilder<FollowCubit, FollowState>(
       builder: (context, state) {
-        return Padding(
-          padding: EdgeInsets.only(top: context.height * 0.15),
-          child: Container(
+        return BaseScaffold(
+          appBar: AppBarComponent(
+            leading: BackButtonComponent(),
+            title: TextComponent(text: widget.username),
+          ),
+          body: Container(
             height: context.height * 0.85,
             decoration: BoxDecoration(
               color: context.colors.secondary,
@@ -65,12 +91,11 @@ class _FollowPageState extends State<FollowPage> {
             ),
             child: Column(
               children: [
-                const DragHandleComponent(),
-                _buildHeader(context),
                 Container(
                   height: context.height * 0.001,
                   color: context.colors.primaryFixedDim,
                 ),
+                _buildTabBar(context),
                 Padding(
                   padding: EdgeInsets.symmetric(
                     horizontal: context.width * 0.04,
@@ -95,20 +120,22 @@ class _FollowPageState extends State<FollowPage> {
     );
   }
 
-  Widget _buildHeader(BuildContext context) {
-    final title = widget.listType == FollowListType.followers
-        ? AppStrings.PROFILE_FOLLOWER.tr()
-        : AppStrings.PROFILE_FOLLOWING.tr();
-
-    return Padding(
-      padding: EdgeInsets.symmetric(vertical: context.height * 0.015),
-      child: TextComponent(
-        text: title,
-        tr: false,
-        size: FontSizeConstants.X_LARGE,
-        weight: FontWeight.w600,
-        color: context.colors.primary,
+  Widget _buildTabBar(BuildContext context) {
+    return TabBar(
+      controller: _tabController,
+      labelColor: context.colors.primary,
+      unselectedLabelColor: context.colors.primaryContainer,
+      indicatorColor: context.colors.primary,
+      indicatorSize: TabBarIndicatorSize.tab,
+      labelStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+      unselectedLabelStyle: const TextStyle(
+        fontSize: 14,
+        fontWeight: FontWeight.w400,
       ),
+      tabs: [
+        Tab(text: AppStrings.PROFILE_FOLLOWING.tr()),
+        Tab(text: AppStrings.PROFILE_FOLLOWER.tr()),
+      ],
     );
   }
 
