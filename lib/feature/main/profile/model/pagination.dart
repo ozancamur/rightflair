@@ -85,7 +85,7 @@ class PaginationModel extends BaseModel<PaginationModel> {
   PaginationModel forSearchUsers({required int page}) {
     return PaginationModel(
       page: page,
-      limit: 10,
+      limit: 20,
       totalCount: totalCount,
       totalPages: totalPages,
       hasNext: hasNext,

@@ -1,17 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rightflair/core/components/loading.dart';
-import 'package:rightflair/core/constants/string.dart';
 import 'package:rightflair/core/extensions/context.dart';
-import 'package:rightflair/core/utils/dialogs/error.dart';
 import 'package:rightflair/feature/search/cubit/search_cubit.dart';
 import 'package:rightflair/feature/search/repository/search_repository_impl.dart';
 import 'package:rightflair/feature/search/widgets/search_appbar.dart';
+import 'package:rightflair/feature/search/widgets/search_list.dart';
 
 import '../../../core/base/page/base_scaffold.dart';
 import '../widgets/recent_searches.dart';
 import '../widgets/search_error.dart';
-import '../widgets/search_swipeable_post_stack.dart';
 
 class SearchPage extends StatelessWidget {
   const SearchPage({super.key});
@@ -35,16 +33,7 @@ class _SearchPageView extends StatefulWidget {
 class _SearchPageViewState extends State<_SearchPageView> {
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<SearchCubit, SearchState>(
-      listener: (context, state) {
-        if (state.errorMessage != null && state.errorMessage!.isNotEmpty) {
-          dialogError(
-            context,
-            message: state.errorMessage!,
-            title: AppStrings.ERROR_DEFAULT,
-          );
-        }
-      },
+    return BlocBuilder<SearchCubit, SearchState>(
       builder: (context, state) {
         return GestureDetector(
           onTap: () => FocusScope.of(context).unfocus(),
@@ -57,8 +46,9 @@ class _SearchPageViewState extends State<_SearchPageView> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SizedBox(height: context.height * 0.02),
-                  RecentSearchesWidget(searches: state.recentSearches),
-                  SizedBox(height: context.height * 0.02),
+                  state.recentSearches.length == 0
+                      ? SizedBox.shrink()
+                      : RecentSearchesWidget(searches: state.recentSearches),
                   Expanded(child: _content(context, state)),
                   SizedBox(height: context.height * 0.03),
                 ],
@@ -71,14 +61,9 @@ class _SearchPageViewState extends State<_SearchPageView> {
   }
 
   Widget _content(BuildContext context, SearchState state) {
-    return state.searchResults.isNotEmpty
-        ? const SearchSwipeablePostStack()
-        : (state.isLoading && state.searchResults.isEmpty)
-        ? LoadingComponent()
-        : (state.errorMessage != null)
-        ? SearchErrorWidget(
-            message: state.errorMessage ?? AppStrings.ERROR_DEFAULT,
-          )
-        : const SizedBox.shrink();
+    if (!state.hasSearched) return const SizedBox.shrink();
+    if (state.isLoading) return const LoadingComponent();
+    if (state.results.isEmpty) return const SearchErrorWidget();
+    return const SearchListWidget();
   }
 }

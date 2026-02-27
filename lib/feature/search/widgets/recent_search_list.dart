@@ -19,6 +19,7 @@ class RecentSearchListWidget extends StatelessWidget {
           label: search,
           onTap: () {
             context.read<SearchCubit>().searchController.text = search;
+            context.read<SearchCubit>().addRecentSearch(search);
             context.read<SearchCubit>().search(search);
           },
           onDelete: () {

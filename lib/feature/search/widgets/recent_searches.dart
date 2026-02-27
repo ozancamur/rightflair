@@ -10,7 +10,7 @@ class RecentSearchesWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return searches == null
+    return (searches == null || searches!.isEmpty)
         ? const SizedBox.shrink()
         : SizedBox(
             height: context.height * .1,
