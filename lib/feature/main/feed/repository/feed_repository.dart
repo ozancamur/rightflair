@@ -3,6 +3,7 @@ import 'package:rightflair/feature/main/feed/models/request_comment.dart';
 import '../../profile/model/request_post.dart';
 import '../../profile/model/response_post.dart';
 import '../models/comment.dart';
+import '../models/friends_feed_response.dart';
 
 abstract class FeedRepository {
   // POSTS
@@ -12,7 +13,9 @@ abstract class FeedRepository {
   Future<ResponsePostModel?> fetchFollowingFeed({
     required RequestPostModel body,
   });
-  Future<ResponsePostModel?> fetchFriendFeed({required RequestPostModel body});
+  Future<FriendsFeedResponseModel?> fetchFriendFeed({
+    required RequestPostModel body,
+  });
 
   // LIKE & DISLIKE
   Future<void> likePost({required String pId});
@@ -25,4 +28,6 @@ abstract class FeedRepository {
   // SAVE
   Future<void> savePost({required String pId});
 
+  // FOLLOW
+  Future<bool> followUser({required String userId});
 }

@@ -23,7 +23,8 @@ class _FeedPageState extends State<FeedPage> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final feedBloc = context.read<FeedBloc>();
-      if (feedBloc.state.posts == null || feedBloc.state.posts!.isEmpty) {
+      // Initialize if discover feed hasn't been loaded yet
+      if (feedBloc.state.discoverPosts == null) {
         feedBloc.add(FeedInitializeEvent());
       }
       _checkFirstVisit();

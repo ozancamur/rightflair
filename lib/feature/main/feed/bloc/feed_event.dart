@@ -31,6 +31,14 @@ class ChangeTabEvent extends FeedEvent {
   List<Object?> get props => [tabIndex];
 }
 
+class RefreshTabEvent extends FeedEvent {
+  final int tabIndex;
+  const RefreshTabEvent(this.tabIndex);
+
+  @override
+  List<Object?> get props => [tabIndex];
+}
+
 class SwipeRightEvent extends FeedEvent {
   final String postId;
 
@@ -67,6 +75,18 @@ class SavePostEvent extends FeedEvent {
   List<Object?> get props => [postId];
 }
 
+class RemoveSuggestedUserEvent extends FeedEvent {
+  final String userId;
+  const RemoveSuggestedUserEvent({required this.userId});
 
+  @override
+  List<Object?> get props => [userId];
+}
 
+class FollowSuggestedUserEvent extends FeedEvent {
+  final String userId;
+  const FollowSuggestedUserEvent({required this.userId});
 
+  @override
+  List<Object?> get props => [userId];
+}

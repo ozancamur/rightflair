@@ -1,5 +1,9 @@
-import 'package:flutter/material.dart';
+import 'dart:async';
 
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../bloc/feed_bloc.dart';
 import 'swipeable_post_stack.dart';
 
 class FeedTabViews extends StatelessWidget {
@@ -11,9 +15,40 @@ class FeedTabViews extends StatelessWidget {
       child: TabBarView(
         physics: const NeverScrollableScrollPhysics(),
         children: [
-          SwipeablePostStack(tabIndex: 0),
-          SwipeablePostStack(tabIndex: 1),
-          SwipeablePostStack(tabIndex: 2),
+          _RefreshableTab(tabIndex: 0),
+          _RefreshableTab(tabIndex: 1),
+          _RefreshableTab(tabIndex: 2),
+        ],
+      ),
+    );
+  }
+}
+
+class _RefreshableTab extends StatelessWidget {
+  final int tabIndex;
+  const _RefreshableTab({required this.tabIndex});
+
+  Future<void> _onRefresh(BuildContext context) async {
+    final bloc = context.read<FeedBloc>();
+    bloc.add(RefreshTabEvent(tabIndex));
+
+    // Wait until loading finishes for this tab
+    await bloc.stream
+        .firstWhere((state) => !state.isLoadingForTab(tabIndex))
+        .timeout(const Duration(seconds: 10), onTimeout: () => bloc.state);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return RefreshIndicator(
+      onRefresh: () => _onRefresh(context),
+      child: CustomScrollView(
+        physics: const AlwaysScrollableScrollPhysics(),
+        slivers: [
+          SliverFillRemaining(
+            hasScrollBody: true,
+            child: SwipeablePostStack(tabIndex: tabIndex),
+          ),
         ],
       ),
     );

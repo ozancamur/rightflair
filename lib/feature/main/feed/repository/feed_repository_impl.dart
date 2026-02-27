@@ -8,6 +8,7 @@ import 'package:rightflair/feature/main/profile/model/request_post.dart';
 import '../../../../core/services/api.dart';
 import '../../profile/model/response_post.dart';
 import '../models/comment.dart';
+import '../models/friends_feed_response.dart';
 import 'feed_repository.dart';
 
 class FeedRepositoryImpl extends FeedRepository {
@@ -63,7 +64,7 @@ class FeedRepositoryImpl extends FeedRepository {
   }
 
   @override
-  Future<ResponsePostModel?> fetchFriendFeed({
+  Future<FriendsFeedResponseModel?> fetchFriendFeed({
     required RequestPostModel body,
   }) async {
     try {
@@ -76,12 +77,12 @@ class FeedRepositoryImpl extends FeedRepository {
         request.data as Map<String, dynamic>,
       );
       if (request.data == null) return null;
-      final ResponsePostModel data = ResponsePostModel().fromJson(
+      final FriendsFeedResponseModel data = FriendsFeedResponseModel().fromJson(
         response.data as Map<String, dynamic>,
       );
       return data;
     } catch (e) {
-      debugPrint("FeedRepositoryImpl ERROR in fetchDiscoverFeed :> $e");
+      debugPrint("FeedRepositoryImpl ERROR in fetchFriendFeed :> $e");
       return null;
     }
   }
@@ -176,8 +177,25 @@ class FeedRepositoryImpl extends FeedRepository {
     try {
       await _api.post(Endpoint.SAVE_POST, data: {'post_id': pId});
     } catch (e) {
-      debugPrint("FeedRepositoryImpl ERROR in sendCommentToPost :> $e");
+      debugPrint("FeedRepositoryImpl ERROR in savePost :> $e");
     }
   }
 
+  @override
+  Future<bool> followUser({required String userId}) async {
+    try {
+      final request = await _api.post(
+        Endpoint.FOLLOW_TO_USER,
+        data: {'target_user_id': userId},
+      );
+      if (request == null) return false;
+      final ResponseModel response = ResponseModel().fromJson(
+        request.data as Map<String, dynamic>,
+      );
+      return response.success ?? false;
+    } catch (e) {
+      debugPrint("FeedRepositoryImpl ERROR in followUser :> $e");
+      return false;
+    }
+  }
 }
