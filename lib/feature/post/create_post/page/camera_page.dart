@@ -17,7 +17,6 @@ import 'package:rightflair/core/constants/string.dart';
 import 'package:rightflair/core/extensions/context.dart';
 import 'package:rightflair/feature/share/dialog/dialog_share.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'dart:typed_data';
 
 import '../../../../core/base/page/base_scaffold.dart';
 import '../cubit/create_post_cubit.dart';
