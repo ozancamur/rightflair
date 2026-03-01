@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rightflair/core/constants/string.dart';
 import 'package:rightflair/core/extensions/context.dart';
 
+import '../../../../core/components/style_tag_picker_bottom_sheet.dart';
 import '../../create_post/model/mention_user.dart';
 import '../../create_post/widgets/create_post_describe_buttons.dart';
 import '../cubit/post_update_cubit.dart';
@@ -48,11 +49,6 @@ class _PostUpdateDescriptionState extends State<PostUpdateDescription> {
           cursorPosition > 0 &&
           text[cursorPosition - 1] == '@') {
         _showMentionDialog();
-      }
-      if (text.length > _lastText.length &&
-          cursorPosition > 0 &&
-          text[cursorPosition - 1] == ' ') {
-        _extractAndAddTag(text, cursorPosition);
       }
     }
     _lastText = text;
@@ -112,16 +108,29 @@ class _PostUpdateDescriptionState extends State<PostUpdateDescription> {
     _isProcessing = false;
   }
 
-  void _extractAndAddTag(String text, int cursorPosition) {
-    final textBeforeCursor = text.substring(0, cursorPosition);
-    final lastHashIndex = textBeforeCursor.lastIndexOf('#');
-    if (lastHashIndex != -1) {
-      final potentialTag = textBeforeCursor.substring(lastHashIndex + 1).trim();
-      if (potentialTag.isNotEmpty && !potentialTag.contains(' ')) {
-        context.read<PostUpdateCubit>().addTag(potentialTag);
-        _tags.add(potentialTag);
+  Future<void> _showStyleTagPicker() async {
+    final cubit = context.read<PostUpdateCubit>();
+    final result = await StyleTagPickerBottomSheet.show(
+      context,
+      selectedTags: List<String>.from(cubit.state.tags),
+    );
+    if (result != null && mounted) {
+      final currentTags = List<String>.from(cubit.state.tags);
+      for (final tag in currentTags) {
+        if (!result.contains(tag)) {
+          cubit.removeTag(tag);
+        }
+      }
+      for (final tag in result) {
+        if (!currentTags.contains(tag)) {
+          cubit.addTag(tag);
+        }
       }
     }
+  }
+
+  void _insertHashTag() {
+    _showStyleTagPicker();
   }
 
   Future<void> _showMentionDialog() async {
@@ -169,23 +178,6 @@ class _PostUpdateDescriptionState extends State<PostUpdateDescription> {
         TextPosition(offset: newCursorPosition),
       );
     }
-    _isProcessing = false;
-  }
-
-  void _insertHashTag() {
-    final currentText = widget.controller.text;
-    var cursorPosition = widget.controller.selection.baseOffset;
-    if (cursorPosition < 0 || cursorPosition > currentText.length) {
-      cursorPosition = currentText.length;
-    }
-    _isProcessing = true;
-    final newText =
-        '${currentText.substring(0, cursorPosition)}#${currentText.substring(cursorPosition)}';
-    widget.controller.text = newText;
-    _lastText = newText;
-    widget.controller.selection = TextSelection.fromPosition(
-      TextPosition(offset: cursorPosition + 1),
-    );
     _isProcessing = false;
   }
 

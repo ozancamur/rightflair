@@ -11,7 +11,6 @@ import '../../../../core/base/page/base_scaffold.dart';
 import '../../../../core/components/appbar.dart';
 import '../../../../core/components/button/back_button.dart';
 import '../../../../core/components/text/appbar_title.dart';
-import '../../../../core/helpers/text_parser.dart';
 import '../../create_post/model/post.dart';
 import '../cubit/post_update_cubit.dart';
 import '../repository/post_update_repository_impl.dart';
@@ -109,12 +108,15 @@ class _PostUpdatePageState extends State<PostUpdatePage> {
                 SizedBox(height: context.height * 0.01),
                 Wrap(
                   spacing: 8,
-                  runSpacing: 8,
+                  runSpacing: 4,
                   children: state.tags.map((tag) {
                     return Chip(
                       label: Text('#$tag'),
                       backgroundColor: context.colors.primaryFixedDim,
                       labelStyle: TextStyle(color: context.colors.primary),
+                      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                      visualDensity: VisualDensity.compact,
+                      padding: EdgeInsets.zero,
                       deleteIcon: Icon(
                         Icons.close,
                         size: 16,
@@ -122,12 +124,6 @@ class _PostUpdatePageState extends State<PostUpdatePage> {
                       ),
                       onDeleted: () {
                         context.read<PostUpdateCubit>().removeTag(tag);
-                        final currentText = _descriptionController.text;
-                        final updatedText = currentText
-                            .replaceAll('#$tag', '')
-                            .replaceAll(RegExp(r'\s+'), ' ')
-                            .trim();
-                        _descriptionController.text = updatedText;
                       },
                     );
                   }).toList(),
@@ -151,28 +147,20 @@ class _PostUpdatePageState extends State<PostUpdatePage> {
               if (state.isDraft)
                 PostUpdateBottomButtons(
                   onDraft: () {
-                    final rawDescription = _descriptionController.text;
-                    final tags = TextParser.parseTags(rawDescription);
-                    final cleanDescription = TextParser.cleanText(
-                      rawDescription,
-                    );
+                    final description = _descriptionController.text.trim();
                     context.read<PostUpdateCubit>().updateDraft(
                       context,
-                      description: cleanDescription,
-                      styleTags: tags,
+                      description: description,
+                      styleTags: state.tags,
                       mentionedUserIds: state.mentionedUserIds,
                     );
                   },
                   onPost: () {
-                    final rawDescription = _descriptionController.text;
-                    final tags = TextParser.parseTags(rawDescription);
-                    final cleanDescription = TextParser.cleanText(
-                      rawDescription,
-                    );
+                    final description = _descriptionController.text.trim();
                     context.read<PostUpdateCubit>().updateAndPublish(
                       context,
-                      description: cleanDescription,
-                      styleTags: tags,
+                      description: description,
+                      styleTags: state.tags,
                       mentionedUserIds: state.mentionedUserIds,
                     );
                   },
@@ -187,15 +175,12 @@ class _PostUpdatePageState extends State<PostUpdatePage> {
                     onPressed: state.isLoading
                         ? null
                         : () {
-                            final rawDescription = _descriptionController.text;
-                            final tags = TextParser.parseTags(rawDescription);
-                            final cleanDescription = TextParser.cleanText(
-                              rawDescription,
-                            );
+                            final description = _descriptionController.text
+                                .trim();
                             context.read<PostUpdateCubit>().updateDraft(
                               context,
-                              description: cleanDescription,
-                              styleTags: tags,
+                              description: description,
+                              styleTags: state.tags,
                               mentionedUserIds: state.mentionedUserIds,
                             );
                           },

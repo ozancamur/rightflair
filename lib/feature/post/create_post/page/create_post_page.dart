@@ -11,7 +11,6 @@ import '../../../../core/components/appbar.dart';
 import '../../../../core/components/button/back_button.dart';
 import '../../../../core/components/text/appbar_title.dart';
 import '../cubit/create_post_cubit.dart';
-import '../../../../core/helpers/text_parser.dart';
 import '../widgets/create_post_options.dart';
 import '../widgets/create_post_bottom_buttons.dart';
 import '../widgets/create_post_description.dart';
@@ -182,12 +181,15 @@ class _CreatePostPageState extends State<CreatePostPage>
                 SizedBox(height: context.height * 0.01),
                 Wrap(
                   spacing: 8,
-                  runSpacing: 8,
+                  runSpacing: 4,
                   children: state.tags.map((tag) {
                     return Chip(
                       label: Text('#$tag'),
                       backgroundColor: context.colors.primaryFixedDim,
                       labelStyle: TextStyle(color: context.colors.primary),
+                      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                      visualDensity: VisualDensity.compact,
+                      padding: EdgeInsets.zero,
                       deleteIcon: Icon(
                         Icons.close,
                         size: 16,
@@ -196,13 +198,6 @@ class _CreatePostPageState extends State<CreatePostPage>
                       onDeleted: () {
                         // Remove from cubit
                         context.read<CreatePostCubit>().removeTag(tag);
-                        // Remove from description text
-                        final currentText = _descriptionController.text;
-                        final updatedText = currentText
-                            .replaceAll('#$tag', '')
-                            .replaceAll(RegExp(r'\s+'), ' ')
-                            .trim();
-                        _descriptionController.text = updatedText;
                       },
                     );
                   }).toList(),
@@ -221,24 +216,20 @@ class _CreatePostPageState extends State<CreatePostPage>
               // Buttons
               CreatePostBottomButtons(
                 onDraft: () {
-                  final rawDescription = _descriptionController.text;
-                  final tags = TextParser.parseTags(rawDescription);
-                  final cleanDescription = TextParser.cleanText(rawDescription);
+                  final description = _descriptionController.text.trim();
                   context.read<CreatePostCubit>().createDraft(
                     context,
-                    description: cleanDescription,
-                    styleTags: tags,
+                    description: description,
+                    styleTags: state.tags,
                     mentionedUserIds: state.mentionedUserIds,
                   );
                 },
                 onPost: () {
-                  final rawDescription = _descriptionController.text;
-                  final tags = TextParser.parseTags(rawDescription);
-                  final cleanDescription = TextParser.cleanText(rawDescription);
+                  final description = _descriptionController.text.trim();
                   context.read<CreatePostCubit>().createPost(
                     context,
-                    description: cleanDescription,
-                    styleTags: tags,
+                    description: description,
+                    styleTags: state.tags,
                     mentionedUserIds: state.mentionedUserIds,
                   );
                 },

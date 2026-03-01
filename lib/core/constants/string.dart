@@ -288,6 +288,55 @@ class AppStrings {
 
   // STYLE TAGS
   static String STYLE_TAG(String tag) => "styleTags.$tag";
+  static const String STYLE_TAG_PICKER_TITLE = 'createPost.styleTagPickerTitle';
+  static const String STYLE_TAG_PICKER_DONE = 'createPost.styleTagPickerDone';
+  static const String STYLE_TAG_PICKER_SEARCH =
+      'createPost.styleTagPickerSearch';
+  static const String STYLE_TAG_PICKER_SELECTED =
+      'createPost.styleTagPickerSelected';
+  static const String STYLE_TAG_PICKER_MAX_WARNING =
+      'createPost.styleTagPickerMaxWarning';
+
+  static const List<String> PREDEFINED_STYLE_TAGS = [
+    'Streetwear',
+    'OldMoney',
+    'Cleanlook',
+    'grunge',
+    'DateFit',
+    'SummerFit',
+    'SpringFit',
+    'WinterFit',
+    'AutumnFit',
+    'ModestFashion',
+    'Y2K',
+    'Vintage',
+    'TechWear',
+    'SmartCasual',
+    'ScandiStyle',
+    'CasualChic',
+    'Boho',
+    'Preppy',
+    'SoftGirl',
+    'Nightout',
+    'FestivalLook',
+    'BrunchFit',
+    'HolidayFit',
+    'DinnerLook',
+    'PartyFit',
+    'GymFit',
+    'AllBlack',
+    'DenimOnDenim',
+    'MatchingSet',
+    'OversizedFit',
+    'HighStreet',
+    'Trending',
+    'Thrifted',
+    'WeeklyFit',
+    'StyleChallenge',
+    'HotRightNow',
+  ];
+
+  // USER PROFILE STYLE TAGS
   static const String OVERSIZED = 'styleTags.oversized';
   static const String STREETWEAR = 'styleTags.streetwear';
   static const String MODELLING = 'styleTags.modelling';
@@ -302,6 +351,7 @@ class AppStrings {
   static const String TECHWEAR = 'styleTags.techwear';
   static const String SKATER = 'styleTags.skater';
   static const String RETRO = 'styleTags.retro';
+
   // SHARE DIALOG
   static const String SHARE_DIALOG_TITLE = 'shareDialog.title';
   static const String SHARE_DIALOG_SHARE_VIA = 'shareDialog.shareVia';

@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rightflair/core/constants/string.dart';
 import 'package:rightflair/core/extensions/context.dart';
 
+import '../../../../core/components/style_tag_picker_bottom_sheet.dart';
 import '../cubit/create_post_cubit.dart';
 import '../model/mention_user.dart';
 import 'create_post_describe_buttons.dart';
@@ -52,14 +53,6 @@ class _CreatePostDescriptionState extends State<CreatePostDescription> {
           cursorPosition > 0 &&
           text[cursorPosition - 1] == '@') {
         _showMentionDialog();
-      }
-
-      // Check if "#" was just typed and extract the tag
-      if (text.length > _lastText.length &&
-          cursorPosition > 0 &&
-          text[cursorPosition - 1] == ' ') {
-        // Check if there's a hashtag before the space
-        _extractAndAddTag(text, cursorPosition);
       }
     }
 
@@ -136,19 +129,26 @@ class _CreatePostDescriptionState extends State<CreatePostDescription> {
     _isProcessing = false;
   }
 
-  void _extractAndAddTag(String text, int cursorPosition) {
-    // Find the last # before cursor
-    final textBeforeCursor = text.substring(0, cursorPosition);
-    final lastHashIndex = textBeforeCursor.lastIndexOf('#');
-
-    if (lastHashIndex != -1) {
-      final potentialTag = textBeforeCursor.substring(lastHashIndex + 1).trim();
-
-      // Check if it's a valid tag (no spaces, not empty)
-      if (potentialTag.isNotEmpty && !potentialTag.contains(' ')) {
-        context.read<CreatePostCubit>().addTag(potentialTag);
-        // Track tag
-        _tags.add(potentialTag);
+  Future<void> _showStyleTagPicker() async {
+    final cubit = context.read<CreatePostCubit>();
+    final result = await StyleTagPickerBottomSheet.show(
+      context,
+      selectedTags: List<String>.from(cubit.state.tags),
+    );
+    if (result != null && mounted) {
+      // Sync cubit tags with picker result
+      final currentTags = List<String>.from(cubit.state.tags);
+      // Remove tags that were deselected
+      for (final tag in currentTags) {
+        if (!result.contains(tag)) {
+          cubit.removeTag(tag);
+        }
+      }
+      // Add tags that were newly selected
+      for (final tag in result) {
+        if (!currentTags.contains(tag)) {
+          cubit.addTag(tag);
+        }
       }
     }
   }
@@ -240,24 +240,7 @@ class _CreatePostDescriptionState extends State<CreatePostDescription> {
   }
 
   void _insertHashTag() {
-    final currentText = widget.controller.text;
-    var cursorPosition = widget.controller.selection.baseOffset;
-
-    // Ensure cursor position is valid
-    if (cursorPosition < 0 || cursorPosition > currentText.length) {
-      cursorPosition = currentText.length;
-    }
-
-    _isProcessing = true;
-    final newText =
-        '${currentText.substring(0, cursorPosition)}#${currentText.substring(cursorPosition)}';
-
-    widget.controller.text = newText;
-    _lastText = newText;
-    widget.controller.selection = TextSelection.fromPosition(
-      TextPosition(offset: cursorPosition + 1),
-    );
-    _isProcessing = false;
+    _showStyleTagPicker();
   }
 
   void _insertMention() {

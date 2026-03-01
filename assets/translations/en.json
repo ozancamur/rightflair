@@ -146,7 +146,12 @@
         "noResults": "No results found",
         "discard": "Discard",
         "saveDraft": "Save draft",
-        "sendToFriends": "Send to friends"
+        "sendToFriends": "Send to friends",
+        "styleTagPickerTitle": "Style Tags",
+        "styleTagPickerDone": "Done",
+        "styleTagPickerSearch": "Search tags...",
+        "styleTagPickerSelected": "{} selected",
+        "styleTagPickerMaxWarning": "You can add up to 5 tags"
     },
     "updatePost": {
         "appbar": "Edit Post",
