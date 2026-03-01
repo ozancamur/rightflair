@@ -6,6 +6,7 @@ import 'dart:ui' as ui;
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:photo_manager/photo_manager.dart';
 
 import '../../../../core/base/page/base_scaffold.dart';
@@ -20,7 +21,6 @@ import '../widgets/story_filter_list.dart';
 import '../widgets/story_recording_timer.dart';
 import '../widgets/story_side_toolbar_icon.dart';
 import 'edit_story_media_page.dart';
-import 'gallery_picker_page.dart';
 
 enum _StoryCameraMode { photo, video }
 
@@ -251,13 +251,46 @@ class _CameraStoryPageState extends State<CameraStoryPage>
   }
 
   Future<void> _openGallery() async {
-    await Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => GalleryPickerPage(uid: widget.uid),
-      ),
-    );
-    _loadLastGalleryImage();
+    try {
+      final picker = ImagePicker();
+      if (_isVideoMode) {
+        final video = await picker.pickVideo(source: ImageSource.gallery);
+        if (video != null && mounted) {
+          await Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => EditStoryMediaPage(
+                mediaFile: File(video.path),
+                isVideo: true,
+                uid: widget.uid,
+              ),
+            ),
+          );
+          _loadLastGalleryImage();
+        }
+      } else {
+        final image = await picker.pickImage(
+          source: ImageSource.gallery,
+          imageQuality: 85,
+        );
+        if (image != null && mounted) {
+          final filteredPath = await _applyFilterToFile(image.path);
+          await Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => EditStoryMediaPage(
+                mediaFile: File(filteredPath),
+                isVideo: false,
+                uid: widget.uid,
+              ),
+            ),
+          );
+          _loadLastGalleryImage();
+        }
+      }
+    } catch (e) {
+      debugPrint('Error picking from gallery: $e');
+    }
   }
 
   String _formatRecordingTime() {
