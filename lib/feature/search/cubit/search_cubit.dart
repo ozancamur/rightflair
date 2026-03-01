@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -14,6 +16,7 @@ class SearchCubit extends Cubit<SearchState> {
   final FocusNode searchFocusNode = FocusNode();
   final SearchRepository _repo;
   final CacheService _cacheService = CacheService();
+  Timer? _debounceTimer;
 
   SearchCubit(this._repo) : super(SearchState.initial()) {
     _loadRecentSearches();
@@ -48,6 +51,22 @@ class SearchCubit extends Cubit<SearchState> {
   Future<void> clearRecentSearches() async {
     emit(state.copyWith(recentSearches: []));
     await _cacheService.clearRecentSearches();
+  }
+
+  void onSearchChanged(String query) {
+    _debounceTimer?.cancel();
+    if (query.trim().length < 2) return;
+    _debounceTimer = Timer(const Duration(milliseconds: 1000), () {
+      searchFocusNode.unfocus();
+      addRecentSearch(query);
+      search(query);
+    });
+  }
+
+  void resetSearch() {
+    _debounceTimer?.cancel();
+    searchController.clear();
+    emit(SearchState.initial().copyWith(recentSearches: state.recentSearches));
   }
 
   Future<void> search(String query) async {
@@ -92,6 +111,7 @@ class SearchCubit extends Cubit<SearchState> {
 
   @override
   Future<void> close() {
+    _debounceTimer?.cancel();
     searchController.dispose();
     searchFocusNode.dispose();
     return super.close();

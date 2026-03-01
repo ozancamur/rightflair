@@ -30,11 +30,17 @@ class SearchAppBarWidget extends StatelessWidget
         controller: context.read<SearchCubit>().searchController,
         focusNode: context.read<SearchCubit>().searchFocusNode,
         hintText: AppStrings.SEARCH_PLACEHOLDER,
+        onChanged: (query) {
+          context.read<SearchCubit>().onSearchChanged(query);
+        },
         onSubmitted: (query) {
           if (query.trim().length >= 2) {
             context.read<SearchCubit>().addRecentSearch(query);
             context.read<SearchCubit>().search(query);
           }
+        },
+        onClear: () {
+          context.read<SearchCubit>().resetSearch();
         },
       ),
     );

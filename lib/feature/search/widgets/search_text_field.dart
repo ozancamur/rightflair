@@ -10,6 +10,7 @@ class SearchTextField extends StatelessWidget {
   final String hintText;
   final Function(String)? onSubmitted;
   final Function(String)? onChanged;
+  final VoidCallback? onClear;
   final double borderRadius;
 
   const SearchTextField({
@@ -19,6 +20,7 @@ class SearchTextField extends StatelessWidget {
     required this.hintText,
     this.onSubmitted,
     this.onChanged,
+    this.onClear,
     this.borderRadius = 12,
   });
 
@@ -29,32 +31,52 @@ class SearchTextField extends StatelessWidget {
       borderSide: BorderSide.none,
     );
 
-    return Container(
-      height: context.height * 0.055,
-      decoration: BoxDecoration(
-        color: context.colors.shadow,
-        borderRadius: BorderRadius.circular(borderRadius),
-      ),
-      child: TextField(
-        controller: controller,
-        focusNode: focusNode,
-        style: _textStyle(context),
-        cursorColor: context.colors.primary,
-        onSubmitted: onSubmitted,
-        onChanged: onChanged,
-        decoration: InputDecoration(
-          fillColor: context.colors.onSecondary,
-          filled: true,
-          hintText: hintText.tr(),
-          hintStyle: _hintStyle(context),
-          prefixIcon: _searchIcon(context),
-          border: border,
-          enabledBorder: border,
-          focusedBorder: border,
-          contentPadding: EdgeInsets.symmetric(
-            horizontal: context.width * 0.04,
-            vertical: context.height * 0.018,
+    return ValueListenableBuilder<TextEditingValue>(
+      valueListenable: controller,
+      builder: (context, value, _) {
+        return Container(
+          height: context.height * 0.055,
+          decoration: BoxDecoration(
+            color: context.colors.shadow,
+            borderRadius: BorderRadius.circular(borderRadius),
           ),
+          child: TextField(
+            controller: controller,
+            focusNode: focusNode,
+            style: _textStyle(context),
+            cursorColor: context.colors.primary,
+            onSubmitted: onSubmitted,
+            onChanged: onChanged,
+            decoration: InputDecoration(
+              fillColor: context.colors.onSecondary,
+              filled: true,
+              hintText: hintText.tr(),
+              hintStyle: _hintStyle(context),
+              prefixIcon: _searchIcon(context),
+              suffixIcon: value.text.isNotEmpty ? _clearIcon(context) : null,
+              border: border,
+              enabledBorder: border,
+              focusedBorder: border,
+              contentPadding: EdgeInsets.symmetric(
+                horizontal: context.width * 0.04,
+                vertical: context.height * 0.018,
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _clearIcon(BuildContext context) {
+    return GestureDetector(
+      onTap: onClear,
+      child: Padding(
+        padding: EdgeInsets.only(right: context.width * 0.02),
+        child: Icon(
+          Icons.close,
+          size: context.width * 0.05,
+          color: context.colors.onPrimary,
         ),
       ),
     );
