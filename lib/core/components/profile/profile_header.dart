@@ -72,7 +72,7 @@ class ProfileHeaderComponent extends StatelessWidget {
                 onMessageTap: onMessageTap!,
                 isFollowing: isFollowing,
               ),
-        ProfileHeaderBioComponent(text: user.bio ?? ""),
+        //ProfileHeaderBioComponent(text: user.bio ?? ""),
         SizedBox(height: context.height * 0.01),
         ProfileHeaderTagsComponent(tags: tags),
       ],
