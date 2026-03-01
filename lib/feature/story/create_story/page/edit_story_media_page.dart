@@ -8,6 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:video_player/video_player.dart';
 
+import '../../../../core/base/page/base_scaffold.dart';
 import '../../../../core/components/text/text.dart';
 import '../../../../core/constants/color/color.dart';
 import '../../../../core/constants/string.dart';
@@ -411,8 +412,7 @@ class _EditStoryMediaPageState extends State<EditStoryMediaPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: context.colors.surface,
+    return BaseScaffold(
       body: BlocListener<CreateStoryCubit, CreateStoryState>(
         listener: (context, state) {
           if (state.isLoading == false && state.uploadSuccess == true) {

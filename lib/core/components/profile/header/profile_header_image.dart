@@ -11,6 +11,7 @@ import 'package:rightflair/core/constants/string.dart';
 import '../../../../../../core/extensions/context.dart';
 import '../../../../feature/authentication/model/user.dart';
 import '../../../../feature/main/feed/models/user_with_stories.dart';
+import '../../../base/page/base_scaffold.dart';
 import 'profile_photo.dart';
 import 'story_ring.dart';
 
@@ -53,9 +54,8 @@ class ProfileHeaderImageComponent extends StatelessWidget {
       barrierDismissible: true,
       barrierLabel: '',
       barrierColor: Colors.black.withValues(alpha: 0.95),
-      pageBuilder: (context, _, __) {
-        return Scaffold(
-          backgroundColor: Colors.transparent,
+      pageBuilder: (context, _, _) {
+        return BaseScaffold(
           body: Stack(
             children: [
               // Tap anywhere to close

@@ -19,6 +19,7 @@ import 'package:rightflair/feature/share/dialog/dialog_share.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'dart:typed_data';
 
+import '../../../../core/base/page/base_scaffold.dart';
 import '../cubit/create_post_cubit.dart';
 import '../model/camera_filter.dart';
 import '../widgets/camera/add_sound_pill.dart';
@@ -437,8 +438,7 @@ class _CameraPageState extends State<CameraPage> with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) {
     if (!_isInitialized) {
-      return const Scaffold(
-        backgroundColor: AppColors.BLACK,
+      return const BaseScaffold(
         body: Center(child: CircularProgressIndicator(color: AppColors.WHITE)),
       );
     }
@@ -449,8 +449,7 @@ class _CameraPageState extends State<CameraPage> with WidgetsBindingObserver {
   // ======================== CAMERA MODE ========================
 
   Widget _buildCamera() {
-    return Scaffold(
-      backgroundColor: AppColors.BLACK,
+    return BaseScaffold(
       body: Stack(
         fit: StackFit.expand,
         children: [
@@ -591,8 +590,7 @@ class _CameraPageState extends State<CameraPage> with WidgetsBindingObserver {
   // ======================== PREVIEW MODE ========================
 
   Widget _buildPreview() {
-    return Scaffold(
-      backgroundColor: AppColors.BLACK,
+    return BaseScaffold(
       body: Stack(
         fit: StackFit.expand,
         children: [

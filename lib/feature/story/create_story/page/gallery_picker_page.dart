@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:photo_manager/photo_manager.dart';
 
+import '../../../../core/base/page/base_scaffold.dart';
 import '../../../../core/components/text/text.dart';
 import '../../../../core/constants/color/color.dart';
 import '../../../../core/constants/string.dart';
@@ -101,8 +102,7 @@ class _GalleryPickerPageState extends State<GalleryPickerPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: context.colors.surface,
+    return BaseScaffold(
       appBar: AppBar(
         backgroundColor: context.colors.surface,
         elevation: 0,

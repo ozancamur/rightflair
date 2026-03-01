@@ -6,7 +6,6 @@ import 'package:rightflair/core/components/profile/profile_action_buttons.dart';
 import '../../../feature/authentication/model/user.dart';
 import '../../../feature/main/feed/models/user_with_stories.dart';
 import '../../../feature/main/profile/cubit/profile_cubit.dart';
-import 'header/profile_header_bio.dart';
 import 'header/profile_header_image.dart';
 import 'header/profile_header_stats.dart';
 import 'header/profile_header_tags.dart';

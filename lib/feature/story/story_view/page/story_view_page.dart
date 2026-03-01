@@ -6,6 +6,7 @@ import 'package:rightflair/feature/main/feed/models/user_with_stories.dart';
 import 'package:rightflair/feature/story/story_view/cubit/story_view_cubit.dart';
 import 'package:rightflair/core/constants/string.dart';
 import 'package:rightflair/feature/story/story_view/repository/story_view_repository_impl.dart';
+import '../../../../core/base/page/base_scaffold.dart';
 import '../widgets/story_content.dart';
 import '../widgets/story_progress_bar.dart';
 import '../widgets/story_user_info.dart';
@@ -100,7 +101,7 @@ class _StoryViewPageState extends State<StoryViewPage>
     );
   }
 
-  Scaffold _body(
+  BaseScaffold _body(
     BuildContext context,
     StoryViewCubit cubit,
     StoryViewState state,
@@ -111,8 +112,7 @@ class _StoryViewPageState extends State<StoryViewPage>
     final borderRadius = progress * 24.0;
     final opacity = (1.0 - progress).clamp(0.0, 1.0);
 
-    return Scaffold(
-      backgroundColor: Colors.transparent,
+    return BaseScaffold(
       body: GestureDetector(
         onTapDown: (details) {
           if (_isDraggingDown) return;

@@ -9,6 +9,7 @@ import 'package:go_router/go_router.dart';
 import 'package:rightflair/core/constants/app.dart';
 import 'package:share_plus/share_plus.dart';
 
+import '../../../core/base/page/base_scaffold.dart';
 import '../../../core/components/loading.dart';
 import '../../../core/components/text/text.dart';
 import '../../../core/constants/font/font_size.dart';
@@ -69,8 +70,7 @@ class _FindFriendsPageState extends State<FindFriendsPage> {
   Widget build(BuildContext context) {
     return BlocBuilder<FindFriendsCubit, FindFriendsState>(
       builder: (context, state) {
-        return Scaffold(
-          backgroundColor: context.colors.secondary,
+        return BaseScaffold(
           appBar: const FindFriendsAppbarWidget(),
           body: GestureDetector(
             onTap: () => FocusScope.of(context).unfocus(),

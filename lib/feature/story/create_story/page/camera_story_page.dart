@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:photo_manager/photo_manager.dart';
 
+import '../../../../core/base/page/base_scaffold.dart';
 import '../../../../core/components/text/text.dart';
 import '../../../../core/constants/color/color.dart';
 import '../../../../core/extensions/context.dart';
@@ -341,16 +342,14 @@ class _CameraStoryPageState extends State<CameraStoryPage>
   @override
   Widget build(BuildContext context) {
     if (_cameraController == null || !_cameraController!.value.isInitialized) {
-      return Scaffold(
-        backgroundColor: context.colors.surface,
+      return BaseScaffold(
         body: Center(
           child: CircularProgressIndicator(color: context.colors.onSurface),
         ),
       );
     }
 
-    return Scaffold(
-      backgroundColor: context.colors.surface,
+    return BaseScaffold(
       body: Stack(
         fit: StackFit.expand,
         children: [
