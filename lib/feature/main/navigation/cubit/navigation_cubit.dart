@@ -20,6 +20,10 @@ class NavigationCubit extends Cubit<NavigationState> {
     }
   }
 
+  void setHomeRefreshing(bool value) {
+    emit(state.copyWith(isHomeRefreshing: value));
+  }
+
   /// Resets navigation to initial state with a fresh PageController.
   /// Must be called when NavigationPage is (re)created (e.g. after logout/login).
   void reset() {

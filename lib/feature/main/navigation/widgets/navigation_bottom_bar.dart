@@ -9,6 +9,7 @@ import 'package:rightflair/core/constants/route.dart';
 import '../../../../core/constants/icons.dart';
 import '../../../../core/constants/string.dart';
 import '../../../../core/extensions/context.dart';
+import '../../../main/feed/bloc/feed_bloc.dart';
 import '../cubit/navigation_cubit.dart';
 
 class NavigationBottomBar extends StatelessWidget {
@@ -74,10 +75,18 @@ class NavigationBottomBar extends StatelessWidget {
 
   Widget _item(BuildContext context, int index, String icon, String label) {
     final isSelected = currentIndex == index;
+    final isHomeRefreshing =
+        index == 0 && context.watch<NavigationCubit>().state.isHomeRefreshing;
     return Expanded(
       flex: 4,
       child: GestureDetector(
-        onTap: () => context.read<NavigationCubit>().route(index),
+        onTap: () {
+          if (index == 0 && currentIndex == 0) {
+            _refreshHome(context);
+          } else {
+            context.read<NavigationCubit>().route(index);
+          }
+        },
         child: Column(
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
@@ -85,11 +94,22 @@ class NavigationBottomBar extends StatelessWidget {
             SizedBox(
               height: context.height * 0.024,
               child: Center(
-                child: SvgPicture.asset(
-                  icon,
-                  height: context.height * 0.022,
-                  color: isSelected ? Colors.white : context.colors.tertiary,
-                ),
+                child: isHomeRefreshing
+                    ? SizedBox(
+                        height: context.height * 0.020,
+                        width: context.height * 0.020,
+                        child: CircularProgressIndicator(
+                          strokeWidth: 2,
+                          color: Colors.white,
+                        ),
+                      )
+                    : SvgPicture.asset(
+                        icon,
+                        height: context.height * 0.022,
+                        color: isSelected
+                            ? Colors.white
+                            : context.colors.tertiary,
+                      ),
               ),
             ),
             SizedBox(height: context.height * 0.0035),
@@ -104,5 +124,25 @@ class NavigationBottomBar extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void _refreshHome(BuildContext context) async {
+    final navCubit = context.read<NavigationCubit>();
+    final feedBloc = context.read<FeedBloc>();
+    final currentTab = feedBloc.state.currentTabIndex;
+
+    navCubit.setHomeRefreshing(true);
+    feedBloc.add(RefreshTabEvent(currentTab));
+
+    try {
+      await feedBloc.stream
+          .firstWhere((state) => !state.isLoadingForTab(currentTab))
+          .timeout(
+            const Duration(seconds: 10),
+            onTimeout: () => feedBloc.state,
+          );
+    } catch (_) {}
+
+    navCubit.setHomeRefreshing(false);
   }
 }
