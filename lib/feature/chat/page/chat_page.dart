@@ -115,6 +115,7 @@ class _ChatPageState extends State<ChatPage> {
               }
 
               return BaseScaffold(
+                canPop: true,
                 appBar: ChatAppBarWidget(
                   userName: widget.otherUserName,
                   userPhoto: widget.otherUserPhoto,

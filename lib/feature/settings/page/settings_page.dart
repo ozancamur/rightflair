@@ -37,6 +37,7 @@ class _SettingsPageState extends State<SettingsPage> {
     return BlocBuilder<SettingsCubit, SettingsState>(
       builder: (context, state) {
         return BaseScaffold(
+          canPop: true,
           appBar: const SettingsAppbarWidget(),
           body: (state.isLoading)
               ? const LoadingComponent()

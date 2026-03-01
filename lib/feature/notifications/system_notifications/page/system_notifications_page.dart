@@ -12,6 +12,7 @@ class SystemNotificationsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BaseScaffold(
+      canPop: true,
       appBar: _appbar(context),
       body: SystemNotificationsListWidget(),
     );

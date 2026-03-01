@@ -38,6 +38,7 @@ class _SearchPageViewState extends State<_SearchPageView> {
         return GestureDetector(
           onTap: () => FocusScope.of(context).unfocus(),
           child: BaseScaffold(
+            canPop: true,
             resizeToAvoidBottomInset: false,
             appBar: SearchAppBarWidget(),
             body: Padding(

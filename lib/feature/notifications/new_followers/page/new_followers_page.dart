@@ -48,6 +48,7 @@ class _NewFollowersPageState extends State<NewFollowersPage> {
     return BlocBuilder<NewFollowersCubit, NewFollowersState>(
       builder: (context, state) {
         return BaseScaffold(
+            canPop: true,
           appBar: _appbar(context),
           body: state.isLoading
               ? SizedBox(

@@ -92,6 +92,7 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
     return BlocBuilder<ProfileEditCubit, ProfileEditState>(
       builder: (context, state) {
         return BaseScaffold(
+          canPop: true,
           appBar: _appBar(context, state.hasUpdated),
           body: _body(context, state),
           navigation: const NavigationBottomBar(currentIndex: 3),

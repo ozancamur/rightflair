@@ -29,6 +29,7 @@ class ChooseUsernamePage extends StatelessWidget {
     return BlocBuilder<ChooseUsernameCubit, ChooseUsernameState>(
       builder: (context, state) {
         return BaseScaffold(
+          canPop: true,
           appBar: AppBarComponent(
             leading: canPop
                 ? BackButtonComponent(onBack: () => context.pop())

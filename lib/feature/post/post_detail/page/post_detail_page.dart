@@ -40,6 +40,7 @@ class PostDetailPage extends StatelessWidget {
               state.post.user?.id ==
               Supabase.instance.client.auth.currentUser?.id;
           return BaseScaffold(
+            canPop: true,
             appBar: _appbar(context, post: state.post, isOwner: isOwner),
             body: _body(context, state),
           );

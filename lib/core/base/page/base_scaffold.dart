@@ -6,18 +6,20 @@ class BaseScaffold extends StatelessWidget {
   final Widget body;
   final Widget? navigation;
   final bool resizeToAvoidBottomInset;
+  final bool canPop;
   const BaseScaffold({
     super.key,
     this.appBar,
     required this.body,
     this.navigation,
     this.resizeToAvoidBottomInset = true,
+    this.canPop = false,
   });
 
   @override
   Widget build(BuildContext context) {
     return PopScope(
-      canPop: false,
+      canPop: canPop,
       child: Scaffold(
         backgroundColor: context.colors.secondary,
         resizeToAvoidBottomInset: resizeToAvoidBottomInset,

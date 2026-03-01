@@ -71,6 +71,7 @@ class _FindFriendsPageState extends State<FindFriendsPage> {
     return BlocBuilder<FindFriendsCubit, FindFriendsState>(
       builder: (context, state) {
         return BaseScaffold(
+          canPop: true,
           appBar: const FindFriendsAppbarWidget(),
           body: GestureDetector(
             onTap: () => FocusScope.of(context).unfocus(),

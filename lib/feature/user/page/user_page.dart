@@ -27,6 +27,7 @@ class UserPage extends StatelessWidget {
       child: BlocBuilder<UserCubit, UserState>(
         builder: (context, state) {
           return BaseScaffold(
+            canPop: true,
             appBar: UserAppbarWidget(
               userId: userId,
               fullname: state.user.fullName ?? '',

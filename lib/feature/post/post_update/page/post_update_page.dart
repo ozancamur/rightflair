@@ -59,6 +59,7 @@ class _PostUpdatePageState extends State<PostUpdatePage> {
       child: BlocBuilder<PostUpdateCubit, PostUpdateState>(
         builder: (context, state) {
           return BaseScaffold(
+            canPop: true,
             appBar: _appbar(context),
             body: _body(context, state),
           );
