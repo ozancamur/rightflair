@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:rightflair/core/constants/string.dart';
+import 'package:rightflair/core/services/cache.dart';
 import 'package:rightflair/core/utils/dialogs/error.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -322,6 +323,9 @@ class PostUpdateCubit extends Cubit<PostUpdateState> {
         message: response?.message ?? AppStrings.ERROR_DEFAULT,
       );
     } else {
+      if (status == 'published') {
+        await CacheService().setHasPublishedPost(true);
+      }
       if (context.mounted) {
         context.pop('updated');
       }

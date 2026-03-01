@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rightflair/core/components/loading.dart';
 
-import '../../../core/extensions/context.dart';
 import '../cubit/search_cubit.dart';
 import 'search_list_item.dart';
 

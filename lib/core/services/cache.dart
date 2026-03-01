@@ -11,6 +11,29 @@ class CacheService {
   static const String _pendingPostTimestampKey = 'pending_post_timestamp';
   static const Duration _pendingPostExpiry = Duration(hours: 3);
 
+  // Has published post key
+  static const String _hasPublishedPostKey = 'has_published_post';
+
+  /// Get whether the user has ever published a post (default: false)
+  Future<bool> getHasPublishedPost() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      return prefs.getBool(_hasPublishedPostKey) ?? false;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  /// Set that the user has published a post
+  Future<void> setHasPublishedPost(bool value) async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setBool(_hasPublishedPostKey, value);
+    } catch (e) {
+      // Handle error silently
+    }
+  }
+
   /// Get recent searches from cache
   Future<List<String>> getRecentSearches() async {
     try {

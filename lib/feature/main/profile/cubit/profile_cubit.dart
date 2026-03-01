@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rightflair/core/services/cache.dart';
 import 'package:rightflair/feature/main/profile/model/request_post.dart';
 import 'package:rightflair/feature/main/profile/model/style_tags.dart';
 import 'package:rightflair/feature/main/profile/repository/profile_repository_impl.dart';
@@ -66,10 +67,14 @@ class ProfileCubit extends Cubit<ProfileState> {
     final response = await _repo.getUserPosts(
       parameters: RequestPostModel().requestSortByDateOrderDesc(page: 1),
     );
+    final posts = response?.posts ?? [];
+    if (posts.isNotEmpty) {
+      await CacheService().setHasPublishedPost(true);
+    }
     emit(
       state.copyWith(
         isPostsLoading: false,
-        posts: response?.posts ?? [],
+        posts: posts,
         postsPagination: response?.pagination,
       ),
     );

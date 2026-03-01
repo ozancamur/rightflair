@@ -6,6 +6,7 @@ import 'package:rightflair/core/constants/enums/notification_type.dart';
 import 'package:rightflair/core/constants/font/font_size.dart';
 import 'package:rightflair/core/constants/route.dart';
 import 'package:rightflair/core/constants/string.dart';
+import 'package:rightflair/core/services/cache.dart';
 import 'package:rightflair/feature/main/inbox/widgets/notifications/inbox_notification_item.dart';
 
 import '../../../../../core/extensions/context.dart';
@@ -29,12 +30,21 @@ class InboxNotificationsList extends StatefulWidget {
 
 class _InboxNotificationsListState extends State<InboxNotificationsList> {
   late ScrollController _scrollController;
+  bool _hasPublishedPost = false;
 
   @override
   void initState() {
     super.initState();
     _scrollController = ScrollController();
     _scrollController.addListener(_onScroll);
+    _loadHasPublishedPost();
+  }
+
+  Future<void> _loadHasPublishedPost() async {
+    final value = await CacheService().getHasPublishedPost();
+    if (mounted && value != _hasPublishedPost) {
+      setState(() => _hasPublishedPost = value);
+    }
   }
 
   @override
@@ -123,7 +133,7 @@ class _InboxNotificationsListState extends State<InboxNotificationsList> {
               title: AppStrings.INBOX_SYSTEM_NOTIFICATIONS_TITLE,
               content: AppStrings.INBOX_SYSTEM_NOTIFICATIONS_INFO,
             ),
-            const InboxNotificationKeep(),
+            if (_hasPublishedPost) const InboxNotificationKeep(),
           ],
         ),
       ),

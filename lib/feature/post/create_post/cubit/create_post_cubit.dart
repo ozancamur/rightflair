@@ -255,6 +255,7 @@ class CreatePostCubit extends Cubit<CreatePostState> {
         message: response?.message ?? AppStrings.ERROR_DEFAULT,
       );
     } else {
+      await CacheService().setHasPublishedPost(true);
       context.go(RouteConstants.NAVIGATION);
     }
     emit(state.copyWith(isLoading: false));
