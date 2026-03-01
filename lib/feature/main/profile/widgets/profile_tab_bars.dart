@@ -46,6 +46,6 @@ class ProfileTabBarsWidget extends StatelessWidget {
   }
 
   Tab _item(String text) {
-    return Tab(text: text.tr());
+    return Tab(height: 36, text: text.tr());
   }
 }

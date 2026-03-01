@@ -2,7 +2,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:rightflair/core/components/text/text.dart';
-import 'package:rightflair/core/constants/font/font_size.dart';
 import 'package:rightflair/core/constants/string.dart';
 import 'package:rightflair/core/extensions/context.dart';
 
@@ -22,32 +21,14 @@ class _ProfileHeaderBioComponentState extends State<ProfileHeaderBioComponent> {
   Widget build(BuildContext context) {
     return SizedBox(
       width: context.width,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        spacing: context.height * 0.0075,
-        children: [
-          TextComponent(
-            text: AppStrings.PROFILE_EDIT_BIO,
-            color: context.colors.primary,
-            weight: FontWeight.w600,
-            size: FontSizeConstants.LARGE,
-          ),
-          widget.text == ""
-              ? TextComponent(
-                  text: AppStrings.PROFILE_EMPTY_BIO,
-                  color: context.colors.tertiary,
-                  weight: FontWeight.w400,
-                  size: FontSizeConstants.X_SMALL,
-                )
-              : AnimatedSize(
-                  duration: const Duration(milliseconds: 300),
-                  alignment: Alignment.topLeft,
-                  curve: Curves.easeInOut,
-                  child: _buildContent(context),
-                ),
-        ],
-      ),
+      child: widget.text == ""
+          ? null
+          : AnimatedSize(
+              duration: const Duration(milliseconds: 300),
+              alignment: Alignment.topLeft,
+              curve: Curves.easeInOut,
+              child: _buildContent(context),
+            ),
     );
   }
 
@@ -65,8 +46,10 @@ class _ProfileHeaderBioComponentState extends State<ProfileHeaderBioComponent> {
 
     if (isExpanded) {
       return RichText(
+        textAlign: TextAlign.center,
         text: TextSpan(
           style: textStyle,
+
           children: [
             TextSpan(text: widget.text),
             TextSpan(
@@ -100,6 +83,7 @@ class _ProfileHeaderBioComponentState extends State<ProfileHeaderBioComponent> {
             text: widget.text,
             tr: false,
             color: context.colors.primary,
+            align: TextAlign.center,
           );
         }
 
@@ -125,7 +109,7 @@ class _ProfileHeaderBioComponentState extends State<ProfileHeaderBioComponent> {
         final truncatedText = widget.text.substring(0, offset - 10);
 
         return RichText(
-          textAlign: TextAlign.start,
+          textAlign: TextAlign.center,
           text: TextSpan(
             style: textStyle,
             children: [

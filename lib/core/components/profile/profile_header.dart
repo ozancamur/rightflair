@@ -6,6 +6,7 @@ import 'package:rightflair/core/components/profile/profile_action_buttons.dart';
 import '../../../feature/authentication/model/user.dart';
 import '../../../feature/main/feed/models/user_with_stories.dart';
 import '../../../feature/main/profile/cubit/profile_cubit.dart';
+import 'header/profile_header_bio.dart';
 import 'header/profile_header_image.dart';
 import 'header/profile_header_stats.dart';
 import 'header/profile_header_tags.dart';
@@ -63,16 +64,18 @@ class ProfileHeaderComponent extends StatelessWidget {
           onFollowersTap: onFollowersTap,
           onFollowingTap: onFollowingTap,
         ),
-        SizedBox(height: context.height * 0.01),
-        (onFollowTap == null && onMessageTap == null)
-            ? SizedBox.shrink()
-            : ProfileActionButtonsComponent(
-                onFollowTap: onFollowTap!,
-                onMessageTap: onMessageTap!,
-                isFollowing: isFollowing,
-              ),
-        //ProfileHeaderBioComponent(text: user.bio ?? ""),
-        SizedBox(height: context.height * 0.01),
+        if (onFollowTap != null && onMessageTap != null) ...[
+          SizedBox(height: context.height * 0.01),
+          ProfileActionButtonsComponent(
+            onFollowTap: onFollowTap!,
+            onMessageTap: onMessageTap!,
+            isFollowing: isFollowing,
+          ),
+        ],
+        if (user.bio != null || user.bio != "") ...[
+          ProfileHeaderBioComponent(text: user.bio ?? ""),
+          SizedBox(height: context.height * 0.005),
+        ],
         ProfileHeaderTagsComponent(tags: tags),
       ],
     );

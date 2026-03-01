@@ -90,7 +90,6 @@ class _ProfilePageState extends State<ProfilePage>
 
   Column _user(BuildContext context, ProfileState state) {
     return Column(
-      spacing: context.height * .01,
       children: [
         ProfileHeaderComponent(
           isCanEdit: true,
@@ -143,14 +142,21 @@ class _ProfilePageState extends State<ProfilePage>
           },
           onFollowersTap: () => context.push(
             RouteConstants.FOLLOW,
-            extra: {"listType": FollowListType.followers, 'username': state.user.username ?? ''},
+            extra: {
+              "listType": FollowListType.followers,
+              'username': state.user.username ?? '',
+            },
           ),
           onFollowingTap: () => context.push(
             RouteConstants.FOLLOW,
-            extra: {"listType": FollowListType.following, 'username': state.user.username ?? ''},
+            extra: {
+              "listType": FollowListType.following,
+              'username': state.user.username ?? '',
+            },
           ),
         ),
         ProfileTabBarsWidget(tabController: _tabController),
+        SizedBox(height: context.height * 0.01),
         ProfileTabViewsWidget(
           tabController: _tabController,
           posts: state.posts,
