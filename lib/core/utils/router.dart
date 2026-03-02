@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rightflair/core/constants/route.dart';
@@ -171,6 +170,8 @@ final GoRouter router = GoRouter(
           listType: data['listType'] as FollowListType,
           username: data['username'] as String,
           userId: data['userId'] as String?,
+          followers: data['followers'] as int,
+          following: data['following'] as int,
         );
       },
     ),

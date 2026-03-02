@@ -83,6 +83,8 @@ class ProfileHeaderComponent extends StatelessWidget {
           "listType": FollowListType.followers,
           'username': user.username ?? '',
           'userId': user.id ?? '',
+          'followers': user.followersCount ?? 0,
+          'following': user.followingCount ?? 0,
         },
       ),
       onFollowingTap: () => context.push(
@@ -91,6 +93,8 @@ class ProfileHeaderComponent extends StatelessWidget {
           "listType": FollowListType.following,
           'username': user.username ?? '',
           'userId': user.id ?? '',
+          'followers': user.followersCount ?? 0,
+          'following': user.followingCount ?? 0,
         },
       ),
     );

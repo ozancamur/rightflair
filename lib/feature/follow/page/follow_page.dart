@@ -22,11 +22,15 @@ class FollowPage extends StatefulWidget {
   final String username;
   final String? userId;
   final FollowListType listType;
+  final int followers;
+  final int following;
   const FollowPage({
     super.key,
     required this.username,
     this.userId,
     required this.listType,
+    required this.followers,
+    required this.following,
   });
 
   @override
@@ -107,7 +111,7 @@ class _FollowPageState extends State<FollowPage>
                 _buildTabBar(context),
                 Padding(
                   padding: EdgeInsets.symmetric(
-                    horizontal: context.width * 0.04,
+                    horizontal: context.width * 0.065,
                     vertical: context.height * 0.015,
                   ),
                   child: FollowListSearchField(
@@ -136,14 +140,14 @@ class _FollowPageState extends State<FollowPage>
       unselectedLabelColor: context.colors.primaryContainer,
       indicatorColor: context.colors.primary,
       indicatorSize: TabBarIndicatorSize.tab,
-      labelStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+      labelStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
       unselectedLabelStyle: const TextStyle(
-        fontSize: 14,
+        fontSize: 16,
         fontWeight: FontWeight.w400,
       ),
       tabs: [
-        Tab(text: AppStrings.PROFILE_FOLLOWING.tr()),
-        Tab(text: AppStrings.PROFILE_FOLLOWER.tr()),
+        Tab(text: "${AppStrings.PROFILE_FOLLOWING.tr()}  ${widget.following}"),
+        Tab(text: "${AppStrings.PROFILE_FOLLOWER.tr()}  ${widget.followers}"),
       ],
     );
   }
