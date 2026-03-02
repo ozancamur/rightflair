@@ -16,7 +16,7 @@ class ProfileHeaderTagsComponent extends StatelessWidget {
             child: Wrap(
               spacing: context.width * 0.025,
               runSpacing: context.height * 0.01,
-              alignment: WrapAlignment.start,
+              alignment: WrapAlignment.center,
               children: tags!
                   .map((tag) => ProfileTagComponent(text: tag))
                   .toList(),
