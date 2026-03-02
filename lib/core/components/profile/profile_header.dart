@@ -67,7 +67,7 @@ class ProfileHeaderComponent extends StatelessWidget {
             isFollowing: isFollowing,
           ),
         ],
-        ProfileHeaderBioComponent(text: user.bio ?? ""),
+        ProfileHeaderBioComponent(text: user.bio),
         ProfileHeaderTagsComponent(tags: tags),
       ],
     );

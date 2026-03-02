@@ -40,7 +40,8 @@ class FollowPage extends StatefulWidget {
 class _FollowPageState extends State<FollowPage>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
-  late ScrollController _scrollController;
+  late ScrollController _followingScrollController;
+  late ScrollController _followersScrollController;
 
   @override
   void initState() {
@@ -56,8 +57,10 @@ class _FollowPageState extends State<FollowPage>
       listType: widget.listType,
       userId: widget.userId,
     );
-    _scrollController = ScrollController();
-    _scrollController.addListener(_onScroll);
+    _followingScrollController = ScrollController();
+    _followingScrollController.addListener(_onFollowingScroll);
+    _followersScrollController = ScrollController();
+    _followersScrollController.addListener(_onFollowersScroll);
   }
 
   void _onTabChanged() {
@@ -65,13 +68,26 @@ class _FollowPageState extends State<FollowPage>
     final listType = _tabController.index == 0
         ? FollowListType.following
         : FollowListType.followers;
-    context.read<FollowCubit>().init(listType: listType, userId: widget.userId);
+    context.read<FollowCubit>().switchTab(listType);
   }
 
-  void _onScroll() {
-    if (_scrollController.position.pixels >=
-        _scrollController.position.maxScrollExtent - 200) {
-      context.read<FollowCubit>().loadMore();
+  void _onFollowingScroll() {
+    if (_followingScrollController.position.pixels >=
+        _followingScrollController.position.maxScrollExtent - 200) {
+      final cubit = context.read<FollowCubit>();
+      if (cubit.state.activeTab == FollowListType.following) {
+        cubit.loadMore();
+      }
+    }
+  }
+
+  void _onFollowersScroll() {
+    if (_followersScrollController.position.pixels >=
+        _followersScrollController.position.maxScrollExtent - 200) {
+      final cubit = context.read<FollowCubit>();
+      if (cubit.state.activeTab == FollowListType.followers) {
+        cubit.loadMore();
+      }
     }
   }
 
@@ -79,8 +95,10 @@ class _FollowPageState extends State<FollowPage>
   void dispose() {
     _tabController.removeListener(_onTabChanged);
     _tabController.dispose();
-    _scrollController.removeListener(_onScroll);
-    _scrollController.dispose();
+    _followingScrollController.removeListener(_onFollowingScroll);
+    _followingScrollController.dispose();
+    _followersScrollController.removeListener(_onFollowersScroll);
+    _followersScrollController.dispose();
     super.dispose();
   }
 
@@ -109,21 +127,22 @@ class _FollowPageState extends State<FollowPage>
                   color: context.colors.primaryFixedDim,
                 ),
                 _buildTabBar(context),
-                Padding(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: context.width * 0.065,
-                    vertical: context.height * 0.015,
-                  ),
-                  child: FollowListSearchField(
-                    onChanged: (value) {
-                      context.read<FollowCubit>().search(value);
-                    },
-                  ),
-                ),
                 Expanded(
-                  child: state.isLoading
-                      ? const Center(child: LoadingComponent())
-                      : _buildUserList(context, state),
+                  child: TabBarView(
+                    controller: _tabController,
+                    children: [
+                      _buildTabContent(
+                        context,
+                        state.followingData,
+                        _followingScrollController,
+                      ),
+                      _buildTabContent(
+                        context,
+                        state.followersData,
+                        _followersScrollController,
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),
@@ -152,8 +171,39 @@ class _FollowPageState extends State<FollowPage>
     );
   }
 
-  Widget _buildUserList(BuildContext context, FollowState state) {
-    if (state.users.isEmpty) {
+  Widget _buildTabContent(
+    BuildContext context,
+    FollowTabData data,
+    ScrollController scrollController,
+  ) {
+    return Column(
+      children: [
+        Padding(
+          padding: EdgeInsets.symmetric(
+            horizontal: context.width * 0.065,
+            vertical: context.height * 0.015,
+          ),
+          child: FollowListSearchField(
+            onChanged: (value) {
+              context.read<FollowCubit>().search(value);
+            },
+          ),
+        ),
+        Expanded(
+          child: data.isLoading
+              ? const Center(child: LoadingComponent())
+              : _buildUserList(context, data, scrollController),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildUserList(
+    BuildContext context,
+    FollowTabData data,
+    ScrollController scrollController,
+  ) {
+    if (data.users.isEmpty) {
       return Center(
         child: TextComponent(
           text: AppStrings.FOLLOW_LIST_EMPTY,
@@ -164,17 +214,17 @@ class _FollowPageState extends State<FollowPage>
     }
 
     return ListView.builder(
-      controller: _scrollController,
+      controller: scrollController,
       padding: EdgeInsets.symmetric(horizontal: context.width * 0.04),
-      itemCount: state.users.length + (state.isLoadingMore ? 1 : 0),
+      itemCount: data.users.length + (data.isLoadingMore ? 1 : 0),
       itemBuilder: (context, index) {
-        if (index == state.users.length) {
+        if (index == data.users.length) {
           return Padding(
             padding: EdgeInsets.symmetric(vertical: context.height * 0.02),
             child: const Center(child: LoadingComponent()),
           );
         }
-        final user = state.users[index];
+        final user = data.users[index];
         return FollowListUserItem(
           user: user,
           onTap: () {

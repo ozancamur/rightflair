@@ -4,42 +4,34 @@ import '../../../core/constants/enums/follow_list_type.dart';
 import '../model/follow_user.dart';
 import '../../main/profile/model/pagination.dart';
 
-class FollowState extends Equatable {
+class FollowTabData extends Equatable {
   final bool isLoading;
   final bool isLoadingMore;
   final List<FollowUserModel> users;
   final PaginationModel? pagination;
   final String searchQuery;
-  final FollowListType listType;
-  final String? userId;
 
-  const FollowState({
+  const FollowTabData({
     this.isLoading = false,
     this.isLoadingMore = false,
     this.users = const [],
     this.pagination,
     this.searchQuery = '',
-    this.listType = FollowListType.followers,
-    this.userId,
   });
 
-  FollowState copyWith({
+  FollowTabData copyWith({
     bool? isLoading,
     bool? isLoadingMore,
     List<FollowUserModel>? users,
     PaginationModel? pagination,
     String? searchQuery,
-    FollowListType? listType,
-    String? userId,
   }) {
-    return FollowState(
+    return FollowTabData(
       isLoading: isLoading ?? this.isLoading,
       isLoadingMore: isLoadingMore ?? this.isLoadingMore,
       users: users ?? this.users,
       pagination: pagination ?? this.pagination,
       searchQuery: searchQuery ?? this.searchQuery,
-      listType: listType ?? this.listType,
-      userId: userId ?? this.userId,
     );
   }
 
@@ -55,7 +47,39 @@ class FollowState extends Equatable {
     users,
     pagination,
     searchQuery,
-    listType,
-    userId,
   ];
+}
+
+class FollowState extends Equatable {
+  final FollowTabData followingData;
+  final FollowTabData followersData;
+  final FollowListType activeTab;
+  final String? userId;
+
+  const FollowState({
+    this.followingData = const FollowTabData(),
+    this.followersData = const FollowTabData(),
+    this.activeTab = FollowListType.followers,
+    this.userId,
+  });
+
+  FollowState copyWith({
+    FollowTabData? followingData,
+    FollowTabData? followersData,
+    FollowListType? activeTab,
+    String? userId,
+  }) {
+    return FollowState(
+      followingData: followingData ?? this.followingData,
+      followersData: followersData ?? this.followersData,
+      activeTab: activeTab ?? this.activeTab,
+      userId: userId ?? this.userId,
+    );
+  }
+
+  FollowTabData get activeData =>
+      activeTab == FollowListType.following ? followingData : followersData;
+
+  @override
+  List<Object?> get props => [followingData, followersData, activeTab, userId];
 }
