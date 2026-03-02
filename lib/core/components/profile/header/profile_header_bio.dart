@@ -6,7 +6,7 @@ import 'package:rightflair/core/constants/string.dart';
 import 'package:rightflair/core/extensions/context.dart';
 
 class ProfileHeaderBioComponent extends StatefulWidget {
-  final String text;
+  final String? text;
   const ProfileHeaderBioComponent({super.key, required this.text});
 
   @override
@@ -19,17 +19,20 @@ class _ProfileHeaderBioComponentState extends State<ProfileHeaderBioComponent> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: context.width,
-      child: widget.text == ""
-          ? null
-          : AnimatedSize(
-              duration: const Duration(milliseconds: 300),
-              alignment: Alignment.topLeft,
-              curve: Curves.easeInOut,
-              child: _buildContent(context),
+    return (widget.text == "" || widget.text == null)
+        ? SizedBox.shrink()
+        : Padding(
+          padding: EdgeInsets.only(top: context.height * 0.005, bottom: context.height * 0.01),
+          child: SizedBox(
+              width: context.width,
+              child: AnimatedSize(
+                duration: const Duration(milliseconds: 300),
+                alignment: Alignment.topLeft,
+                curve: Curves.easeInOut,
+                child: _buildContent(context),
+              ),
             ),
-    );
+        );
   }
 
   Widget _buildContent(BuildContext context) {
@@ -80,7 +83,7 @@ class _ProfileHeaderBioComponentState extends State<ProfileHeaderBioComponent> {
 
         if (!tp.didExceedMaxLines) {
           return TextComponent(
-            text: widget.text,
+            text: widget.text ?? "bio",
             tr: false,
             color: context.colors.primary,
             align: TextAlign.center,
@@ -104,9 +107,9 @@ class _ProfileHeaderBioComponentState extends State<ProfileHeaderBioComponent> {
         );
         int offset = pos.offset;
 
-        if (offset > widget.text.length) offset = widget.text.length;
+        if (offset > widget.text!.length) offset = widget.text!.length;
 
-        final truncatedText = widget.text.substring(0, offset - 10);
+        final truncatedText = widget.text!.substring(0, offset - 10);
 
         return RichText(
           textAlign: TextAlign.center,

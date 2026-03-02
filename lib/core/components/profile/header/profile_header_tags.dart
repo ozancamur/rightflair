@@ -9,11 +9,11 @@ class ProfileHeaderTagsComponent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: context.width,
-      child: (tags == null || tags?.length == 0)
-          ? null
-          : Wrap(
+    return (tags == null || tags?.length == 0)
+        ? SizedBox.shrink()
+        : SizedBox(
+            width: context.width,
+            child: Wrap(
               spacing: context.width * 0.025,
               runSpacing: context.height * 0.01,
               alignment: WrapAlignment.start,
@@ -21,6 +21,6 @@ class ProfileHeaderTagsComponent extends StatelessWidget {
                   .map((tag) => ProfileTagComponent(text: tag))
                   .toList(),
             ),
-    );
+          );
   }
 }

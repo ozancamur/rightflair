@@ -6,7 +6,6 @@ import 'package:rightflair/core/constants/route.dart';
 import 'package:rightflair/core/extensions/context.dart';
 import 'package:rightflair/core/components/profile/profile_header.dart';
 import '../../../../core/base/page/base_scaffold.dart';
-import '../../../../core/constants/enums/follow_list_type.dart';
 import '../../../story/create_story/page/create_story_dialog.dart';
 import '../widgets/profile_appbar.dart';
 import '../cubit/profile_cubit.dart';
@@ -81,80 +80,20 @@ class _ProfilePageState extends State<ProfilePage>
           controller: _scrollController,
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: context.width * 0.05),
-            child: state.isLoading ? _loading(context) : _user(context, state),
+            child: state.isLoading
+                ? _loading(context)
+                : _content(context, state),
           ),
         ),
       ),
     );
   }
 
-  Column _user(BuildContext context, ProfileState state) {
+  Column _content(BuildContext context, ProfileState state) {
     return Column(
       children: [
-        ProfileHeaderComponent(
-          isCanEdit: true,
-          user: state.user,
-          tags: state.tags?.styleTags ?? [],
-          userStories: state.userStories,
-          onStoryTap: () async {
-            final stories = state.userStories;
-            if (stories != null && (stories.stories?.isNotEmpty ?? false)) {
-              await context.push(
-                RouteConstants.STORY_VIEWER,
-                extra: {
-                  'isMyStory': true,
-                  'allStories': [stories],
-                  'initialUserIndex': 0,
-                  'onStoryDeleted': () {
-                    context.read<ProfileCubit>().refreshStories();
-                  },
-                },
-              );
-              if (context.mounted) {
-                await context.read<ProfileCubit>().refreshStories();
-                if (context.mounted) {
-                  context.read<ProfileCubit>().markOwnStoriesAsViewed();
-                }
-              }
-            }
-          },
-          onEditPhoto: () async {
-            await dialogCreateStory(context, uid: state.user.id ?? '');
-            if (context.mounted) {
-              await context.read<ProfileCubit>().refreshStories();
-              if (context.mounted) {
-                final stories = context.read<ProfileCubit>().state.userStories;
-                if (stories != null && (stories.stories?.isNotEmpty ?? false)) {
-                  await context.push(
-                    RouteConstants.STORY_VIEWER,
-                    extra: {
-                      'isMyStory': true,
-                      'allStories': [stories],
-                      'initialUserIndex': 0,
-                      'onStoryDeleted': () {
-                        context.read<ProfileCubit>().refreshStories();
-                      },
-                    },
-                  );
-                }
-              }
-            }
-          },
-          onFollowersTap: () => context.push(
-            RouteConstants.FOLLOW,
-            extra: {
-              "listType": FollowListType.followers,
-              'username': state.user.username ?? '',
-            },
-          ),
-          onFollowingTap: () => context.push(
-            RouteConstants.FOLLOW,
-            extra: {
-              "listType": FollowListType.following,
-              'username': state.user.username ?? '',
-            },
-          ),
-        ),
+        _user(state, context),
+        SizedBox(height: context.height * 0.005),
         ProfileTabBarsWidget(tabController: _tabController),
         SizedBox(height: context.height * 0.01),
         ProfileTabViewsWidget(
@@ -174,6 +113,59 @@ class _ProfilePageState extends State<ProfilePage>
             child: const LoadingComponent(),
           ),
       ],
+    );
+  }
+
+  ProfileHeaderComponent _user(ProfileState state, BuildContext context) {
+    return ProfileHeaderComponent(
+      isCanEdit: true,
+      user: state.user,
+      tags: state.tags?.styleTags ?? [],
+      userStories: state.userStories,
+      onStoryTap: () async {
+        final stories = state.userStories;
+        if (stories != null && (stories.stories?.isNotEmpty ?? false)) {
+          await context.push(
+            RouteConstants.STORY_VIEWER,
+            extra: {
+              'isMyStory': true,
+              'allStories': [stories],
+              'initialUserIndex': 0,
+              'onStoryDeleted': () {
+                context.read<ProfileCubit>().refreshStories();
+              },
+            },
+          );
+          if (context.mounted) {
+            await context.read<ProfileCubit>().refreshStories();
+            if (context.mounted) {
+              context.read<ProfileCubit>().markOwnStoriesAsViewed();
+            }
+          }
+        }
+      },
+      onEditPhoto: () async {
+        await dialogCreateStory(context, uid: state.user.id ?? '');
+        if (context.mounted) {
+          await context.read<ProfileCubit>().refreshStories();
+          if (context.mounted) {
+            final stories = context.read<ProfileCubit>().state.userStories;
+            if (stories != null && (stories.stories?.isNotEmpty ?? false)) {
+              await context.push(
+                RouteConstants.STORY_VIEWER,
+                extra: {
+                  'isMyStory': true,
+                  'allStories': [stories],
+                  'initialUserIndex': 0,
+                  'onStoryDeleted': () {
+                    context.read<ProfileCubit>().refreshStories();
+                  },
+                },
+              );
+            }
+          }
+        }
+      },
     );
   }
 

@@ -20,7 +20,7 @@ class ProfileHeaderImageComponent extends StatelessWidget {
   final UserModel user;
   final List<String> tags;
   final VoidCallback onRefresh;
-  final VoidCallback? onPhotoChange;
+  final VoidCallback? onEditPhoto;
   final UserWithStoriesModel? userStories;
   final VoidCallback? onStoryTap;
 
@@ -30,7 +30,7 @@ class ProfileHeaderImageComponent extends StatelessWidget {
     required this.user,
     required this.tags,
     required this.onRefresh,
-    this.onPhotoChange,
+    this.onEditPhoto,
     this.userStories,
     this.onStoryTap,
   });
@@ -131,7 +131,7 @@ class ProfileHeaderImageComponent extends StatelessWidget {
       top: context.height * .085,
       right: context.width * .31,
       child: InkWell(
-        onTap: onPhotoChange,
+        onTap: onEditPhoto,
         customBorder: CircleBorder(),
         child: Container(
           height: context.height * .035,
