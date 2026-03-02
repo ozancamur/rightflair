@@ -27,11 +27,15 @@ class CreatePostCubit extends Cubit<CreatePostState> {
   final CreatePostRepository _repo;
   CreatePostCubit(this._repo) : super(const CreatePostState()) {
     _audioPlayer.onPlayerStateChanged.listen((state) {
-      emit(this.state.copyWith(isPlayingMusic: state == PlayerState.playing));
+      if (!isClosed) {
+        emit(this.state.copyWith(isPlayingMusic: state == PlayerState.playing));
+      }
     });
 
     _audioPlayer.onPlayerComplete.listen((_) {
-      emit(state.copyWith(isPlayingMusic: false));
+      if (!isClosed) {
+        emit(state.copyWith(isPlayingMusic: false));
+      }
     });
   }
 
@@ -42,6 +46,7 @@ class CreatePostCubit extends Cubit<CreatePostState> {
         state.originalImagePath!,
         isAnonymous: value,
       );
+      if (isClosed) return;
       if (response.isBlurred == false) {
         dialogError(
           context,
@@ -148,6 +153,7 @@ class CreatePostCubit extends Cubit<CreatePostState> {
       source: ImageSource.gallery,
       imageQuality: 85,
     );
+    if (isClosed) return;
     if (image != null) {
       try {
         emit(state.copyWith(isProcessingImage: true));
@@ -155,6 +161,7 @@ class CreatePostCubit extends Cubit<CreatePostState> {
           image.path,
           isAnonymous: state.isAnonymous,
         );
+        if (isClosed) return;
         emit(
           state.copyWith(
             imagePath: response.file.path,
@@ -185,6 +192,7 @@ class CreatePostCubit extends Cubit<CreatePostState> {
       path,
       isAnonymous: state.isAnonymous,
     );
+    if (isClosed) return;
     emit(
       state.copyWith(
         imagePath: response.file.path,
@@ -231,6 +239,7 @@ class CreatePostCubit extends Cubit<CreatePostState> {
       userId: uid,
       file: File(state.imagePath!),
     );
+    if (isClosed) return;
     if (postPhotoUrl == "" || postPhotoUrl == null) {
       dialogError(context, message: AppStrings.ERROR_DEFAULT);
       emit(state.copyWith(isLoading: false));
@@ -249,6 +258,7 @@ class CreatePostCubit extends Cubit<CreatePostState> {
       musicAudioUrl: state.selectedMusic?.url,
     );
     final response = await _repo.createPost(post: post);
+    if (isClosed) return;
     if (response == null || response.success != true) {
       dialogError(
         context,
@@ -279,6 +289,7 @@ class CreatePostCubit extends Cubit<CreatePostState> {
       userId: uid,
       file: File(state.imagePath!),
     );
+    if (isClosed) return;
     if (postPhotoUrl == "" || postPhotoUrl == null) {
       dialogError(context, message: AppStrings.ERROR_DEFAULT);
       emit(state.copyWith(isLoading: false));
@@ -297,6 +308,7 @@ class CreatePostCubit extends Cubit<CreatePostState> {
       musicAudioUrl: state.selectedMusic?.url,
     );
     final response = await _repo.createDraft(post: post);
+    if (isClosed) return;
     if (response == null || response.success != true) {
       dialogError(
         context,
@@ -313,6 +325,7 @@ class CreatePostCubit extends Cubit<CreatePostState> {
       if (url == null || url.isEmpty) return;
       await _audioPlayer.setReleaseMode(ReleaseMode.loop);
       await _audioPlayer.play(UrlSource(url));
+      if (isClosed) return;
       emit(state.copyWith(currentPlayingMusicUrl: url));
     }
   }
@@ -323,6 +336,7 @@ class CreatePostCubit extends Cubit<CreatePostState> {
 
   Future<void> stopMusic() async {
     await _audioPlayer.stop();
+    if (isClosed) return;
     emit(state.copyWith(isPlayingMusic: false));
   }
 
@@ -347,11 +361,13 @@ class CreatePostCubit extends Cubit<CreatePostState> {
 
     if (isSameTrack && !state.isPlayingMusic) {
       await _audioPlayer.resume();
+      if (isClosed) return;
       emit(state.copyWith(isPlayingMusic: true));
       return;
     }
 
     await _audioPlayer.play(UrlSource(url));
+    if (isClosed) return;
     emit(state.copyWith(currentPlayingMusicUrl: url, isPlayingMusic: true));
   }
 
@@ -489,6 +505,7 @@ class CreatePostCubit extends Cubit<CreatePostState> {
   /// Restore post state from cache
   Future<void> restorePendingPost() async {
     final data = await _cacheService.getPendingPost();
+    if (isClosed) return;
     if (data == null) return;
 
     MusicModel? music;

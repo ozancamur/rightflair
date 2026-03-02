@@ -27,11 +27,15 @@ class PostUpdateCubit extends Cubit<PostUpdateState> {
   final PostUpdateRepository _repo;
   PostUpdateCubit(this._repo) : super(const PostUpdateState()) {
     _audioPlayer.onPlayerStateChanged.listen((state) {
-      emit(this.state.copyWith(isPlayingMusic: state == PlayerState.playing));
+      if (!isClosed) {
+        emit(this.state.copyWith(isPlayingMusic: state == PlayerState.playing));
+      }
     });
 
     _audioPlayer.onPlayerComplete.listen((_) {
-      emit(state.copyWith(isPlayingMusic: false));
+      if (!isClosed) {
+        emit(state.copyWith(isPlayingMusic: false));
+      }
     });
   }
 
@@ -69,6 +73,7 @@ class PostUpdateCubit extends Cubit<PostUpdateState> {
         state.originalImagePath!,
         isAnonymous: value,
       );
+      if (isClosed) return;
       if (response.isBlurred == false) {
         dialogError(
           context,
@@ -180,6 +185,7 @@ class PostUpdateCubit extends Cubit<PostUpdateState> {
       source: ImageSource.gallery,
       imageQuality: 85,
     );
+    if (isClosed) return;
     if (image != null) {
       try {
         emit(state.copyWith(isProcessingImage: true));
@@ -187,6 +193,7 @@ class PostUpdateCubit extends Cubit<PostUpdateState> {
           image.path,
           isAnonymous: state.isAnonymous,
         );
+        if (isClosed) return;
         emit(
           state.copyWith(
             imagePath: response.file.path,
@@ -213,6 +220,7 @@ class PostUpdateCubit extends Cubit<PostUpdateState> {
       path,
       isAnonymous: state.isAnonymous,
     );
+    if (isClosed) return;
     emit(
       state.copyWith(
         imagePath: response.file.path,
@@ -291,6 +299,7 @@ class PostUpdateCubit extends Cubit<PostUpdateState> {
       postImageUrl = state.postImageUrl;
       if (state.imagePath != null) {
         final uploadedUrl = await _uploadImage();
+        if (isClosed) return;
         if (uploadedUrl != null) {
           postImageUrl = uploadedUrl;
         }
@@ -315,6 +324,7 @@ class PostUpdateCubit extends Cubit<PostUpdateState> {
     final response = state.isDraft
         ? await _repo.updateDraft(post: post)
         : await _repo.updatePublishedPost(post: post);
+    if (isClosed) return;
     emit(state.copyWith(isLoading: false));
 
     if (response == null || response.success != true) {
@@ -340,6 +350,7 @@ class PostUpdateCubit extends Cubit<PostUpdateState> {
       if (url == null || url.isEmpty) return;
       await _audioPlayer.setReleaseMode(ReleaseMode.loop);
       await _audioPlayer.play(UrlSource(url));
+      if (isClosed) return;
       emit(state.copyWith(currentPlayingMusicUrl: url));
     }
   }
@@ -350,6 +361,7 @@ class PostUpdateCubit extends Cubit<PostUpdateState> {
 
   Future<void> stopMusic() async {
     await _audioPlayer.stop();
+    if (isClosed) return;
     emit(state.copyWith(isPlayingMusic: false));
   }
 
@@ -374,11 +386,13 @@ class PostUpdateCubit extends Cubit<PostUpdateState> {
 
     if (isSameTrack && !state.isPlayingMusic) {
       await _audioPlayer.resume();
+      if (isClosed) return;
       emit(state.copyWith(isPlayingMusic: true));
       return;
     }
 
     await _audioPlayer.play(UrlSource(url));
+    if (isClosed) return;
     emit(state.copyWith(currentPlayingMusicUrl: url, isPlayingMusic: true));
   }
 

@@ -162,27 +162,36 @@ class _UpdateMusicBottomSheetState extends State<_UpdateMusicBottomSheet> {
   Widget build(BuildContext context) {
     final keyboardInset = MediaQuery.viewInsetsOf(context).bottom;
 
-    return SafeArea(
-      top: false,
-      child: Align(
-        alignment: Alignment.bottomCenter,
-        child: AnimatedContainer(
-          duration: const Duration(milliseconds: 220),
-          curve: Curves.easeOut,
-          margin: EdgeInsets.only(bottom: keyboardInset),
-          constraints: BoxConstraints(maxHeight: context.height * 0.5),
-          decoration: BoxDecoration(
-            color: context.colors.secondary,
-            borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
-          ),
-          child: Column(
-            children: [
-              _handle(context),
-              _title(context),
-              _search(context),
-              SizedBox(height: context.height * 0.02),
-              _list(context),
-            ],
+    return GestureDetector(
+      onTap: () => Navigator.pop(context),
+      behavior: HitTestBehavior.opaque,
+      child: GestureDetector(
+        onTap: () {},
+        child: SafeArea(
+          top: false,
+          child: Align(
+            alignment: Alignment.bottomCenter,
+            child: AnimatedContainer(
+              duration: const Duration(milliseconds: 220),
+              curve: Curves.easeOut,
+              margin: EdgeInsets.only(bottom: keyboardInset),
+              constraints: BoxConstraints(maxHeight: context.height * 0.5),
+              decoration: BoxDecoration(
+                color: context.colors.secondary,
+                borderRadius: const BorderRadius.vertical(
+                  top: Radius.circular(20),
+                ),
+              ),
+              child: Column(
+                children: [
+                  _handle(context),
+                  _title(context),
+                  _search(context),
+                  SizedBox(height: context.height * 0.02),
+                  _list(context),
+                ],
+              ),
+            ),
           ),
         ),
       ),
