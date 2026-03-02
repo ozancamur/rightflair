@@ -20,7 +20,7 @@ class IconButtonComponent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final double _size = size ?? context.height * .0475;
+    final double _size = size ?? context.height * .045;
 
     return value == null ? _icon(_size, context) : _value(context, _size);
   }
