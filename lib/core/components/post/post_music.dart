@@ -77,8 +77,8 @@ class _PostMusicComponentState extends State<PostMusicComponent> {
             left: context.width * .03,
             child: Container(
               padding: EdgeInsets.symmetric(
-                horizontal: context.width * .03,
-                vertical: context.width * .025,
+                horizontal: context.width * .025,
+                vertical: context.width * .015,
               ),
               decoration: BoxDecoration(
                 color: Colors.white.withOpacity(.12),
@@ -90,29 +90,22 @@ class _PostMusicComponentState extends State<PostMusicComponent> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 spacing: context.width * .02,
                 children: [
-                  if (_hasError)
-                    Icon(
-                      Icons.error_outline,
-                      color: Colors.redAccent,
-                      size: context.height * .02,
-                    ),
                   TextComponent(
-                    text: _hasError
-                        ? AppStrings.POST_MUSIC_ERROR.tr()
-                        : "${widget.musicTitle ?? AppStrings.POST_MUSIC_DEFAULT_SONG.tr()} • ${widget.musicArtist ?? AppStrings.POST_MUSIC_DEFAULT_ARTIST.tr()}",
-                    color: _hasError ? Colors.redAccent : Colors.white,
-                    size: FontSizeConstants.SMALL,
+                    text:
+                        "${widget.musicTitle ?? AppStrings.POST_MUSIC_DEFAULT_SONG.tr()} • ${widget.musicArtist ?? AppStrings.POST_MUSIC_DEFAULT_ARTIST.tr()}",
+                    color: Colors.white,
+                    size: FontSizeConstants.XX_SMALL,
                     tr: _hasError ? true : false,
                   ),
-                  if (!_hasError)
-                    GestureDetector(
-                      onTap: _toggleAudio,
-                      child: SvgPicture.asset(
-                        _isPlaying ? AppIcons.SOUND_ON : AppIcons.SOUND_OFF,
-                        color: Colors.white.withOpacity(.75),
-                        height: context.height * .0175,
-                      ),
+
+                  GestureDetector(
+                    onTap: _toggleAudio,
+                    child: SvgPicture.asset(
+                      _isPlaying ? AppIcons.SOUND_ON : AppIcons.SOUND_OFF,
+                      color: Colors.white.withOpacity(.75),
+                      height: context.height * .0175,
                     ),
+                  ),
                 ],
               ),
             ),
