@@ -152,7 +152,7 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
   Widget _nameField() {
     return ProfileEditTextFieldWidget(
       label: AppStrings.PROFILE_EDIT_NAME,
-      hintText: widget.user.fullName ?? "Rightflair User",
+      hintText: widget.user.fullName ?? "RightFlair User",
       controller: _nameController,
     );
   }

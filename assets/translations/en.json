@@ -35,14 +35,14 @@
         },
         "pageRegister": {
             "appbar": "Sign Up",
-            "title": "Rightflair",
+            "title": "RightFlair",
             "subtitle": "Create your account",
             "createAccount": "Create Account"
         },
         "pageChooseUsername": {
             "appbar": "Choose Username",
             "title": "Pick your username",
-            "subtitle": "This is how others will find you on Rightflair",
+            "subtitle": "This is how others will find you on RightFlair",
             "username": "Username",
             "unique": "Unique",
             "minLength": "At least 4 characters",
@@ -52,7 +52,7 @@
             "suggestions": "Suggestions:"
         },
         "pageLogin": {
-            "title": "Rightflair",
+            "title": "RightFlair",
             "subtitle": "Welcome back"
         },
         "pageForgotPassword": {
@@ -392,7 +392,7 @@
         "version": "version {}",
         "supportEmailSubject": "Support Request:",
         "shareUs": "Share Us",
-        "shareText": "Share the Rightflair App with your friends!",
+        "shareText": "Share the RightFlair App with your friends!",
         "rateUs": "Rate Us"
     },
     "notificationSettings": {
@@ -482,14 +482,14 @@
         "followBack": "Follow back",
         "follow": "Follow",
         "noResults": "No users found",
-        "shareText": "Join me on Rightflair! {url}"
+        "shareText": "Join me on RightFlair! {url}"
     },
     "continueEditing": {
         "title": "Continue editing this post?",
         "edit": "Edit"
     },
     "defaults": {
-        "rightflairUser": "Rightflair User",
+        "rightflairUser": "RightFlair User",
         "fallbackEmail": "rightflairuser@example.com"
     }
 }

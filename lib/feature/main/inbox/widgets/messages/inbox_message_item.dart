@@ -56,7 +56,7 @@ class InboxMessageItem extends StatelessWidget {
         spacing: context.height * 0.005,
         children: [
           MessageHeaderWidget(
-            senderName: conversation.participant?.fullName ?? "Rightflair User",
+            senderName: conversation.participant?.fullName ?? "RightFlair User",
             timestamp: conversation.lastMessage?.sentAt ?? DateTime.now(),
             isRead: conversation.lastMessage?.isRead ?? true,
           ),

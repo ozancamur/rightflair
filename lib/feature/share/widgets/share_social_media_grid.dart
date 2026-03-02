@@ -25,7 +25,7 @@ class ShareSocialMediaGridWidget extends StatelessWidget {
     return '$URL/profile/$userId';
   }
 
-  String get _shareText => 'Check this out on Rightflair! $_shareLink';
+  String get _shareText => 'Check this out on RightFlair! $_shareLink';
 
   @override
   Widget build(BuildContext context) {

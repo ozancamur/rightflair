@@ -21,7 +21,7 @@ class SuggestedAccountUserWidget extends StatelessWidget {
         spacing: context.height * 0.003,
         children: [
           TextComponent(
-            text: fullname ?? "Rightflair User",
+            text: fullname ?? "RightFlair User",
             size: FontSizeConstants.SMALL,
             weight: FontWeight.w600,
             tr: false,

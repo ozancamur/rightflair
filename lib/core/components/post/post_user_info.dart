@@ -62,7 +62,7 @@ class PostUserInfoComponent extends StatelessWidget {
 
   TextComponent _fullname() {
     return TextComponent(
-      text: user.fullName ?? "Rightflair User",
+      text: user.fullName ?? "RightFlair User",
       size: FontSizeConstants.SMALL,
       color: Colors.white,
       weight: FontWeight.w600,
