@@ -137,6 +137,7 @@ class _PostUpdateDescriptionState extends State<PostUpdateDescription> {
     _isProcessing = true;
     final result = await showDialog<MentionUserModel>(
       context: context,
+      barrierDismissible: true,
       builder: (dialogContext) => BlocProvider.value(
         value: context.read<PostUpdateCubit>(),
         child: const _PostUpdateMentionDialog(),

@@ -70,6 +70,8 @@ class SettingsAppWidget extends StatelessWidget {
     showModalBottomSheet(
       context: context,
       backgroundColor: context.colors.secondary,
+      isDismissible: true,
+      enableDrag: true,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),

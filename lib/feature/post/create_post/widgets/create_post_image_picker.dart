@@ -13,6 +13,7 @@ class CreatePostImageWidget extends StatelessWidget {
     showDialog(
       context: context,
       barrierColor: Colors.black87,
+      barrierDismissible: true,
       builder: (context) => Dialog(
         backgroundColor: Colors.transparent,
         insetPadding: EdgeInsets.zero,

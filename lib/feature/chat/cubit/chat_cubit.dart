@@ -42,6 +42,7 @@ class ChatCubit extends Cubit<ChatState> {
     );
 
     final response = await _repo.fetchMessages(request: request);
+    if (isClosed) return;
     if (response != null) {
       emit(
         state.copyWith(
@@ -74,6 +75,7 @@ class ChatCubit extends Cubit<ChatState> {
     );
 
     final response = await _repo.fetchMessages(request: request);
+    if (isClosed) return;
 
     if (response != null) {
       final updatedMessages = [...state.messages, ...?response.messages];
@@ -130,6 +132,7 @@ class ChatCubit extends Cubit<ChatState> {
     );
 
     final response = await _repo.sendMessage(request: request);
+    if (isClosed) return;
 
     if (response != null && response.message != null) {
       final updatedMessages = state.messages.map((msg) {
@@ -168,6 +171,7 @@ class ChatCubit extends Cubit<ChatState> {
     );
 
     final response = await _repo.sendMessage(request: request);
+    if (isClosed) return;
 
     if (response != null && response.message != null) {
       final newMessages = state.messages.map((msg) {

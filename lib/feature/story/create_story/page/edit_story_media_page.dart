@@ -173,6 +173,7 @@ class _EditStoryMediaPageState extends State<EditStoryMediaPage> {
   void _addText() {
     showDialog(
       context: context,
+      barrierDismissible: true,
       builder: (BuildContext dialogContext) {
         String text = '';
         Color textColor = AppColors.WHITE;
@@ -303,6 +304,8 @@ class _EditStoryMediaPageState extends State<EditStoryMediaPage> {
     showModalBottomSheet(
       context: context,
       backgroundColor: context.colors.surfaceContainerHighest,
+      isDismissible: true,
+      enableDrag: true,
       builder: (BuildContext ctx) {
         return Padding(
           padding: EdgeInsets.all(context.width * .05),

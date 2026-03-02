@@ -19,6 +19,8 @@ class StyleTagPickerBottomSheet extends StatefulWidget {
       context: context,
       isScrollControlled: true,
       backgroundColor: context.colors.secondary,
+      isDismissible: true,
+      enableDrag: true,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),

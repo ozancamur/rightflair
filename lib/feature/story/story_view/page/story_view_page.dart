@@ -362,6 +362,7 @@ class _StoryViewPageState extends State<StoryViewPage>
                   cubit.pauseStory();
                   showDialog(
                     context: context,
+                    barrierDismissible: true,
                     builder: (dialogContext) => AlertDialog(
                       title: Text(AppStrings.STORY_DELETE_TITLE.tr()),
                       content: Text(AppStrings.STORY_DELETE_MESSAGE.tr()),

@@ -47,6 +47,7 @@ class _CameraStoryPageState extends State<CameraStoryPage>
   bool _isFlashOn = false;
   int _selectedFilterIndex = 0;
   bool _showFilters = false;
+  bool _isSwitchingCamera = false;
 
   bool get _isVideoMode => _cameraMode == _StoryCameraMode.video;
 
@@ -145,8 +146,10 @@ class _CameraStoryPageState extends State<CameraStoryPage>
 
   Future<void> _switchCamera() async {
     if (_cameras == null || _cameras!.length < 2) return;
+    setState(() => _isSwitchingCamera = true);
     _selectedCameraIndex = (_selectedCameraIndex + 1) % _cameras!.length;
     await _setupCamera(_selectedCameraIndex);
+    if (mounted) setState(() => _isSwitchingCamera = false);
   }
 
   Future<void> _toggleFlash() async {
@@ -373,7 +376,10 @@ class _CameraStoryPageState extends State<CameraStoryPage>
 
   @override
   Widget build(BuildContext context) {
-    if (_cameraController == null || !_cameraController!.value.isInitialized) {
+    final bool cameraReady =
+        _cameraController != null && _cameraController!.value.isInitialized;
+
+    if (!cameraReady && !_isSwitchingCamera) {
       return BaseScaffold(
         body: Center(
           child: CircularProgressIndicator(color: context.colors.onSurface),
@@ -388,18 +394,20 @@ class _CameraStoryPageState extends State<CameraStoryPage>
           Positioned.fill(
             child: GestureDetector(
               onDoubleTap: _switchCamera,
-              child: _applyFilter(
-                ClipRect(
-                  child: FittedBox(
-                    fit: BoxFit.cover,
-                    child: SizedBox(
-                      width: _cameraController!.value.previewSize!.height,
-                      height: _cameraController!.value.previewSize!.width,
-                      child: CameraPreview(_cameraController!),
-                    ),
-                  ),
-                ),
-              ),
+              child: cameraReady
+                  ? _applyFilter(
+                      ClipRect(
+                        child: FittedBox(
+                          fit: BoxFit.cover,
+                          child: SizedBox(
+                            width: _cameraController!.value.previewSize!.height,
+                            height: _cameraController!.value.previewSize!.width,
+                            child: CameraPreview(_cameraController!),
+                          ),
+                        ),
+                      ),
+                    )
+                  : Container(color: Colors.black),
             ),
           ),
           _buildTopBar(),

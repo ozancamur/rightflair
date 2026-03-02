@@ -25,6 +25,8 @@ Future<ImagePickerOption?> dialogPickImage(BuildContext context) async {
   return showModalBottomSheet<ImagePickerOption>(
     context: context,
     backgroundColor: context.colors.secondary,
+    isDismissible: true,
+    enableDrag: true,
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.vertical(
         top: Radius.circular(context.width * 0.05),

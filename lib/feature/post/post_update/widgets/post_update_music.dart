@@ -101,6 +101,8 @@ class PostUpdateMusicWidget extends StatelessWidget {
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
+      isDismissible: true,
+      enableDrag: true,
       builder: (bottomSheetContext) {
         return BlocProvider.value(
           value: cubit,

@@ -140,8 +140,10 @@ class _CameraPageState extends State<CameraPage> with WidgetsBindingObserver {
   Future<void> _flipCamera() async {
     if (_cameras == null || _cameras!.length < 2) return;
     _currentCameraIndex = (_currentCameraIndex + 1) % _cameras!.length;
-    await _controller?.dispose();
-    setState(() => _isInitialized = false);
+    final oldController = _controller;
+    _controller = null;
+    setState(() {});
+    await oldController?.dispose();
     await _initializeCamera();
   }
 
@@ -274,6 +276,8 @@ class _CameraPageState extends State<CameraPage> with WidgetsBindingObserver {
       context: context,
       isScrollControlled: true,
       backgroundColor: AppColors.TRANSPARENT,
+      isDismissible: true,
+      enableDrag: true,
       builder: (_) => const AddMusicBottomSheet(),
     );
     if (music != null && mounted) {

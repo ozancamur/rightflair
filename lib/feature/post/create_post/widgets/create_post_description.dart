@@ -157,6 +157,7 @@ class _CreatePostDescriptionState extends State<CreatePostDescription> {
     _isProcessing = true;
     final result = await showDialog<MentionUserModel>(
       context: context,
+      barrierDismissible: true,
       builder: (context) => BlocProvider.value(
         value: context.read<CreatePostCubit>(),
         child: const MentionUserDialog(),
