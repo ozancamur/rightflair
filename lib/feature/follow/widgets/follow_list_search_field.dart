@@ -22,7 +22,6 @@ class FollowListSearchField extends StatelessWidget {
       decoration: InputDecoration(
         contentPadding: EdgeInsets.symmetric(
           horizontal: context.width * 0.04,
-          vertical: context.height * 0.015,
         ),
         filled: true,
         fillColor: context.colors.shadow,
