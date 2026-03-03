@@ -69,6 +69,7 @@ class ProfileHeaderComponent extends StatelessWidget {
         ],
         ProfileHeaderBioComponent(text: user.bio),
         ProfileHeaderTagsComponent(tags: tags),
+        SizedBox(height: context.height * .0075),
       ],
     );
   }
