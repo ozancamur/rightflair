@@ -59,6 +59,7 @@ class _AddMusicBottomSheetState extends State<AddMusicBottomSheet> {
         onTap: () {},
         child: SafeArea(
           top: false,
+          bottom: false,
           child: Align(
             alignment: Alignment.bottomCenter,
             child: AnimatedContainer(
