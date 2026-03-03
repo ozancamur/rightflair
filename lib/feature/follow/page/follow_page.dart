@@ -107,6 +107,7 @@ class _FollowPageState extends State<FollowPage>
     return BlocBuilder<FollowCubit, FollowState>(
       builder: (context, state) {
         return BaseScaffold(
+          canPop: true,
           appBar: AppBarComponent(
             leading: BackButtonComponent(),
             title: TextComponent(text: widget.username),
