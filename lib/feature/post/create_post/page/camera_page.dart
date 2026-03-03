@@ -49,6 +49,10 @@ class _CameraPageState extends State<CameraPage> with WidgetsBindingObserver {
   Uint8List? _latestGalleryImage;
   late final CreatePostCubit _createPostCubit;
   final GlobalKey _backButtonKey = GlobalKey();
+  double _currentZoomLevel = 1.0;
+  double _minZoomLevel = 1.0;
+  double _maxZoomLevel = 1.0;
+  double _baseZoomLevel = 1.0;
 
   // ---------------------------------------------------------------------------
   // Lifecycle
@@ -104,6 +108,10 @@ class _CameraPageState extends State<CameraPage> with WidgetsBindingObserver {
       await _controller!.initialize();
       await _controller!.lockCaptureOrientation(DeviceOrientation.portraitUp);
       await _controller!.setFlashMode(FlashMode.off);
+
+      _minZoomLevel = await _controller!.getMinZoomLevel();
+      _maxZoomLevel = await _controller!.getMaxZoomLevel();
+      _currentZoomLevel = _minZoomLevel;
 
       if (mounted) setState(() => _isInitialized = true);
     } catch (e) {
@@ -185,6 +193,21 @@ class _CameraPageState extends State<CameraPage> with WidgetsBindingObserver {
   }
 
   void _retake() => setState(() => _capturedImagePath = null);
+
+  void _onScaleStart(ScaleStartDetails details) {
+    _baseZoomLevel = _currentZoomLevel;
+  }
+
+  Future<void> _onScaleUpdate(ScaleUpdateDetails details) async {
+    if (_controller == null || !_controller!.value.isInitialized) return;
+    final newZoom = (_baseZoomLevel * details.scale).clamp(
+      _minZoomLevel,
+      _maxZoomLevel,
+    );
+    if (newZoom == _currentZoomLevel) return;
+    _currentZoomLevel = newZoom;
+    await _controller!.setZoomLevel(_currentZoomLevel);
+  }
 
   void _toggleFilterVisibility() {
     setState(() {
@@ -460,6 +483,8 @@ class _CameraPageState extends State<CameraPage> with WidgetsBindingObserver {
             Positioned.fill(
               child: GestureDetector(
                 onDoubleTap: _flipCamera,
+                onScaleStart: _onScaleStart,
+                onScaleUpdate: _onScaleUpdate,
                 child: _applyFilter(
                   ClipRect(
                     child: FittedBox(

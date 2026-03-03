@@ -48,6 +48,10 @@ class _CameraStoryPageState extends State<CameraStoryPage>
   int _selectedFilterIndex = 0;
   bool _showFilters = false;
   bool _isSwitchingCamera = false;
+  double _currentZoomLevel = 1.0;
+  double _minZoomLevel = 1.0;
+  double _maxZoomLevel = 1.0;
+  double _baseZoomLevel = 1.0;
 
   bool get _isVideoMode => _cameraMode == _StoryCameraMode.video;
 
@@ -114,6 +118,11 @@ class _CameraStoryPageState extends State<CameraStoryPage>
         DeviceOrientation.portraitUp,
       );
       await _cameraController!.setFlashMode(FlashMode.off);
+
+      _minZoomLevel = await _cameraController!.getMinZoomLevel();
+      _maxZoomLevel = await _cameraController!.getMaxZoomLevel();
+      _currentZoomLevel = _minZoomLevel;
+
       if (mounted) setState(() {});
     } catch (e) {
       debugPrint('Error setting up camera: $e');
@@ -143,6 +152,23 @@ class _CameraStoryPageState extends State<CameraStoryPage>
   }
 
   // ======================== CAMERA ACTIONS ========================
+
+  void _onScaleStart(ScaleStartDetails details) {
+    _baseZoomLevel = _currentZoomLevel;
+  }
+
+  Future<void> _onScaleUpdate(ScaleUpdateDetails details) async {
+    if (_cameraController == null || !_cameraController!.value.isInitialized) {
+      return;
+    }
+    final newZoom = (_baseZoomLevel * details.scale).clamp(
+      _minZoomLevel,
+      _maxZoomLevel,
+    );
+    if (newZoom == _currentZoomLevel) return;
+    _currentZoomLevel = newZoom;
+    await _cameraController!.setZoomLevel(_currentZoomLevel);
+  }
 
   Future<void> _switchCamera() async {
     if (_cameras == null || _cameras!.length < 2) return;
@@ -394,6 +420,8 @@ class _CameraStoryPageState extends State<CameraStoryPage>
           Positioned.fill(
             child: GestureDetector(
               onDoubleTap: _switchCamera,
+              onScaleStart: _onScaleStart,
+              onScaleUpdate: _onScaleUpdate,
               child: cameraReady
                   ? _applyFilter(
                       ClipRect(
