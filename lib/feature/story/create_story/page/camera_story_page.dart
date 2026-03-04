@@ -104,26 +104,34 @@ class _CameraStoryPageState extends State<CameraStoryPage>
 
   Future<void> _setupCamera(int cameraIndex) async {
     if (_cameras == null || _cameras!.isEmpty) return;
-    await _cameraController?.dispose();
+
+    final oldController = _cameraController;
+    _cameraController = null;
+    setState(() {});
+    await oldController?.dispose();
+
     final camera = _cameras![cameraIndex];
-    _cameraController = CameraController(
+    final newController = CameraController(
       camera,
       ResolutionPreset.high,
       enableAudio: true,
       imageFormatGroup: ImageFormatGroup.jpeg,
     );
     try {
-      await _cameraController!.initialize();
-      await _cameraController!.lockCaptureOrientation(
-        DeviceOrientation.portraitUp,
-      );
-      await _cameraController!.setFlashMode(FlashMode.off);
+      await newController.initialize();
+      await newController.lockCaptureOrientation(DeviceOrientation.portraitUp);
+      await newController.setFlashMode(FlashMode.off);
 
-      _minZoomLevel = await _cameraController!.getMinZoomLevel();
-      _maxZoomLevel = await _cameraController!.getMaxZoomLevel();
+      _minZoomLevel = await newController.getMinZoomLevel();
+      _maxZoomLevel = await newController.getMaxZoomLevel();
       _currentZoomLevel = _minZoomLevel;
 
-      if (mounted) setState(() {});
+      if (mounted) {
+        _cameraController = newController;
+        setState(() {});
+      } else {
+        newController.dispose();
+      }
     } catch (e) {
       debugPrint('Error setting up camera: $e');
     }
@@ -172,7 +180,7 @@ class _CameraStoryPageState extends State<CameraStoryPage>
 
   Future<void> _switchCamera() async {
     if (_cameras == null || _cameras!.length < 2) return;
-    setState(() => _isSwitchingCamera = true);
+    _isSwitchingCamera = true;
     _selectedCameraIndex = (_selectedCameraIndex + 1) % _cameras!.length;
     await _setupCamera(_selectedCameraIndex);
     if (mounted) setState(() => _isSwitchingCamera = false);
