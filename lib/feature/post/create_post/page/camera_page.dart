@@ -53,6 +53,7 @@ class _CameraPageState extends State<CameraPage> with WidgetsBindingObserver {
   double _minZoomLevel = 1.0;
   double _maxZoomLevel = 1.0;
   double _baseZoomLevel = 1.0;
+  bool _isFlipping = false;
 
   // ---------------------------------------------------------------------------
   // Lifecycle
@@ -112,6 +113,8 @@ class _CameraPageState extends State<CameraPage> with WidgetsBindingObserver {
       _minZoomLevel = await _controller!.getMinZoomLevel();
       _maxZoomLevel = await _controller!.getMaxZoomLevel();
       _currentZoomLevel = _minZoomLevel;
+      _baseZoomLevel = _minZoomLevel;
+      await _controller!.setZoomLevel(_currentZoomLevel);
 
       if (mounted) setState(() => _isInitialized = true);
     } catch (e) {
@@ -146,13 +149,16 @@ class _CameraPageState extends State<CameraPage> with WidgetsBindingObserver {
   }
 
   Future<void> _flipCamera() async {
+    if (_isFlipping) return;
     if (_cameras == null || _cameras!.length < 2) return;
+    _isFlipping = true;
     _currentCameraIndex = (_currentCameraIndex + 1) % _cameras!.length;
     final oldController = _controller;
     _controller = null;
     setState(() {});
     await oldController?.dispose();
     await _initializeCamera();
+    _isFlipping = false;
   }
 
   Future<void> _takePicture() async {
