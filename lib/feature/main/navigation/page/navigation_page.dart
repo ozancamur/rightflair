@@ -17,11 +17,19 @@ class NavigationPage extends StatefulWidget {
 
 class _NavigationPageState extends State<NavigationPage> {
   bool _hasCheckedPendingPost = false;
+  late final PageController _pageController;
 
   @override
   void initState() {
     super.initState();
+    _pageController = PageController();
     context.read<NavigationCubit>().reset();
+  }
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
   }
 
   @override
@@ -93,13 +101,19 @@ class _NavigationPageState extends State<NavigationPage> {
 
   @override
   Widget build(BuildContext context) {
-    final cubit = context.read<NavigationCubit>();
-    return BlocBuilder<NavigationCubit, NavigationState>(
+    return BlocConsumer<NavigationCubit, NavigationState>(
+      listenWhen: (previous, current) =>
+          previous.currentIndex != current.currentIndex,
+      listener: (context, state) {
+        if (_pageController.hasClients) {
+          _pageController.jumpToPage(state.currentIndex);
+        }
+      },
       buildWhen: (previous, current) =>
           previous.currentIndex != current.currentIndex,
       builder: (context, state) {
         return BaseScaffold(
-          body: _body(context, state, cubit.controller),
+          body: _body(context, state, _pageController),
           navigation: NavigationBottomBar(currentIndex: state.currentIndex),
         );
       },
