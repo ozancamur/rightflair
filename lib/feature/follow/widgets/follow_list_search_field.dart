@@ -20,8 +20,11 @@ class FollowListSearchField extends StatelessWidget {
         fontWeight: FontWeight.w500,
       ),
       decoration: InputDecoration(
+        isDense: true,
+        constraints: BoxConstraints(maxHeight: context.height * 0.05),
         contentPadding: EdgeInsets.symmetric(
           horizontal: context.width * 0.04,
+          vertical: context.height * 0.01,
         ),
         filled: true,
         fillColor: context.colors.shadow,
@@ -45,7 +48,7 @@ class FollowListSearchField extends StatelessWidget {
             ),
           ),
         ),
-        prefixIconConstraints: BoxConstraints(maxHeight: context.height * 0.05),
+        prefixIconConstraints: BoxConstraints(maxHeight: context.height * 0.04),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(context.width * 0.03),
           borderSide: BorderSide.none,
