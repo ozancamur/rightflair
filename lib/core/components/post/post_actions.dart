@@ -46,7 +46,11 @@ class PostActionsComponent extends StatelessWidget {
           PostIconButtonWidget(
             onTap: () {
               onSave();
-              if (!isSaved) _showSavedSnackBar(context);
+              if (!isSaved) {
+                _showSavedSnackBar(context);
+              } else {
+                ScaffoldMessenger.of(context).hideCurrentSnackBar();
+              }
             },
             icon: AppIcons.SAVE_FILLED,
             value: saved,
