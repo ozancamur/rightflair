@@ -458,7 +458,10 @@ class AppStrings {
   static const String SETTINGS_TERMS_OF_SERVICE = 'settings.termsOfService';
   static const String SETTINGS_PRIVACY_POLICY = 'settings.privacyPolicy';
   static const String SETTINGS_LOG_OUT = 'settings.logOut';
+  static const String SETTINGS_LOG_OUT_CONFIRM = 'settings.logOutConfirm';
   static const String SETTINGS_DEACTIVE_ACCOUNT = 'settings.deactiveAccount';
+  static const String SETTINGS_DEACTIVE_ACCOUNT_CONFIRM =
+      'settings.deactiveAccountConfirm';
   static const String SETTINGS_VERSION = 'settings.version';
 
   static const String SETTINGS_SUPPORT_EMAIL_SUBJECT =

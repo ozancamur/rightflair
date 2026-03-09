@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rightflair/feature/settings/cubit/settings_cubit.dart';
 
 import '../../../core/constants/string.dart';
+import '../../../core/dialogs/confirmation.dart';
 import '../../../core/extensions/context.dart';
 import 'settings_button_widget.dart';
 
@@ -19,7 +20,12 @@ class SettingsButtonsWidget extends StatelessWidget {
       icon: Icons.logout,
       title: AppStrings.SETTINGS_LOG_OUT,
       textColor: context.colors.primary,
-      onTap: () => context.read<SettingsCubit>().logOut(context),
+      onTap: () => dialogConfirmation(
+        context,
+        actionTitle: AppStrings.SETTINGS_LOG_OUT,
+        confirmMessage: AppStrings.SETTINGS_LOG_OUT_CONFIRM,
+        onConfirm: () => context.read<SettingsCubit>().logOut(context),
+      ),
     );
   }
 
@@ -27,7 +33,12 @@ class SettingsButtonsWidget extends StatelessWidget {
     return SettingsButtonWidget(
       title: AppStrings.SETTINGS_DEACTIVE_ACCOUNT,
       textColor: context.colors.tertiary,
-      onTap: () => context.read<SettingsCubit>().deactivateAccount(),
+      onTap: () => dialogConfirmation(
+        context,
+        actionTitle: AppStrings.SETTINGS_DEACTIVE_ACCOUNT,
+        confirmMessage: AppStrings.SETTINGS_DEACTIVE_ACCOUNT_CONFIRM,
+        onConfirm: () => context.read<SettingsCubit>().deactivateAccount(),
+      ),
     );
   }
 }
