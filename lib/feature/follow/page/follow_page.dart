@@ -123,10 +123,6 @@ class _FollowPageState extends State<FollowPage>
             ),
             child: Column(
               children: [
-                Container(
-                  height: context.height * 0.001,
-                  color: context.colors.primaryFixedDim,
-                ),
                 _buildTabBar(context),
                 Expanded(
                   child: TabBarView(
