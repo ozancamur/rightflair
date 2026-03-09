@@ -628,7 +628,6 @@ class _CameraPageState extends State<CameraPage> with WidgetsBindingObserver {
             ),
           ),
           _buildPreviewTopBar(),
-          _buildPreviewRightToolbar(),
           _buildPreviewBottom(),
         ],
       ),
@@ -659,30 +658,6 @@ class _CameraPageState extends State<CameraPage> with WidgetsBindingObserver {
               SizedBox(width: context.width * .1),
             ],
           ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildPreviewRightToolbar() {
-    return Positioned(
-      right: context.width * .035,
-      top: 0,
-      bottom: 0,
-      child: SafeArea(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const SideToolbarIcon(icon: Icons.text_fields),
-            SizedBox(height: context.height * .026),
-            const SideToolbarIcon(icon: Icons.brush_outlined),
-            SizedBox(height: context.height * .026),
-            SideToolbarIcon(
-              icon: Icons.auto_awesome,
-              onTap: _toggleFilterVisibility,
-              hasBadge: _showFilters,
-            ),
-          ],
         ),
       ),
     );

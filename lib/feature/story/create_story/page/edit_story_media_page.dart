@@ -19,7 +19,6 @@ import '../model/story_filter.dart';
 import '../widgets/story_action_buttons.dart';
 import '../widgets/story_circle_icon_button.dart';
 import '../widgets/story_filter_list.dart';
-import '../widgets/story_side_toolbar_icon.dart';
 import '../widgets/story_trash_bin.dart';
 
 class EditStoryMediaPage extends StatefulWidget {
@@ -116,17 +115,6 @@ class _EditStoryMediaPageState extends State<EditStoryMediaPage> {
     return trashRect.contains(overlayPosition);
   }
 
-  void _toggleFilterVisibility() {
-    setState(() {
-      if (_showFilters) {
-        _showFilters = false;
-        _selectedFilterIndex = 0;
-      } else {
-        _showFilters = true;
-      }
-    });
-  }
-
   Widget _applyFilter(Widget child) {
     final filter = StoryFilter.filters[_selectedFilterIndex];
     if (filter.colorMatrix == null) return child;
@@ -168,201 +156,6 @@ class _EditStoryMediaPageState extends State<EditStoryMediaPage> {
     );
     await filteredFile.writeAsBytes(pngBytes.buffer.asUint8List());
     return filteredFile;
-  }
-
-  void _addText() {
-    showDialog(
-      context: context,
-      barrierDismissible: true,
-      builder: (BuildContext dialogContext) {
-        String text = '';
-        Color textColor = AppColors.WHITE;
-
-        return StatefulBuilder(
-          builder: (ctx, setDialogState) {
-            return Dialog(
-              backgroundColor: context.colors.surfaceContainerHighest,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(context.width * .03),
-              ),
-              child: Padding(
-                padding: EdgeInsets.all(context.width * .05),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    TextComponent(
-                      text: AppStrings.PROFILE_EDIT_STORY_ADD_TEXT,
-                      size: const [16],
-                      color: AppColors.WHITE,
-                      weight: FontWeight.bold,
-                    ),
-                    SizedBox(height: context.height * .019),
-                    TextField(
-                      autofocus: true,
-                      style: const TextStyle(color: AppColors.WHITE),
-                      decoration: InputDecoration(
-                        hintText: AppStrings
-                            .PROFILE_EDIT_STORY_WRITE_TEXT_PLACEHOLDER
-                            .tr(),
-                        hintStyle: TextStyle(color: AppColors.WHITE_50),
-                        enabledBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: AppColors.WHITE_54),
-                        ),
-                        focusedBorder: const UnderlineInputBorder(
-                          borderSide: BorderSide(color: AppColors.WHITE),
-                        ),
-                      ),
-                      onChanged: (value) => text = value,
-                    ),
-                    SizedBox(height: context.height * .019),
-                    Wrap(
-                      spacing: context.width * .02,
-                      runSpacing: context.width * .02,
-                      children:
-                          [
-                            Colors.white,
-                            Colors.black,
-                            Colors.red,
-                            Colors.blue,
-                            Colors.green,
-                            Colors.yellow,
-                            Colors.purple,
-                            Colors.orange,
-                          ].map((color) {
-                            return GestureDetector(
-                              onTap: () =>
-                                  setDialogState(() => textColor = color),
-                              child: Container(
-                                width: context.width * .09,
-                                height: context.width * .09,
-                                decoration: BoxDecoration(
-                                  color: color,
-                                  shape: BoxShape.circle,
-                                  border: Border.all(
-                                    color: textColor == color
-                                        ? AppColors.WHITE
-                                        : AppColors.TRANSPARENT,
-                                    width: 2.5,
-                                  ),
-                                ),
-                              ),
-                            );
-                          }).toList(),
-                    ),
-                    SizedBox(height: context.height * .019),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        TextButton(
-                          onPressed: () => Navigator.pop(dialogContext),
-                          child: TextComponent(
-                            text: AppStrings.DIALOG_CANCEL,
-                            size: const [14],
-                            color: AppColors.WHITE.withOpacity(0.7),
-                          ),
-                        ),
-                        SizedBox(width: context.width * .02),
-                        TextButton(
-                          onPressed: () {
-                            if (text.isNotEmpty) {
-                              setState(() {
-                                _textOverlays.add(
-                                  TextOverlay(
-                                    text: text,
-                                    color: textColor,
-                                    position: Offset(
-                                      context.width / 2,
-                                      context.height / 2,
-                                    ),
-                                  ),
-                                );
-                              });
-                            }
-                            Navigator.pop(dialogContext);
-                          },
-                          child: TextComponent(
-                            text: AppStrings.PROFILE_EDIT_ADD_NEW,
-                            size: const [14],
-                            color: AppColors.WHITE,
-                            weight: FontWeight.bold,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            );
-          },
-        );
-      },
-    );
-  }
-
-  void _showColorPicker() {
-    showModalBottomSheet(
-      context: context,
-      backgroundColor: context.colors.surfaceContainerHighest,
-      isDismissible: true,
-      enableDrag: true,
-      builder: (BuildContext ctx) {
-        return Padding(
-          padding: EdgeInsets.all(context.width * .05),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              TextComponent(
-                text: AppStrings.PROFILE_EDIT_STORY_SELECT_COLOR,
-                size: const [16],
-                color: AppColors.WHITE,
-                weight: FontWeight.bold,
-              ),
-              SizedBox(height: context.height * .019),
-              Wrap(
-                spacing: context.width * .03,
-                runSpacing: context.width * .03,
-                children:
-                    [
-                      Colors.white,
-                      Colors.black,
-                      Colors.red,
-                      Colors.blue,
-                      Colors.green,
-                      Colors.yellow,
-                      Colors.purple,
-                      Colors.orange,
-                      Colors.pink,
-                      Colors.teal,
-                    ].map((color) {
-                      return GestureDetector(
-                        onTap: () {
-                          setState(() => _selectedColor = color);
-                          Navigator.pop(ctx);
-                        },
-                        child: Container(
-                          width: context.width * .11,
-                          height: context.width * .11,
-                          decoration: BoxDecoration(
-                            color: color,
-                            shape: BoxShape.circle,
-                            border: Border.all(
-                              color: _selectedColor == color
-                                  ? AppColors.WHITE
-                                  : AppColors.TRANSPARENT,
-                              width: 2.5,
-                            ),
-                          ),
-                        ),
-                      );
-                    }).toList(),
-              ),
-              SizedBox(height: context.height * .019),
-            ],
-          ),
-        );
-      },
-    );
   }
 
   Future<File?> _createCompositeImage() async {
@@ -450,7 +243,6 @@ class _EditStoryMediaPageState extends State<EditStoryMediaPage> {
             ..._buildDraggableTextOverlays(),
             if (_isDraggingText) _buildTrashBin(),
             _buildTopBar(),
-            _buildRightToolbar(),
             _buildBottom(),
           ],
         ),
@@ -649,58 +441,6 @@ class _EditStoryMediaPageState extends State<EditStoryMediaPage> {
               SizedBox(width: context.width * .1),
             ],
           ),
-        ),
-      ),
-    );
-  }
-
-  // ======================== RIGHT TOOLBAR ========================
-
-  Widget _buildRightToolbar() {
-    return Positioned(
-      right: context.width * .035,
-      top: 0,
-      bottom: 0,
-      child: SafeArea(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            StorySideToolbarIcon(icon: Icons.text_fields, onTap: _addText),
-            SizedBox(height: context.height * .026),
-            StorySideToolbarIcon(
-              icon: Icons.brush_outlined,
-              onTap: () => setState(() => _isDrawing = !_isDrawing),
-              hasBadge: _isDrawing,
-            ),
-            SizedBox(height: context.height * .026),
-            if (_isDrawing) ...[
-              GestureDetector(
-                onTap: _showColorPicker,
-                child: Container(
-                  width: context.width * .07,
-                  height: context.width * .07,
-                  decoration: BoxDecoration(
-                    color: _selectedColor,
-                    shape: BoxShape.circle,
-                    border: Border.all(color: AppColors.WHITE, width: 2),
-                  ),
-                ),
-              ),
-              SizedBox(height: context.height * .026),
-            ],
-            if (_drawingPoints.isNotEmpty) ...[
-              StorySideToolbarIcon(
-                icon: Icons.delete_outline,
-                onTap: () => setState(() => _drawingPoints.clear()),
-              ),
-              SizedBox(height: context.height * .026),
-            ],
-            StorySideToolbarIcon(
-              icon: Icons.auto_awesome,
-              onTap: _toggleFilterVisibility,
-              hasBadge: _showFilters,
-            ),
-          ],
         ),
       ),
     );
