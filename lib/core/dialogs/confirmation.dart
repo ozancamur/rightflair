@@ -72,8 +72,8 @@ void dialogConfirmation(
               child: ElevatedButton(
                 onPressed: () => Navigator.pop(context),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: context.colors.primary,
-                  foregroundColor: context.colors.secondary,
+                  backgroundColor: context.colors.secondary,
+                  foregroundColor: context.colors.error,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
                   ),
@@ -83,7 +83,7 @@ void dialogConfirmation(
                 ),
                 child: TextComponent(
                   text: AppStrings.DIALOG_CANCEL,
-                  color: context.colors.secondary,
+                  color: context.colors.primary,
                   weight: FontWeight.w600,
                   size: [context.width * 0.04],
                 ),
