@@ -152,7 +152,21 @@ class _CameraPageState extends State<CameraPage> with WidgetsBindingObserver {
     if (_isFlipping) return;
     if (_cameras == null || _cameras!.length < 2) return;
     _isFlipping = true;
-    _currentCameraIndex = (_currentCameraIndex + 1) % _cameras!.length;
+
+    // Determine the target lens direction (toggle between front and back).
+    final currentDirection = _cameras![_currentCameraIndex].lensDirection;
+    final targetDirection = currentDirection == CameraLensDirection.back
+        ? CameraLensDirection.front
+        : CameraLensDirection.back;
+
+    // Find the first camera matching the target direction.
+    final targetIndex = _cameras!.indexWhere(
+      (c) => c.lensDirection == targetDirection,
+    );
+    if (targetIndex != -1) {
+      _currentCameraIndex = targetIndex;
+    }
+
     final oldController = _controller;
     _controller = null;
     setState(() {});
