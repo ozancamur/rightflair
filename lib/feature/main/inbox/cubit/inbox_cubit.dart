@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rightflair/feature/main/inbox/model/conversation.dart';
 import 'package:rightflair/feature/main/inbox/model/last_message.dart';
+import 'package:rightflair/feature/main/inbox/model/message_request.dart';
 import 'package:rightflair/feature/main/inbox/model/notification.dart';
 import 'package:rightflair/feature/main/inbox/model/stream_message.dart';
 import 'package:rightflair/feature/main/inbox/repository/inbox_repository_impl.dart';
@@ -186,6 +187,86 @@ class InboxCubit extends Cubit<InboxState> {
         'otherUserId': conversation.participant?.id ?? '',
       },
     );
+  }
+
+  // ─── Message Requests ─────────────────────────────────────
+
+  Future<void> initMessageRequests() async {
+    emit(state.copyWith(isMessageRequestsLoading: true));
+    final result = await _repo.getMessageRequests(page: 1, limit: 20);
+    emit(
+      state.copyWith(
+        isMessageRequestsLoading: false,
+        messageRequests: result?.requests ?? [],
+        messageRequestsPagination: result?.pagination,
+      ),
+    );
+  }
+
+  Future<void> refreshMessageRequests() async {
+    final result = await _repo.getMessageRequests(page: 1, limit: 20);
+    emit(
+      state.copyWith(
+        messageRequests: result?.requests ?? [],
+        messageRequestsPagination: result?.pagination,
+      ),
+    );
+  }
+
+  Future<void> loadMoreMessageRequests() async {
+    if (state.isLoadingMoreMessageRequests ||
+        state.messageRequestsPagination?.hasNext != true) {
+      return;
+    }
+
+    emit(state.copyWith(isLoadingMoreMessageRequests: true));
+
+    final nextPage = (state.messageRequestsPagination?.page ?? 1) + 1;
+    final result = await _repo.getMessageRequests(page: nextPage, limit: 20);
+
+    if (result != null) {
+      final updated = <MessageRequestModel>[
+        ...state.messageRequests ?? [],
+        ...result.requests ?? [],
+      ];
+      emit(
+        state.copyWith(
+          isLoadingMoreMessageRequests: false,
+          messageRequests: updated,
+          messageRequestsPagination: result.pagination,
+        ),
+      );
+    } else {
+      emit(state.copyWith(isLoadingMoreMessageRequests: false));
+    }
+  }
+
+  Future<void> acceptMessageRequest({
+    required String conversationId,
+    required BuildContext context,
+  }) async {
+    final success = await _repo.acceptMessageRequest(
+      conversationId: conversationId,
+    );
+    if (success) {
+      final updated = state.messageRequests
+          ?.where((r) => r.conversationId != conversationId)
+          .toList();
+      emit(state.copyWith(messageRequests: updated));
+      await refreshConversations();
+    }
+  }
+
+  Future<void> declineMessageRequest({required String conversationId}) async {
+    final success = await _repo.declineMessageRequest(
+      conversationId: conversationId,
+    );
+    if (success) {
+      final updated = state.messageRequests
+          ?.where((r) => r.conversationId != conversationId)
+          .toList();
+      emit(state.copyWith(messageRequests: updated));
+    }
   }
 
   void _seenLastMessage({required String cId}) {

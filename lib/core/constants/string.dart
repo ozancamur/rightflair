@@ -193,6 +193,9 @@ class AppStrings {
   static const String INBOX_IMAGE_SHARED = 'inbox.imageShared';
   static const String INBOX_TODAYS_ACTIVITY = 'inbox.todaysActivity';
   static const String INBOX_KEEP_POSTING = 'inbox.keepPosting';
+  static const String INBOX_MESSAGE_REQUESTS = 'inbox.messageRequests';
+  static const String INBOX_ACCEPT = 'inbox.accept';
+  static const String INBOX_DECLINE = 'inbox.decline';
 
   // CHAT
   static const String CHAT_TYPE_MESSAGE = 'chat.typeMessage';

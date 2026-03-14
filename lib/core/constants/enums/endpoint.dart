@@ -37,6 +37,9 @@ enum Endpoint {
   GET_CONVERSATIONS("get-conversations"),
   GET_CONVERSATION_MESSAGES("get-conversation-messages"),
   SEND_MESSAGE("send-message-to-conversation"),
+  GET_MESSAGE_REQUESTS("get-message-requests"),
+  ACCEPT_MESSAGE_REQUEST("accept-message-request"),
+  DECLINE_MESSAGE_REQUEST("decline-message-request"),
 
   GET_ANALYSIS("get-analysis"),
   GET_POST("get-post"),

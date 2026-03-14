@@ -169,6 +169,9 @@
         "imageShared": "An image was shared",
         "todaysActivity": "Today's Activity",
         "keepPosting": "Keep posting outfits to get more reactions",
+        "messageRequests": "Message Requests",
+        "accept": "Accept",
+        "decline": "Decline",
         "systemNotifications": {
             "title": "System Notifications",
             "accountUpdates": "Account Updates",

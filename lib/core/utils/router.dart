@@ -19,6 +19,7 @@ import '../../feature/find_friends/page/find_friends_page.dart';
 import '../../feature/follow/page/follow_page.dart';
 import '../../feature/post/create_post/model/post.dart';
 import '../../feature/main/feed/models/user_with_stories.dart';
+import '../../feature/main/inbox/page/message_requests_page.dart';
 import '../../feature/post/post_detail/page/post_detail_page.dart';
 import '../../feature/post/post_update/page/post_update_page.dart';
 import '../../feature/profile_edit/page/profile_edit_page.dart';
@@ -144,6 +145,11 @@ final GoRouter router = GoRouter(
           otherUserId: data['otherUserId'] as String,
         );
       },
+    ),
+    GoRoute(
+      path: RouteConstants.MESSAGE_REQUESTS,
+      name: RouteConstants.MESSAGE_REQUESTS,
+      builder: (context, state) => const MessageRequestsPage(),
     ),
     GoRoute(
       path: RouteConstants.SETTINGS,

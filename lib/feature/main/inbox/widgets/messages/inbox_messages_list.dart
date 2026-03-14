@@ -1,5 +1,10 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
+import '../../../../../core/constants/font/font_size.dart';
+import '../../../../../core/constants/route.dart';
+import '../../../../../core/constants/string.dart';
 import '../../../../../core/extensions/context.dart';
 import '../../cubit/inbox_cubit.dart';
 import '../../model/conversation.dart';
@@ -55,9 +60,13 @@ class _InboxMessagesListWidgetState extends State<InboxMessagesListWidget> {
           vertical: context.height * 0.02,
           horizontal: context.width * .03,
         ),
-        itemCount: widget.list.length + (widget.isLoadingMore ? 1 : 0),
+        itemCount: widget.list.length + 1 + (widget.isLoadingMore ? 1 : 0),
         itemBuilder: (context, index) {
-          if (index == widget.list.length) {
+          if (index == 0) {
+            return _messageRequestsButton(context);
+          }
+          final adjustedIndex = index - 1;
+          if (adjustedIndex == widget.list.length) {
             return Center(
               child: Padding(
                 padding: EdgeInsets.symmetric(vertical: context.height * 0.02),
@@ -68,9 +77,32 @@ class _InboxMessagesListWidgetState extends State<InboxMessagesListWidget> {
               ),
             );
           }
-          final ConversationModel conversation = widget.list[index];
+          final ConversationModel conversation = widget.list[adjustedIndex];
           return InboxMessageItem(conversation: conversation);
         },
+      ),
+    );
+  }
+
+  Widget _messageRequestsButton(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.only(
+        left: context.width * 0.05,
+        bottom: context.height * 0.01,
+      ),
+      child: Align(
+        alignment: Alignment.centerLeft,
+        child: GestureDetector(
+          onTap: () => context.push(RouteConstants.MESSAGE_REQUESTS),
+          child: Text(
+            AppStrings.INBOX_MESSAGE_REQUESTS.tr(),
+            style: TextStyle(
+              color: context.colors.scrim,
+              fontSize: FontSizeConstants.SMALL.first,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ),
       ),
     );
   }

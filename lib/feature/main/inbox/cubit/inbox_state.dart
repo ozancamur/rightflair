@@ -3,6 +3,7 @@ import 'package:rightflair/feature/main/inbox/model/pagination_notification.dart
 
 import '../../profile/model/pagination.dart';
 import '../model/conversation.dart';
+import '../model/message_request.dart';
 import '../model/notification.dart';
 
 class InboxState extends Equatable {
@@ -16,6 +17,11 @@ class InboxState extends Equatable {
   final List<NotificationModel>? activityNotifications;
   final PaginationNotificationModel? activityNotificationsPagination;
 
+  final bool isMessageRequestsLoading;
+  final bool isLoadingMoreMessageRequests;
+  final List<MessageRequestModel>? messageRequests;
+  final PaginationNotificationModel? messageRequestsPagination;
+
   const InboxState({
     this.isConversationsLoading = false,
     this.isLoadingMoreConversations = false,
@@ -26,6 +32,11 @@ class InboxState extends Equatable {
     this.isLoadingMoreNotifications = false,
     this.activityNotifications,
     this.activityNotificationsPagination,
+
+    this.isMessageRequestsLoading = false,
+    this.isLoadingMoreMessageRequests = false,
+    this.messageRequests,
+    this.messageRequestsPagination,
   });
 
   InboxState copyWith({
@@ -38,6 +49,11 @@ class InboxState extends Equatable {
     bool? isLoadingMoreNotifications,
     List<NotificationModel>? activityNotifications,
     PaginationNotificationModel? activityNotificationsPagination,
+
+    bool? isMessageRequestsLoading,
+    bool? isLoadingMoreMessageRequests,
+    List<MessageRequestModel>? messageRequests,
+    PaginationNotificationModel? messageRequestsPagination,
   }) {
     return InboxState(
       isConversationsLoading:
@@ -57,6 +73,14 @@ class InboxState extends Equatable {
       activityNotificationsPagination:
           activityNotificationsPagination ??
           this.activityNotificationsPagination,
+
+      isMessageRequestsLoading:
+          isMessageRequestsLoading ?? this.isMessageRequestsLoading,
+      isLoadingMoreMessageRequests:
+          isLoadingMoreMessageRequests ?? this.isLoadingMoreMessageRequests,
+      messageRequests: messageRequests ?? this.messageRequests,
+      messageRequestsPagination:
+          messageRequestsPagination ?? this.messageRequestsPagination,
     );
   }
 
@@ -70,5 +94,9 @@ class InboxState extends Equatable {
     isLoadingMoreNotifications,
     activityNotifications ?? [],
     activityNotificationsPagination ?? PaginationNotificationModel(),
+    isMessageRequestsLoading,
+    isLoadingMoreMessageRequests,
+    messageRequests ?? [],
+    messageRequestsPagination ?? PaginationNotificationModel(),
   ];
 }

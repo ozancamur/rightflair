@@ -5,6 +5,7 @@ import 'package:rightflair/feature/main/inbox/model/conversations.dart';
 import '../../../../core/base/model/response.dart';
 import '../../../../core/services/api.dart';
 import '../../profile/model/pagination.dart';
+import '../model/response_message_requests.dart';
 import '../model/response_notifications.dart';
 import 'inbox_repository.dart';
 
@@ -61,6 +62,62 @@ class InboxRepositoryImpl implements InboxRepository {
     } catch (e) {
       debugPrint("InboxRepositoryImpl ERROR in fetchNotifications: $e");
       return null;
+    }
+  }
+
+  @override
+  Future<ResponseMessageRequestsModel?> getMessageRequests({
+    int page = 1,
+    int limit = 20,
+  }) async {
+    try {
+      final request = await _api.get(
+        Endpoint.GET_MESSAGE_REQUESTS,
+        parameters: {'page': page, 'limit': limit, 'status': 'pending'},
+      );
+      final response = ResponseModel().fromJson(
+        request?.data as Map<String, dynamic>,
+      );
+      return ResponseMessageRequestsModel().fromJson(
+        response.data as Map<String, dynamic>,
+      );
+    } catch (e) {
+      debugPrint("InboxRepositoryImpl ERROR in getMessageRequests: $e");
+      return null;
+    }
+  }
+
+  @override
+  Future<bool> acceptMessageRequest({required String conversationId}) async {
+    try {
+      final request = await _api.post(
+        Endpoint.ACCEPT_MESSAGE_REQUEST,
+        data: {'conversation_id': conversationId},
+      );
+      final response = ResponseModel().fromJson(
+        request?.data as Map<String, dynamic>,
+      );
+      return response.success == true;
+    } catch (e) {
+      debugPrint("InboxRepositoryImpl ERROR in acceptMessageRequest: $e");
+      return false;
+    }
+  }
+
+  @override
+  Future<bool> declineMessageRequest({required String conversationId}) async {
+    try {
+      final request = await _api.post(
+        Endpoint.DECLINE_MESSAGE_REQUEST,
+        data: {'conversation_id': conversationId},
+      );
+      final response = ResponseModel().fromJson(
+        request?.data as Map<String, dynamic>,
+      );
+      return response.success == true;
+    } catch (e) {
+      debugPrint("InboxRepositoryImpl ERROR in declineMessageRequest: $e");
+      return false;
     }
   }
 }
