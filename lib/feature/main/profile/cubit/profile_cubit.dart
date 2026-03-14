@@ -2,6 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rightflair/core/services/cache.dart';
 import 'package:rightflair/feature/main/profile/model/request_post.dart';
+import 'package:rightflair/feature/main/profile/model/response_post.dart';
 import 'package:rightflair/feature/main/profile/model/style_tags.dart';
 import 'package:rightflair/feature/main/profile/repository/profile_repository_impl.dart';
 
@@ -36,11 +37,50 @@ class ProfileCubit extends Cubit<ProfileState> {
   }
 
   Future<void> refresh() async {
-    await _getUser();
-    await _getUserStyleTags();
-    await _getUserPosts();
-    await _getUserSavedPosts();
-    await _getUserDrafts();
+    // Fetch all data in parallel without emitting intermediate loading states
+    // to prevent scroll position jumps during refresh
+    final request = RequestPostModel().requestSortByDateOrderDesc(page: 1);
+    final results = await Future.wait([
+      _repo.getUser(),
+      _repo.getUserStyleTags(),
+      _repo.getUserPosts(parameters: request),
+      _repo.getUserSavedPosts(parameters: request),
+      _repo.getUserDrafts(parameters: request),
+    ]);
+
+    final user = results[0] as UserModel?;
+    final tags = results[1] as StyleTagsModel?;
+    final postsResponse = results[2] as ResponsePostModel?;
+    final savesResponse = results[3] as ResponsePostModel?;
+    final draftsResponse = results[4] as ResponsePostModel?;
+
+    final posts = postsResponse?.posts ?? [];
+    if (posts.isNotEmpty) {
+      await CacheService().setHasPublishedPost(true);
+    }
+
+    emit(
+      state.copyWith(
+        isLoading: false,
+        user: user ?? UserModel(),
+        tags: tags,
+        posts: posts,
+        postsPagination: postsResponse?.pagination,
+        isPostsLoading: false,
+        isLoadingMorePosts: false,
+        saves: savesResponse?.posts ?? [],
+        savesPagination: savesResponse?.pagination,
+        isSavesLoading: false,
+        isLoadingMoreSaves: false,
+        drafts: draftsResponse?.posts ?? [],
+        draftsPagination: draftsResponse?.pagination,
+        isDraftsLoading: false,
+        isLoadingMoreDrafts: false,
+      ),
+    );
+
+    // Refresh stories after user data is available
+    await _getUserStories();
   }
 
   Future<void> deleteRefresh() async {

@@ -59,7 +59,7 @@ class ProfileHeaderComponent extends StatelessWidget {
         ),
         SizedBox(height: context.height * 0.005),
         _follow(context),
-        if (onFollowTap != null && onMessageTap != null) ...[
+        if (!isCanEdit) ...[
           SizedBox(height: context.height * (isCanEdit ? 0.01 : 0.005)),
           ProfileActionButtonsComponent(
             onFollowTap: onFollowTap!,
@@ -67,6 +67,11 @@ class ProfileHeaderComponent extends StatelessWidget {
             isFollowing: isFollowing,
           ),
         ],
+        SizedBox(
+          height:
+              context.height *
+              ((user.bio == null || user.bio == "") ? 0.015 : 0.005),
+        ),
         ProfileHeaderBioComponent(text: user.bio),
         ProfileHeaderTagsComponent(tags: tags),
         SizedBox(height: context.height * .0075),

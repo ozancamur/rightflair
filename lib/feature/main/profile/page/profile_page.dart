@@ -131,9 +131,7 @@ class _ProfilePageState extends State<ProfilePage>
               'isMyStory': true,
               'allStories': [stories],
               'initialUserIndex': 0,
-              'onStoryDeleted': () {
-                context.read<ProfileCubit>().refreshStories();
-              },
+              'onStoryDeleted': context.read<ProfileCubit>().refreshStories(),
             },
           );
           if (context.mounted) {
@@ -157,9 +155,7 @@ class _ProfilePageState extends State<ProfilePage>
                   'isMyStory': true,
                   'allStories': [stories],
                   'initialUserIndex': 0,
-                  'onStoryDeleted': () {
-                    context.read<ProfileCubit>().refreshStories();
-                  },
+                  'onStoryDeleted': context.read<ProfileCubit>().refreshStories,
                 },
               );
             }

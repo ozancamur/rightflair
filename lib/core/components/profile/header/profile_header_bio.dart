@@ -22,8 +22,8 @@ class _ProfileHeaderBioComponentState extends State<ProfileHeaderBioComponent> {
     return (widget.text == "" || widget.text == null)
         ? SizedBox.shrink()
         : Padding(
-          padding: EdgeInsets.only(top: context.height * 0.005, bottom: context.height * 0.01),
-          child: SizedBox(
+            padding: EdgeInsets.only(bottom: context.height * 0.01),
+            child: SizedBox(
               width: context.width,
               child: AnimatedSize(
                 duration: const Duration(milliseconds: 300),
@@ -32,7 +32,7 @@ class _ProfileHeaderBioComponentState extends State<ProfileHeaderBioComponent> {
                 child: _buildContent(context),
               ),
             ),
-        );
+          );
   }
 
   Widget _buildContent(BuildContext context) {
