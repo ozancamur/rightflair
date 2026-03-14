@@ -212,6 +212,7 @@ class AppStrings {
   static const String COMMENTS_VIEW_REPLIES = 'comments.viewReplies';
   static const String COMMENTS_LIKES = 'comments.likes';
   static const String COMMENTS_TRANSLATE = 'comments.translate';
+  static const String COMMENTS_SEE_ORIGINAL = 'comments.seeOriginal';
   static const String COMMENTS_REPORT = 'comments.report';
   static const String COMMENTS_SHARE_WITH = 'comments.shareWith';
   static const String COMMENTS_REPORT_COMMENT = 'comments.reportComment';

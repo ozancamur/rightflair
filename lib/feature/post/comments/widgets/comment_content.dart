@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 
+import '../../../../core/components/loading.dart';
+import '../../../../core/components/text/text.dart';
+import '../../../../core/constants/font/font_size.dart';
+import '../../../../core/constants/string.dart';
 import '../../../../core/extensions/context.dart';
 import '../../../main/feed/models/comment.dart';
 import 'comment.dart';
@@ -10,12 +14,20 @@ import 'comment_username.dart';
 
 class CommentContentWidget extends StatefulWidget {
   final CommentModel comment;
+  final String displayText;
+  final bool isTranslating;
+  final bool showTranslated;
+  final VoidCallback? onTranslate;
   final Function(String commentId) onReply;
   final Function(String commentId)? onLike;
   final bool canReply;
   const CommentContentWidget({
     super.key,
     required this.comment,
+    required this.displayText,
+    this.isTranslating = false,
+    this.showTranslated = false,
+    this.onTranslate,
     required this.onReply,
     this.onLike,
     required this.canReply,
@@ -39,7 +51,31 @@ class _CommentContentWidgetState extends State<CommentContentWidget>
             username: widget.comment.user?.username ?? "rightflair_user",
           ),
           SizedBox(height: context.width * 0.005),
-          CommentTextWidget(text: widget.comment.content ?? ""),
+          widget.isTranslating
+              ? Padding(
+                  padding: EdgeInsets.symmetric(vertical: context.width * 0.01),
+                  child: SizedBox(
+                    height: context.width * 0.04,
+                    width: context.width * 0.04,
+                    child: const LoadingComponent(),
+                  ),
+                )
+              : CommentTextWidget(text: widget.displayText),
+          if (widget.onTranslate != null && !widget.isTranslating)
+            GestureDetector(
+              onTap: widget.onTranslate,
+              child: Padding(
+                padding: EdgeInsets.only(top: context.width * 0.01),
+                child: TextComponent(
+                  text: widget.showTranslated
+                      ? AppStrings.COMMENTS_SEE_ORIGINAL
+                      : AppStrings.COMMENTS_TRANSLATE,
+                  size: FontSizeConstants.SMALL,
+                  color: context.colors.primaryContainer,
+                  weight: FontWeight.w500,
+                ),
+              ),
+            ),
           SizedBox(height: context.width * 0.01),
           CommentTimeAndReplyWidget(
             createdAt: widget.comment.createdAt ?? DateTime.now(),

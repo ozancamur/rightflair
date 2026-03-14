@@ -1,5 +1,8 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:translator/translator.dart';
 
 import '../../../../core/extensions/context.dart';
 import '../../../main/feed/models/comment.dart';
@@ -8,7 +11,6 @@ import 'comment_content.dart';
 import 'comment_like_button.dart';
 import 'comment_options_popup.dart';
 import 'comment_report_page.dart';
-import 'comment_translate_dialog.dart';
 
 class CommentWidget extends StatefulWidget {
   final CommentModel comment;
@@ -31,6 +33,9 @@ class _CommentWidgetState extends State<CommentWidget>
     with SingleTickerProviderStateMixin {
   late AnimationController _animController;
   late Animation<double> _scaleAnimation;
+  String? _translatedText;
+  bool _isTranslating = false;
+  bool _showTranslated = false;
 
   @override
   void initState() {
@@ -82,6 +87,10 @@ class _CommentWidgetState extends State<CommentWidget>
                   SizedBox(width: context.width * 0.03),
                   CommentContentWidget(
                     comment: widget.comment,
+                    displayText: _displayText,
+                    isTranslating: _isTranslating,
+                    showTranslated: _showTranslated,
+                    onTranslate: _translateComment,
                     onReply: widget.onReply,
                     onLike: widget.onLike != null && widget.comment.id != null
                         ? (_) => widget.onLike!()
@@ -102,15 +111,46 @@ class _CommentWidgetState extends State<CommentWidget>
     );
   }
 
+  String get _displayText {
+    if (_showTranslated && _translatedText != null) {
+      return _translatedText!;
+    }
+    return widget.comment.content ?? '';
+  }
+
+  Future<void> _translateComment() async {
+    if (_showTranslated) {
+      setState(() => _showTranslated = false);
+      return;
+    }
+    if (_translatedText != null) {
+      setState(() => _showTranslated = true);
+      return;
+    }
+    final text = widget.comment.content ?? '';
+    if (text.isEmpty) return;
+    setState(() => _isTranslating = true);
+    try {
+      final deviceLocale = PlatformDispatcher.instance.locale;
+      final targetLang = deviceLocale.languageCode;
+      final translator = GoogleTranslator();
+      final result = await translator.translate(text, to: targetLang);
+      if (mounted) {
+        setState(() {
+          _translatedText = result.text;
+          _showTranslated = true;
+          _isTranslating = false;
+        });
+      }
+    } catch (_) {
+      if (mounted) setState(() => _isTranslating = false);
+    }
+  }
+
   void _showOptions(BuildContext context) {
     CommentOptionsPopup.show(
       context,
-      onTranslate: () {
-        final text = widget.comment.content ?? '';
-        if (text.isNotEmpty) {
-          CommentTranslateDialog.show(context, originalText: text);
-        }
-      },
+      onTranslate: _translateComment,
       onReport: () {
         if (widget.comment.id != null) {
           CommentReportPage.show(context, commentId: widget.comment.id!);
