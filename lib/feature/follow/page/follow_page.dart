@@ -49,7 +49,7 @@ class _FollowPageState extends State<FollowPage>
     _tabController = TabController(
       length: 2,
       vsync: this,
-      initialIndex: widget.listType == FollowListType.following ? 0 : 1,
+      initialIndex: widget.listType == FollowListType.followers ? 0 : 1,
     );
     _tabController.addListener(_onTabChanged);
 
@@ -66,8 +66,8 @@ class _FollowPageState extends State<FollowPage>
   void _onTabChanged() {
     if (_tabController.indexIsChanging) return;
     final listType = _tabController.index == 0
-        ? FollowListType.following
-        : FollowListType.followers;
+        ? FollowListType.followers
+        : FollowListType.following;
     context.read<FollowCubit>().switchTab(listType);
   }
 
@@ -130,13 +130,13 @@ class _FollowPageState extends State<FollowPage>
                     children: [
                       _buildTabContent(
                         context,
-                        state.followingData,
-                        _followingScrollController,
+                        state.followersData,
+                        _followersScrollController,
                       ),
                       _buildTabContent(
                         context,
-                        state.followersData,
-                        _followersScrollController,
+                        state.followingData,
+                        _followingScrollController,
                       ),
                     ],
                   ),
@@ -162,8 +162,8 @@ class _FollowPageState extends State<FollowPage>
         fontWeight: FontWeight.w400,
       ),
       tabs: [
-        Tab(text: "${AppStrings.PROFILE_FOLLOWING.tr()}  ${widget.following}"),
         Tab(text: "${AppStrings.PROFILE_FOLLOWER.tr()}  ${widget.followers}"),
+        Tab(text: "${AppStrings.PROFILE_FOLLOWING.tr()}  ${widget.following}"),
       ],
     );
   }
