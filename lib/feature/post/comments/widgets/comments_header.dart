@@ -13,13 +13,16 @@ class CommentsHeaderWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.all(context.width * 0.04),
+      padding: EdgeInsets.symmetric(
+        horizontal: context.width * 0.04,
+        vertical: context.height * 0.01,
+      ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           TextComponent(
             text: '$commentCount ${AppStrings.COMMENTS_TITLE.tr()}',
-            size: FontSizeConstants.XX_LARGE,
+            size: FontSizeConstants.LARGE,
             color: context.colors.primary,
             weight: FontWeight.w600,
             tr: false,
