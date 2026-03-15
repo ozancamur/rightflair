@@ -36,9 +36,7 @@ class PostIconButtonWidget extends StatelessWidget {
           text: value.toString(),
           size: FontSizeConstants.XXX_SMALL,
           weight: FontWeight.w500,
-          color: isActive == true
-              ? context.colors.scrim
-              : context.colors.primary,
+          color: isActive == true ? context.colors.scrim : Colors.white,
           tr: false,
         ),
       ],
