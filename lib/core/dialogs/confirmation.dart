@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:rightflair/core/components/button/elevated_button.dart';
+import 'package:rightflair/core/constants/font/font_size.dart';
 
 import '../components/text/text.dart';
 import '../constants/string.dart';
@@ -41,52 +43,28 @@ void dialogConfirmation(
               size: [context.width * 0.035],
             ),
             SizedBox(height: context.height * 0.02),
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                  onConfirm();
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: context.colors.secondary,
-                  foregroundColor: context.colors.error,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  padding: EdgeInsets.symmetric(
-                    vertical: context.height * 0.015,
-                  ),
-                ),
-                child: TextComponent(
-                  text: actionTitle,
-                  color: context.colors.error,
-                  weight: FontWeight.w600,
-                  size: [context.width * 0.04],
-                ),
+            ElevatedButtonComponent(
+              color: Colors.transparent,
+              onPressed: () {
+                Navigator.pop(context);
+                onConfirm();
+              },
+              child: TextComponent(
+                text: actionTitle,
+                color: context.colors.error,
+                weight: FontWeight.w500,
+                size: FontSizeConstants.X_SMALL,
               ),
             ),
-            SizedBox(height: context.height * 0.01),
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                onPressed: () => Navigator.pop(context),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: context.colors.secondary,
-                  foregroundColor: context.colors.error,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  padding: EdgeInsets.symmetric(
-                    vertical: context.height * 0.015,
-                  ),
-                ),
-                child: TextComponent(
-                  text: AppStrings.DIALOG_CANCEL,
-                  color: context.colors.primary,
-                  weight: FontWeight.w600,
-                  size: [context.width * 0.04],
-                ),
+            ElevatedButtonComponent(
+              color: Colors.transparent,
+              width: context.width,
+              onPressed: () => Navigator.pop(context),
+              child: TextComponent(
+                text: AppStrings.DIALOG_CANCEL,
+                color: context.colors.primary,
+                weight: FontWeight.w600,
+                size: FontSizeConstants.X_SMALL,
               ),
             ),
             SizedBox(height: context.height * 0.01),
