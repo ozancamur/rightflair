@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:rightflair/core/components/text/text.dart';
 import '../../../../../core/constants/font/font_size.dart';
 import '../../../../../core/constants/route.dart';
 import '../../../../../core/constants/string.dart';
@@ -51,6 +52,7 @@ class _InboxMessagesListWidgetState extends State<InboxMessagesListWidget> {
   @override
   Widget build(BuildContext context) {
     return RefreshIndicator(
+      color: context.colors.primary,
       onRefresh: () async {
         await context.read<InboxCubit>().refreshConversations();
       },
@@ -94,13 +96,11 @@ class _InboxMessagesListWidgetState extends State<InboxMessagesListWidget> {
         alignment: Alignment.centerLeft,
         child: GestureDetector(
           onTap: () => context.push(RouteConstants.MESSAGE_REQUESTS),
-          child: Text(
-            AppStrings.INBOX_MESSAGE_REQUESTS.tr(),
-            style: TextStyle(
-              color: context.colors.scrim,
-              fontSize: FontSizeConstants.SMALL.first,
-              fontWeight: FontWeight.w600,
-            ),
+          child: TextComponent(
+            text: AppStrings.INBOX_MESSAGE_REQUESTS.tr(),
+            color: context.colors.primary,
+            size: FontSizeConstants.XX_SMALL,
+            weight: FontWeight.w500,
           ),
         ),
       ),
