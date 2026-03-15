@@ -81,6 +81,8 @@ class _MessageRequestsPageState extends State<MessageRequestsPage> {
           }
 
           return RefreshIndicator(
+            color: context.colors.primary,
+            backgroundColor: context.colors.secondary,
             onRefresh: () async {
               await context.read<InboxCubit>().refreshMessageRequests();
             },

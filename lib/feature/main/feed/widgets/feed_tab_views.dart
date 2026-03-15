@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../core/extensions/context.dart';
 import '../bloc/feed_bloc.dart';
 import 'swipeable_post_stack.dart';
 
@@ -41,6 +42,8 @@ class _RefreshableTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return RefreshIndicator(
+      color: context.colors.primary,
+      backgroundColor: context.colors.secondary,
       onRefresh: () => _onRefresh(context),
       child: CustomScrollView(
         physics: const AlwaysScrollableScrollPhysics(),

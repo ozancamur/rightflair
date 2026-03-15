@@ -47,6 +47,8 @@ class _SystemNotificationsListWidgetState
           return LoadingComponent();
         }
         return RefreshIndicator(
+          color: context.colors.primary,
+          backgroundColor: context.colors.secondary,
           onRefresh: () async {
             await context.read<SystemNotificationsCubit>().refresh();
           },

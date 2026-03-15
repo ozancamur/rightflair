@@ -53,6 +53,7 @@ class _InboxMessagesListWidgetState extends State<InboxMessagesListWidget> {
   Widget build(BuildContext context) {
     return RefreshIndicator(
       color: context.colors.primary,
+      backgroundColor: context.colors.secondary,
       onRefresh: () async {
         await context.read<InboxCubit>().refreshConversations();
       },

@@ -73,6 +73,8 @@ class _InboxNotificationsListState extends State<InboxNotificationsList> {
   Positioned _list(BuildContext context) {
     return Positioned.fill(
       child: RefreshIndicator(
+        color: context.colors.primary,
+        backgroundColor: context.colors.secondary,
         onRefresh: () async {
           await context.read<InboxCubit>().refreshNotifications();
         },

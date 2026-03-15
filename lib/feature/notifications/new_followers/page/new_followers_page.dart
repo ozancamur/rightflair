@@ -48,7 +48,7 @@ class _NewFollowersPageState extends State<NewFollowersPage> {
     return BlocBuilder<NewFollowersCubit, NewFollowersState>(
       builder: (context, state) {
         return BaseScaffold(
-            canPop: true,
+          canPop: true,
           appBar: _appbar(context),
           body: state.isLoading
               ? SizedBox(
@@ -71,6 +71,8 @@ class _NewFollowersPageState extends State<NewFollowersPage> {
 
   Widget _body(BuildContext context, NewFollowersState state) {
     return RefreshIndicator(
+      color: context.colors.primary,
+      backgroundColor: context.colors.secondary,
       onRefresh: () async {
         await context.read<NewFollowersCubit>().refresh();
       },

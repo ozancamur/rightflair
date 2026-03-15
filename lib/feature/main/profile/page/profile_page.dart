@@ -74,6 +74,8 @@ class _ProfilePageState extends State<ProfilePage>
 
   RefreshIndicator _body(BuildContext context, ProfileState state) {
     return RefreshIndicator(
+      color: context.colors.primary,
+      backgroundColor: context.colors.secondary,
       onRefresh: () async => context.read<ProfileCubit>().refresh(),
       child: SafeArea(
         child: SingleChildScrollView(

@@ -34,6 +34,8 @@ class UserPage extends StatelessWidget {
               isNotificationEnabled: state.isNotificationEnabled,
             ),
             body: RefreshIndicator(
+              color: context.colors.primary,
+              backgroundColor: context.colors.secondary,
               onRefresh: () =>
                   context.read<UserCubit>().refresh(userId: userId),
               child: SingleChildScrollView(
