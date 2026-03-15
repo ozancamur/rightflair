@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:translator/translator.dart';
 
@@ -44,14 +42,8 @@ class _TranslatePopupState extends State<_TranslatePopup> {
 
   Future<void> _translate() async {
     try {
-      final deviceLocale = PlatformDispatcher.instance.locale;
-      final targetLang = deviceLocale.languageCode;
-
       final translator = GoogleTranslator();
-      final result = await translator.translate(
-        widget.originalText,
-        to: targetLang,
-      );
+      final result = await translator.translate(widget.originalText, to: 'en');
 
       if (mounted) {
         setState(() {

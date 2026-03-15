@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:translator/translator.dart';
@@ -36,6 +34,7 @@ class _CommentWidgetState extends State<CommentWidget>
   String? _translatedText;
   bool _isTranslating = false;
   bool _showTranslated = false;
+  bool _isEnglish = true;
 
   @override
   void initState() {
@@ -47,6 +46,7 @@ class _CommentWidgetState extends State<CommentWidget>
     _scaleAnimation = Tween<double>(begin: 1.0, end: 0.95).animate(
       CurvedAnimation(parent: _animController, curve: Curves.easeInOut),
     );
+    _detectLanguage();
   }
 
   @override
@@ -90,7 +90,7 @@ class _CommentWidgetState extends State<CommentWidget>
                     displayText: _displayText,
                     isTranslating: _isTranslating,
                     showTranslated: _showTranslated,
-                    onTranslate: _translateComment,
+                    onTranslate: _isEnglish ? null : _translateComment,
                     onReply: widget.onReply,
                     onLike: widget.onLike != null && widget.comment.id != null
                         ? (_) => widget.onLike!()
@@ -118,6 +118,22 @@ class _CommentWidgetState extends State<CommentWidget>
     return widget.comment.content ?? '';
   }
 
+  Future<void> _detectLanguage() async {
+    final text = widget.comment.content ?? '';
+    if (text.isEmpty) return;
+    try {
+      final translator = GoogleTranslator();
+      final result = await translator.translate(text, to: 'en');
+      if (mounted) {
+        final original = text.trim().toLowerCase();
+        final translated = result.text.trim().toLowerCase();
+        setState(() {
+          _isEnglish = original == translated;
+        });
+      }
+    } catch (_) {}
+  }
+
   Future<void> _translateComment() async {
     if (_showTranslated) {
       setState(() => _showTranslated = false);
@@ -131,10 +147,8 @@ class _CommentWidgetState extends State<CommentWidget>
     if (text.isEmpty) return;
     setState(() => _isTranslating = true);
     try {
-      final deviceLocale = PlatformDispatcher.instance.locale;
-      final targetLang = deviceLocale.languageCode;
       final translator = GoogleTranslator();
-      final result = await translator.translate(text, to: targetLang);
+      final result = await translator.translate(text, to: 'en');
       if (mounted) {
         setState(() {
           _translatedText = result.text;
@@ -150,7 +164,6 @@ class _CommentWidgetState extends State<CommentWidget>
   void _showOptions(BuildContext context) {
     CommentOptionsPopup.show(
       context,
-      onTranslate: _translateComment,
       onReport: () {
         if (widget.comment.id != null) {
           CommentReportPage.show(context, commentId: widget.comment.id!);

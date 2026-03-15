@@ -8,28 +8,18 @@ import '../../../../core/constants/string.dart';
 import '../../../../core/extensions/context.dart';
 
 class CommentOptionsPopup extends StatelessWidget {
-  final VoidCallback onTranslate;
   final VoidCallback onReport;
 
-  const CommentOptionsPopup({
-    super.key,
-    required this.onTranslate,
-    required this.onReport,
-  });
+  const CommentOptionsPopup({super.key, required this.onReport});
 
-  static void show(
-    BuildContext context, {
-    required VoidCallback onTranslate,
-    required VoidCallback onReport,
-  }) {
+  static void show(BuildContext context, {required VoidCallback onReport}) {
     showModalBottomSheet(
       context: context,
       backgroundColor: Colors.transparent,
       isScrollControlled: false,
       isDismissible: true,
       enableDrag: true,
-      builder: (_) =>
-          CommentOptionsPopup(onTranslate: onTranslate, onReport: onReport),
+      builder: (_) => CommentOptionsPopup(onReport: onReport),
     );
   }
 
@@ -47,16 +37,6 @@ class CommentOptionsPopup extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           _dragHandle(context),
-          _optionTile(
-            context,
-            icon: AppIcons.LANGUAGE,
-            label: AppStrings.COMMENTS_TRANSLATE,
-            color: context.colors.primary,
-            onTap: () {
-              Navigator.pop(context);
-              onTranslate();
-            },
-          ),
           _optionTile(
             context,
             icon: AppIcons.REPORT,
